@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.progix.fridgex.light.fragment.DailyFragment"
+        android:label="@string/daily"
+        tools:layout="@layout/fragment_daily" />
+
+    <fragment
+        android:id="@+id/nav_star"
+        android:name="com.progix.fridgex.light.fragment.StarFragment"
+        android:label="@string/starred"
+        tools:layout="@layout/fragment_star" />
+
+    <fragment
+        android:id="@+id/nav_banned"
+        android:name="com.progix.fridgex.light.fragment.BannedFragment"
+        android:label="@string/ban_list"
+        tools:layout="@layout/fragment_banned" />
+
+    <fragment
+        android:id="@+id/nav_folder"
+        android:name="com.progix.fridgex.light.fragment.FolderFragment"
+        android:label="@string/recipe_catalog"
+        tools:layout="@layout/fragment_folder" >
+        <action
+            android:id="@+id/action_nav_folder_to_nav_pod_folder"
+            app:destination="@id/nav_pod_folder" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_edit"
+        android:name="com.progix.fridgex.light.fragment.EditFragment"
+        android:label="@string/create_edit_recipes"
+        tools:layout="@layout/fragment_edit" />
+
+    <fragment
+        android:id="@+id/nav_measures"
+        android:name="com.progix.fridgex.light.fragment.MeasuresFragment"
+        android:label="@string/measures"
+        tools:layout="@layout/fragment_measures" />
+
+    <fragment
+        android:id="@+id/nav_tip"
+        android:name="com.progix.fridgex.light.fragment.TipFragment"
+        android:label="@string/tips"
+        tools:layout="@layout/fragment_tip" >
+        <action
+            android:id="@+id/action_nav_tip_to_nav_tip_list"
+            app:destination="@id/nav_tip_list" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.progix.fridgex.light.fragment.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.progix.fridgex.light.fragment.SearchFragment"
+        android:label="@string/search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/nav_fridge"
+        android:name="com.progix.fridgex.light.fragment.FridgeFragment"
+        android:label="@string/fridge"
+        tools:layout="@layout/fragment_fridge" >
+        <action
+            android:id="@+id/action_nav_fridge_to_nav_cat"
+            app:destination="@id/nav_cat" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_cart"
+        android:name="com.progix.fridgex.light.fragment.CartFragment"
+        android:label="@string/cart"
+        tools:layout="@layout/fragment_cart" />
+
+    <fragment
+        android:id="@+id/nav_cat"
+        android:name="com.progix.fridgex.light.fragment.CategoriesFragment"
+        android:label="@string/categories"
+        tools:layout="@layout/fragment_categories" >
+        <action
+            android:id="@+id/action_nav_cat_to_nav_products"
+            app:destination="@id/nav_products" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_products"
+        android:name="com.progix.fridgex.light.fragment.ProductsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_products" />
+
+    <fragment
+        android:id="@+id/nav_pod_folder"
+        android:name="com.progix.fridgex.light.fragment.PodFolderFragment"
+        android:label=""
+        tools:layout="@layout/fragment_pod_folder">
+        <action
+            android:id="@+id/action_nav_pod_folder_to_nav_pod_pod_folder"
+            app:destination="@id/nav_pod_pod_folder" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_pod_pod_folder"
+        android:name="com.progix.fridgex.light.fragment.PodPodFolderFragment"
+        android:label=""
+        tools:layout="@layout/fragment_pod_pod_folder">
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_tip_list"
+        android:name="com.progix.fridgex.light.fragment.TipListFragment"
+        android:label=""
+        tools:layout="@layout/fragment_tip_list">
+    </fragment>
+
+
+</navigation>

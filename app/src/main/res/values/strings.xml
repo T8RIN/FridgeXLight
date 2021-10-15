@@ -1,0 +1,239 @@
+<resources>
+    <string name="app_name" translatable="false">FridgeXLight</string>
+    <string name="daily" translatable="false">Daily</string>
+    <string name="search" translatable="false">Search</string>
+    <string name="fridge" translatable="false">Fridge</string>
+    <string name="cart" translatable="false">Cart</string>
+    <string name="starred" translatable="false">Starred</string>
+    <string name="ban_list" translatable="false">Ban-list</string>
+    <string name="recipe_catalog" translatable="false">Recipe catalog</string>
+    <string name="create_edit_recipes" translatable="false">Create or Edit recipes</string>
+    <string name="guide">Guide completion</string>
+    <string name="measures" translatable="false">Weights and measures</string>
+    <string name="select_option" translatable="false">Select option</string>
+    <string name="settings" translatable="false">Settings</string>
+    <string name="home" translatable="false">Home</string>
+    <string name="exitConfirm">Please click BACK again to exit</string>
+    <string name="filter" translatable="false">Filter</string>
+    <string name="clearFridge">Clear fridge</string>
+    <string name="addG">Add products</string>
+    <string name="clearCart">Clear cart</string>
+    <string name="clearStarred">Clear starred</string>
+    <string name="options" translatable="false">Options</string>
+    <string name="searchHere" translatable="false">Search here</string>
+    <string name="none" translatable="false">none</string>
+    <string name="nightMode">Night mode</string>
+    <string name="cancel">Cancel</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="auto">System default</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="version">version 1.0 (1)</string>
+
+    <string name="starringError">This recipe is already in starred</string>
+    <string name="nowStarred">now in starred!</string>
+    <string name="add">Add</string>
+    <string name="famousProducts">Popular products</string>
+    <string name="updatedRecently">The app has been updated</string>
+    <string name="update">Update</string>
+    <string name="updateMessage">You need to update the database to continue working.\nIn any case, do not close the application after clicking the \"Update\" button - this will lead to complete data loss \nand the failure of the application in the future</string>
+    <string name="bdSuccess">The database was successfully updated</string>
+    <string name="headerGuide">Guide</string>
+    <string name="pass">Complete</string>
+    <string name="recipesOfTheDay">Recipes of the day</string>
+    <string name="guider">Do you want to take a short guide and get acquainted with the main functions of the app?</string>
+    <string name="skip">Skip</string>
+    <string name="hintGuide">Guide is always available on guide button</string>
+    <string name="addition">Guide</string>
+    <string name="goOut">Exit</string>
+    <string name="stay">Stay</string>
+    <string name="exitApp">Exit the app?</string>
+    <string name="guide1">Every day you will be able to see 6 unique recipes</string>
+    <string name="guide2">By clicking on this button, you can complete guide again</string>
+    <string name="guide3">Click to open.\nclick to add\nto favorites</string>
+    <string name="guide4">Recipes will be selected here based on the contents of your fridge</string>
+    <string name="guide5">Here you will find all the recipes</string>
+    <string name="guide6">Click to see the subcategory\n of hot dishes</string>
+    <string name="guide7">Search for recipes with one click</string>
+    <string name="guide8">Create or edit the recipes you have already created in this tab</string>
+    <string name="guide9">Recipes added to favorites are displayed in this tab</string>
+    <string name="guide10">This button will help you to clear \nfavorites/trash/fridge</string>
+    <string name="guide11">The products available in the fridge will be displayed here</string>
+    <string name="guide12">Fill out the fridge to get started with the application</string>
+    <string name="guide13">When you add a recipe to your favorites, the missing products will be automatically added to the basket</string>
+    <string name="guide14">The shopping cart has the functionality of a shopping list, click on the product to delete it from the list and add it to the fridge</string>
+    <string name="guide15">By analogy with the refrigerator, you can add products to the basket using this button</string>
+    <string name="annotation1">No recipes found, try adding more products to the refrigerator or check your ban-list</string>
+    <string name="error">Nothing was found for your search</string>
+    <string name="recipeG">Recipe</string>
+    <string name="searchG">Search</string>
+    <string name="folderG">Folder</string>
+    <string name="hotFood">Hot dishes</string>
+    <string name="factoryG">Recipe factory</string>
+    <string name="annotation2">The favorite recipes are empty, hold on the recipe you like to add it here</string>
+    <string name="clear">Clear</string>
+    <string name="clearErrorStarred">To clear your starred recipes, first add them to your favorites</string>
+    <string name="starredG">Starred / Favorites</string>
+    <string name="clearG">Clearing</string>
+    <string name="clearSuccessStarred">Favorite recipes cleared</string>
+    <string name="annotation3">Your fridge is empty, try to add some food</string>
+    <string name="clearErrorFridge">To clean the refrigerator, fill it first</string>
+    <string name="fridgeG">Fridge</string>
+    <string name="clearSuccessFridge">Fridge cleared</string>
+    <string name="annotation4">The basket is empty, tap the "plus" button to add products When adding a recipe to favorites, the missing products will be automatically placed in the basket</string>
+    <string name="clearErrorCart">To empty the basket, fill it first</string>
+    <string name="cartG">Shopping cart</string>
+    <string name="addG2">Adding products to the shopping cart</string>
+    <string name="clearSuccessCart">Basket cleared</string>
+    <string name="annotation5">No custom recipes found, create your first recipe!</string>
+    <string name="edit1">Choose category</string>
+    <string name="done">Done</string>
+    <string name="saveError">Fill in all the fields in order to save the recipe</string>
+    <string name="apply">Apply the changes?</string>
+    <string name="applyY">Apply</string>
+    <string name="applyN">Do not apply</string>
+    <string name="finalDecision">This action cannot be undone</string>
+    <string name="delete">Delete this recipe?</string>
+    <string name="deleteY">Delete</string>
+    <string name="sure">Are you sure?</string>
+    <string name="accept">Confirm</string>
+    <string name="deleted">The recipe was successfully deleted</string>
+    <string name="saved">The recipe was successfully saved</string>
+    <string name="saveErrorName">A recipe with this name already exists</string>
+    <string name="saveRecipe">Save the recipe?</string>
+    <string name="saveY">Save</string>
+    <string name="saveN">Do not save</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="recipe">Recipe</string>
+    <string name="infoG">Additional information</string>
+    <string name="chooseProd">Choose products</string>
+    <string name="portions">Portions:</string>
+    <string name="taste">by your taste</string>
+    <string name="delStar">Recipe removed from favorites</string>
+    <string name="buyed">Purchased:</string>
+    <string name="nowCarted">now in a shopping cart!</string>
+    <string name="delCart">no longer in the cart</string>
+    <string name="editRecipe">Recipe:</string>
+    <string name="open">Open</string>
+    <string name="editor">Edit</string>
+    <string name="away">Remove it from the list?</string>
+    <string name="awayY">Remove</string>
+    <string name="cartError">This product is already in the shopping cart</string>
+    <string name="delFridge">no longer in the fridge</string>
+    <string name="nowFridged">now in fridge!</string>
+    <string name="cookTime">Cooking time</string>
+    <string name="minutes">min</string>
+    <string name="calories">kcal/100g</string>
+    <string name="cal">Calories</string>
+    <string name="tapToEdit">Click to edit the recipe</string>
+    <string name="source">Source</string>
+    <string name="redirect">Redirecting to the browser</string>
+    <string name="redirectMessage">You will be redirected to an external resource, continue?</string>
+    <string name="cont">Continue</string>
+    <string name="copied">The link is copied to the clipboard</string>
+    <string name="copiedFrom">copied from the FridgeX application https://play.google.com/store/apps/details?id=com.progix.fridgex</string>
+    <string name="makeRecipes">Generate Recipes</string>
+    <string name="chooseRecipe">Choose recipe</string>
+    <string name="products">Products</string>
+    <string name="category">Category</string>
+    <string name="energetic">Energy value</string>
+    <string name="timeCook">Cooking time</string>
+    <string name="typeName">Enter the name of the recipe</string>
+    <string name="recipeHere">Enter your recipe in this field</string>
+    <string name="porridge">Porridges</string>
+    <string name="soup">Soups</string>
+    <string name="bakery">Bakery products</string>
+    <string name="salad">Salads</string>
+    <string name="desert">Deserts</string>
+    <string name="sauce">Sauces</string>
+    <string name="drinks">Drinks</string>
+    <string name="portionsStart">Portions: 1</string>
+    <string name="editingPalace">View and edit recipes that you have already created</string>
+    <string name="factoryCreating">Creating a new recipe</string>
+    <string name="copiedRecipe">Recipe is copied to the clipboard</string>
+    <string name="sharing">Share or copy?</string>
+    <string name="share">Share</string>
+    <string name="copy">Copy</string>
+    <string name="guide17">Share the recipe with your friends or copy it</string>
+    <string name="nowStarredProduct">now in a starred list!</string>
+    <string name="starringErrorProduct">This product is already in starred list</string>
+    <string name="delStarProd">removed from favorites</string>
+    <string name="recipes">Recipes</string>
+    <string name="annotation6">The favorite products are empty, hold on the product you like or touch it in the fridge to add it here</string>
+    <string name="clearStarredRecipes">Clear starred recipes?</string>
+    <string name="all">All</string>
+    <string name="clearStarredProducts">Clear starred products?</string>
+    <string name="clearErrorStarredAll">You have no starred products/recipes, first add them to your favorites</string>
+    <string name="sort">Sort</string>
+    <string name="guide18">Choose how you want to sort the recipes available to you, there are 12 types of sorting in total</string>
+    <string name="info">Information</string>
+    <string name="notification">Recipes of the day updated! Stop by and cook something new right now!</string>
+    <string name="timeToCook">Time to cook!</string>
+    <string name="shopping">Shopping List</string>
+    <string name="buy">Need to buy:</string>
+    <string name="copiedCart">Cart was copied to clipboard</string>
+    <string name="addToFridge">Add to fridge</string>
+    <string name="addToCart">Add to cart</string>
+    <string name="clearSuccessStarredProd">Favourite products cleared</string>
+    <string name="clearSuccessStarredAll">Starred page cleared fully</string>
+    <string name="deleteFrom">Delete product from</string>
+    <string name="deletedS">Deleted successfully</string>
+    <string name="addedS">Added successfully</string>
+    <string name="annotation7">The banned recipes are empty, open recipe that you don\'t like and tap ban button</string>
+    <string name="annotation8">The banned products are empty, add products that you don\'t like by touching \"plus\" button</string>
+    <string name="clearErrorBannedAll">Your ban-list is empty, fill it before deleting something</string>
+    <string name="nowBanned">banned now!</string>
+    <string name="delBan">Recipe removed from ban-list</string>
+    <string name="clearBanned">Clear the ban-list?</string>
+    <string name="clearBannedProducts">Clear banned products?</string>
+    <string name="clearBannedRecipes">Clear banned recipes?</string>
+    <string name="clearSuccessBannedAll">Banned page cleared fully</string>
+    <string name="clearSuccessBannedProd">Banned products cleared</string>
+    <string name="clearSuccessBanned">Banned recipes cleared</string>
+    <string name="cancelBan">removed from ban-list</string>
+    <string name="banList">Ban-list</string>
+    <string name="guide19">Block a product / recipe not to see it in the search tab</string>
+    <string name="proteins">Proteins</string>
+    <string name="gram">g/100g</string>
+    <string name="fats">Fats</string>
+    <string name="carbohydrates">Carbohydrates</string>
+    <string name="PFC">Proteins, Fats, Carbohydrates</string>
+    <string name="speechAn">Action:</string>
+    <string name="tables">Tables</string>
+    <string name="table1">Weights and measures table</string>
+    <string name="tips" translatable="false">Tips</string>
+    <string name="tip1">15 tips for a novice chef</string>
+    <string name="tip2">General tips for cooking meat</string>
+    <string name="tip3">How to cook pasta correctly</string>
+    <string name="tip4">Mushroom cooking tips</string>
+    <string name="tip5">How to properly cook mashed potatoes</string>
+    <string name="tip6">How to store food correctly</string>
+    <string name="tip7">Tips for making baked goods</string>
+    <string name="tip8">What affects the taste of food?</string>
+    <string name="deleteQuestion">Delete from ban-list?</string>
+    <string name="cup250">Cup\n250ml</string>
+    <string name="cup200">Cup\n200ml</string>
+    <string name="tbsp">Table\nspoon</string>
+    <string name="tsp">Tea\nspoon</string>
+    <string name="onePiece">One\npiece</string>
+    <string name="upHeader">Product weight in grams</string>
+    <string name="tipsAndTables">Tips and Tables</string>
+    <string name="guide20">Personal advice and fundamental tables at your fingertips!</string>
+    <string name="categories">Categories</string>
+    <string name="annotation9">The banned categories are empty, add categories that you don\'t like by touching \"ban\" button</string>
+    <string name="delBanCat">Category removed from ban-list</string>
+    <string name="amount">By fridge</string>
+    <string name="byTime">By time</string>
+    <string name="byCal">By calories</string>
+    <string name="byProt">By proteins</string>
+    <string name="byFats">By fats</string>
+    <string name="byCbh">By carb-s</string>
+    <string name="chooseSort">Choose how to sort recipes</string>
+    <string name="tochki" translatable="false">....................................................................................................................................................................................................................................................................</string>
+    <string name="infoTab">Info</string>
+    <string name="starredAdd">Add to starred or remove</string>
+    <string name="bannedAdd">Add to block list or remove</string>
+    <string name="reversed">Use reverse sort method</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

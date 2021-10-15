@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_baseline_flash_on_24"
+        android:menuCategory="secondary"
+        android:title="@string/daily" />
+
+    <item
+        android:id="@+id/nav_search"
+        android:icon="@drawable/ic_paper"
+        android:menuCategory="secondary"
+        android:title="@string/search" />
+
+    <item
+        android:id="@+id/nav_fridge"
+        android:icon="@drawable/ic_baseline_kitchen_24"
+        android:menuCategory="secondary"
+        android:title="@string/fridge" />
+
+    <item
+        android:id="@+id/nav_cart"
+        android:icon="@drawable/ic_baseline_shopping_cart_24"
+        android:menuCategory="secondary"
+        android:title="@string/cart" />
+</menu>

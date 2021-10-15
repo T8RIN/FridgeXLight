@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/recipe_5"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerCrop"
+            android:transitionName="recipe" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/manual_gradient"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerCrop"
+            android:textAlignment="gravity"
+            android:textDirection="ltr"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:tabGravity="fill"
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabIndicatorColor="@color/checked"
+            app:tabIndicatorGravity="top"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/checked"
+            app:tabTextColor="@color/unchecked">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabIngreds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/products" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabRecipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recipe" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabThird"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/infoTab" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:background="@android:color/transparent"
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="@+id/image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:maxLines="4">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:subtitleTextAppearance="@style/interFont" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:paddingBottom="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

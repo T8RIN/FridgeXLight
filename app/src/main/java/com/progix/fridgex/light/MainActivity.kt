@@ -94,9 +94,9 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
         }
 
 
-        val actionMode = startSupportActionMode(this)
-
-        actionMode!!.setTitle("dddsf")
+//        val actionMode = startSupportActionMode(this)
+//
+//        actionMode!!.setTitle("dddsf")
 
         listAssign()
 

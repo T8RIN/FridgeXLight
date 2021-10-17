@@ -84,32 +84,16 @@ class DailyAdapter(
             listOf(recipeList[position].recipeName).toTypedArray()
         )
         cursor.moveToFirst()
-        val banned = cursor.getInt(14) == 1
         val starred = cursor.getInt(7) == 1
-        if(banned && starred) {
+
+        if(starred) {
             holder.star.visibility = VISIBLE
-            holder.ban.visibility = VISIBLE
-            holder.star.setTint(R.color.yellow)
-            holder.star.setImageResource(R.drawable.ic_round_star_24)
-            holder.ban.setTint(R.color.red)
-            holder.ban.setImageResource(R.drawable.ic_baseline_block_24)
-        }
-        else if(banned && !starred) {
-            holder.star.setTint(R.color.red)
-            holder.star.setImageResource(R.drawable.ic_baseline_block_24)
-            holder.ban.visibility = GONE
-        }
-        else if(!banned && starred) {
-            holder.star.setTint(R.color.yellow)
-            holder.star.setImageResource(R.drawable.ic_round_star_24)
-            holder.ban.visibility = GONE
         }
         else {
             holder.star.visibility = GONE
-            holder.ban.visibility = GONE
         }
         holder.bind(onClickListener, cursor.getInt(0))
-
+        cursor.close()
         setAnimation(holder.itemView, position)
     }
 
@@ -136,7 +120,6 @@ class DailyAdapter(
         var xOfY: TextView = view.findViewById(R.id.x_y)
         var time: TextView = view.findViewById(R.id.time)
         var star: ImageView = view.findViewById(R.id.star)
-        val ban: ImageView = view.findViewById(R.id.ban)
 
         fun bind(
             onClickListener: OnClickListener,

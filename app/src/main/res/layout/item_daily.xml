@@ -2,11 +2,11 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card3"
-    android:checkable="true"
     android:layout_width="match_parent"
     android:layout_height="280dp"
     android:layout_margin="4dp"
     android:layout_weight="1"
+    android:checkable="true"
     android:clickable="true"
     android:focusable="true"
     app:cardBackgroundColor="@color/manualBackground"
@@ -30,47 +30,38 @@
             android:layout_height="0dp"
             android:scaleType="centerCrop"
             android:src="@drawable/recipe_1"
-            app:layout_constraintBottom_toTopOf="@+id/recipeName"
+            app:layout_constraintBottom_toTopOf="@+id/lill"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/shape11dp" />
 
-        <ImageView
-            android:rotation="180"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="-45dp"
-            android:layout_marginEnd="-5dp"
-            android:src="@drawable/manual_gradient_bottom"
-            app:layout_constraintBottom_toBottomOf="@+id/star"
-            app:layout_constraintEnd_toEndOf="@+id/ban"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/star"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ban"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_margin="5dp"
-            app:layout_constraintStart_toEndOf="@id/star"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/recipeName"
+        <LinearLayout
+            android:id="@+id/lill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="Бездрожжевая пицца на тонком тесте с кальмарами и ниггерами"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout" />
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout">
+
+            <TextView
+                android:id="@+id/recipeName"
+                android:layout_width="0dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/probka_test" />
+
+            <ImageView
+                android:layout_marginTop="4dp"
+                android:id="@+id/star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/ic_round_star_24"
+                app:tint="@color/yellow"
+                android:contentDescription="@string/none" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout"

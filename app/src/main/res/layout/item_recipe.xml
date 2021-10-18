@@ -31,7 +31,6 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image"
             android:layout_width="0dp"
-
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:scaleType="centerCrop"
@@ -108,6 +107,18 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_marginTop="4dp"
+        android:id="@+id/star"
+        android:layout_gravity="end"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_weight="0"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/ic_round_star_24"
+        app:tint="@color/yellow"
+        android:contentDescription="@string/none" />
 
 
 </com.google.android.material.card.MaterialCardView>

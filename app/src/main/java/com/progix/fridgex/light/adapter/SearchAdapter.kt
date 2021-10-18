@@ -46,8 +46,8 @@ class SearchAdapter(
         )
         cursor.moveToFirst()
         val starred = cursor.getInt(7) == 1
-        if(starred) holder.image.setTint(R.color.yellowT)
-        else holder.image.setTint(null)
+        if(starred) holder.star.visibility = View.VISIBLE
+        else holder.star.visibility = View.GONE
         holder.bind(onClickListener, cursor.getInt(0))
         setAnimation(holder.itemView, position)
     }
@@ -73,6 +73,7 @@ class SearchAdapter(
         var indicator: ImageView = view.findViewById(R.id.indicator)
         var xOfY: TextView = view.findViewById(R.id.x_y)
         var time: TextView = view.findViewById(R.id.time)
+        var star: ImageView = view.findViewById(R.id.star)
 
         fun clearAnimation() {
             itemView.clearAnimation()

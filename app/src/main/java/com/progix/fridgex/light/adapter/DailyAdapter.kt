@@ -86,12 +86,8 @@ class DailyAdapter(
         cursor.moveToFirst()
         val starred = cursor.getInt(7) == 1
 
-        if(starred) {
-            holder.star.visibility = VISIBLE
-        }
-        else {
-            holder.star.visibility = GONE
-        }
+        if(starred) holder.star.visibility = VISIBLE
+        else holder.star.visibility = GONE
         holder.bind(onClickListener, cursor.getInt(0))
         cursor.close()
         setAnimation(holder.itemView, position)

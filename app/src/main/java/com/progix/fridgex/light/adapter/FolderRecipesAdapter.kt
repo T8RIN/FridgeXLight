@@ -6,6 +6,8 @@ import android.database.Cursor
 import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils.loadAnimation
@@ -45,12 +47,9 @@ class FolderRecipesAdapter(
             listOf(recipeList[position].recipeItem.recipeName).toTypedArray()
         )
         cursor.moveToFirst()
-        val banned = cursor.getInt(14) == 1
         val starred = cursor.getInt(7) == 1
-        if(banned && starred) holder.image.setTint(R.color.bothT)
-        else if(banned && !starred) holder.image.setTint(R.color.redT)
-        else if(!banned && starred) holder.image.setTint(R.color.yellowT)
-        else holder.image.setTint(null)
+        if(starred) holder.star.visibility = VISIBLE
+        else holder.star.visibility = GONE
         holder.bind(onClickListener, cursor.getInt(0))
         setAnimation(holder.itemView, position)
     }
@@ -77,6 +76,7 @@ class FolderRecipesAdapter(
         var indicator: ImageView = view.findViewById(R.id.indicator)
         var xOfY: TextView = view.findViewById(R.id.x_y)
         var time: TextView = view.findViewById(R.id.time)
+        var star: ImageView = view.findViewById(R.id.star)
 
         fun clearAnimation() {
             itemView.clearAnimation()

@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.progix.fridgex.light.R
 
 
-class IngredsAdapter(var context: Context, var recipeList: ArrayList<kotlin.Pair<String, String>>) :
+class IngredsAdapter(var context: Context, var recipeList: ArrayList<Pair<String, String>>) :
     RecyclerView.Adapter<IngredsAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View =
             LayoutInflater.from(parent.context).inflate(R.layout.item_ingreds, parent, false)
@@ -30,6 +31,8 @@ class IngredsAdapter(var context: Context, var recipeList: ArrayList<kotlin.Pair
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var prodName = view.findViewById<TextView>(R.id.name)
         val amount = view.findViewById<TextView>(R.id.amount)
+
     }
+
 
 }

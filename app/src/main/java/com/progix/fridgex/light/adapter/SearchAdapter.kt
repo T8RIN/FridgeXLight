@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.database.Cursor
 import android.graphics.PorterDuff
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,19 +13,26 @@ import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
+import androidx.appcompat.widget.PopupMenu
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
+import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.fragment.DailyFragment
 import com.progix.fridgex.light.model.RecyclerSortItem
 
 
 class SearchAdapter(
     var context: Context,
     var recipeList: ArrayList<RecyclerSortItem>,
-    var onClickListener: OnClickListener
+    var onClickListener: OnClickListener,
+    var navController: NavController
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -48,20 +56,86 @@ class SearchAdapter(
         val starred = cursor.getInt(7) == 1
         if(starred) holder.star.visibility = View.VISIBLE
         else holder.star.visibility = View.GONE
-        holder.bind(onClickListener, cursor.getInt(0))
+        holder.bind(onClickListener, cursor.getInt(0), position, starred, false)
+        cursor.close()
         setAnimation(holder.itemView, position)
     }
 
-    private fun ImageView.setTint(@ColorRes colorRes: Int?) {
-        if(colorRes != null) {
-            ImageViewCompat.setImageTintMode(this, PorterDuff.Mode.SRC_ATOP);
-            ImageViewCompat.setImageTintList(
-                this,
-                ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
-            )
+
+    private fun popupMenus(view: View, id: Int, position: Int, starred: Boolean, banned: Boolean) {
+        val popupMenus = PopupMenu(context, view)
+        inflatePopup(popupMenus, starred, banned)
+        popupMenus.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.star_recipe -> {
+                    mDb.execSQL("UPDATE recipes SET is_starred = 1 WHERE id = $id")
+                    showSnackBar(context.getString(R.string.addedToStarred), id, position, "is_starred", 0)
+                    notifyItemChanged(position)
+                    true
+                }
+                R.id.ban_recipe -> {
+                    mDb.execSQL("UPDATE recipes SET banned = 1 WHERE id = $id")
+                    showSnackBar(context.getString(R.string.addedToBanList), id, position, "banned", 0)
+                    recipeList.removeAt(position)
+                    notifyItemRemoved(position)
+                    true
+                }
+                R.id.de_star_recipe -> {
+                    mDb.execSQL("UPDATE recipes SET is_starred = 0 WHERE id = $id")
+                    showSnackBar(context.getString(R.string.delStar), id, position, "is_starred", 1)
+                    notifyItemChanged(position)
+                    true
+                }
+                else -> true
+            }
+
         }
-        else ImageViewCompat.setImageTintList(this, null)
+        popupMenus.show()
+        val popup = PopupMenu::class.java.getDeclaredField("mPopup")
+        popup.isAccessible = true
+        val menu = popup.get(popupMenus)
+        menu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+            .invoke(menu, true)
     }
+
+    private fun inflatePopup(popupMenus: PopupMenu, starred: Boolean, banned: Boolean) {
+        if(!starred && !banned) popupMenus.inflate(R.menu.popup_menu_empty)
+        else if(!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned)
+        else if(starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred)
+        else popupMenus.inflate(R.menu.popup_menu_both)
+
+    }
+
+    private fun showSnackBar(text: String, id: Int, position: Int, modifier: String, value: Int) {
+        val snackBar: Snackbar
+        if(modifier == "is_starred"){
+            snackBar = Snackbar.make((context as MainActivity).findViewById(R.id.main_root), text, Snackbar.LENGTH_SHORT)
+                .setAction(context.getString(R.string.undo)) {
+                    mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
+                    notifyItemChanged(position)
+                }
+                .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
+                .setBackgroundTint(ContextCompat.getColor(context, R.color.manualBackground))
+                .setTextColor(ContextCompat.getColor(context, R.color.manualText))
+        }
+        else{
+            snackBar = Snackbar.make((context as MainActivity).findViewById(R.id.main_root), text, Snackbar.LENGTH_SHORT)
+                .setAction(context.getString(R.string.undo)) {
+                    mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
+                    navController.navigate(R.id.nav_search)
+                }
+                .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
+                .setBackgroundTint(ContextCompat.getColor(context, R.color.manualBackground))
+                .setTextColor(ContextCompat.getColor(context, R.color.manualText))
+        }
+        val params = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
+        params.anchorId = MainActivity.anchor.id
+        params.anchorGravity = Gravity.TOP
+        params.gravity = Gravity.TOP
+        snackBar.view.layoutParams = params
+        snackBar.show()
+    }
+
 
     override fun getItemCount(): Int {
         return recipeList.size
@@ -81,10 +155,17 @@ class SearchAdapter(
 
         fun bind(
             onClickListener: OnClickListener,
-            id: Int
+            id: Int,
+            position: Int,
+            starred: Boolean,
+            banned: Boolean
         ) {
             itemView.setOnClickListener {
                 onClickListener.onClick(image, id)
+            }
+            itemView.setOnLongClickListener{
+                popupMenus(it, id, position, starred, banned)
+                true
             }
         }
     }

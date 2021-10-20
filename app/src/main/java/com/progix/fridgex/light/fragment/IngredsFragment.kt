@@ -61,18 +61,20 @@ class IngredsFragment : Fragment() {
                 )
                 cursorr.moveToFirst()
                 productss.add(Pair(cursor2.getString(2), amount[i] + " " + cursorr.getString(2)))
+                cursorr.close()
             } else
                 productss.add(Pair(cursor2.getString(2), getString(R.string.taste)))
             cursor2.close()
         }
         slider.addOnChangeListener(Slider.OnChangeListener { _, valuer, _ ->
+            portions = valuer.toInt()
             productss.clear()
-            val range = products.size - 1
+            val rangeous = products.size - 1
             val df = DecimalFormat("#.#")
             v.findViewById<TextView>(R.id.text).text =
-                getString(R.string.portions) + " " + valuer.toInt()
+                getString(R.string.portions) + " " + portions
 
-            for (i in 0..range) {
+            for (i in 0..rangeous) {
                 val cursor2: Cursor = mDb.rawQuery(
                     "SELECT * FROM products WHERE id = ?",
                     listOf(products[i]).toTypedArray()
@@ -108,6 +110,7 @@ class IngredsFragment : Fragment() {
 
         recycler.adapter = IngredsAdapter(requireContext(), productss)
 
+        init(productss)
 
         return v
     }
@@ -121,5 +124,11 @@ class IngredsFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+        var portions = 1
+        var list: ArrayList<Pair<String, String>>? = null
+    }
+
+    private fun init(products: ArrayList<Pair<String, String>>){
+        list = products
     }
 }

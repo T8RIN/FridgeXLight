@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/star_recipe"
+        android:icon="@drawable/ic_round_star_24"
+        android:title="@string/toStar"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/ban_recipe"
+        android:icon="@drawable/ic_baseline_block_24"
+        android:title="@string/ban"
+        app:showAsAction="never" />
+
+</menu>

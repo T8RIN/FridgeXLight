@@ -12,6 +12,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.navigation.NavigationView
@@ -96,7 +97,7 @@ class SearchFragment : Fragment() {
         checkBox.setOnClickListener{
             checked = checkBox.isChecked
             recipeList!!.reverse()
-            searchRecycler.adapter = SearchAdapter(requireContext(), recipeList!!, recipeClicker)
+            searchRecycler.adapter = SearchAdapter(requireContext(), recipeList!!, recipeClicker, findNavController())
         }
 
 
@@ -125,7 +126,7 @@ class SearchFragment : Fragment() {
             loading.visibility = View.GONE
             if (recipeList!!.isNotEmpty()) {
                 searchRecycler.adapter =
-                    SearchAdapter(requireContext(), recipeList!!, recipeClicker)
+                    SearchAdapter(requireContext(), recipeList!!, recipeClicker, findNavController())
             } else {
                 annotationCard.visibility = View.VISIBLE
                 searchRecycler.visibility = View.INVISIBLE
@@ -281,7 +282,7 @@ class SearchFragment : Fragment() {
 
             if (recipeList!!.isNotEmpty()) {
                 searchRecycler.adapter =
-                    SearchAdapter(requireContext(), recipeList!!, recipeClicker)
+                    SearchAdapter(requireContext(), recipeList!!, recipeClicker, findNavController())
             } else {
                 annotationCard.visibility = View.VISIBLE
                 searchRecycler.visibility = View.INVISIBLE

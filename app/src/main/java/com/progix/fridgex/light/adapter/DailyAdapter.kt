@@ -161,23 +161,22 @@ class DailyAdapter(
         snackBar.show()
     }
 
-    private fun ImageView.setTint(@ColorRes colorRes: Int?) {
-        if(colorRes != null) {
-            ImageViewCompat.setImageTintMode(this, PorterDuff.Mode.SRC_ATOP);
-            ImageViewCompat.setImageTintList(
-                this,
-                ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
-            )
-        }
-        else ImageViewCompat.setImageTintList(this, null)
-    }
+//    private fun ImageView.setTint(@ColorRes colorRes: Int?) {
+//        if(colorRes != null) {
+//            ImageViewCompat.setImageTintMode(this, PorterDuff.Mode.SRC_ATOP);
+//            ImageViewCompat.setImageTintList(
+//                this,
+//                ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
+//            )
+//        }
+//        else ImageViewCompat.setImageTintList(this, null)
+//    }
 
     override fun getItemCount(): Int {
         return recipeList.size
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view),
-        View.OnCreateContextMenuListener {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         var image: ImageView = view.findViewById(R.id.image)
         var recipeName: TextView = view.findViewById(R.id.recipeName)
         var indicator: ImageView = view.findViewById(R.id.indicator)
@@ -205,13 +204,6 @@ class DailyAdapter(
             itemView.clearAnimation()
         }
 
-        override fun onCreateContextMenu(
-            menu: ContextMenu?,
-            p1: View?,
-            p2: ContextMenu.ContextMenuInfo?
-        ) {
-            menu!!.add(R.string.saveRecipe);
-        }
     }
 
     class OnClickListener(val clickListener: (ImageView, Int) -> Unit) {

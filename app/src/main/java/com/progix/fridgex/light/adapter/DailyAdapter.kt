@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.database.Cursor
-import android.graphics.Insets.add
 import android.graphics.PorterDuff
 import android.util.TypedValue
 import android.widget.ImageView
@@ -14,17 +13,19 @@ import com.bumptech.glide.Glide
 import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.model.RecipeItem
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.annotation.ColorRes
+import androidx.appcompat.widget.PopupMenu
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.Insets.add
 import androidx.core.widget.ImageViewCompat
+import com.google.android.material.snackbar.Snackbar
+import com.progix.fridgex.light.MainActivity.Companion.anchor
+import com.progix.fridgex.light.MainActivity.Companion.mDb
 
 
 class DailyAdapter(
@@ -85,12 +86,79 @@ class DailyAdapter(
         )
         cursor.moveToFirst()
         val starred = cursor.getInt(7) == 1
+        val banned = cursor.getInt(14) == 1
 
         if(starred) holder.star.visibility = VISIBLE
         else holder.star.visibility = GONE
-        holder.bind(onClickListener, cursor.getInt(0))
+        holder.bind(onClickListener, cursor.getInt(0), position, starred, banned)
         cursor.close()
         setAnimation(holder.itemView, position)
+    }
+
+    private fun popupMenus(view: View, id: Int, position: Int, starred: Boolean, banned: Boolean) {
+        val popupMenus = PopupMenu(context, view)
+        inflatePopup(popupMenus, starred, banned)
+        popupMenus.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.star_recipe -> {
+                    mDb.execSQL("UPDATE recipes SET is_starred = 1 WHERE id = $id")
+                    showSnackBar(context.getString(R.string.addedToStarred), id, position, "is_starred", 0)
+                    notifyItemChanged(position)
+                    true
+                }
+                R.id.ban_recipe -> {
+                    mDb.execSQL("UPDATE recipes SET banned = 1 WHERE id = $id")
+                    showSnackBar(context.getString(R.string.addedToBanList), id, position, "banned", 0)
+                    notifyItemChanged(position)
+                    true
+                }
+                R.id.de_star_recipe -> {
+                    mDb.execSQL("UPDATE recipes SET is_starred = 0 WHERE id = $id")
+                    showSnackBar(context.getString(R.string.delStar), id, position, "is_starred", 1)
+                    notifyItemChanged(position)
+                    true
+                }
+                R.id.de_ban_recipe -> {
+                    mDb.execSQL("UPDATE recipes SET banned = 0 WHERE id = $id")
+                    showSnackBar(context.getString(R.string.delBan), id, position, "banned", 1)
+                    notifyItemChanged(position)
+                    true
+                }
+                else -> true
+            }
+
+        }
+        popupMenus.show()
+        val popup = PopupMenu::class.java.getDeclaredField("mPopup")
+        popup.isAccessible = true
+        val menu = popup.get(popupMenus)
+        menu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+            .invoke(menu, true)
+    }
+
+    private fun inflatePopup(popupMenus: PopupMenu, starred: Boolean, banned: Boolean) {
+        if(!starred && !banned) popupMenus.inflate(R.menu.popup_menu_empty)
+        else if(!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned)
+        else if(starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred)
+        else popupMenus.inflate(R.menu.popup_menu_both)
+
+    }
+
+    private fun showSnackBar(text: String, id: Int, position: Int, modifier: String, value: Int) {
+        val snackBar = Snackbar.make((context as MainActivity).findViewById(R.id.main_root), text, Snackbar.LENGTH_SHORT)
+            .setAction(context.getString(R.string.undo)) {
+                mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
+                notifyItemChanged(position)
+            }
+            .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
+            .setBackgroundTint(ContextCompat.getColor(context, R.color.manualBackground))
+            .setTextColor(ContextCompat.getColor(context, R.color.manualText))
+        val params = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
+        params.anchorId = anchor.id
+        params.anchorGravity = Gravity.TOP
+        params.gravity = Gravity.TOP
+        snackBar.view.layoutParams = params
+        snackBar.show()
     }
 
     private fun ImageView.setTint(@ColorRes colorRes: Int?) {
@@ -119,10 +187,17 @@ class DailyAdapter(
 
         fun bind(
             onClickListener: OnClickListener,
-            id: Int
+            id: Int,
+            position: Int,
+            starred: Boolean,
+            banned: Boolean
         ) {
             itemView.setOnClickListener {
                 onClickListener.onClick(image, id)
+            }
+            itemView.setOnLongClickListener{
+                popupMenus(it, id, position, starred, banned)
+                true
             }
         }
 

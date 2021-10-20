@@ -136,6 +136,7 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/content_second.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/custom_drawer.xml" value="0.25" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/custom_toast.xml" value="0.20213675213675214" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_banned.xml" value="0.16" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_cart.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_categories.xml" value="0.19610507246376813" />
@@ -163,6 +164,12 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu-land/ingred_menu.xml" value="0.12393162393162394" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/drawer_view.xml" value="0.264" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/filter_list_menu.xml" value="0.20213675213675214" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/ingred_menu.xml" value="0.19957805907172996" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/popup_menu.xml" value="0.536" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/popup_menu_banned.xml" value="0.20213675213675214" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/popup_menu_both.xml" value="0.1" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/popup_menu_empty.xml" value="0.20213675213675214" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/popup_menu_starred.xml" value="0.20213675213675214" />
       </map>
     </option>
   </component>

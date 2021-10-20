@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -70,7 +71,7 @@ class DailyFragment : Fragment() {
             dailyRecycler.adapter = DailyAdapter(requireContext(), recipeList, recipeClicker)
 
         }
-        swipeRefresh.setProgressBackgroundColorSchemeColor(resources.getColor(R.color.manualBackground))
+        swipeRefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(), R.color.manualBackground))
         swipeRefresh.setColorSchemeResources(R.color.checked, R.color.red, R.color.yellow)
         swipeRefresh.setOnRefreshListener {
 

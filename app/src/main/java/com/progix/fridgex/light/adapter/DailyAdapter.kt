@@ -83,6 +83,7 @@ class DailyAdapter(
             "SELECT * FROM recipes WHERE recipe_name = ?",
             listOf(recipeList[position].recipeName).toTypedArray()
         )
+
         cursor.moveToFirst()
         val starred = cursor.getInt(7) == 1
         val banned = cursor.getInt(14) == 1

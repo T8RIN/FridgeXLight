@@ -11,16 +11,10 @@ import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.CartAdapter
-import com.progix.fridgex.light.adapter.FridgeAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 private const val ARG_PARAM1 = "param1"
@@ -78,7 +72,7 @@ class CartFragment : Fragment() {
             .debounce(200, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{
+            .subscribe {
                 if (it.isNotEmpty()) {
                     recycler.adapter = CartAdapter(requireContext(), it)
                 } else {
@@ -104,10 +98,11 @@ class CartFragment : Fragment() {
 //        return@withContext cartList
 //    }
 
-    private fun rxJava() : Observable<ArrayList<Pair<String, String>>> {
+    private fun rxJava(): Observable<ArrayList<Pair<String, String>>> {
         return Observable.create { item ->
             cartList.clear()
-            val cursor: Cursor = MainActivity.mDb.rawQuery("SELECT * FROM products WHERE is_in_cart = 1", null)
+            val cursor: Cursor =
+                MainActivity.mDb.rawQuery("SELECT * FROM products WHERE is_in_cart = 1", null)
             cursor.moveToFirst()
 
             while (!cursor.isAfterLast) {

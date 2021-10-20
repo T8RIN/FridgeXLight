@@ -1,9 +1,7 @@
 package com.progix.fridgex.light.fragment
 
-import android.content.ContentValues.TAG
 import android.database.Cursor
 import android.os.Bundle
-import android.util.Log
 import android.util.Pair
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -19,7 +17,6 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.CategoryAdapter
 import com.progix.fridgex.light.adapter.ProductsAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 private const val ARG_PARAM1 = "param1"
@@ -48,8 +45,8 @@ class CategoriesFragment : Fragment() {
     private val catList: ArrayList<String> = ArrayList()
     private lateinit var recycler: RecyclerView
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_categories, container, false)
 
@@ -71,12 +68,12 @@ class CategoriesFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-                CategoriesFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
+            CategoriesFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
                 }
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -84,7 +81,7 @@ class CategoriesFragment : Fragment() {
         val myActionMenuItem = menu.findItem(R.id.search_search)
         val searchView = myActionMenuItem.actionView as SearchView
         searchView.queryTextChangeEvents()
-            .debounce (350, TimeUnit.MILLISECONDS)
+            .debounce(350, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 search(it.queryText.toString(), arguments?.getInt("prodCat"))
@@ -99,7 +96,7 @@ class CategoriesFragment : Fragment() {
             val list = ArrayList<String>()
             for (item in products) {
                 val temp: Int =
-                        searchString(s.lowercase(), item)
+                    searchString(s.lowercase(), item)
                 if (temp != 101) {
                     pairArrayList.add(Pair(temp, item))
                 }
@@ -110,10 +107,12 @@ class CategoriesFragment : Fragment() {
             }
             recycler.adapter = ProductsAdapter(requireContext(), list, int!!)
         } else {
-            if(recycler.adapter != pD){
-            recycler.adapter = CategoryAdapter(requireContext(), catList, productClicker)}
+            if (recycler.adapter != pD) {
+                recycler.adapter = CategoryAdapter(requireContext(), catList, productClicker)
+            }
         }
     }
+
     var pD: CategoryAdapter? = null
 
     private fun searchString(chtoIshem: String, gdeIshem: String): Int {
@@ -160,7 +159,7 @@ class CategoriesFragment : Fragment() {
 
     private val productClicker = CategoryAdapter.OnClickListener { name, text ->
         val extras = FragmentNavigatorExtras(
-                name to "name"
+            name to "name"
         )
         val bundle = Bundle()
         bundle.putString("category", text)

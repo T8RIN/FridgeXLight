@@ -15,7 +15,11 @@ import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 
 
-class CategoryAdapter(var context: Context, var fridgeList: ArrayList<String>, var onClickListener: OnClickListener) :
+class CategoryAdapter(
+    var context: Context,
+    var fridgeList: ArrayList<String>,
+    var onClickListener: OnClickListener
+) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,7 +31,10 @@ class CategoryAdapter(var context: Context, var fridgeList: ArrayList<String>, v
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = fridgeList[position]
-        val cursor: Cursor = mDb.rawQuery("SELECT * FROM categories WHERE category = ?", listOf(fridgeList[position]).toTypedArray())
+        val cursor: Cursor = mDb.rawQuery(
+            "SELECT * FROM categories WHERE category = ?",
+            listOf(fridgeList[position]).toTypedArray()
+        )
         cursor.moveToFirst()
         holder.image.setImageResource(imagesCat[cursor.getInt(0) - 1])
         cursor.close()
@@ -51,6 +58,7 @@ class CategoryAdapter(var context: Context, var fridgeList: ArrayList<String>, v
                 onClickListener.onClick(name, text)
             }
         }
+
         fun clearAnimation() {
             itemView.clearAnimation()
         }
@@ -72,6 +80,7 @@ class CategoryAdapter(var context: Context, var fridgeList: ArrayList<String>, v
         viewToAnimate.startAnimation(animation)
         lastPosition = position
     }
+
     override fun onFailedToRecycleView(holder: ViewHolder): Boolean {
         return true
     }

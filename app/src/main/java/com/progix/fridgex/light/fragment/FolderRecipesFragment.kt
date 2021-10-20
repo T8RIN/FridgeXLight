@@ -1,7 +1,6 @@
 package com.progix.fridgex.light.fragment
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.database.Cursor
 import android.os.Bundle
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
-import com.jakewharton.rxbinding4.widget.queryTextChangeEvents
 import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
@@ -57,6 +55,7 @@ class PodPodFolderFragment : Fragment() {
         }
         setHasOptionsMenu(true)
     }
+
     private var job: Job? = null
 
     private lateinit var recycler: RecyclerView
@@ -68,7 +67,10 @@ class PodPodFolderFragment : Fragment() {
         val v = inflater.inflate(R.layout.fragment_pod_pod_folder, container, false)
 
         val id: Int = arguments?.get("catB") as Int + 1
-        val curik2: Cursor = MainActivity.mDb.rawQuery("SELECT * FROM recipe_category_local WHERE id = ?", listOf(id.toString()).toTypedArray())
+        val curik2: Cursor = MainActivity.mDb.rawQuery(
+            "SELECT * FROM recipe_category_local WHERE id = ?",
+            listOf(id.toString()).toTypedArray()
+        )
         curik2.moveToFirst()
         val name = curik2.getString(2)
 
@@ -95,6 +97,7 @@ class PodPodFolderFragment : Fragment() {
 
         return v
     }
+
     private var recipeList: ArrayList<RecyclerSortItem> = ArrayList()
 
     private val recipeClicker = FolderRecipesAdapter.OnClickListener { image, id ->
@@ -114,7 +117,10 @@ class PodPodFolderFragment : Fragment() {
         withContext(Dispatchers.IO) {
             val pairList: ArrayList<RecyclerSortItem> = ArrayList()
             val allRecipes: Cursor =
-                MainActivity.mDb.rawQuery("SELECT * FROM recipes WHERE category_local = ?", listOf(name).toTypedArray())
+                MainActivity.mDb.rawQuery(
+                    "SELECT * FROM recipes WHERE category_local = ?",
+                    listOf(name).toTypedArray()
+                )
             allRecipes.moveToFirst()
             while (!allRecipes.isAfterLast) {
                 val id = allRecipes.getInt(0) - 1
@@ -186,6 +192,7 @@ class PodPodFolderFragment : Fragment() {
                 }
             }
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.folder_menu, menu);
         val myActionMenuItem = menu.findItem(R.id.search_search)

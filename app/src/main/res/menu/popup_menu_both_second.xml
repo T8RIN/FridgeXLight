@@ -6,13 +6,13 @@
         android:id="@+id/copy"
         android:icon="@drawable/ic_baseline_content_copy_24"
         android:title="@string/copy"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/share"
         android:icon="@drawable/ic_baseline_share_24"
         android:title="@string/share"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/de_star_recipe"

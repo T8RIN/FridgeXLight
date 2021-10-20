@@ -27,31 +27,42 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = fridgeList[position].first.replaceFirstChar(Char::uppercase)
-        val cursor: Cursor = mDb.rawQuery("SELECT * FROM categories WHERE category = ?", listOf(fridgeList[position].second).toTypedArray())
+        val cursor: Cursor = mDb.rawQuery(
+            "SELECT * FROM categories WHERE category = ?",
+            listOf(fridgeList[position].second).toTypedArray()
+        )
         cursor.moveToFirst()
         holder.image.setImageResource(imagesCat[cursor.getInt(0) - 1])
         cursor.close()
-        val cc: Cursor = mDb.rawQuery("SELECT * FROM products WHERE product = ?", listOf(fridgeList[position].first).toTypedArray())
+        val cc: Cursor = mDb.rawQuery(
+            "SELECT * FROM products WHERE product = ?",
+            listOf(fridgeList[position].first).toTypedArray()
+        )
         cc.moveToFirst()
         val crossed = cc.getString(5) == "1"
-        if(crossed) {
+        if (crossed) {
             holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             holder.itemView.alpha = 0.5f
-        }
-        else{
+        } else {
             holder.itemView.alpha = 1f
             holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
         }
         holder.itemView.setOnClickListener {
-            val cc: Cursor = mDb.rawQuery("SELECT * FROM products WHERE product = ?", listOf(fridgeList[position].first).toTypedArray())
+            val cc: Cursor = mDb.rawQuery(
+                "SELECT * FROM products WHERE product = ?",
+                listOf(fridgeList[position].first).toTypedArray()
+            )
             cc.moveToFirst()
             val crossed = cc.getString(5) == "1"
-            mDb.execSQL("UPDATE products SET amount = ? WHERE product = ?", listOf(!crossed, fridgeList[position].first).toTypedArray())
-            if(crossed) {
+            mDb.execSQL(
+                "UPDATE products SET amount = ? WHERE product = ?",
+                listOf(!crossed, fridgeList[position].first).toTypedArray()
+            )
+            if (crossed) {
                 holder.itemView.alpha = 1f
-                holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            }
-            else {
+                holder.name.paintFlags =
+                    holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            } else {
                 holder.itemView.alpha = 0.5f
                 holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
@@ -79,6 +90,7 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
         viewToAnimate.startAnimation(animation)
         lastPosition = position
     }
+
     override fun onFailedToRecycleView(holder: ViewHolder): Boolean {
         return true
     }

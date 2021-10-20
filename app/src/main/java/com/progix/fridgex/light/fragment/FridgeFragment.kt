@@ -1,20 +1,12 @@
 package com.progix.fridgex.light.fragment
 
 import android.database.Cursor
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.*
 import android.view.View.INVISIBLE
-import android.widget.FrameLayout
-import android.widget.TextView
-import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -30,7 +22,6 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.FridgeAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
@@ -95,7 +86,7 @@ class FridgeFragment : Fragment() {
     }
 
 
-    private fun rxJava() : Observable<ArrayList<Pair<String, String>>>{
+    private fun rxJava(): Observable<ArrayList<Pair<String, String>>> {
         return Observable.create { item ->
             fridgeList.clear()
             val cursor: Cursor = mDb.rawQuery("SELECT * FROM products WHERE is_in_fridge = 1", null)
@@ -146,9 +137,10 @@ class FridgeFragment : Fragment() {
                         }
                         annotationCard.visibility = View.VISIBLE
                         recycler.visibility = View.INVISIBLE
-                        val cursor: Cursor = mDb.rawQuery("SELECT * FROM products WHERE is_in_fridge = 1", null)
+                        val cursor: Cursor =
+                            mDb.rawQuery("SELECT * FROM products WHERE is_in_fridge = 1", null)
                         cursor.moveToFirst()
-                        while(!cursor.isAfterLast){
+                        while (!cursor.isAfterLast) {
                             mDb.execSQL("UPDATE products SET is_in_fridge = 0 WHERE is_in_fridge = 1")
                             cursor.moveToNext()
                         }
@@ -161,8 +153,11 @@ class FridgeFragment : Fragment() {
                             .setActionTextColor(getColor(requireContext(), R.color.checked))
                             .setAction(getString(R.string.cancel)) {
                                 //TODO: clearing fridge and undo and error if it empty already
-                                for (i in fridgeList){
-                                    mDb.execSQL("UPDATE products SET is_in_fridge = 1 WHERE product = ?", listOf(i.first).toTypedArray())
+                                for (i in fridgeList) {
+                                    mDb.execSQL(
+                                        "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
+                                        listOf(i.first).toTypedArray()
+                                    )
                                 }
                                 recycler.adapter = FridgeAdapter(requireContext(), fridgeList)
                                 annotationCard.visibility = View.INVISIBLE

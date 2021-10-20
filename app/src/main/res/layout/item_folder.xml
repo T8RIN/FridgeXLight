@@ -32,14 +32,14 @@
 
     <TextView
         android:id="@+id/category"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="100dp"
-        android:gravity="start"
-        android:text="Салаты с растительными ингредиентами под соусом из морепродуктов"
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="10"/>
+        android:layout_gravity="bottom"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="start"
+        android:maxLines="10"
+        android:text="Салаты с растительными ингредиентами под соусом из морепродуктов" />
 
 </com.google.android.material.card.MaterialCardView>

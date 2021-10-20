@@ -2,9 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root"
     android:background="@android:color/transparent"
     tools:context=".fragment.FridgeFragment">
 
@@ -15,7 +15,7 @@
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:spanCount="1" />
 
-    <include layout="@layout/circular_loading"/>
+    <include layout="@layout/circular_loading" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/annotationCard"

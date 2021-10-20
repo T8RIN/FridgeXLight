@@ -15,29 +15,29 @@
         android:orientation="horizontal">
 
         <com.google.android.material.radiobutton.MaterialRadioButton
-            android:layout_marginStart="10dp"
             android:id="@+id/radioButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp" />
 
         <TextView
-            android:transitionName="name"
-            android:layout_weight="2"
             android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_weight="2"
             android:gravity="start"
-            android:text="@string/cal" />
+            android:text="@string/cal"
+            android:transitionName="name" />
 
         <ImageView
-            android:layout_marginEnd="10dp"
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
             android:src="@drawable/ic_baseline_kitchen_24"
             app:tint="@color/manualText2" />
 

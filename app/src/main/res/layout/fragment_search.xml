@@ -2,13 +2,13 @@
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="end"
-    android:id="@+id/drawer_layout"
-    android:fitsSystemWindows="true"
     android:background="@android:color/transparent"
-    tools:context=".fragment.SearchFragment">
+    android:fitsSystemWindows="true"
+    tools:context=".fragment.SearchFragment"
+    tools:openDrawer="end">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchRecycler"
@@ -17,7 +17,7 @@
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:spanCount="1" />
 
-    <include layout="@layout/circular_loading"/>
+    <include layout="@layout/circular_loading" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/annotationCard"

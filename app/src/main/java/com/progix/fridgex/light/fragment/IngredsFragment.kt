@@ -124,11 +124,12 @@ class IngredsFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+
         var portions = 1
         var list: ArrayList<Pair<String, String>>? = null
     }
 
-    private fun init(products: ArrayList<Pair<String, String>>){
+    private fun init(products: ArrayList<Pair<String, String>>) {
         list = products
     }
 }

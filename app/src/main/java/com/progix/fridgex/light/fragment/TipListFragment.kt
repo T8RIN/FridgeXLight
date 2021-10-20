@@ -4,13 +4,13 @@ import android.database.Cursor
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.transition.TransitionInflater
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.transition.TransitionInflater
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.MainActivity.Companion.advices
@@ -41,7 +41,8 @@ class TipListFragment : Fragment() {
         exitTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.anim_duration).toLong()
         }
-        val transform = TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
+        val transform =
+            TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
         transform.duration = 400
         sharedElementEnterTransition = transform
 
@@ -60,7 +61,10 @@ class TipListFragment : Fragment() {
         image.setImageResource(advices[id])
         image.transitionName = "advice" + id
 
-        val cursor: Cursor = MainActivity.mDb.rawQuery("SELECT * FROM advices WHERE id = ?", listOf((id + 1).toString()).toTypedArray())
+        val cursor: Cursor = MainActivity.mDb.rawQuery(
+            "SELECT * FROM advices WHERE id = ?",
+            listOf((id + 1).toString()).toTypedArray()
+        )
         cursor.moveToFirst()
 
         Handler(Looper.getMainLooper()).postDelayed({

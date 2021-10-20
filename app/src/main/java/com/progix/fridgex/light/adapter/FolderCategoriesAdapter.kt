@@ -71,6 +71,7 @@ class FolderCategoriesAdapter(
         viewToAnimate.startAnimation(animation)
         lastPosition = position
     }
+
     override fun onFailedToRecycleView(holder: ViewHolder): Boolean {
         return true
     }

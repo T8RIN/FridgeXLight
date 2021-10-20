@@ -14,7 +14,7 @@
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:spanCount="4" />
 
-    <include layout="@layout/circular_loading"/>
+    <include layout="@layout/circular_loading" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/annotationCard"

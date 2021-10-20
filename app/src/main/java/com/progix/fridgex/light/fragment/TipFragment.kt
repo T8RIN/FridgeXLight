@@ -2,18 +2,13 @@ package com.progix.fridgex.light.fragment
 
 import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper.getMainLooper
 import android.view.*
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.R
-import androidx.core.view.doOnPreDraw
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.MainActivity
+import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.TipAdapter
 
 
@@ -47,12 +42,12 @@ class TipFragment : Fragment() {
     }
 
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
-       // postponeEnterTransition()
+        // postponeEnterTransition()
         val recyclerView: RecyclerView = v.findViewById(R.id.tipRecycler)
         val tipList: ArrayList<Pair<Int, String>> = ArrayList()
         val cursor: Cursor = MainActivity.mDb.rawQuery("SELECT * FROM advices", null)
         cursor.moveToFirst()
-        while(!cursor.isAfterLast){
+        while (!cursor.isAfterLast) {
             tipList.add(Pair(cursor.getString(0).toInt(), cursor.getString(1)))
             cursor.moveToNext()
         }

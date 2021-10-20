@@ -31,8 +31,6 @@ import com.progix.fridgex.light.model.NavItem
 import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import kotlinx.coroutines.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 private const val ARG_PARAM1 = "param1"
@@ -94,10 +92,11 @@ class SearchFragment : Fragment() {
         navRecycler.adapter = NavigationAdapter(requireContext(), list, navClicker)
 
         val checkBox: CheckBox = v.findViewById(R.id.checkbox)
-        checkBox.setOnClickListener{
+        checkBox.setOnClickListener {
             checked = checkBox.isChecked
             recipeList!!.reverse()
-            searchRecycler.adapter = SearchAdapter(requireContext(), recipeList!!, recipeClicker, findNavController())
+            searchRecycler.adapter =
+                SearchAdapter(requireContext(), recipeList!!, recipeClicker, findNavController())
         }
 
 
@@ -126,7 +125,12 @@ class SearchFragment : Fragment() {
             loading.visibility = View.GONE
             if (recipeList!!.isNotEmpty()) {
                 searchRecycler.adapter =
-                    SearchAdapter(requireContext(), recipeList!!, recipeClicker, findNavController())
+                    SearchAdapter(
+                        requireContext(),
+                        recipeList!!,
+                        recipeClicker,
+                        findNavController()
+                    )
             } else {
                 annotationCard.visibility = View.VISIBLE
                 searchRecycler.visibility = View.INVISIBLE
@@ -206,7 +210,7 @@ class SearchFragment : Fragment() {
                 }
             }
             recipeList = pairList
-            if(checked){
+            if (checked) {
                 pairList.reverse()
             }
             Thread.sleep(200)
@@ -282,7 +286,12 @@ class SearchFragment : Fragment() {
 
             if (recipeList!!.isNotEmpty()) {
                 searchRecycler.adapter =
-                    SearchAdapter(requireContext(), recipeList!!, recipeClicker, findNavController())
+                    SearchAdapter(
+                        requireContext(),
+                        recipeList!!,
+                        recipeClicker,
+                        findNavController()
+                    )
             } else {
                 annotationCard.visibility = View.VISIBLE
                 searchRecycler.visibility = View.INVISIBLE

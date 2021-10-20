@@ -26,7 +26,10 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = fridgeList[position].first.replaceFirstChar(Char::uppercase)
-        val cursor: Cursor = mDb.rawQuery("SELECT * FROM categories WHERE category = ?", listOf(fridgeList[position].second).toTypedArray())
+        val cursor: Cursor = mDb.rawQuery(
+            "SELECT * FROM categories WHERE category = ?",
+            listOf(fridgeList[position].second).toTypedArray()
+        )
         cursor.moveToFirst()
         holder.image.setImageResource(imagesCat[cursor.getInt(0) - 1])
         cursor.close()
@@ -53,6 +56,7 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
         viewToAnimate.startAnimation(animation)
         lastPosition = position
     }
+
     override fun onFailedToRecycleView(holder: ViewHolder): Boolean {
         return true
     }

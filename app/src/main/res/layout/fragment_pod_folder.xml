@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:id="@+id/end_root"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/end_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".fragment.PodFolderFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/podFolderRecycler"
-        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:nestedScrollingEnabled="false" />
+        android:nestedScrollingEnabled="false"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager" />
 
 
 </FrameLayout>

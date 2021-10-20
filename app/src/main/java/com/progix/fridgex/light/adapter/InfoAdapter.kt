@@ -1,7 +1,6 @@
 package com.progix.fridgex.light.adapter
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -11,9 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.SecondActivity
 import com.progix.fridgex.light.model.InfoItem
 
 
@@ -30,13 +27,14 @@ class InfoAdapter(var context: Context, var infoList: ArrayList<InfoItem>) :
         holder.name.text = infoList[position].name
         holder.value.text = infoList[position].value
         holder.image.setImageResource(infoList[position].image)
-        if (infoList[position].name == context.getString(R.string.source)){
+        if (infoList[position].name == context.getString(R.string.source)) {
             holder.itemView.setOnClickListener {
                 MaterialAlertDialogBuilder(context, R.style.modeAlert)
                     .setTitle(context.getString(R.string.redirect))
                     .setMessage(context.getString(R.string.redirectMessage))
-                    .setPositiveButton(context.getString(R.string.cont)
-                    ) { _, _, ->
+                    .setPositiveButton(
+                        context.getString(R.string.cont)
+                    ) { _, _ ->
                         val url = "http://" + infoList[position].value
                         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                         context.startActivity(browserIntent)

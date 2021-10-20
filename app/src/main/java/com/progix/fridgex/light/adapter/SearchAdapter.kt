@@ -1,9 +1,7 @@
 package com.progix.fridgex.light.adapter
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.database.Cursor
-import android.graphics.PorterDuff
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +10,9 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.ColorRes
 import androidx.appcompat.widget.PopupMenu
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.widget.ImageViewCompat
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -24,7 +20,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.fragment.DailyFragment
 import com.progix.fridgex.light.model.RecyclerSortItem
 
 
@@ -54,7 +49,7 @@ class SearchAdapter(
         )
         cursor.moveToFirst()
         val starred = cursor.getInt(7) == 1
-        if(starred) holder.star.visibility = View.VISIBLE
+        if (starred) holder.star.visibility = View.VISIBLE
         else holder.star.visibility = View.GONE
         holder.bind(onClickListener, cursor.getInt(0), position, starred, false)
         cursor.close()
@@ -69,13 +64,25 @@ class SearchAdapter(
             when (it.itemId) {
                 R.id.star_recipe -> {
                     mDb.execSQL("UPDATE recipes SET is_starred = 1 WHERE id = $id")
-                    showSnackBar(context.getString(R.string.addedToStarred), id, position, "is_starred", 0)
+                    showSnackBar(
+                        context.getString(R.string.addedToStarred),
+                        id,
+                        position,
+                        "is_starred",
+                        0
+                    )
                     notifyItemChanged(position)
                     true
                 }
                 R.id.ban_recipe -> {
                     mDb.execSQL("UPDATE recipes SET banned = 1 WHERE id = $id")
-                    showSnackBar(context.getString(R.string.addedToBanList), id, position, "banned", 0)
+                    showSnackBar(
+                        context.getString(R.string.addedToBanList),
+                        id,
+                        position,
+                        "banned",
+                        0
+                    )
                     recipeList.removeAt(position)
                     notifyItemRemoved(position)
                     true
@@ -99,17 +106,21 @@ class SearchAdapter(
     }
 
     private fun inflatePopup(popupMenus: PopupMenu, starred: Boolean, banned: Boolean) {
-        if(!starred && !banned) popupMenus.inflate(R.menu.popup_menu_empty)
-        else if(!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned)
-        else if(starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred)
+        if (!starred && !banned) popupMenus.inflate(R.menu.popup_menu_empty)
+        else if (!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned)
+        else if (starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred)
         else popupMenus.inflate(R.menu.popup_menu_both)
 
     }
 
     private fun showSnackBar(text: String, id: Int, position: Int, modifier: String, value: Int) {
         val snackBar: Snackbar
-        if(modifier == "is_starred"){
-            snackBar = Snackbar.make((context as MainActivity).findViewById(R.id.main_root), text, Snackbar.LENGTH_SHORT)
+        if (modifier == "is_starred") {
+            snackBar = Snackbar.make(
+                (context as MainActivity).findViewById(R.id.main_root),
+                text,
+                Snackbar.LENGTH_SHORT
+            )
                 .setAction(context.getString(R.string.undo)) {
                     mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
                     notifyItemChanged(position)
@@ -117,9 +128,12 @@ class SearchAdapter(
                 .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
                 .setBackgroundTint(ContextCompat.getColor(context, R.color.manualBackground))
                 .setTextColor(ContextCompat.getColor(context, R.color.manualText))
-        }
-        else{
-            snackBar = Snackbar.make((context as MainActivity).findViewById(R.id.main_root), text, Snackbar.LENGTH_SHORT)
+        } else {
+            snackBar = Snackbar.make(
+                (context as MainActivity).findViewById(R.id.main_root),
+                text,
+                Snackbar.LENGTH_SHORT
+            )
                 .setAction(context.getString(R.string.undo)) {
                     mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
                     navController.navigate(R.id.nav_search)
@@ -163,7 +177,7 @@ class SearchAdapter(
             itemView.setOnClickListener {
                 onClickListener.onClick(image, id)
             }
-            itemView.setOnLongClickListener{
+            itemView.setOnLongClickListener {
                 popupMenus(it, id, position, starred, banned)
                 true
             }
@@ -184,6 +198,7 @@ class SearchAdapter(
         viewToAnimate.startAnimation(animation)
         lastPosition = position
     }
+
     override fun onFailedToRecycleView(holder: ViewHolder): Boolean {
         return true
     }

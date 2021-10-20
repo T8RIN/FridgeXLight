@@ -21,7 +21,6 @@ import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.MainActivity.Companion.podFolder
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.SecondActivity
-import com.progix.fridgex.light.adapter.FolderAdapter
 import com.progix.fridgex.light.adapter.FolderCategoriesAdapter
 import com.progix.fridgex.light.adapter.FolderRecipesAdapter
 import com.progix.fridgex.light.model.RecipeItem
@@ -83,14 +82,20 @@ class PodFolderFragment : Fragment() {
 
 
         val id: Int = arguments?.get("catF") as Int + 1
-        val curik: Cursor = mDb.rawQuery("SELECT * FROM recipe_categories_global WHERE id = ?", listOf(id.toString()).toTypedArray())
+        val curik: Cursor = mDb.rawQuery(
+            "SELECT * FROM recipe_categories_global WHERE id = ?",
+            listOf(id.toString()).toTypedArray()
+        )
         curik.moveToFirst()
         val name = curik.getString(1)
-        val curik2: Cursor = mDb.rawQuery("SELECT * FROM recipe_category_local WHERE category_global = ?", listOf(name.toString()).toTypedArray())
+        val curik2: Cursor = mDb.rawQuery(
+            "SELECT * FROM recipe_category_local WHERE category_global = ?",
+            listOf(name.toString()).toTypedArray()
+        )
         curik2.moveToFirst()
         val listFolder: ArrayList<Pair<Int, String>> = ArrayList()
         val list: ArrayList<Int> = ArrayList()
-        while(!curik2.isAfterLast){
+        while (!curik2.isAfterLast) {
             listFolder.add(Pair(podFolder[curik2.getInt(0) - 1], curik2.getString(2)))
             list.add(curik2.getInt(0) - 1)
             curik2.moveToNext()
@@ -288,7 +293,6 @@ class PodFolderFragment : Fragment() {
         } else return q
         return q
     }
-
 
 
 }

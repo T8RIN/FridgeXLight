@@ -45,22 +45,22 @@
             <TextView
                 android:id="@+id/recipeName"
                 android:layout_width="0dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:text="@string/probka_test" />
 
             <ImageView
-                android:layout_marginTop="4dp"
                 android:id="@+id/star"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_weight="0"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
+                android:layout_weight="0"
+                android:contentDescription="@string/none"
                 android:src="@drawable/ic_round_star_24"
-                app:tint="@color/yellow"
-                android:contentDescription="@string/none" />
+                app:tint="@color/yellow" />
         </LinearLayout>
 
         <LinearLayout

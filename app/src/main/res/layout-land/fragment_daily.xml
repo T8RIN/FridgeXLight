@@ -9,9 +9,10 @@
     tools:context=".fragment.DailyFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
         android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dailyRecycler"
             android:layout_width="match_parent"
@@ -20,5 +21,5 @@
             app:spanCount="3" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/circular_loading"/>
+    <include layout="@layout/circular_loading" />
 </RelativeLayout>

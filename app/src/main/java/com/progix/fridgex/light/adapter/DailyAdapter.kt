@@ -1,31 +1,30 @@
 package com.progix.fridgex.light.adapter
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.database.Cursor
-import android.graphics.PorterDuff
 import android.util.TypedValue
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.progix.fridgex.light.MainActivity
-import com.progix.fridgex.light.R
-import com.progix.fridgex.light.model.RecipeItem
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import androidx.annotation.ColorRes
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.widget.ImageViewCompat
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.MainActivity.Companion.anchor
 import com.progix.fridgex.light.MainActivity.Companion.mDb
+import com.progix.fridgex.light.R
+import com.progix.fridgex.light.model.RecipeItem
 
 
 class DailyAdapter(
@@ -80,7 +79,7 @@ class DailyAdapter(
         )
         params.height = pixels.toInt()
         holder.itemView.layoutParams = params
-        val cursor: Cursor = MainActivity.mDb.rawQuery(
+        val cursor: Cursor = mDb.rawQuery(
             "SELECT * FROM recipes WHERE recipe_name = ?",
             listOf(recipeList[position].recipeName).toTypedArray()
         )
@@ -88,7 +87,7 @@ class DailyAdapter(
         val starred = cursor.getInt(7) == 1
         val banned = cursor.getInt(14) == 1
 
-        if(starred) holder.star.visibility = VISIBLE
+        if (starred) holder.star.visibility = VISIBLE
         else holder.star.visibility = GONE
         holder.bind(onClickListener, cursor.getInt(0), position, starred, banned)
         cursor.close()
@@ -102,13 +101,25 @@ class DailyAdapter(
             when (it.itemId) {
                 R.id.star_recipe -> {
                     mDb.execSQL("UPDATE recipes SET is_starred = 1 WHERE id = $id")
-                    showSnackBar(context.getString(R.string.addedToStarred), id, position, "is_starred", 0)
+                    showSnackBar(
+                        context.getString(R.string.addedToStarred),
+                        id,
+                        position,
+                        "is_starred",
+                        0
+                    )
                     notifyItemChanged(position)
                     true
                 }
                 R.id.ban_recipe -> {
                     mDb.execSQL("UPDATE recipes SET banned = 1 WHERE id = $id")
-                    showSnackBar(context.getString(R.string.addedToBanList), id, position, "banned", 0)
+                    showSnackBar(
+                        context.getString(R.string.addedToBanList),
+                        id,
+                        position,
+                        "banned",
+                        0
+                    )
                     notifyItemChanged(position)
                     true
                 }
@@ -137,15 +148,19 @@ class DailyAdapter(
     }
 
     private fun inflatePopup(popupMenus: PopupMenu, starred: Boolean, banned: Boolean) {
-        if(!starred && !banned) popupMenus.inflate(R.menu.popup_menu_empty)
-        else if(!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned)
-        else if(starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred)
+        if (!starred && !banned) popupMenus.inflate(R.menu.popup_menu_empty)
+        else if (!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned)
+        else if (starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred)
         else popupMenus.inflate(R.menu.popup_menu_both)
 
     }
 
     private fun showSnackBar(text: String, id: Int, position: Int, modifier: String, value: Int) {
-        val snackBar = Snackbar.make((context as MainActivity).findViewById(R.id.main_root), text, Snackbar.LENGTH_SHORT)
+        val snackBar = Snackbar.make(
+            (context as MainActivity).findViewById(R.id.main_root),
+            text,
+            Snackbar.LENGTH_SHORT
+        )
             .setAction(context.getString(R.string.undo)) {
                 mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
                 notifyItemChanged(position)
@@ -176,7 +191,7 @@ class DailyAdapter(
         return recipeList.size
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var image: ImageView = view.findViewById(R.id.image)
         var recipeName: TextView = view.findViewById(R.id.recipeName)
         var indicator: ImageView = view.findViewById(R.id.indicator)
@@ -194,7 +209,7 @@ class DailyAdapter(
             itemView.setOnClickListener {
                 onClickListener.onClick(image, id)
             }
-            itemView.setOnLongClickListener{
+            itemView.setOnLongClickListener {
                 popupMenus(it, id, position, starred, banned)
                 true
             }

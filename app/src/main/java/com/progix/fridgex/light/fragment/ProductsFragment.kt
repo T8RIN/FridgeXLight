@@ -12,7 +12,6 @@ import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
 import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.adapter.CategoryAdapter
 import com.progix.fridgex.light.adapter.ProductsAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.*
@@ -67,7 +66,7 @@ class ProductsFragment : Fragment() {
         (requireActivity() as MainActivity).toolbar.title = name
 
         job?.cancel()
-        job = CoroutineScope(Dispatchers.Main).launch{
+        job = CoroutineScope(Dispatchers.Main).launch {
             prodList = coroutine()
             pD = ProductsAdapter(requireContext(), prodList, idd)
             recycler.adapter = pD
@@ -75,20 +74,21 @@ class ProductsFragment : Fragment() {
 
 
 
-        
+
         return v
     }
 
-    private suspend fun coroutine(): ArrayList<String> = withContext(Dispatchers.IO){
+    private suspend fun coroutine(): ArrayList<String> = withContext(Dispatchers.IO) {
         val name = arguments?.getString("category")
         val array = ArrayList<String>()
-        val cursor: Cursor = mDb.rawQuery("SELECT * FROM products WHERE category = ?", listOf(name).toTypedArray())
+        val cursor: Cursor =
+            mDb.rawQuery("SELECT * FROM products WHERE category = ?", listOf(name).toTypedArray())
         cursor.moveToFirst()
-        while(!cursor.isAfterLast){
+        while (!cursor.isAfterLast) {
             array.add(cursor.getString(2))
             cursor.moveToNext()
         }
-        array.sortBy{it}
+        array.sortBy { it }
         cursor.close()
         return@withContext array
     }
@@ -122,9 +122,10 @@ class ProductsFragment : Fragment() {
                 list.add(item.second)
             }
             recycler.adapter = ProductsAdapter(requireContext(), list, int!!)
-        }else {
-            if(recycler.adapter != pD){
-                recycler.adapter = ProductsAdapter(requireContext(), prodList, idd)}
+        } else {
+            if (recycler.adapter != pD) {
+                recycler.adapter = ProductsAdapter(requireContext(), prodList, idd)
+            }
         }
     }
 
@@ -177,7 +178,7 @@ class ProductsFragment : Fragment() {
         searchView.queryTextChangeEvents()
             .debounce(350, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{
+            .subscribe {
                 search(it.queryText.toString(), arguments?.getInt("prodCat"))
             }
 

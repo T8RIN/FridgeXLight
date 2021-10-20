@@ -1,6 +1,9 @@
 package com.progix.fridgex.light
 
-import android.content.*
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.database.Cursor
 import android.os.Bundle
@@ -19,7 +22,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -28,7 +30,6 @@ import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.ViewPagerAdapter
 import com.progix.fridgex.light.fragment.IngredsFragment.Companion.list
 import com.progix.fridgex.light.fragment.IngredsFragment.Companion.portions
-import java.util.*
 
 
 class SecondActivity : AppCompatActivity() {
@@ -92,7 +93,7 @@ class SecondActivity : AppCompatActivity() {
                 copyOrShare("copy")
                 true
             }
-            R.id.share ->{
+            R.id.share -> {
                 copyOrShare("share")
                 true
             }
@@ -141,7 +142,7 @@ class SecondActivity : AppCompatActivity() {
                     getString(R.string.carbohydrates) + "............." + carboh + getString(R.string.gram) + "\n" +
                     getString(R.string.portions) + " " + portions + "\n\n\n" + ingreds + "\n\n" + recipe
 
-        when(s){
+        when (s) {
             "copy" -> {
                 Toast.makeText(this, getString(R.string.copiedRecipe), Toast.LENGTH_SHORT).show()
                 val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
@@ -151,7 +152,10 @@ class SecondActivity : AppCompatActivity() {
             "share" -> {
                 val sendIntent = Intent()
                 sendIntent.action = Intent.ACTION_SEND
-                sendIntent.putExtra(Intent.EXTRA_TEXT, sharing + "\n\n" + getString(R.string.copiedFrom))
+                sendIntent.putExtra(
+                    Intent.EXTRA_TEXT,
+                    sharing + "\n\n" + getString(R.string.copiedFrom)
+                )
                 sendIntent.type = "text/plain"
                 startActivity(Intent.createChooser(sendIntent, getString(R.string.share)))
             }
@@ -159,24 +163,52 @@ class SecondActivity : AppCompatActivity() {
 
     }
 
-    private fun popupMenus(context: Context, mainRoot: CoordinatorLayout, view: View, id: Int, starred: Boolean, banned: Boolean) {
+    private fun popupMenus(
+        context: Context,
+        mainRoot: CoordinatorLayout,
+        view: View,
+        id: Int,
+        starred: Boolean,
+        banned: Boolean
+    ) {
         val popupMenus = PopupMenu(context, view)
         inflatePopup(popupMenus, starred, banned)
         popupMenus.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.star_recipe -> {
                     mDb.execSQL("UPDATE recipes SET is_starred = 1 WHERE id = $id")
-                    showSnackBar(context, mainRoot, getString(R.string.addedToStarred), id, "is_starred", 0)
+                    showSnackBar(
+                        context,
+                        mainRoot,
+                        getString(R.string.addedToStarred),
+                        id,
+                        "is_starred",
+                        0
+                    )
                     true
                 }
                 R.id.ban_recipe -> {
                     mDb.execSQL("UPDATE recipes SET banned = 1 WHERE id = $id")
-                    showSnackBar(context, mainRoot, getString(R.string.addedToBanList), id, "banned", 0)
+                    showSnackBar(
+                        context,
+                        mainRoot,
+                        getString(R.string.addedToBanList),
+                        id,
+                        "banned",
+                        0
+                    )
                     true
                 }
                 R.id.de_star_recipe -> {
                     mDb.execSQL("UPDATE recipes SET is_starred = 0 WHERE id = $id")
-                    showSnackBar(context, mainRoot, getString(R.string.delStar), id, "is_starred", 1)
+                    showSnackBar(
+                        context,
+                        mainRoot,
+                        getString(R.string.delStar),
+                        id,
+                        "is_starred",
+                        1
+                    )
                     true
                 }
                 R.id.de_ban_recipe -> {
@@ -188,7 +220,7 @@ class SecondActivity : AppCompatActivity() {
                     copyOrShare("copy")
                     true
                 }
-                R.id.share ->{
+                R.id.share -> {
                     copyOrShare("share")
                     true
                 }
@@ -205,14 +237,21 @@ class SecondActivity : AppCompatActivity() {
     }
 
     private fun inflatePopup(popupMenus: PopupMenu, starred: Boolean, banned: Boolean) {
-        if(!starred && !banned) popupMenus.inflate(R.menu.popup_menu_empty_second)
-        else if(!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned_second)
-        else if(starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred_second)
+        if (!starred && !banned) popupMenus.inflate(R.menu.popup_menu_empty_second)
+        else if (!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned_second)
+        else if (starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred_second)
         else popupMenus.inflate(R.menu.popup_menu_both_second)
 
     }
 
-    private fun showSnackBar(context: Context, mainRoot: CoordinatorLayout, text: String, id: Int, modifier: String, value: Int) {
+    private fun showSnackBar(
+        context: Context,
+        mainRoot: CoordinatorLayout,
+        text: String,
+        id: Int,
+        modifier: String,
+        value: Int
+    ) {
         val snackBar = Snackbar.make(mainRoot, text, Snackbar.LENGTH_SHORT)
             .setAction(context.getString(R.string.undo)) {
                 mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
@@ -244,8 +283,6 @@ class SecondActivity : AppCompatActivity() {
 
         snackBar.show()
     }
-
-
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:id="@+id/end_advice"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/end_advice"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".fragment.TipListFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_margin="4dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/advice1"
         android:transitionName="advice"
-        android:scaleType="centerCrop"
-        android:layout_width="match_parent"
-        app:shapeAppearanceOverlay="@style/shape12dp"
-        android:layout_height="200dp"/>
+        app:shapeAppearanceOverlay="@style/shape12dp" />
 
     <ScrollView
         android:id="@+id/tipListRecycler"
@@ -31,7 +31,7 @@
             android:layout_margin="4dp"
             android:text="pkjhgvcvghj"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textColor="?attr/colorControlNormal"/>
+            android:textColor="?attr/colorControlNormal" />
 
     </ScrollView>
 

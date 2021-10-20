@@ -3,13 +3,10 @@ package com.progix.fridgex.light.fragment
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -49,6 +46,7 @@ class DailyFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
     }
+
     private lateinit var loading: CircularProgressIndicator
 
     private var mActionMode: ActionMode? = null
@@ -64,18 +62,23 @@ class DailyFragment : Fragment() {
         val swipeRefresh: SwipeRefreshLayout = v.findViewById(R.id.swipeRefresh)
 
         job?.cancel()
-        job = CoroutineScope(Dispatchers.Main).launch{
+        job = CoroutineScope(Dispatchers.Main).launch {
 
             val recipeList: ArrayList<RecipeItem> = startCoroutine()
             loading.visibility = View.GONE
             dailyRecycler.adapter = DailyAdapter(requireContext(), recipeList, recipeClicker)
 
         }
-        swipeRefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(), R.color.manualBackground))
+        swipeRefresh.setProgressBackgroundColorSchemeColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.manualBackground
+            )
+        )
         swipeRefresh.setColorSchemeResources(R.color.checked, R.color.red, R.color.yellow)
         swipeRefresh.setOnRefreshListener {
 
-            job = CoroutineScope(Dispatchers.Main).launch{
+            job = CoroutineScope(Dispatchers.Main).launch {
 
                 saveDate(0)
                 val recipeList: ArrayList<RecipeItem> = startCoroutine()

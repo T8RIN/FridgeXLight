@@ -5,17 +5,17 @@
     android:id="@+id/standard_bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:showIn="@layout/fragment_search"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    tools:showIn="@layout/fragment_search">
 
-   <TextView
-       android:layout_marginStart="10dp"
-       android:layout_marginEnd="10dp"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:gravity="center"
-       android:textColor="@color/manualText2"
-       android:paddingTop="30dp"
-       android:paddingBottom="30dp"
-       android:text="@string/chooseSort"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
+        android:text="@string/chooseSort"
+        android:textColor="@color/manualText2" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

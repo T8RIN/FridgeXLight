@@ -9,12 +9,15 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.model.NavItem
 
 
-class NavigationAdapter(var context: Context, var navList: ArrayList<NavItem>, var onClickListener: OnClickListener) :
+class NavigationAdapter(
+    var context: Context,
+    var navList: ArrayList<NavItem>,
+    var onClickListener: OnClickListener
+) :
     RecyclerView.Adapter<NavigationAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View =
@@ -22,15 +25,15 @@ class NavigationAdapter(var context: Context, var navList: ArrayList<NavItem>, v
 
         return ViewHolder(view)
     }
+
     var mSelectedItem = 0
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.radioButton.isChecked = position == mSelectedItem
-        if(holder.radioButton.isChecked){
+        if (holder.radioButton.isChecked) {
             holder.name.setTextColor(ContextCompat.getColor(context, R.color.checked))
             holder.image.setColorFilter(ContextCompat.getColor(context, R.color.checked))
-        }
-        else{
+        } else {
             holder.name.setTextColor(ContextCompat.getColor(context, R.color.unchecked))
             holder.image.setColorFilter(ContextCompat.getColor(context, R.color.unchecked))
         }

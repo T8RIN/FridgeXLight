@@ -5,12 +5,15 @@ import android.database.Cursor
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.MainActivity.Companion.imagesCat
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
@@ -25,7 +28,10 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
         return ViewHolder(view)
     }
 
+    var cnt = 0
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.star.visibility = GONE
         holder.name.text = fridgeList[position].first.replaceFirstChar(Char::uppercase)
         val cursor: Cursor = mDb.rawQuery(
             "SELECT * FROM categories WHERE category = ?",
@@ -47,6 +53,7 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
             holder.itemView.alpha = 1f
             holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
         }
+
         holder.itemView.setOnClickListener {
             val cc: Cursor = mDb.rawQuery(
                 "SELECT * FROM products WHERE product = ?",
@@ -58,17 +65,39 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
                 "UPDATE products SET amount = ? WHERE product = ?",
                 listOf(!crossed, fridgeList[position].first).toTypedArray()
             )
+
+            val bNav =
+                (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
             if (crossed) {
+                mDb.execSQL(
+                    "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
+                    listOf(fridgeList[position].first).toTypedArray()
+                )
+
+                val badge = bNav.getOrCreateBadge(R.id.nav_fridge)
+                badge.number -= 1
+                if (badge.number == 0) bNav.removeBadge(R.id.nav_fridge)
+
                 holder.itemView.alpha = 1f
                 holder.name.paintFlags =
                     holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             } else {
+                mDb.execSQL(
+                    "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
+                    listOf(fridgeList[position].first).toTypedArray()
+                )
+
+                val badge = bNav.getOrCreateBadge(R.id.nav_fridge)
+                badge.number += 1
+
                 holder.itemView.alpha = 0.5f
                 holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
+            cc.close()
         }
         setAnimation(holder.itemView, position)
-
+        cc.close()
     }
 
     override fun getItemCount(): Int {
@@ -78,6 +107,8 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.name)
         val image: ImageView = view.findViewById(R.id.image)
+        val star: ImageView = view.findViewById(R.id.star)
+
         fun clearAnimation() {
             itemView.clearAnimation()
         }

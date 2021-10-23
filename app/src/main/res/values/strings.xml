@@ -239,10 +239,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="probka_test">Бездрожжевая пицца на тонком тесте с кальмарами и bynthtcyjcnzvb</string>
     <string name="toStar">Add to starred</string>
+    <string name="toCart">Add to cart</string>
     <string name="ban">Ban</string>
     <string name="addedToStarred">Added to starred</string>
     <string name="addedToBanList">Added to ban-list</string>
     <string name="undo">Undo</string>
     <string name="deBan">delete Ban</string>
     <string name="deStar">delete Star</string>
+    <string name="delBanProd">Product removed from block-list</string>
+    <string name="delCartProd">Added to shopping cart</string>
 </resources>

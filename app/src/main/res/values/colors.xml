@@ -66,9 +66,7 @@
     <color name="manualGradient">#FFFFFF</color>
     <color name="manualGradient2">#BEFFFFFF</color>
 
-    <color name="yellowT">#33FFFF00</color>
-    <color name="redT">#3DFD2A66</color>
-    <color name="bothT">#66FF9800</color>
+    <color name="manualBadge">#FF0000</color>
 
 
 </resources>

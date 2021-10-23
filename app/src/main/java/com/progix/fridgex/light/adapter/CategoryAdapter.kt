@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils.loadAnimation
@@ -31,6 +32,7 @@ class CategoryAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = fridgeList[position]
+        holder.star.visibility = GONE
         val cursor: Cursor = mDb.rawQuery(
             "SELECT * FROM categories WHERE category = ?",
             listOf(fridgeList[position]).toTypedArray()
@@ -50,6 +52,7 @@ class CategoryAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.name)
         val image: ImageView = view.findViewById(R.id.image)
+        val star: ImageView = view.findViewById(R.id.star)
         fun bind(
             onClickListener: OnClickListener,
             text: String

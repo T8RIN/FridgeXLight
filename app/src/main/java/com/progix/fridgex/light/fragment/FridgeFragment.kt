@@ -3,9 +3,9 @@ package com.progix.fridgex.light.fragment
 import android.database.Cursor
 import android.os.Bundle
 import android.view.*
-import android.view.View.INVISIBLE
+import android.view.View.*
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
@@ -14,16 +14,20 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.MainActivity.Companion.anchor
+import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.FridgeAdapter
+import com.progix.fridgex.light.custom.CustomSnackbar
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 private const val ARG_PARAM1 = "param1"
@@ -36,6 +40,7 @@ class FridgeFragment : Fragment() {
     private val fridgeList: ArrayList<Pair<String, String>> = ArrayList()
     private lateinit var recycler: RecyclerView
     private lateinit var annotationCard: MaterialCardView
+    private lateinit var loading: CircularProgressIndicator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +68,7 @@ class FridgeFragment : Fragment() {
 
         recycler = v.findViewById(R.id.fridgeRecycler)
         annotationCard = v.findViewById(R.id.annotationCard)
-        val loading: CircularProgressIndicator = v.findViewById(R.id.loading)
+        loading = v.findViewById(R.id.loading)
 
         dispose?.dispose()
         dispose = rxJava()
@@ -74,7 +79,7 @@ class FridgeFragment : Fragment() {
                 if (it.isNotEmpty()) {
                     recycler.adapter = FridgeAdapter(requireContext(), it)
                 } else {
-                    annotationCard.visibility = View.VISIBLE
+                    annotationCard.visibility = VISIBLE
                     recycler.visibility = INVISIBLE
                 }
                 loading.visibility = INVISIBLE
@@ -121,65 +126,93 @@ class FridgeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.clear -> {
-                MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
-                    .setTitle(getString(R.string.clearFridge))
-                    .setPositiveButton(
-                        getString(R.string.cont)
-                    ) { _, _ ->
-                        val layoutParams = anchor.layoutParams
-                        if (layoutParams is CoordinatorLayout.LayoutParams) {
-                            val behavior = layoutParams.behavior
-                            if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                                val hideShowBehavior =
-                                    behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
-                                hideShowBehavior.slideUp(anchor)
-                            }
-                        }
-                        annotationCard.visibility = View.VISIBLE
-                        recycler.visibility = View.INVISIBLE
-                        val cursor: Cursor =
-                            mDb.rawQuery("SELECT * FROM products WHERE is_in_fridge = 1", null)
-                        cursor.moveToFirst()
-                        while (!cursor.isAfterLast) {
-                            mDb.execSQL("UPDATE products SET is_in_fridge = 0 WHERE is_in_fridge = 1")
-                            cursor.moveToNext()
-                        }
-                        Snackbar.make(
-                            requireContext(),
-                            requireView(),
-                            getString(R.string.clearSuccessFridge),
-                            LENGTH_LONG
-                        )
-                            .setActionTextColor(getColor(requireContext(), R.color.checked))
-                            .setAction(getString(R.string.cancel)) {
-                                //TODO: clearing fridge and undo and error if it empty already
-                                for (i in fridgeList) {
-                                    mDb.execSQL(
-                                        "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
-                                        listOf(i.first).toTypedArray()
-                                    )
+                if (recycler.adapter != null) {
+                    MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
+                        .setTitle(getString(R.string.clearFridge))
+                        .setPositiveButton(
+                            getString(R.string.cont)
+                        ) { _, _ ->
+                            val anchor: BottomNavigationView =
+                                requireActivity().findViewById(R.id.bottom_navigation)
+                            val layoutParams = anchor.layoutParams
+                            if (layoutParams is CoordinatorLayout.LayoutParams) {
+                                val behavior = layoutParams.behavior
+                                if (behavior is HideBottomViewOnScrollBehavior<*>) {
+                                    val hideShowBehavior =
+                                        behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
+                                    hideShowBehavior.slideUp(anchor)
                                 }
-                                recycler.adapter = FridgeAdapter(requireContext(), fridgeList)
-                                annotationCard.visibility = View.INVISIBLE
-                                recycler.visibility = View.VISIBLE
-                                val layoutParams = anchor.layoutParams
-                                if (layoutParams is CoordinatorLayout.LayoutParams) {
-                                    val behavior = layoutParams.behavior
-                                    if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                                        val hideShowBehavior =
-                                            behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
-                                        hideShowBehavior.slideUp(anchor)
+                            }
+                            CoroutineScope(Dispatchers.Main).launch {
+                                annotationCard.visibility = VISIBLE
+                                recycler.visibility = INVISIBLE
+                                recycler.adapter = null
+                                undoOrDoActionCoroutine("do")
+                            }
+
+                            CustomSnackbar(requireContext())
+                                .create(
+                                    (context as MainActivity).findViewById(R.id.main_root),
+                                    getString(R.string.clearSuccessFridge),
+                                    LENGTH_LONG
+                                )
+                                .setAction(getString(R.string.undo)) {
+                                    //TODO: clearing fridge and undo and error if it empty already
+                                    CoroutineScope(Dispatchers.Main).launch {
+                                        loading.visibility = VISIBLE
+                                        annotationCard.visibility = INVISIBLE
+                                        undoOrDoActionCoroutine("undo")
+                                        recycler.visibility = VISIBLE
+                                        recycler.adapter =
+                                            FridgeAdapter(requireContext(), fridgeList)
+                                        if (layoutParams is CoordinatorLayout.LayoutParams) {
+                                            val behavior = layoutParams.behavior
+                                            if (behavior is HideBottomViewOnScrollBehavior<*>) {
+                                                val hideShowBehavior =
+                                                    behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
+                                                hideShowBehavior.slideUp(anchor)
+                                            }
+                                        }
+                                        loading.visibility = GONE
                                     }
                                 }
-                            }
-                            .setAnchorView(anchor)
-                            .show()
-                    }
-                    .setNegativeButton(getString(R.string.cancel), null)
-                    .show()
+                                .show()
+                        }
+                        .setNegativeButton(getString(R.string.cancel), null)
+                        .show()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.clearErrorFridge),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private suspend fun undoOrDoActionCoroutine(param: String) = withContext(Dispatchers.IO) {
+        when (param) {
+            "do" -> {
+                val cursor: Cursor =
+                    mDb.rawQuery("SELECT * FROM products WHERE is_in_fridge = 1", null)
+                cursor.moveToFirst()
+                while (!cursor.isAfterLast) {
+                    mDb.execSQL("UPDATE products SET is_in_fridge = 0 WHERE is_in_fridge = 1")
+                    cursor.moveToNext()
+                }
+                cursor.close()
+            }
+            "undo" -> {
+                for (i in fridgeList) {
+                    mDb.execSQL(
+                        "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
+                        listOf(i.first).toTypedArray()
+                    )
+                }
+            }
         }
     }
 }

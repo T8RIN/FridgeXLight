@@ -59,5 +59,6 @@
     <color name="manualGradient">#000000</color>
     <color name="manualGradient2">#B9000000</color>
 
+    <color name="manualBadge">#FD2A66</color>
 
 </resources>

@@ -2,7 +2,6 @@ package com.progix.fridgex.light.adapter
 
 import android.content.Context
 import android.database.Cursor
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -13,15 +12,13 @@ import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.progix.fridgex.light.MainActivity
-import com.progix.fridgex.light.MainActivity.Companion.anchor
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.model.RecyclerSortItem
 
 
@@ -120,24 +117,17 @@ class FolderRecipesAdapter(
     }
 
     private fun showSnackBar(text: String, id: Int, position: Int, modifier: String, value: Int) {
-        val snackBar = Snackbar.make(
-            (context as MainActivity).findViewById(R.id.main_root),
-            text,
-            Snackbar.LENGTH_SHORT
-        )
+        CustomSnackbar(context)
+            .create(
+                (context as MainActivity).findViewById(R.id.main_root),
+                text,
+                Snackbar.LENGTH_SHORT
+            )
             .setAction(context.getString(R.string.undo)) {
                 mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
                 notifyItemChanged(position)
             }
-            .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
-            .setBackgroundTint(ContextCompat.getColor(context, R.color.manualBackground))
-            .setTextColor(ContextCompat.getColor(context, R.color.manualText))
-        val params = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
-        params.anchorId = anchor.id
-        params.anchorGravity = Gravity.TOP
-        params.gravity = Gravity.TOP
-        snackBar.view.layoutParams = params
-        snackBar.show()
+            .show()
     }
 
 

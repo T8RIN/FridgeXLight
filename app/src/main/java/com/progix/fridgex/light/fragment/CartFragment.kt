@@ -3,18 +3,30 @@ package com.progix.fridgex.light.fragment
 import android.database.Cursor
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.CartAdapter
+import com.progix.fridgex.light.adapter.FridgeAdapter
+import com.progix.fridgex.light.custom.CustomSnackbar
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 private const val ARG_PARAM1 = "param1"
@@ -45,6 +57,8 @@ class CartFragment : Fragment() {
 
     var dispose: Disposable? = null
 
+    lateinit private var loading: CircularProgressIndicator
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,7 +67,7 @@ class CartFragment : Fragment() {
 
         recycler = v.findViewById(R.id.fridgeRecycler)
         annotationCard = v.findViewById(R.id.annotationCard)
-        val loading: CircularProgressIndicator = v.findViewById(R.id.loading)
+        loading = v.findViewById(R.id.loading)
 
 //        CoroutineScope(Dispatchers.Main).launch{
 //
@@ -111,6 +125,7 @@ class CartFragment : Fragment() {
             }
             cartList.sortBy { it.first }
             item.onNext(cartList)
+            cursor.close()
         }
     }
 
@@ -129,4 +144,96 @@ class CartFragment : Fragment() {
         inflater.inflate(R.menu.cart_menu, menu);
         super.onCreateOptionsMenu(menu, inflater)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.clear -> {
+                if (recycler.adapter != null) {
+                    MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
+                        .setTitle(getString(R.string.clearCart))
+                        .setPositiveButton(
+                            getString(R.string.cont)
+                        ) { _, _ ->
+                            val anchor: BottomNavigationView =
+                                requireActivity().findViewById(R.id.bottom_navigation)
+                            val layoutParams = anchor.layoutParams
+                            if (layoutParams is CoordinatorLayout.LayoutParams) {
+                                val behavior = layoutParams.behavior
+                                if (behavior is HideBottomViewOnScrollBehavior<*>) {
+                                    val hideShowBehavior =
+                                        behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
+                                    hideShowBehavior.slideUp(anchor)
+                                }
+                            }
+                            CoroutineScope(Dispatchers.Main).launch {
+                                annotationCard.visibility = View.VISIBLE
+                                recycler.visibility = View.INVISIBLE
+                                recycler.adapter = null
+                                undoOrDoActionCoroutine("do")
+                            }
+
+                            CustomSnackbar(requireContext())
+                                .create(
+                                    (context as MainActivity).findViewById(R.id.main_root),
+                                    getString(R.string.clearSuccessCart),
+                                    BaseTransientBottomBar.LENGTH_LONG
+                                )
+                                .setAction(getString(R.string.undo)) {
+                                    CoroutineScope(Dispatchers.Main).launch {
+                                        loading.visibility = View.VISIBLE
+                                        annotationCard.visibility = View.INVISIBLE
+                                        undoOrDoActionCoroutine("undo")
+                                        recycler.visibility = View.VISIBLE
+                                        recycler.adapter = FridgeAdapter(requireContext(), cartList)
+                                        if (layoutParams is CoordinatorLayout.LayoutParams) {
+                                            val behavior = layoutParams.behavior
+                                            if (behavior is HideBottomViewOnScrollBehavior<*>) {
+                                                val hideShowBehavior =
+                                                    behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
+                                                hideShowBehavior.slideUp(anchor)
+                                            }
+                                        }
+                                        loading.visibility = View.GONE
+                                    }
+                                }
+                                .show()
+                        }
+                        .setNegativeButton(getString(R.string.cancel), null)
+                        .show()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.clearErrorCart),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private suspend fun undoOrDoActionCoroutine(param: String) = withContext(Dispatchers.IO) {
+        when (param) {
+            "do" -> {
+                val cursor: Cursor =
+                    MainActivity.mDb.rawQuery("SELECT * FROM products WHERE is_in_cart = 1", null)
+                cursor.moveToFirst()
+                while (!cursor.isAfterLast) {
+                    MainActivity.mDb.execSQL("UPDATE products SET is_in_cart = 0 WHERE is_in_cart = 1")
+                    cursor.moveToNext()
+                }
+                cursor.close()
+            }
+            "undo" -> {
+                for (i in cartList) {
+                    MainActivity.mDb.execSQL(
+                        "UPDATE products SET is_in_cart = 1 WHERE product = ?",
+                        listOf(i.first).toTypedArray()
+                    )
+                }
+            }
+        }
+    }
+
 }

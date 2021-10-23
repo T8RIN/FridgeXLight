@@ -10,9 +10,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -39,6 +37,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity(), ActionMode.Callback {
@@ -61,14 +60,14 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
         }
         setTheme(R.style.FridgeXLight)
 
-
-
         super.onCreate(savedInstanceState)
 
         initDataBase()
 
         overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
         setContentView(R.layout.activity_main)
+
+
         navigationView = findViewById(R.id.nav_view)
         drawerLayout = findViewById(R.id.drawer_layout)
         toolbar = findViewById(R.id.toolbar)
@@ -92,8 +91,7 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
         } else {
             bottomNavigationView.visibility = VISIBLE
         }
-
-
+        setUpBadges()
 //        val actionMode = startSupportActionMode(this)
 //
 //        actionMode!!.setTitle("dddsf")
@@ -103,6 +101,29 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
         CoroutineScope(Dispatchers.Main).launch {
             reloadEvery60Seconds()
         }
+    }
+
+    private fun setUpBadges() {
+        val fridgeBadge = loadString("R.id.nav_fridge")!!
+        val cartBadge = loadString("R.id.nav_cart")!!
+
+        if (fridgeBadge != "0") {
+            bottomNavigationView.getOrCreateBadge(R.id.nav_fridge).number =
+                Integer.valueOf(fridgeBadge)
+        }
+        if (cartBadge != "0") {
+            bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number =
+                Integer.valueOf(cartBadge)
+        }
+    }
+
+    private fun saveBadgeState() {
+        val fridgeBadge = bottomNavigationView.getOrCreateBadge(R.id.nav_fridge).number.toString()
+        val cartBadge = bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number.toString()
+
+
+        saveString("R.id.nav_fridge", fridgeBadge)
+        saveString("R.id.nav_cart", cartBadge)
     }
 
     private fun listAssign() {
@@ -381,6 +402,8 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
 
     private fun navigateTo(resId: Int, args: Bundle?) {
         navController.navigate(resId, args)
+        bottomNavigationView.removeBadge(resId)
+        saveString(resId.toString(), "0")
     }
 
     private fun showBothNavigation() {
@@ -417,8 +440,8 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
 
     private fun hideBothNavigation(lock: Boolean) {
         if (des == R.id.nav_banned) {
-            bottomNavigationView.visibility = View.INVISIBLE
-            navigationView.visibility = View.INVISIBLE
+            bottomNavigationView.visibility = INVISIBLE
+            navigationView.visibility = INVISIBLE
         }
         if (lock) drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         Handler(Looper.getMainLooper()).postDelayed({
@@ -671,6 +694,7 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
                 }
             }
         }
+
     }
 
     private fun saveBoolean(key: String?, value: Boolean) {
@@ -683,6 +707,18 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
     private fun loadBoolean(key: String?): Boolean {
         val sharedPreferences = getSharedPreferences("fridgex", Context.MODE_PRIVATE)
         return sharedPreferences.getBoolean(key, true)
+    }
+
+    private fun saveString(key: String, value: String) {
+        val sharedPreferences = getSharedPreferences("fridgex", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(key, value)
+        editor.apply()
+    }
+
+    private fun loadString(key: String): String? {
+        val sharedPreferences = getSharedPreferences("fridgex", Context.MODE_PRIVATE)
+        return sharedPreferences.getString(key, "0")
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -700,5 +736,14 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
     override fun onDestroyActionMode(mode: ActionMode?) {
     }
 
+    override fun onDestroy() {
+        saveBadgeState()
+        super.onDestroy()
+    }
+
+    override fun onPause() {
+        saveBadgeState()
+        super.onPause()
+    }
 
 }

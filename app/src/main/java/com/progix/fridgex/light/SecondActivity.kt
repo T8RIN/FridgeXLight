@@ -4,11 +4,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.database.Cursor
 import android.os.Bundle
-import android.util.TypedValue
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
@@ -28,6 +24,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.progix.fridgex.light.MainActivity.Companion.images
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.ViewPagerAdapter
+import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.fragment.IngredsFragment.Companion.list
 import com.progix.fridgex.light.fragment.IngredsFragment.Companion.portions
 
@@ -252,36 +249,13 @@ class SecondActivity : AppCompatActivity() {
         modifier: String,
         value: Int
     ) {
-        val snackBar = Snackbar.make(mainRoot, text, Snackbar.LENGTH_SHORT)
+        CustomSnackbar(this).create(364, mainRoot, text, Snackbar.LENGTH_SHORT)
             .setAction(context.getString(R.string.undo)) {
                 mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
             }
-            .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
-            .setBackgroundTint(ContextCompat.getColor(context, R.color.manualBackground))
-            .setTextColor(ContextCompat.getColor(context, R.color.manualText))
-        val params = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
+            .show()
 
-        params.anchorId = R.id.tabs
-        params.anchorGravity = Gravity.TOP
-        params.gravity = Gravity.TOP
 
-        if (context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            val displayMetrics = context.resources.displayMetrics
-            val dpWidth = (displayMetrics.widthPixels / displayMetrics.density).toInt() - 364
-            val pixels = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                dpWidth.toFloat(),
-                context.resources.displayMetrics
-            )
-            params.width = pixels.toInt()
-            params.anchorId = R.id.tabs
-            params.anchorGravity = Gravity.END
-            params.gravity = Gravity.END
-        }
-
-        snackBar.view.layoutParams = params
-
-        snackBar.show()
     }
 
 

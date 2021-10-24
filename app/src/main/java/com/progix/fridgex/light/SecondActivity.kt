@@ -23,6 +23,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.progix.fridgex.light.MainActivity.Companion.images
 import com.progix.fridgex.light.MainActivity.Companion.mDb
+import com.progix.fridgex.light.adapter.InfoAdapter
 import com.progix.fridgex.light.adapter.ViewPagerAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.fragment.IngredsFragment.Companion.list
@@ -223,7 +224,6 @@ class SecondActivity : AppCompatActivity() {
                 }
                 else -> true
             }
-
         }
         popupMenus.show()
         val popup = PopupMenu::class.java.getDeclaredField("mPopup")
@@ -252,10 +252,10 @@ class SecondActivity : AppCompatActivity() {
         CustomSnackbar(this).create(364, mainRoot, text, Snackbar.LENGTH_SHORT)
             .setAction(context.getString(R.string.undo)) {
                 mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
+                adapter.notifyItemChanged(7)
             }
             .show()
-
-
+        adapter.notifyItemChanged(7)
     }
 
 
@@ -267,5 +267,6 @@ class SecondActivity : AppCompatActivity() {
 
     companion object {
         var id = 1
+        lateinit var adapter: InfoAdapter
     }
 }

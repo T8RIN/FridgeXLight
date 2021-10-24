@@ -15,7 +15,7 @@
 
 
     <color name="lred">#FF5B8A</color>
-    <color name="red">#FD2A66</color>
+    <color name="red">#D82356</color>
     <color name="dred">#C50038</color>
 
     <color name="lred2">#FF5B5B</color>
@@ -27,13 +27,13 @@
     <color name="dorange">#CA6F00</color>
 
     <color name="lyellow">#FFF163</color>
-    <color name="yellow">#FFE700</color>
+    <color name="yellow">#CEBB01</color>
     <color name="dyellow">#C5B41D</color>
 
     <color name="llgreen">#B7EC9A</color>
     <color name="lgreen">#9BEC6F</color>
     <color name="green">#59FF00</color>
-    <color name="dgreen">#55CA24</color>
+    <color name="dgreen">#3D8D1C</color>
     <color name="ddgreen">#2D8000</color>
 
     <color name="llblue">#C8DCDF</color>

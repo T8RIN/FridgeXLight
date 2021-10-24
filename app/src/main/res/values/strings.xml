@@ -235,9 +235,8 @@
     <string name="starredAdd">Add to starred or remove</string>
     <string name="bannedAdd">Add to block list or remove</string>
     <string name="reversed">Use reverse sort method</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="probka_test">Бездрожжевая пицца на тонком тесте с кальмарами и bynthtcyjcnzvb</string>
+
+    <string name="probka_test" translatable="false">Бездрожжевая пицца на тонком тесте с кальмарами и bynthtcyjcnzvb</string>
     <string name="toStar">Add to starred</string>
     <string name="toCart">Add to cart</string>
     <string name="ban">Ban</string>
@@ -249,4 +248,7 @@
     <string name="delBanProd">Product removed from block-list</string>
     <string name="delCartProd">Added to shopping cart</string>
     <string name="delStarProd">Product removed from starred</string>
+    <string name="rating">User\'s rate</string>
+    <string name="inStarred">In starred</string>
+    <string name="inBanned">Blocked</string>
 </resources>

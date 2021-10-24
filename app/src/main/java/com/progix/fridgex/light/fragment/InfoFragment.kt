@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.SecondActivity
+import com.progix.fridgex.light.SecondActivity.Companion.adapter
 import com.progix.fridgex.light.adapter.InfoAdapter
 import com.progix.fridgex.light.model.InfoItem
 
@@ -93,8 +94,18 @@ class InfoFragment : Fragment() {
                 R.drawable.ic_baseline_link_24
             )
         ) //6 ссылка
+        data.add(
+            InfoItem(
+                getString(R.string.rating),
+                id.toString(),
+                R.drawable.ic_round_star_24
+            ) //оценка пользователя
+        )
+        cursorData.close()
 
-        recycler.adapter = InfoAdapter(requireContext(), data)
+        adapter = InfoAdapter(requireContext(), data)
+
+        recycler.adapter = adapter
 
 
         return v

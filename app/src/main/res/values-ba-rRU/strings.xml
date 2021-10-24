@@ -204,7 +204,7 @@
     <string name="off">Выкл.</string>
     <string name="auto">Системная тема</string>
     <string name="version">Версия 1.0 (1)</string>
-    <string name="amount">По кол-ву</string>
+    <string name="amount">По холодильнику</string>
     <string name="byTime">По времени</string>
     <string name="byCal">По калориям</string>
     <string name="byProt">По белкам</string>
@@ -216,4 +216,18 @@
     <string name="starredAdd">Добавить или убрать из избранного</string>
     <string name="bannedAdd">Добавить или убрать из блок-листа</string>
     <string name="reversed">Обратная сортировка</string>
+    <string name="toStar">В избранное</string>
+    <string name="toCart">В корзину</string>
+    <string name="ban">Заблокировать</string>
+    <string name="addedToStarred">Добавлено в избранное</string>
+    <string name="addedToBanList">Добавлено в в блок-лист</string>
+    <string name="undo">Отменить</string>
+    <string name="deBan">Разблокировать</string>
+    <string name="deStar">Из избранного</string>
+    <string name="delBanProd">Продукт убран из блок-листа</string>
+    <string name="delCartProd">Продукт добавлен в корзину</string>
+    <string name="delStarProd">Продукт убран из избранных</string>
+    <string name="rating">Мнение пользователя</string>
+    <string name="inStarred">В избранном</string>
+    <string name="inBanned">Заблокирован</string>
 </resources>

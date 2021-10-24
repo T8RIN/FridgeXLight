@@ -31,10 +31,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.progix.fridgex.light.R.drawable.*
 import com.progix.fridgex.light.helper.DatabaseHelper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -115,12 +112,19 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
             bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number =
                 Integer.valueOf(cartBadge)
         }
+
     }
 
     private fun saveBadgeState() {
         val fridgeBadge = bottomNavigationView.getOrCreateBadge(R.id.nav_fridge).number.toString()
         val cartBadge = bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number.toString()
 
+        if (!bottomNavigationView.getOrCreateBadge(R.id.nav_cart)
+                .hasNumber()
+        ) bottomNavigationView.removeBadge(R.id.nav_cart)
+        if (!bottomNavigationView.getOrCreateBadge(R.id.nav_fridge)
+                .hasNumber()
+        ) bottomNavigationView.removeBadge(R.id.nav_fridge)
 
         saveString("R.id.nav_fridge", fridgeBadge)
         saveString("R.id.nav_cart", cartBadge)
@@ -742,8 +746,23 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
     }
 
     override fun onPause() {
+        waiting = CoroutineScope(Dispatchers.Main).launch {
+            checkForActivity()
+            finishAffinity()
+        }
         saveBadgeState()
         super.onPause()
+    }
+
+    override fun onResume() {
+        waiting?.cancel()
+        super.onResume()
+    }
+
+    private var waiting: Job? = null
+
+    private suspend fun checkForActivity() = withContext(Dispatchers.IO) {
+        Thread.sleep(900000)
     }
 
 }

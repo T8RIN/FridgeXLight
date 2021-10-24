@@ -193,9 +193,8 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
             banned: Boolean,
             inCart: Boolean
         ) {
-            itemView.setOnLongClickListener {
+            itemView.setOnClickListener {
                 popupMenus(it, id, position, starred, banned, inCart)
-                true
             }
         }
     }

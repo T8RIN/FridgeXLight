@@ -135,7 +135,6 @@
     <string name="guide17">Поделитесь рецептом с друзьями или скопируйте его</string>
     <string name="nowStarredProduct">теперь в избранном!</string>
     <string name="starringErrorProduct">Данный продукт уже находится в избранном</string>
-    <string name="delStarProd">больше не в избранном</string>
     <string name="recipes">Рецепты</string>
     <string name="annotation6">Нет избранных продуктов, зажмите понравившийся продукт или коснитесь его в холодильнике, чтобы добавить его сюда</string>
     <string name="clearStarredRecipes">Очистить избранные рецепты?</string>

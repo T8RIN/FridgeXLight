@@ -158,7 +158,7 @@
     <string name="guide17">Share the recipe with your friends or copy it</string>
     <string name="nowStarredProduct">now in a starred list!</string>
     <string name="starringErrorProduct">This product is already in starred list</string>
-    <string name="delStarProd">removed from favorites</string>
+
     <string name="recipes">Recipes</string>
     <string name="annotation6">The favorite products are empty, hold on the product you like or touch it in the fridge to add it here</string>
     <string name="clearStarredRecipes">Clear starred recipes?</string>
@@ -248,4 +248,5 @@
     <string name="deStar">delete Star</string>
     <string name="delBanProd">Product removed from block-list</string>
     <string name="delCartProd">Added to shopping cart</string>
+    <string name="delStarProd">Product removed from starred</string>
 </resources>

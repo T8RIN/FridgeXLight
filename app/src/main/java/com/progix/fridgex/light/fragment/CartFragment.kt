@@ -15,9 +15,9 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.MainActivity
+import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.CartAdapter
-import com.progix.fridgex.light.adapter.FridgeAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -57,7 +57,7 @@ class CartFragment : Fragment() {
 
     var dispose: Disposable? = null
 
-    lateinit private var loading: CircularProgressIndicator
+    private lateinit var loading: CircularProgressIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -116,7 +116,7 @@ class CartFragment : Fragment() {
         return Observable.create { item ->
             cartList.clear()
             val cursor: Cursor =
-                MainActivity.mDb.rawQuery("SELECT * FROM products WHERE is_in_cart = 1", null)
+                mDb.rawQuery("SELECT * FROM products WHERE is_in_cart = 1", null)
             cursor.moveToFirst()
 
             while (!cursor.isAfterLast) {
@@ -184,7 +184,7 @@ class CartFragment : Fragment() {
                                         annotationCard.visibility = View.INVISIBLE
                                         undoOrDoActionCoroutine("undo")
                                         recycler.visibility = View.VISIBLE
-                                        recycler.adapter = FridgeAdapter(requireContext(), cartList)
+                                        recycler.adapter = CartAdapter(requireContext(), cartList)
                                         if (layoutParams is CoordinatorLayout.LayoutParams) {
                                             val behavior = layoutParams.behavior
                                             if (behavior is HideBottomViewOnScrollBehavior<*>) {
@@ -217,23 +217,30 @@ class CartFragment : Fragment() {
         when (param) {
             "do" -> {
                 val cursor: Cursor =
-                    MainActivity.mDb.rawQuery("SELECT * FROM products WHERE is_in_cart = 1", null)
+                    mDb.rawQuery("SELECT * FROM products WHERE is_in_cart = 1", null)
                 cursor.moveToFirst()
                 while (!cursor.isAfterLast) {
-                    MainActivity.mDb.execSQL("UPDATE products SET is_in_cart = 0 WHERE is_in_cart = 1")
+                    val id = cursor.getInt(0)
+                    if (cursor.getInt(5) == 1) crossList.add(id)
+                    mDb.execSQL("UPDATE products SET is_in_cart = 0 WHERE id = $id")
+                    mDb.execSQL("UPDATE products SET amount = 0 WHERE id = $id")
                     cursor.moveToNext()
                 }
                 cursor.close()
             }
             "undo" -> {
                 for (i in cartList) {
-                    MainActivity.mDb.execSQL(
+                    mDb.execSQL(
                         "UPDATE products SET is_in_cart = 1 WHERE product = ?",
                         listOf(i.first).toTypedArray()
                     )
+                }
+                for (i in crossList) {
+                    mDb.execSQL("UPDATE products SET amount = 1 WHERE id = $i")
                 }
             }
         }
     }
 
+    private val crossList: ArrayList<Int> = ArrayList()
 }

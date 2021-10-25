@@ -252,10 +252,10 @@ class SecondActivity : AppCompatActivity() {
         CustomSnackbar(this).create(364, mainRoot, text, Snackbar.LENGTH_SHORT)
             .setAction(context.getString(R.string.undo)) {
                 mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
-                adapter.notifyItemChanged(7)
+                adapter?.notifyItemChanged(7)
             }
             .show()
-        adapter.notifyItemChanged(7)
+        adapter?.notifyItemChanged(7)
     }
 
 
@@ -267,6 +267,11 @@ class SecondActivity : AppCompatActivity() {
 
     companion object {
         var id = 1
-        lateinit var adapter: InfoAdapter
+        var adapter: InfoAdapter? = null
+    }
+
+    override fun onDestroy() {
+        adapter = null
+        super.onDestroy()
     }
 }

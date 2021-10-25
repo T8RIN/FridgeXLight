@@ -118,7 +118,7 @@ class InfoAdapter(var context: Context, var infoList: ArrayList<InfoItem>) :
                         holder.banLayout.visibility = VISIBLE
                         holder.itemView.visibility = VISIBLE
                         holder.value2.text = context.getString(R.string.inBanned)
-                    } else if(!starred && !banned) holder.itemView.visibility = GONE
+                    } else if (!starred && !banned) holder.itemView.visibility = GONE
                     cursor.close()
                 }
             }

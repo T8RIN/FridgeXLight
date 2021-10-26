@@ -16,10 +16,13 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.MainActivity
+import com.progix.fridgex.light.MainActivity.Companion.actionMode
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.FridgeAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
+import com.progix.fridgex.light.helper.ActionInterface
+import com.progix.fridgex.light.helper.ActionModeCallback
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -33,7 +36,7 @@ import java.util.concurrent.TimeUnit
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class FridgeFragment : Fragment() {
+class FridgeFragment : Fragment(), ActionInterface {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var wuv: View
@@ -59,6 +62,8 @@ class FridgeFragment : Fragment() {
 
     var dispose: Disposable? = null
 
+    private var adapter: FridgeAdapter? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,7 +82,9 @@ class FridgeFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 if (it.isNotEmpty()) {
-                    recycler.adapter = FridgeAdapter(requireContext(), it)
+                    adapter = FridgeAdapter(requireContext(), it)
+                    adapter!!.init(this)
+                    recycler.adapter = adapter
                 } else {
                     annotationCard.visibility = VISIBLE
                     recycler.visibility = INVISIBLE
@@ -163,8 +170,9 @@ class FridgeFragment : Fragment() {
                                         annotationCard.visibility = INVISIBLE
                                         undoOrDoActionCoroutine("undo")
                                         recycler.visibility = VISIBLE
-                                        recycler.adapter =
-                                            FridgeAdapter(requireContext(), fridgeList)
+                                        adapter = FridgeAdapter(requireContext(), fridgeList)
+                                        adapter!!.init(tHis())
+                                        recycler.adapter = adapter
                                         if (layoutParams is CoordinatorLayout.LayoutParams) {
                                             val behavior = layoutParams.behavior
                                             if (behavior is HideBottomViewOnScrollBehavior<*>) {
@@ -193,6 +201,10 @@ class FridgeFragment : Fragment() {
         }
     }
 
+    private fun tHis(): FridgeFragment {
+        return this
+    }
+
     private suspend fun undoOrDoActionCoroutine(param: String) = withContext(Dispatchers.IO) {
         when (param) {
             "do" -> {
@@ -215,4 +227,13 @@ class FridgeFragment : Fragment() {
             }
         }
     }
+
+    override fun actionInterface(size: Int) {
+        val callback = ActionModeCallback()
+        callback.init(adapter!!, R.id.nav_fridge)
+        if (actionMode == null) actionMode = (requireContext() as MainActivity).startSupportActionMode(callback)
+        if (size > 0) actionMode?.title = "$size"
+        else actionMode?.finish()
+    }
+
 }

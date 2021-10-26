@@ -67,7 +67,7 @@ class PodPodFolderFragment : Fragment() {
         val v = inflater.inflate(R.layout.fragment_pod_pod_folder, container, false)
 
         val id: Int = arguments?.get("catB") as Int + 1
-        val curik2: Cursor = MainActivity.mDb.rawQuery(
+        val curik2: Cursor = mDb.rawQuery(
             "SELECT * FROM recipe_category_local WHERE id = ?",
             listOf(id.toString()).toTypedArray()
         )
@@ -94,6 +94,7 @@ class PodPodFolderFragment : Fragment() {
             (recycler.layoutManager as StaggeredGridLayoutManager).spanCount = 2
         }
 
+        curik2.close()
 
         return v
     }
@@ -117,7 +118,7 @@ class PodPodFolderFragment : Fragment() {
         withContext(Dispatchers.IO) {
             val pairList: ArrayList<RecyclerSortItem> = ArrayList()
             val allRecipes: Cursor =
-                MainActivity.mDb.rawQuery(
+                mDb.rawQuery(
                     "SELECT * FROM recipes WHERE category_local = ?",
                     listOf(name).toTypedArray()
                 )
@@ -131,7 +132,7 @@ class PodPodFolderFragment : Fragment() {
                 val fats = allRecipes.getDouble(12)
                 val carboh = allRecipes.getDouble(13)
                 var having = 0
-                val products: Cursor = MainActivity.mDb.rawQuery(
+                val products: Cursor = mDb.rawQuery(
                     "SELECT * FROM products WHERE is_in_fridge = 1",
                     null
                 )

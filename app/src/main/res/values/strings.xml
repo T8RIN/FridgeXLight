@@ -251,4 +251,6 @@
     <string name="rating">User\'s rate</string>
     <string name="inStarred">In starred</string>
     <string name="inBanned">Blocked</string>
+    <string name="toFridge">Add to fridge</string>
+    <string name="delFridgeProduct">Product deleted from fridge</string>
 </resources>

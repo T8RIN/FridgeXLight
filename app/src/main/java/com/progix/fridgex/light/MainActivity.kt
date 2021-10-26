@@ -37,7 +37,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class MainActivity : AppCompatActivity(), ActionMode.Callback {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var navigationView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
@@ -408,6 +408,7 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
         navController.navigate(resId, args)
         bottomNavigationView.removeBadge(resId)
         saveString(resId.toString(), "0")
+        actionMode?.finish()
     }
 
     private fun showBothNavigation() {
@@ -698,7 +699,8 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
                 }
             }
         }
-
+        var isMultiSelectOn = false
+        var actionMode: ActionMode? = null
     }
 
     private fun saveBoolean(key: String?, value: Boolean) {
@@ -723,21 +725,6 @@ class MainActivity : AppCompatActivity(), ActionMode.Callback {
     private fun loadString(key: String): String? {
         val sharedPreferences = getSharedPreferences("fridgex", Context.MODE_PRIVATE)
         return sharedPreferences.getString(key, "0")
-    }
-
-    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        return true
-    }
-
-    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        return false
-    }
-
-    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-        return false
-    }
-
-    override fun onDestroyActionMode(mode: ActionMode?) {
     }
 
     override fun onDestroy() {

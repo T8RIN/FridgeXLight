@@ -40,11 +40,10 @@ class ProductsAdapter(var context: Context, var fridgeList: ArrayList<String>, v
 
         val starred = cursor.getInt(6) == 1
         val banned = cursor.getInt(7) == 1
-        val inCart = cursor.getInt(4) == 1
 
         if (starred) holder.star.visibility = View.VISIBLE
         else holder.star.visibility = View.GONE
-        holder.bind(cursor.getInt(0), position, starred, banned, inCart)
+        holder.bind(cursor.getInt(0), position, starred, banned)
 
         val isChecked = when (id) {
             R.id.nav_cart -> {
@@ -169,11 +168,10 @@ class ProductsAdapter(var context: Context, var fridgeList: ArrayList<String>, v
         id: Int,
         position: Int,
         starred: Boolean,
-        banned: Boolean,
-        inCart: Boolean
+        banned: Boolean
     ) {
         val popupMenus = PopupMenu(context, view)
-        inflatePopup(popupMenus, starred, banned, inCart)
+        inflatePopup(popupMenus, starred, banned)
         popupMenus.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.star_recipe -> {
@@ -218,12 +216,26 @@ class ProductsAdapter(var context: Context, var fridgeList: ArrayList<String>, v
                     notifyItemChanged(position)
                     true
                 }
+                R.id.nav_fridge -> {
+                    (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
+                        .getOrCreateBadge(R.id.nav_fridge).number += 1
+                    mDb.execSQL("UPDATE products SET is_in_fridge = 1 WHERE id = $id")
+                    showSnackBar(
+                        context.getString(R.string.delFridgeProduct),
+                        id,
+                        position,
+                        "is_in_fridge",
+                        0
+                    )
+                    notifyItemChanged(position)
+                    true
+                }
                 R.id.nav_cart -> {
                     (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
                         .getOrCreateBadge(R.id.nav_cart).number += 1
                     mDb.execSQL("UPDATE products SET is_in_cart = 1 WHERE id = $id")
                     showSnackBar(
-                        context.getString(R.string.delCartProd),
+                        context.getString(R.string.delFridgeProduct),
                         id,
                         position,
                         "is_in_cart",
@@ -247,11 +259,8 @@ class ProductsAdapter(var context: Context, var fridgeList: ArrayList<String>, v
     private fun inflatePopup(
         popupMenus: PopupMenu,
         starred: Boolean,
-        banned: Boolean,
-        inCart: Boolean
+        banned: Boolean
     ) {
-        if (!inCart) popupMenus.menu.add(0, R.id.nav_cart, 0, context.getString(R.string.toCart))
-            ?.setIcon(R.drawable.ic_baseline_shopping_cart_24)
         if (!starred && !banned) popupMenus.inflate(R.menu.popup_menu_empty)
         else if (!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned)
         else if (starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred)
@@ -269,14 +278,14 @@ class ProductsAdapter(var context: Context, var fridgeList: ArrayList<String>, v
             .setAction(context.getString(R.string.undo)) {
                 mDb.execSQL("UPDATE products SET $modifier = $value WHERE id = $id")
                 notifyItemChanged(position)
-                if (modifier == "is_in_cart") {
+                if (modifier == "is_in_fridge") {
                     val badge =
                         (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
-                            .getOrCreateBadge(R.id.nav_cart)
+                            .getOrCreateBadge(R.id.nav_fridge)
                     badge.number -= 1
                     if (badge.number == 0) (context as MainActivity).findViewById<BottomNavigationView>(
                         R.id.bottom_navigation
-                    ).removeBadge(R.id.nav_cart)
+                    ).removeBadge(R.id.nav_fridge)
                 }
             }
             .show()
@@ -299,11 +308,10 @@ class ProductsAdapter(var context: Context, var fridgeList: ArrayList<String>, v
             id: Int,
             position: Int,
             starred: Boolean,
-            banned: Boolean,
-            inCart: Boolean
+            banned: Boolean
         ) {
             itemView.setOnLongClickListener {
-                popupMenus(it, id, position, starred, banned, inCart)
+                popupMenus(it, id, position, starred, banned)
                 true
             }
         }

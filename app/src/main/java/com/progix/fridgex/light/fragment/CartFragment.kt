@@ -19,6 +19,8 @@ import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.CartAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
+import com.progix.fridgex.light.helper.ActionInterface
+import com.progix.fridgex.light.helper.ActionModeCallback
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -32,7 +34,7 @@ import java.util.concurrent.TimeUnit
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class CartFragment : Fragment() {
+class CartFragment : Fragment(), ActionInterface {
     private var param1: String? = null
     private var param2: String? = null
 
@@ -88,7 +90,9 @@ class CartFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 if (it.isNotEmpty()) {
-                    recycler.adapter = CartAdapter(requireContext(), it)
+                    adapter = CartAdapter(requireContext(), it)
+                    adapter!!.init(forThis())
+                    recycler.adapter = adapter
                 } else {
                     annotationCard.visibility = View.VISIBLE
                     recycler.visibility = View.INVISIBLE
@@ -141,7 +145,7 @@ class CartFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.cart_menu, menu);
+        inflater.inflate(R.menu.cart_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -184,7 +188,9 @@ class CartFragment : Fragment() {
                                         annotationCard.visibility = View.INVISIBLE
                                         undoOrDoActionCoroutine("undo")
                                         recycler.visibility = View.VISIBLE
-                                        recycler.adapter = CartAdapter(requireContext(), cartList)
+                                        adapter = CartAdapter(requireContext(), cartList)
+                                        adapter!!.init(forThis())
+                                        recycler.adapter = adapter
                                         if (layoutParams is CoordinatorLayout.LayoutParams) {
                                             val behavior = layoutParams.behavior
                                             if (behavior is HideBottomViewOnScrollBehavior<*>) {
@@ -243,4 +249,19 @@ class CartFragment : Fragment() {
     }
 
     private val crossList: ArrayList<Int> = ArrayList()
+
+    override fun actionInterface(size: Int) {
+        val callback = ActionModeCallback()
+        callback.init(adapter!!, R.id.nav_cart)
+        if (MainActivity.actionMode == null) MainActivity.actionMode =
+            (requireContext() as MainActivity).startSupportActionMode(callback)
+        if (size > 0) MainActivity.actionMode?.title = "$size"
+        else MainActivity.actionMode?.finish()
+    }
+
+    private fun forThis(): CartFragment {
+        return this
+    }
+
+    private var adapter: CartAdapter? = null
 }

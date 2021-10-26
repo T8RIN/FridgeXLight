@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_baseline_share_24"
+        android:title="@string/share"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/tostar"
+        android:icon="@drawable/ic_round_star_24"
+        android:title="@string/toStar"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/toban"
+        android:icon="@drawable/ic_baseline_block_24"
+        android:title="@string/ban"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/clear"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="@string/clear"
+        app:showAsAction="always" />
+
+</menu>

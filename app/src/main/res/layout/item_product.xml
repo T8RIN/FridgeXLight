@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    android:clickable="true"
     android:checkable="true"
-    app:checkedIconTint="@color/checked"
+    android:clickable="true"
     android:focusable="true"
     app:cardBackgroundColor="@color/manualBackground"
     app:cardElevation="5dp"
+    app:checkedIconTint="@color/checked"
     app:rippleColor="@color/checkedTrans"
     app:shapeAppearanceOverlay="@style/shape12dp">
 

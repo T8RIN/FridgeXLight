@@ -1,6 +1,7 @@
 package com.progix.fridgex.light.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.graphics.Paint
 import android.view.LayoutInflater
@@ -14,11 +15,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.MainActivity.Companion.imagesCat
 import com.progix.fridgex.light.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.helper.ActionInterface
 
 
@@ -56,7 +59,8 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
         }
         setAnimation(holder.itemView, position)
         holder.bind(position)
-        (holder.itemView as MaterialCardView).isChecked = selectedIds.contains(fridgeList[position].first)
+        (holder.itemView as MaterialCardView).isChecked =
+            selectedIds.contains(fridgeList[position].first)
         cc.close()
     }
 
@@ -163,16 +167,122 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
         if (selectedIds.size < 1) return
         when (modifier) {
             "share" -> {
+                var sharing = ""
 
+                sharing += context.getString(R.string.shopping)
+                sharing += "\n\n"
+                sharing += context.getString(R.string.buy)
+                sharing += "\n"
+                for (i in tempList!!) {
+                    sharing += i.replaceFirstChar { it.titlecase() }
+                    sharing += "\n"
+                }
+
+                val sendIntent = Intent()
+                sendIntent.action = Intent.ACTION_SEND
+                sendIntent.putExtra(
+                    Intent.EXTRA_TEXT,
+                    sharing + "\n" + context.getString(R.string.copiedFrom)
+                )
+
+                sendIntent.type = "text/plain"
+                context.startActivity(
+                    Intent.createChooser(
+                        sendIntent,
+                        context.getString(R.string.share)
+                    )
+                )
             }
             "star" -> {
-
+                for (i in 0 until tempList!!.size) {
+                    val temp = tempList!![i]
+                    mDb.execSQL(
+                        "UPDATE products SET is_starred = 1 WHERE product = ?",
+                        listOf(temp).toTypedArray()
+                    )
+                    notifyItemChanged(tempPositions!![i])
+                }
+                CustomSnackbar(context)
+                    .create(
+                        (context as MainActivity).findViewById(R.id.main_root),
+                        context.getString(R.string.addedToStarred),
+                        Snackbar.LENGTH_SHORT
+                    )
+                    .setAction(context.getString(R.string.undo)) {
+                        for (i in 0 until tempList!!.size) {
+                            val temp = tempList!![i]
+                            mDb.execSQL(
+                                "UPDATE products SET is_starred = 0 WHERE product = ?",
+                                listOf(temp).toTypedArray()
+                            )
+                            notifyItemChanged(tempPositions!![i])
+                        }
+                    }
+                    .show()
             }
             "ban" -> {
-
+                for (i in 0 until tempList!!.size) {
+                    val temp = tempList!![i]
+                    mDb.execSQL(
+                        "UPDATE products SET banned = 1 WHERE product = ?",
+                        listOf(temp).toTypedArray()
+                    )
+                    notifyItemChanged(tempPositions!![i])
+                }
+                CustomSnackbar(context)
+                    .create(
+                        (context as MainActivity).findViewById(R.id.main_root),
+                        context.getString(R.string.addedToBanList),
+                        Snackbar.LENGTH_SHORT
+                    )
+                    .setAction(context.getString(R.string.undo)) {
+                        for (i in 0 until tempList!!.size) {
+                            val temp = tempList!![i]
+                            mDb.execSQL(
+                                "UPDATE products SET banned = 0 WHERE product = ?",
+                                listOf(temp).toTypedArray()
+                            )
+                            notifyItemChanged(tempPositions!![i])
+                        }
+                    }
+                    .show()
             }
             "delete" -> {
-
+                val delList: ArrayList<Pair<String, String>> = ArrayList()
+                val indexes: ArrayList<Int> = ArrayList()
+                for (i in tempPositions!!) {
+                    delList.add(fridgeList[i])
+                }
+                for (i in 0 until tempList!!.size) {
+                    val temp = tempList!![i]
+                    mDb.execSQL(
+                        "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
+                        listOf(temp).toTypedArray()
+                    )
+                    val tempPos = fridgeList.indexOf(delList[i])
+                    indexes.add(tempPos)
+                    fridgeList.remove(delList[i])
+                    notifyItemRemoved(tempPos)
+                }
+                CustomSnackbar(context)
+                    .create(
+                        (context as MainActivity).findViewById(R.id.main_root),
+                        context.getString(R.string.addedToBanList),
+                        Snackbar.LENGTH_SHORT
+                    )
+                    .setAction(context.getString(R.string.undo)) {
+                        for (i in 0 until tempList!!.size) {
+                            val temp = tempList!![i]
+                            mDb.execSQL(
+                                "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
+                                listOf(temp).toTypedArray()
+                            )
+                            if (indexes[i] < fridgeList.size) fridgeList.add(indexes[i], delList[i])
+                            else fridgeList.add(delList[i])
+                        }
+                        notifyDataSetChanged()
+                    }
+                    .show()
             }
         }
         isMultiSelectOn = false

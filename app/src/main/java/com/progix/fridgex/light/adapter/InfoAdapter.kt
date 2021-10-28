@@ -53,6 +53,7 @@ class InfoAdapter(var context: Context, var infoList: ArrayList<InfoItem>) :
         when (holderMain.itemViewType) {
             1 -> {
                 val holder = holderMain as ViewHolder
+                if (infoList[position].value == "0") holder.itemView.visibility = GONE
                 holder.name.text = infoList[position].name
                 holder.value.text = infoList[position].value
                 holder.image.setImageResource(infoList[position].image)

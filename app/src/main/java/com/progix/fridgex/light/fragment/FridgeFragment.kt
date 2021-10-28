@@ -231,7 +231,8 @@ class FridgeFragment : Fragment(), ActionInterface {
     override fun actionInterface(size: Int) {
         val callback = ActionModeCallback()
         callback.init(adapter!!, R.id.nav_fridge)
-        if (actionMode == null) actionMode = (requireContext() as MainActivity).startSupportActionMode(callback)
+        if (actionMode == null) actionMode =
+            (requireContext() as MainActivity).startSupportActionMode(callback)
         if (size > 0) actionMode?.title = "$size"
         else actionMode?.finish()
     }

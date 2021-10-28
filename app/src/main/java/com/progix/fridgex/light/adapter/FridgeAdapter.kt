@@ -61,7 +61,6 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
     }
 
 
-
     private fun popupMenus(
         view: View,
         id: Int,
@@ -217,17 +216,16 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
 
     private var actionInterface: ActionInterface? = null
 
-    fun init(actionInterface: ActionInterface){
+    fun init(actionInterface: ActionInterface) {
         this.actionInterface = actionInterface
     }
 
     fun addIDIntoSelectedIds(position: Int) {
         val id = fridgeList[position].first
-        if (selectedIds.contains(id)){
+        if (selectedIds.contains(id)) {
             selectedIds.remove(id)
             selectedPositions.remove(position)
-        }
-        else{
+        } else {
             selectedIds.add(id)
             selectedPositions.add(position)
         }
@@ -245,13 +243,17 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
     val selectedPositions: ArrayList<Int> = ArrayList()
 
     fun doSomeAction(modifier: String) {
-        val bottomNav = (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        if(selectedIds.size < 1) return
-        when(modifier){
+        val bottomNav =
+            (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        if (selectedIds.size < 1) return
+        when (modifier) {
             "star" -> {
-                for(i in 0 until tempList!!.size){
+                for (i in 0 until tempList!!.size) {
                     val temp = tempList!![i]
-                    mDb.execSQL("UPDATE products SET is_starred = 1 WHERE product = ?", listOf(temp).toTypedArray())
+                    mDb.execSQL(
+                        "UPDATE products SET is_starred = 1 WHERE product = ?",
+                        listOf(temp).toTypedArray()
+                    )
                     notifyItemChanged(tempPositions!![i])
                 }
                 CustomSnackbar(context)
@@ -261,18 +263,24 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                         Snackbar.LENGTH_SHORT
                     )
                     .setAction(context.getString(R.string.undo)) {
-                        for(i in 0 until tempList!!.size){
+                        for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
-                            mDb.execSQL("UPDATE products SET is_starred = 0 WHERE product = ?", listOf(temp).toTypedArray())
+                            mDb.execSQL(
+                                "UPDATE products SET is_starred = 0 WHERE product = ?",
+                                listOf(temp).toTypedArray()
+                            )
                             notifyItemChanged(tempPositions!![i])
                         }
                     }
                     .show()
             }
             "cart" -> {
-                for(i in 0 until tempList!!.size){
+                for (i in 0 until tempList!!.size) {
                     val temp = tempList!![i]
-                    mDb.execSQL("UPDATE products SET is_in_cart = 1 WHERE product = ?", listOf(temp).toTypedArray())
+                    mDb.execSQL(
+                        "UPDATE products SET is_in_cart = 1 WHERE product = ?",
+                        listOf(temp).toTypedArray()
+                    )
                     notifyItemChanged(tempPositions!![i])
                 }
                 bottomNav.getOrCreateBadge(R.id.nav_cart).number += tempList!!.size
@@ -283,21 +291,27 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                         Snackbar.LENGTH_SHORT
                     )
                     .setAction(context.getString(R.string.undo)) {
-                        for(i in 0 until tempList!!.size){
+                        for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
-                            mDb.execSQL("UPDATE products SET is_in_cart = 0 WHERE product = ?", listOf(temp).toTypedArray())
+                            mDb.execSQL(
+                                "UPDATE products SET is_in_cart = 0 WHERE product = ?",
+                                listOf(temp).toTypedArray()
+                            )
                             notifyItemChanged(tempPositions!![i])
                         }
                         val badge = bottomNav.getOrCreateBadge(R.id.nav_cart)
                         badge.number -= tempList!!.size
-                        if(badge.number == 0) bottomNav.removeBadge(R.id.nav_cart)
+                        if (badge.number == 0) bottomNav.removeBadge(R.id.nav_cart)
                     }
                     .show()
             }
             "ban" -> {
-                for(i in 0 until tempList!!.size){
+                for (i in 0 until tempList!!.size) {
                     val temp = tempList!![i]
-                    mDb.execSQL("UPDATE products SET banned = 1 WHERE product = ?", listOf(temp).toTypedArray())
+                    mDb.execSQL(
+                        "UPDATE products SET banned = 1 WHERE product = ?",
+                        listOf(temp).toTypedArray()
+                    )
                     notifyItemChanged(tempPositions!![i])
                 }
                 CustomSnackbar(context)
@@ -307,9 +321,12 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                         Snackbar.LENGTH_SHORT
                     )
                     .setAction(context.getString(R.string.undo)) {
-                        for(i in 0 until tempList!!.size){
+                        for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
-                            mDb.execSQL("UPDATE products SET banned = 0 WHERE product = ?", listOf(temp).toTypedArray())
+                            mDb.execSQL(
+                                "UPDATE products SET banned = 0 WHERE product = ?",
+                                listOf(temp).toTypedArray()
+                            )
                             notifyItemChanged(tempPositions!![i])
                         }
                     }
@@ -318,12 +335,15 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
             "delete" -> {
                 val delList: ArrayList<Pair<String, String>> = ArrayList()
                 val indexes: ArrayList<Int> = ArrayList()
-                for(i in tempPositions!!){
+                for (i in tempPositions!!) {
                     delList.add(fridgeList[i])
                 }
-                for(i in 0 until tempList!!.size){
+                for (i in 0 until tempList!!.size) {
                     val temp = tempList!![i]
-                    mDb.execSQL("UPDATE products SET is_in_fridge = 0 WHERE product = ?", listOf(temp).toTypedArray())
+                    mDb.execSQL(
+                        "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
+                        listOf(temp).toTypedArray()
+                    )
                     val tempPos = fridgeList.indexOf(delList[i])
                     indexes.add(tempPos)
                     fridgeList.remove(delList[i])
@@ -336,10 +356,13 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                         Snackbar.LENGTH_SHORT
                     )
                     .setAction(context.getString(R.string.undo)) {
-                        for(i in 0 until tempList!!.size){
+                        for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
-                            mDb.execSQL("UPDATE products SET is_in_fridge = 1 WHERE product = ?", listOf(temp).toTypedArray())
-                            if(indexes[i] < fridgeList.size) fridgeList.add(indexes[i], delList[i])
+                            mDb.execSQL(
+                                "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
+                                listOf(temp).toTypedArray()
+                            )
+                            if (indexes[i] < fridgeList.size) fridgeList.add(indexes[i], delList[i])
                             else fridgeList.add(delList[i])
                         }
                         notifyDataSetChanged()

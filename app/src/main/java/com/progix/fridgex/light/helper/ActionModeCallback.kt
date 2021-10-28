@@ -20,9 +20,9 @@ class ActionModeCallback : ActionMode.Callback {
 
     var fragmentId: Int? = null
 
-    fun init(myAdapter: Any, fragmentId: Int){
+    fun init(myAdapter: Any, fragmentId: Int) {
         this.fragmentId = fragmentId
-        when(fragmentId){
+        when (fragmentId) {
             R.id.nav_fridge -> {
                 this.myFridgeAdapter = myAdapter as FridgeAdapter
             }
@@ -44,13 +44,17 @@ class ActionModeCallback : ActionMode.Callback {
     private var shouldResetRecyclerView = true
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-        when(fragmentId){
+        when (fragmentId) {
             R.id.nav_fridge -> {
+                myFridgeAdapter?.tempPositions =
+                    myFridgeAdapter?.selectedPositions?.clone() as ArrayList<Int>
+                myFridgeAdapter?.tempList =
+                    myFridgeAdapter?.selectedIds?.clone() as ArrayList<String>
                 when (item?.itemId) {
                     android.R.id.home -> {
                         shouldResetRecyclerView = false
                         myFridgeAdapter?.selectedIds?.clear()
-                        for(i in myFridgeAdapter?.selectedPositions!!){
+                        for (i in myFridgeAdapter?.selectedPositions!!) {
                             myFridgeAdapter?.notifyItemChanged(i)
                         }
                         myFridgeAdapter?.selectedPositions?.clear()
@@ -58,39 +62,33 @@ class ActionModeCallback : ActionMode.Callback {
                         actionMode?.finish()
                     }
                     R.id.tostar -> {
-                        myFridgeAdapter?.tempPositions = myFridgeAdapter?.selectedPositions?.clone() as ArrayList<Int>
-                        myFridgeAdapter?.tempList = myFridgeAdapter?.selectedIds?.clone() as ArrayList<String>
                         myFridgeAdapter?.doSomeAction("star")
                         actionMode?.finish()
                     }
                     R.id.tocart -> {
-                        myFridgeAdapter?.tempPositions = myFridgeAdapter?.selectedPositions?.clone() as ArrayList<Int>
-                        myFridgeAdapter?.tempList = myFridgeAdapter?.selectedIds?.clone() as ArrayList<String>
                         myFridgeAdapter?.doSomeAction("cart")
                         actionMode?.finish()
                     }
                     R.id.toban -> {
-                        myFridgeAdapter?.tempPositions = myFridgeAdapter?.selectedPositions?.clone() as ArrayList<Int>
-                        myFridgeAdapter?.tempList = myFridgeAdapter?.selectedIds?.clone() as ArrayList<String>
                         myFridgeAdapter?.doSomeAction("ban")
                         actionMode?.finish()
                     }
                     R.id.clear -> {
-                        myFridgeAdapter?.tempPositions = myFridgeAdapter?.selectedPositions?.clone() as ArrayList<Int>
-                        myFridgeAdapter?.tempList = myFridgeAdapter?.selectedIds?.clone() as ArrayList<String>
                         myFridgeAdapter?.doSomeAction("delete")
                         actionMode?.finish()
                     }
                 }
             }
             R.id.nav_cart -> {
+                myCartAdapter?.tempPositions =
+                    myCartAdapter?.selectedPositions?.clone() as ArrayList<Int>
+                myCartAdapter?.tempList =
+                    myCartAdapter?.selectedIds?.clone() as ArrayList<String>
                 when (item?.itemId) {
                     android.R.id.home -> {
-                        myCartAdapter?.tempPositions = myCartAdapter?.selectedPositions?.clone() as ArrayList<Int>
-                        myCartAdapter?.tempList = myCartAdapter?.selectedIds?.clone() as ArrayList<String>
                         shouldResetRecyclerView = false
                         myCartAdapter?.selectedIds?.clear()
-                        for(i in myCartAdapter?.selectedPositions!!){
+                        for (i in myCartAdapter?.selectedPositions!!) {
                             myCartAdapter?.notifyItemChanged(i)
                         }
                         myCartAdapter?.selectedPositions?.clear()
@@ -120,8 +118,7 @@ class ActionModeCallback : ActionMode.Callback {
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        when(fragmentId){
-            //TODO: change fragment choosing menu
+        when (fragmentId) {
             R.id.nav_fridge -> {
                 mode?.menuInflater?.inflate(R.menu.action_menu_fridge, menu)
             }
@@ -138,11 +135,11 @@ class ActionModeCallback : ActionMode.Callback {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onDestroyActionMode(mode: ActionMode?) {
-        when(fragmentId){
+        when (fragmentId) {
             R.id.nav_fridge -> {
                 if (shouldResetRecyclerView) {
                     myFridgeAdapter?.selectedIds?.clear()
-                    for(i in myFridgeAdapter?.selectedPositions!!){
+                    for (i in myFridgeAdapter?.selectedPositions!!) {
                         myFridgeAdapter?.notifyItemChanged(i)
                     }
                     myFridgeAdapter?.selectedPositions?.clear()
@@ -151,7 +148,7 @@ class ActionModeCallback : ActionMode.Callback {
             R.id.nav_cart -> {
                 if (shouldResetRecyclerView) {
                     myCartAdapter?.selectedIds?.clear()
-                    for(i in myCartAdapter?.selectedPositions!!){
+                    for (i in myCartAdapter?.selectedPositions!!) {
                         myCartAdapter?.notifyItemChanged(i)
                     }
                     myCartAdapter?.selectedPositions?.clear()

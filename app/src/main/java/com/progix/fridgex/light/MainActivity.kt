@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View.*
 import android.widget.Toast
@@ -37,7 +36,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
     private lateinit var navigationView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
@@ -699,6 +698,7 @@ class MainActivity : AppCompatActivity(){
                 }
             }
         }
+
         var isMultiSelectOn = false
         var actionMode: ActionMode? = null
     }

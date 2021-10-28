@@ -1,5 +1,6 @@
 package com.progix.fridgex.light.fragment
 
+import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.view.*
@@ -213,6 +214,29 @@ class CartFragment : Fragment(), ActionInterface {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+                true
+            }
+            R.id.share -> {
+                var sharing = ""
+
+                sharing += getString(R.string.shopping)
+                sharing += "\n\n"
+                sharing += getString(R.string.buy)
+                sharing += "\n"
+                for (i in cartList) {
+                    sharing += i.first.replaceFirstChar { it.titlecase() }
+                    sharing += "\n"
+                }
+
+                val sendIntent = Intent()
+                sendIntent.action = Intent.ACTION_SEND
+                sendIntent.putExtra(
+                    Intent.EXTRA_TEXT,
+                    sharing + "\n" + getString(R.string.copiedFrom)
+                )
+
+                sendIntent.type = "text/plain"
+                startActivity(Intent.createChooser(sendIntent, getString(R.string.share)))
                 true
             }
             else -> super.onOptionsItemSelected(item)

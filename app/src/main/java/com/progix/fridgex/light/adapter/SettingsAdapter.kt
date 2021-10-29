@@ -25,6 +25,7 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
     }
 
     private var checkedItem = 3;
+    private var checkedItemCart = 1;
     override fun onBindViewHolder(holder: SettingsHolder, position: Int) {
         when (position) {
             0 -> {
@@ -81,7 +82,7 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                     1 -> context.getString(R.string.addingModeText)
                     else -> context.getString(R.string.ignoreText)
                 }
-                checkedItem = loadCartMode()
+                checkedItemCart = loadCartMode()
                 holder.card.setOnClickListener {
                     val listItems = arrayOf(
                         context.getString(R.string.ignoreText),
@@ -111,9 +112,9 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                                 }
                             }
                         }
-                        .setSingleChoiceItems(listItems, checkedItem) { _, which ->
-                            checkedItem = which
-                            when (checkedItem) {
+                        .setSingleChoiceItems(listItems, checkedItemCart) { _, which ->
+                            checkedItemCart = which
+                            when (checkedItemCart) {
                                 1 -> {
                                     Toast.makeText(
                                         context,
@@ -130,7 +131,7 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                                 }
                             }
                         }
-                        .setOnDismissListener { checkedItem = loadCartMode() }
+                        .setOnDismissListener { checkedItemCart = loadCartMode() }
                         .show()
                 }
             }

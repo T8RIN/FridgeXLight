@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/fridge"
+        android:icon="@drawable/ic_baseline_kitchen_24"
+        android:title="@string/addToFridge"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/cart"
+        android:icon="@drawable/ic_baseline_shopping_cart_24"
+        android:title="@string/addToCart"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/ban"
+        android:icon="@drawable/ic_baseline_block_24"
+        android:title="@string/ban"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/clear"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="@string/clearStarred"
+        app:showAsAction="always" />
+
+</menu>

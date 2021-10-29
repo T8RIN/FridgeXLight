@@ -52,7 +52,7 @@
     <color name="unchecked">#A4A4A4</color>
     <color name="checked">#FF6600</color>
     <color name="checkedl">#FF8533</color>
-    <color name="manualBackground">#2B2B2B</color>
+    <color name="manualBackground">#202020</color>
     <color name="manualText">#FFFFFF</color>
     <color name="manualText2">#A5A5A5</color>
     <color name="manualTrans">#A6000000</color>
@@ -60,5 +60,7 @@
     <color name="manualGradient2">#B9000000</color>
 
     <color name="manualBadge">#FD2A66</color>
+
+    <color name="tabBackground">#2B2B2B</color>
 
 </resources>

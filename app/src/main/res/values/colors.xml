@@ -68,5 +68,7 @@
 
     <color name="manualBadge">#FF0000</color>
 
+    <color name="tabBackground">#E8E8E8</color>
+
 
 </resources>

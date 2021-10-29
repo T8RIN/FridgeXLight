@@ -24,10 +24,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.progix.fridgex.light.MainActivity.Companion.images
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.InfoAdapter
-import com.progix.fridgex.light.adapter.ViewPagerAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.fragment.IngredsFragment.Companion.list
 import com.progix.fridgex.light.fragment.IngredsFragment.Companion.portions
+import com.progix.fridgex.light.viewpager.RecipeViewPagerAdapter
 
 
 class SecondActivity : AppCompatActivity() {
@@ -60,7 +60,7 @@ class SecondActivity : AppCompatActivity() {
         mainRoot = findViewById(R.id.main_root)
         expandButton = findViewById(R.id.expand_button)
 
-        viewPager.adapter = ViewPagerAdapter(this)
+        viewPager.adapter = RecipeViewPagerAdapter(this)
         val titles = arrayOf(
             getString(R.string.products),
             getString(R.string.recipe),

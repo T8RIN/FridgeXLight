@@ -9,14 +9,16 @@ import com.progix.fridgex.light.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.CartAdapter
 import com.progix.fridgex.light.adapter.FridgeAdapter
+import com.progix.fridgex.light.adapter.StarProductsAdapter
+import com.progix.fridgex.light.adapter.StarRecipesAdapter
 
 class ActionModeCallback : ActionMode.Callback {
 
     private var myFridgeAdapter: FridgeAdapter? = null
     private var myCartAdapter: CartAdapter? = null
-//    private var myStarredProductsAdapter: StarredProductsAdapter? = null
-//    private var myStarredRecipesAdapter: StarredRecipesAdapter? = null
-//    private var myEditListAdapter: EditListAdapter? = null
+    private var myStarredProductsAdapter: StarProductsAdapter? = null
+    private var myStarredRecipesAdapter: StarRecipesAdapter? = null
+    //private var myEditListAdapter: EditListAdapter? = null
 
     var fragmentId: Int? = null
 
@@ -29,12 +31,12 @@ class ActionModeCallback : ActionMode.Callback {
             R.id.nav_cart -> {
                 this.myCartAdapter = myAdapter as CartAdapter
             }
-//            R.id.nav_star_prod -> {
-//                this.myStarredProductsAdapter = myAdapter as StarredProductsAdapter
-//            }
-//            R.id.nav_star_rec -> {
-//                this.myStarredRecipesAdapter = myAdapter as StarredRecipesAdapter
-//            }
+            4 -> {
+                this.myStarredProductsAdapter = myAdapter as StarProductsAdapter
+            }
+            5 -> {
+                this.myStarredRecipesAdapter = myAdapter as StarRecipesAdapter
+            }
 //            R.id.nav_edit_list -> {
 //                this.myEditListAdapter = myAdapter as EditListAdapter
 //            }
@@ -113,6 +115,62 @@ class ActionModeCallback : ActionMode.Callback {
                     }
                 }
             }
+            4 -> {
+                myStarredProductsAdapter?.tempPositions =
+                    myStarredProductsAdapter?.selectedPositions?.clone() as ArrayList<Int>
+                myStarredProductsAdapter?.tempList =
+                    myStarredProductsAdapter?.selectedIds?.clone() as ArrayList<String>
+                when (item?.itemId) {
+                    android.R.id.home -> {
+                        shouldResetRecyclerView = false
+                        myStarredProductsAdapter?.selectedIds?.clear()
+                        for (i in myStarredProductsAdapter?.selectedPositions!!) {
+                            myStarredProductsAdapter?.notifyItemChanged(i)
+                        }
+                        myStarredProductsAdapter?.selectedPositions?.clear()
+                        actionMode?.title = ""
+                        actionMode?.finish()
+                    }
+                    R.id.fridge -> {
+                        myStarredProductsAdapter?.doSomeAction("fridge")
+                        actionMode?.finish()
+                    }
+                    R.id.cart -> {
+                        myStarredProductsAdapter?.doSomeAction("cart")
+                        actionMode?.finish()
+                    }
+                    R.id.ban -> {
+                        myStarredProductsAdapter?.doSomeAction("ban")
+                        actionMode?.finish()
+                    }
+                    R.id.clear -> {
+                        myStarredProductsAdapter?.doSomeAction("delete")
+                        actionMode?.finish()
+                    }
+                }
+            }
+            5 -> {
+                myStarredRecipesAdapter?.tempPositions =
+                    myStarredRecipesAdapter?.selectedPositions?.clone() as ArrayList<Int>
+                myStarredRecipesAdapter?.tempList =
+                    myStarredRecipesAdapter?.selectedIds?.clone() as ArrayList<String>
+                when (item?.itemId) {
+                    android.R.id.home -> {
+                        shouldResetRecyclerView = false
+                        myStarredRecipesAdapter?.selectedIds?.clear()
+                        for (i in myStarredRecipesAdapter?.selectedPositions!!) {
+                            myStarredRecipesAdapter?.notifyItemChanged(i)
+                        }
+                        myStarredRecipesAdapter?.selectedPositions?.clear()
+                        actionMode?.title = ""
+                        actionMode?.finish()
+                    }
+                    R.id.clear -> {
+                        myStarredRecipesAdapter?.doSomeAction("delete")
+                        actionMode?.finish()
+                    }
+                }
+            }
         }
         return false
     }
@@ -124,6 +182,12 @@ class ActionModeCallback : ActionMode.Callback {
             }
             R.id.nav_cart -> {
                 mode?.menuInflater?.inflate(R.menu.action_menu_cart, menu)
+            }
+            4 -> {
+                mode?.menuInflater?.inflate(R.menu.action_menu_starred, menu)
+            }
+            5 -> {
+                mode?.menuInflater?.inflate(R.menu.starred_menu, menu)
             }
         }
         return true
@@ -152,6 +216,24 @@ class ActionModeCallback : ActionMode.Callback {
                         myCartAdapter?.notifyItemChanged(i)
                     }
                     myCartAdapter?.selectedPositions?.clear()
+                }
+            }
+            4 -> {
+                if (shouldResetRecyclerView) {
+                    myStarredProductsAdapter?.selectedIds?.clear()
+                    for (i in myStarredProductsAdapter?.selectedPositions!!) {
+                        myStarredProductsAdapter?.notifyItemChanged(i)
+                    }
+                    myStarredProductsAdapter?.selectedPositions?.clear()
+                }
+            }
+            5 -> {
+                if (shouldResetRecyclerView) {
+                    myStarredRecipesAdapter?.selectedIds?.clear()
+                    for (i in myStarredRecipesAdapter?.selectedPositions!!) {
+                        myStarredRecipesAdapter?.notifyItemChanged(i)
+                    }
+                    myStarredRecipesAdapter?.selectedPositions?.clear()
                 }
             }
         }

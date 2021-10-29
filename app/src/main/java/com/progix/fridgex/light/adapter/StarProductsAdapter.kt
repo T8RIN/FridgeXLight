@@ -13,7 +13,6 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.snackbar.Snackbar
 import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.MainActivity.Companion.imagesCat
 import com.progix.fridgex.light.MainActivity.Companion.isMultiSelectOn
@@ -23,8 +22,11 @@ import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.helper.ActionInterface
 
 
-class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, String>>) :
-    RecyclerView.Adapter<FridgeAdapter.ViewHolder>() {
+class StarProductsAdapter(
+    var context: Context,
+    var starProducstList: ArrayList<Pair<String, String>>
+) :
+    RecyclerView.Adapter<StarProductsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View =
@@ -34,11 +36,13 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val name = fridgeList[position].first
+        val name = starProducstList[position].first
+        holder.star.visibility = View.GONE
+
         holder.name.text = name.replaceFirstChar(Char::uppercase)
         val cursor2: Cursor = mDb.rawQuery(
             "SELECT * FROM categories WHERE category = ?",
-            listOf(fridgeList[position].second).toTypedArray()
+            listOf(starProducstList[position].second).toTypedArray()
         )
         cursor2.moveToFirst()
         holder.image.setImageResource(imagesCat[cursor2.getInt(0) - 1])
@@ -46,13 +50,11 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
         val cursor: Cursor =
             mDb.rawQuery("SELECT * FROM products WHERE product = ?", listOf(name).toTypedArray())
         cursor.moveToFirst()
-        val starred = cursor.getInt(6) == 1
         val banned = cursor.getInt(7) == 1
         val inCart = cursor.getInt(4) == 1
+        val inFridge = cursor.getInt(3) == 1
 
-        if (starred) holder.star.visibility = View.VISIBLE
-        else holder.star.visibility = View.GONE
-        holder.bind(cursor.getInt(0), position, starred, banned, inCart)
+        holder.bind(cursor.getInt(0), position, inFridge, banned, inCart)
         cursor.close()
         cursor2.close()
         setAnimation(holder.itemView, position)
@@ -65,26 +67,47 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
         view: View,
         id: Int,
         position: Int,
-        starred: Boolean,
+        inFridge: Boolean,
         banned: Boolean,
         inCart: Boolean
     ) {
         val popupMenus = PopupMenu(context, view)
-        inflatePopup(popupMenus, starred, banned, inCart)
+        inflatePopup(popupMenus, inFridge, banned, inCart)
         popupMenus.setOnMenuItemClickListener {
+            val bNav =
+                (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
             when (it.itemId) {
-                R.id.star_recipe -> {
-                    mDb.execSQL("UPDATE products SET is_starred = 1 WHERE id = $id")
+                R.id.nav_fridge -> {
+                    bNav.getOrCreateBadge(R.id.nav_fridge).number += 1
+                    mDb.execSQL("UPDATE products SET is_in_fridge = 1 WHERE id = $id")
                     showSnackBar(
-                        context.getString(R.string.addedToStarred),
+                        context.getString(R.string.addedToFridge),
                         id,
                         position,
-                        "is_starred",
+                        "is_in_fridge",
                         0
                     )
                     notifyItemChanged(position)
                     true
                 }
+
+                1 -> {
+                    val badge = bNav.getOrCreateBadge(R.id.nav_fridge)
+                    badge.number -= 1
+                    if (badge.number == 0) bNav.removeBadge(R.id.nav_fridge)
+                    mDb.execSQL("UPDATE products SET is_in_fridge = 0 WHERE id = $id")
+                    showSnackBar(
+                        context.getString(R.string.deleteFromFridge),
+                        id,
+                        position,
+                        "is_in_fridge",
+                        1
+                    )
+                    notifyItemChanged(position)
+                    true
+                }
+
                 R.id.ban_recipe -> {
                     mDb.execSQL("UPDATE products SET banned = 1 WHERE id = $id")
                     showSnackBar(
@@ -97,24 +120,14 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                     notifyItemChanged(position)
                     true
                 }
-                R.id.de_star_recipe -> {
-                    mDb.execSQL("UPDATE products SET is_starred = 0 WHERE id = $id")
-                    showSnackBar(
-                        context.getString(R.string.delStarProd),
-                        id,
-                        position,
-                        "is_starred",
-                        1
-                    )
-                    notifyItemChanged(position)
-                    true
-                }
+
                 R.id.de_ban_recipe -> {
                     mDb.execSQL("UPDATE products SET banned = 0 WHERE id = $id")
                     showSnackBar(context.getString(R.string.delBanProd), id, position, "banned", 1)
                     notifyItemChanged(position)
                     true
                 }
+
                 R.id.nav_cart -> {
                     (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
                         .getOrCreateBadge(R.id.nav_cart).number += 1
@@ -129,31 +142,49 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                     notifyItemChanged(position)
                     true
                 }
+
+                2 -> {
+                    val badge = bNav.getOrCreateBadge(R.id.nav_cart)
+                    badge.number -= 1
+                    if (badge.number == 0) bNav.removeBadge(R.id.nav_cart)
+                    mDb.execSQL("UPDATE products SET is_in_cart = 0 WHERE id = $id")
+                    showSnackBar(
+                        context.getString(R.string.deleteFromCart),
+                        id,
+                        position,
+                        "is_in_cart",
+                        1
+                    )
+                    notifyItemChanged(position)
+                    true
+                }
+
                 R.id.clear -> {
-                    val tempValue = fridgeList[position]
+                    val tempValue = starProducstList[position]
                     mDb.execSQL(
                         "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
                         listOf(tempValue.first).toTypedArray()
                     )
-                    fridgeList.remove(tempValue)
+                    starProducstList.remove(tempValue)
                     notifyItemRemoved(position)
                     CustomSnackbar(context)
                         .create(
+                            55,
                             (context as MainActivity).findViewById(R.id.main_root),
-                            context.getString(R.string.delFridgeProduct),
-                            Snackbar.LENGTH_SHORT
+                            context.getString(R.string.deletedFromStarred)
                         )
                         .setAction(context.getString(R.string.undo)) {
                             mDb.execSQL(
                                 "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
                                 listOf(tempValue.first).toTypedArray()
                             )
-                            fridgeList.add(position, tempValue)
+                            starProducstList.add(position, tempValue)
                             notifyItemInserted(position)
                         }
                         .show()
                     true
                 }
+
                 else -> true
             }
 
@@ -168,27 +199,42 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
 
     private fun inflatePopup(
         popupMenus: PopupMenu,
-        starred: Boolean,
+        inFridge: Boolean,
         banned: Boolean,
         inCart: Boolean
     ) {
-        if (!inCart) popupMenus.menu.add(0, R.id.nav_cart, 0, context.getString(R.string.toCart))
-            ?.setIcon(R.drawable.ic_baseline_shopping_cart_24)
-        if (!starred && !banned) popupMenus.inflate(R.menu.popup_menu_empty)
-        else if (!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned)
-        else if (starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred)
-        else popupMenus.inflate(R.menu.popup_menu_both)
+        if (!inFridge) {
+            popupMenus.menu.add(0, R.id.nav_fridge, 0, context.getString(R.string.toFridge))
+                ?.setIcon(R.drawable.ic_baseline_kitchen_24)
+        } else {
+            popupMenus.menu.add(0, 1, 0, context.getString(R.string.deFridge))
+                ?.setIcon(R.drawable.ic_baseline_kitchen_24)
+        }
+        if (!inCart) {
+            popupMenus.menu.add(0, R.id.nav_cart, 0, context.getString(R.string.toCart))
+                ?.setIcon(R.drawable.ic_baseline_shopping_cart_24)
+        } else {
+            popupMenus.menu.add(0, 2, 0, context.getString(R.string.deCart))
+                ?.setIcon(R.drawable.ic_baseline_shopping_cart_24)
+        }
+        if (!banned) {
+            popupMenus.menu.add(0, R.id.ban_recipe, 0, context.getString(R.string.ban))
+                ?.setIcon(R.drawable.ic_baseline_block_24)
+        } else {
+            popupMenus.menu.add(0, R.id.de_ban_recipe, 0, context.getString(R.string.deBan))
+                ?.setIcon(R.drawable.ic_baseline_block_24)
+        }
+
         popupMenus.menu.add(0, R.id.clear, 0, context.getString(R.string.deleteWord))
             ?.setIcon(R.drawable.ic_baseline_delete_24)
-
     }
 
     private fun showSnackBar(text: String, id: Int, position: Int, modifier: String, value: Int) {
         CustomSnackbar(context)
             .create(
+                55,
                 (context as MainActivity).findViewById(R.id.main_root),
-                text,
-                Snackbar.LENGTH_SHORT
+                text
             )
             .setAction(context.getString(R.string.undo)) {
                 mDb.execSQL("UPDATE products SET $modifier = $value WHERE id = $id")
@@ -208,7 +254,7 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
 
 
     override fun getItemCount(): Int {
-        return fridgeList.size
+        return starProducstList.size
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -222,7 +268,7 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
         fun bind(
             id: Int,
             position: Int,
-            starred: Boolean,
+            inFridge: Boolean,
             banned: Boolean,
             inCart: Boolean
         ) {
@@ -235,7 +281,7 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
             }
             itemView.setOnClickListener {
                 if (isMultiSelectOn) addIDIntoSelectedIds(position)
-                else popupMenus(it, id, position, starred, banned, inCart)
+                else popupMenus(it, id, position, inFridge, banned, inCart)
             }
         }
 
@@ -248,7 +294,7 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
     }
 
     fun addIDIntoSelectedIds(position: Int) {
-        val id = fridgeList[position].first
+        val id = starProducstList[position].first
         if (selectedIds.contains(id)) {
             selectedIds.remove(id)
             selectedPositions.remove(position)
@@ -274,30 +320,34 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
             (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
         if (selectedIds.size < 1) return
         when (modifier) {
-            "star" -> {
+            "fridge" -> {
                 for (i in 0 until tempList!!.size) {
                     val temp = tempList!![i]
                     mDb.execSQL(
-                        "UPDATE products SET is_starred = 1 WHERE product = ?",
+                        "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
                         listOf(temp).toTypedArray()
                     )
                     notifyItemChanged(tempPositions!![i])
                 }
+                bottomNav.getOrCreateBadge(R.id.nav_fridge).number += tempList!!.size
                 CustomSnackbar(context)
                     .create(
+                        55,
                         (context as MainActivity).findViewById(R.id.main_root),
-                        context.getString(R.string.addedToStarred),
-                        Snackbar.LENGTH_SHORT
+                        context.getString(R.string.addedToFridge)
                     )
                     .setAction(context.getString(R.string.undo)) {
                         for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
                             mDb.execSQL(
-                                "UPDATE products SET is_starred = 0 WHERE product = ?",
+                                "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
                                 listOf(temp).toTypedArray()
                             )
                             notifyItemChanged(tempPositions!![i])
                         }
+                        val badge = bottomNav.getOrCreateBadge(R.id.nav_fridge)
+                        badge.number -= tempList!!.size
+                        if (badge.number == 0) bottomNav.removeBadge(R.id.nav_fridge)
                     }
                     .show()
             }
@@ -313,9 +363,9 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                 bottomNav.getOrCreateBadge(R.id.nav_cart).number += tempList!!.size
                 CustomSnackbar(context)
                     .create(
+                        55,
                         (context as MainActivity).findViewById(R.id.main_root),
-                        context.getString(R.string.addToCart),
-                        Snackbar.LENGTH_SHORT
+                        context.getString(R.string.addedToCart)
                     )
                     .setAction(context.getString(R.string.undo)) {
                         for (i in 0 until tempList!!.size) {
@@ -343,9 +393,9 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                 }
                 CustomSnackbar(context)
                     .create(
+                        55,
                         (context as MainActivity).findViewById(R.id.main_root),
-                        context.getString(R.string.addedToBanList),
-                        Snackbar.LENGTH_SHORT
+                        context.getString(R.string.addedToBanList)
                     )
                     .setAction(context.getString(R.string.undo)) {
                         for (i in 0 until tempList!!.size) {
@@ -363,34 +413,37 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                 val delList: ArrayList<Pair<String, String>> = ArrayList()
                 val indexes: ArrayList<Int> = ArrayList()
                 for (i in tempPositions!!) {
-                    delList.add(fridgeList[i])
+                    delList.add(starProducstList[i])
                 }
                 for (i in 0 until tempList!!.size) {
                     val temp = tempList!![i]
                     mDb.execSQL(
-                        "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
+                        "UPDATE products SET is_starred = 0 WHERE product = ?",
                         listOf(temp).toTypedArray()
                     )
-                    val tempPos = fridgeList.indexOf(delList[i])
+                    val tempPos = starProducstList.indexOf(delList[i])
                     indexes.add(tempPos)
-                    fridgeList.remove(delList[i])
+                    starProducstList.remove(delList[i])
                     notifyItemRemoved(tempPos)
                 }
                 CustomSnackbar(context)
                     .create(
+                        55,
                         (context as MainActivity).findViewById(R.id.main_root),
-                        context.getString(R.string.addedToBanList),
-                        Snackbar.LENGTH_SHORT
+                        context.getString(R.string.deletedFromStarred)
                     )
                     .setAction(context.getString(R.string.undo)) {
                         for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
                             mDb.execSQL(
-                                "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
+                                "UPDATE products SET is_starred = 1 WHERE product = ?",
                                 listOf(temp).toTypedArray()
                             )
-                            if (indexes[i] < fridgeList.size) fridgeList.add(indexes[i], delList[i])
-                            else fridgeList.add(delList[i])
+                            if (indexes[i] < starProducstList.size) starProducstList.add(
+                                indexes[i],
+                                delList[i]
+                            )
+                            else starProducstList.add(delList[i])
                         }
                         notifyDataSetChanged()
                     }

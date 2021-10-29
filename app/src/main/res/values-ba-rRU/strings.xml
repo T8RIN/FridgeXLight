@@ -225,7 +225,7 @@
     <string name="deBan">Разблокировать</string>
     <string name="deStar">Из избранного</string>
     <string name="delBanProd">Продукт убран из блок-листа</string>
-    <string name="delCartProd">Продукт добавлен в корзину</string>
+    <string name="addedToCart">Добавлено в корзину</string>
     <string name="delStarProd">Продукт убран из избранных</string>
     <string name="rating">Мнение пользователя</string>
     <string name="inStarred">В избранном</string>

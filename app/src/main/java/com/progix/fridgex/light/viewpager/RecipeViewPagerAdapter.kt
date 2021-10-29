@@ -1,4 +1,4 @@
-package com.progix.fridgex.light.adapter
+package com.progix.fridgex.light.viewpager
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -8,7 +8,7 @@ import com.progix.fridgex.light.fragment.IngredsFragment
 import com.progix.fridgex.light.fragment.RecipeFragment
 
 
-class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
+class RecipeViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
     override fun createFragment(position: Int): Fragment {
         when (position) {

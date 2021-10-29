@@ -246,7 +246,7 @@
     <string name="deBan">delete Ban</string>
     <string name="deStar">delete Star</string>
     <string name="delBanProd">Product removed from block-list</string>
-    <string name="delCartProd">Added to shopping cart</string>
+    <string name="addedToCart">Added to shopping cart</string>
     <string name="delStarProd">Product removed from starred</string>
     <string name="rating">User\'s rate</string>
     <string name="inStarred">In starred</string>
@@ -259,4 +259,12 @@
     <string name="addingModeText">Add</string>
     <string name="ignoreText">Ignore</string>
     <string name="deleteWord">Delete</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="deletedFromStarred">Removed from starred</string>
+    <string name="addedToFridge">Added to fridge</string>
+    <string name="deFridge">del Fridge</string>
+    <string name="deCart">delete Cart</string>
+    <string name="deleteFromCart">Deleted from cart</string>
+    <string name="deleteFromFridge">Deleted from fridge</string>
+    <string name="starClearError">You have no starred items, add them to execute clearing</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.progix.fridgex.light.adapter
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -71,7 +70,7 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                         .setSingleChoiceItems(listItems, checkedItem) { _, which ->
                             checkedItem = which
                         }
-                        .setOnDismissListener { checkedItem =  loadNightMode() }
+                        .setOnDismissListener { checkedItem = loadNightMode() }
                         .show()
                 }
             }
@@ -94,12 +93,20 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                             when (checkedItem) {
                                 1 -> {
                                     holder.onOff.text = context.getString(R.string.addingModeText)
-                                    Toast.makeText(context, context.getString(R.string.addingModeMessage), Toast.LENGTH_LONG).show()
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.addingModeMessage),
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                     saveCartMode(1)
                                 }
                                 0 -> {
                                     holder.onOff.text = context.getString(R.string.ignoreText)
-                                    Toast.makeText(context, context.getString(R.string.ignoreMessage), Toast.LENGTH_LONG).show()
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.ignoreMessage),
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                     saveCartMode(0)
                                 }
                             }
@@ -108,14 +115,22 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                             checkedItem = which
                             when (checkedItem) {
                                 1 -> {
-                                    Toast.makeText(context, context.getString(R.string.addingModeMessage), Toast.LENGTH_LONG).show()
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.addingModeMessage),
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
                                 0 -> {
-                                    Toast.makeText(context, context.getString(R.string.ignoreMessage), Toast.LENGTH_LONG).show()
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.ignoreMessage),
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
                             }
                         }
-                        .setOnDismissListener { checkedItem =  loadCartMode() }
+                        .setOnDismissListener { checkedItem = loadCartMode() }
                         .show()
                 }
             }

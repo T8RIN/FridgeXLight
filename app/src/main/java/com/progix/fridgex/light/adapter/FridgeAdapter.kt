@@ -129,6 +129,31 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                     notifyItemChanged(position)
                     true
                 }
+                R.id.clear -> {
+                    val tempValue = fridgeList[position]
+                    mDb.execSQL(
+                        "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
+                        listOf(tempValue.first).toTypedArray()
+                    )
+                    fridgeList.remove(tempValue)
+                    notifyItemRemoved(position)
+                    CustomSnackbar(context)
+                        .create(
+                            (context as MainActivity).findViewById(R.id.main_root),
+                            context.getString(R.string.delFridgeProduct),
+                            Snackbar.LENGTH_SHORT
+                        )
+                        .setAction(context.getString(R.string.undo)) {
+                            mDb.execSQL(
+                                "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
+                                listOf(tempValue.first).toTypedArray()
+                            )
+                            fridgeList.add(position, tempValue)
+                            notifyItemInserted(position)
+                        }
+                        .show()
+                    true
+                }
                 else -> true
             }
 
@@ -153,6 +178,8 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
         else if (!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned)
         else if (starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred)
         else popupMenus.inflate(R.menu.popup_menu_both)
+        popupMenus.menu.add(0, R.id.clear, 0, context.getString(R.string.deleteWord))
+            ?.setIcon(R.drawable.ic_baseline_delete_24)
 
     }
 

@@ -68,7 +68,6 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawer_layout)
         toolbar = findViewById(R.id.toolbar)
         bottomNavigationView = findViewById(R.id.bottom_navigation)
-        anchor = bottomNavigationView
         drawer = drawerLayout
         setSupportActionBar(toolbar)
         currentFragment = R.id.nav_home
@@ -672,32 +671,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         val products: ArrayList<String> = ArrayList()
-        lateinit var anchor: BottomNavigationView
         lateinit var drawer: DrawerLayout
-
-        fun slideUp() {
-            val layoutParams = anchor.layoutParams
-            if (layoutParams is CoordinatorLayout.LayoutParams) {
-                val behavior = layoutParams.behavior
-                if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                    val hideShowBehavior =
-                        behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
-                    hideShowBehavior.slideUp(anchor)
-                }
-            }
-        }
-
-        fun slideDown() {
-            val layoutParams = anchor.layoutParams
-            if (layoutParams is CoordinatorLayout.LayoutParams) {
-                val behavior = layoutParams.behavior
-                if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                    val hideShowBehavior =
-                        behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
-                    hideShowBehavior.slideDown(anchor)
-                }
-            }
-        }
 
         var isMultiSelectOn = false
         var actionMode: ActionMode? = null

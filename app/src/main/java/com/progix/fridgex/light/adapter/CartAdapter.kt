@@ -110,7 +110,7 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
                         (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
                     if (crossed) {
-                        if(addToFridge){
+                        if (addToFridge) {
                             mDb.execSQL(
                                 "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
                                 listOf(fridgeList[position].first).toTypedArray()
@@ -125,7 +125,7 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
                         name.paintFlags =
                             name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                     } else {
-                        if(addToFridge){
+                        if (addToFridge) {
                             mDb.execSQL(
                                 "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
                                 listOf(fridgeList[position].first).toTypedArray()

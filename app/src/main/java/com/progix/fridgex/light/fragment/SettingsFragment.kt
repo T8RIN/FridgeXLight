@@ -3,7 +3,6 @@ package com.progix.fridgex.light.fragment
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.R
@@ -43,7 +42,13 @@ class SettingsFragment : Fragment() {
     ): View {
         val view: View = inflater.inflate(R.layout.fragment_settings, container, false)
         val settingsList: ArrayList<String> =
-            ArrayList(listOf(getString(R.string.nightMode), getString(R.string.cartSettings), getString(R.string.guide)))
+            ArrayList(
+                listOf(
+                    getString(R.string.nightMode),
+                    getString(R.string.cartSettings),
+                    getString(R.string.guide)
+                )
+            )
         val recyclerView: RecyclerView = view.findViewById(R.id.settingsRecycler)
 
         recyclerView.adapter = SettingsAdapter(requireContext(), settingsList)

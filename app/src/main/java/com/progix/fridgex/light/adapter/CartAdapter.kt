@@ -105,30 +105,35 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
                         listOf(!crossed, fridgeList[position].first).toTypedArray()
                     )
 
+                    val addToFridge = loadCartMode() == 1
                     val bNav =
                         (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
                     if (crossed) {
-                        mDb.execSQL(
-                            "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
-                            listOf(fridgeList[position].first).toTypedArray()
-                        )
+                        if(addToFridge){
+                            mDb.execSQL(
+                                "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
+                                listOf(fridgeList[position].first).toTypedArray()
+                            )
 
-                        val badge = bNav.getOrCreateBadge(R.id.nav_fridge)
-                        badge.number -= 1
-                        if (badge.number == 0) bNav.removeBadge(R.id.nav_fridge)
+                            val badge = bNav.getOrCreateBadge(R.id.nav_fridge)
+                            badge.number -= 1
+                            if (badge.number == 0) bNav.removeBadge(R.id.nav_fridge)
 
+                        }
                         itemView.alpha = 1f
                         name.paintFlags =
                             name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                     } else {
-                        mDb.execSQL(
-                            "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
-                            listOf(fridgeList[position].first).toTypedArray()
-                        )
+                        if(addToFridge){
+                            mDb.execSQL(
+                                "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
+                                listOf(fridgeList[position].first).toTypedArray()
+                            )
 
-                        val badge = bNav.getOrCreateBadge(R.id.nav_fridge)
-                        badge.number += 1
+                            val badge = bNav.getOrCreateBadge(R.id.nav_fridge)
+                            badge.number += 1
+                        }
 
                         itemView.alpha = 0.5f
                         name.paintFlags = name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
@@ -302,6 +307,11 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
 
     override fun onViewDetachedFromWindow(holder: ViewHolder) {
         holder.clearAnimation()
+    }
+
+    private fun loadCartMode(): Int {
+        val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
+        return sharedPreferences.getInt("cartMode", 1)
     }
 
 }

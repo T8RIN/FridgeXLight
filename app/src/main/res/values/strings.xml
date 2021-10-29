@@ -253,4 +253,9 @@
     <string name="inBanned">Blocked</string>
     <string name="toFridge">Add to fridge</string>
     <string name="delFridgeProduct">Product deleted from fridge</string>
+    <string name="cartSettings">Shopping cart mode</string>
+    <string name="ignoreMessage">(automatic add to the fridge will be disabled)</string>
+    <string name="addingModeMessage">(when you check out a product from the basket, it will automatically be added to the fridge)</string>
+    <string name="addingModeText">Add</string>
+    <string name="ignoreText">Ignore</string>
 </resources>

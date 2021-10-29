@@ -11,6 +11,8 @@
         android:id="@+id/settingsRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="parent" />
 

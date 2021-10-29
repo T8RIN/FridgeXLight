@@ -43,11 +43,10 @@ class SettingsFragment : Fragment() {
     ): View {
         val view: View = inflater.inflate(R.layout.fragment_settings, container, false)
         val settingsList: ArrayList<String> =
-            ArrayList(listOf(getString(R.string.nightMode), getString(R.string.guide)))
+            ArrayList(listOf(getString(R.string.nightMode), getString(R.string.cartSettings), getString(R.string.guide)))
         val recyclerView: RecyclerView = view.findViewById(R.id.settingsRecycler)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+
         recyclerView.adapter = SettingsAdapter(requireContext(), settingsList)
-        recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         return view
     }
 

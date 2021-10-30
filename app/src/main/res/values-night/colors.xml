@@ -66,4 +66,6 @@
     <color name="header1">#000000</color>
     <color name="header2">#222</color>
 
+    <color name="manualDivider">#373737</color>
+
 </resources>

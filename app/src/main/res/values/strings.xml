@@ -212,11 +212,6 @@
     <string name="tip7">Tips for making baked goods</string>
     <string name="tip8">What affects the taste of food?</string>
     <string name="deleteQuestion">Delete from ban-list?</string>
-    <string name="cup250">Cup\n250ml</string>
-    <string name="cup200">Cup\n200ml</string>
-    <string name="tbsp">Table\nspoon</string>
-    <string name="tsp">Tea\nspoon</string>
-    <string name="onePiece">One\npiece</string>
     <string name="upHeader">Product weight in grams</string>
     <string name="tipsAndTables">Tips and Tables</string>
     <string name="guide20">Personal advice and fundamental tables at your fingertips!</string>
@@ -267,4 +262,9 @@
     <string name="deleteFromCart">Deleted from cart</string>
     <string name="deleteFromFridge">Deleted from fridge</string>
     <string name="starClearError">You have no starred items, add them to execute clearing</string>
+    <string name="cup200">Cup 200ml</string>
+    <string name="cup250">Cup 250ml</string>
+    <string name="tbsp">Tbsp.</string>
+    <string name="tsp">Tsp.</string>
+    <string name="onePiece">One piece</string>
 </resources>

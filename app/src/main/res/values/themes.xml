@@ -66,6 +66,11 @@
         <item name="cornerSize">12dp</item>
     </style>
 
+    <style name="shape0dp" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">0dp</item>
+    </style>
+
     <style name="interFont" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">@font/inter_regular</item>
         <item name="font">@font/inter_regular</item>

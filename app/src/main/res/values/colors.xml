@@ -73,5 +73,7 @@
     <color name="header1">#EDEDED</color>
     <color name="header2">#CCCCCC</color>
 
+    <color name="manualDivider">#BCBCBC</color>
+
 
 </resources>

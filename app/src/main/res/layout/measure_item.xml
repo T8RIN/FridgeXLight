@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:elevation="0dp"
+    app:shapeAppearanceOverlay="@style/shape0dp">
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/product"
+                android:textColor="@color/manualText2"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:padding="25dp"
+                android:text="@string/products" />
+
+            <TextView
+                android:id="@+id/cup250"
+                android:textColor="@color/manualText2"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_toEndOf="@+id/product"
+                android:gravity="center"
+                android:padding="25dp"
+                android:text="@string/cup250" />
+
+            <TextView
+                android:id="@+id/cup200"
+                android:textColor="@color/manualText2"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_toEndOf="@+id/cup250"
+                android:gravity="center"
+                android:padding="25dp"
+                android:text="@string/cup200" />
+
+            <TextView
+                android:id="@+id/tbsp"
+                android:textColor="@color/manualText2"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_toEndOf="@+id/cup200"
+                android:gravity="center"
+                android:padding="25dp"
+                android:text="@string/tbsp" />
+
+            <TextView
+                android:id="@+id/tsp"
+                android:textColor="@color/manualText2"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_toEndOf="@+id/tbsp"
+                android:gravity="center"
+                android:padding="25dp"
+                android:text="@string/tsp" />
+
+            <TextView
+                android:textColor="@color/manualText2"
+                android:id="@+id/onepcs"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_toEndOf="@+id/tsp"
+                android:gravity="center"
+                android:padding="25dp"
+                android:text="@string/onePiece" />
+
+            <View
+                android:layout_width="900dp"
+                android:background="@drawable/divider"
+                android:layout_height="1dp"
+                android:layout_below="@id/cup200" />
+
+            <View
+                android:layout_alignEnd="@id/product"
+                android:background="@drawable/divider"
+                android:layout_width="1dp"
+                android:layout_height="100dp"/>
+
+            <View
+                android:layout_alignEnd="@id/cup250"
+                android:background="@drawable/divider"
+                android:layout_width="1dp"
+                android:layout_height="100dp"/>
+
+            <View
+                android:layout_alignEnd="@id/cup200"
+                android:background="@drawable/divider"
+                android:layout_width="1dp"
+                android:layout_height="100dp"/>
+
+            <View
+                android:layout_alignEnd="@id/tbsp"
+                android:background="@drawable/divider"
+                android:layout_width="1dp"
+                android:layout_height="100dp"/>
+
+            <View
+                android:layout_alignEnd="@id/tsp"
+                android:background="@drawable/divider"
+                android:layout_width="1dp"
+                android:layout_height="100dp"/>
+
+        </RelativeLayout>
+
+    </HorizontalScrollView>
+
+
+</com.google.android.material.card.MaterialCardView>

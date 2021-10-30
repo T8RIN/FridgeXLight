@@ -1,10 +1,15 @@
 package com.progix.fridgex.light.fragment
 
+import android.database.Cursor
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
+import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.adapter.MeasureAdapter
+import com.progix.fridgex.light.model.MeasureItem
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -32,7 +37,31 @@ class MeasuresFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_measures, container, false)
+        val v = inflater.inflate(R.layout.fragment_measures, container, false)
+
+        val recycler: RecyclerView = v.findViewById(R.id.measuresRecycler)
+
+        val measuresList: ArrayList<MeasureItem> = ArrayList()
+
+        val table: Cursor = mDb.rawQuery("SELECT * FROM measures", null)
+        table.moveToFirst()
+        while(!table.isAfterLast){
+            measuresList.add(
+                MeasureItem(
+                    table.getString(1),
+                    table.getString(2),
+                    table.getString(3),
+                    table.getString(4),
+                    table.getString(5),
+                    table.getString(6),
+                )
+            )
+            table.moveToNext()
+        }
+        table.close()
+        recycler.adapter = MeasureAdapter(requireContext(), measuresList)
+
+        return v
     }
 
     companion object {

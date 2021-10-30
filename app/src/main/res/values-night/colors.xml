@@ -63,4 +63,7 @@
 
     <color name="tabBackground">#2B2B2B</color>
 
+    <color name="header1">#000000</color>
+    <color name="header2">#222</color>
+
 </resources>

@@ -25,7 +25,7 @@ import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.helper.ActionInterface
 
 
-class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, String>>) :
+class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, String>>) :
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View =
@@ -36,17 +36,17 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.star.visibility = GONE
-        holder.name.text = fridgeList[position].first.replaceFirstChar(Char::uppercase)
+        holder.name.text = cartList[position].first.replaceFirstChar(Char::uppercase)
         val cursor: Cursor = mDb.rawQuery(
             "SELECT * FROM categories WHERE category = ?",
-            listOf(fridgeList[position].second).toTypedArray()
+            listOf(cartList[position].second).toTypedArray()
         )
         cursor.moveToFirst()
         holder.image.setImageResource(imagesCat[cursor.getInt(0) - 1])
         cursor.close()
         val cc: Cursor = mDb.rawQuery(
             "SELECT * FROM products WHERE product = ?",
-            listOf(fridgeList[position].first).toTypedArray()
+            listOf(cartList[position].first).toTypedArray()
         )
         cc.moveToFirst()
         val crossed = cc.getString(5) == "1"
@@ -60,15 +60,17 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
         setAnimation(holder.itemView, position)
         holder.bind(position)
         (holder.itemView as MaterialCardView).isChecked =
-            selectedIds.contains(fridgeList[position].first)
+            selectedIds.contains(cartList[position].first)
         cc.close()
     }
 
     override fun getItemCount(): Int {
-        return fridgeList.size
+        return cartList.size
     }
 
     var tempList: ArrayList<String>? = null
+
+    var crossList: ArrayList<String> = ArrayList()
 
     var tempPositions: ArrayList<Int>? = null
 
@@ -96,13 +98,13 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
                 else {
                     val cc: Cursor = mDb.rawQuery(
                         "SELECT * FROM products WHERE product = ?",
-                        listOf(fridgeList[position].first).toTypedArray()
+                        listOf(cartList[position].first).toTypedArray()
                     )
                     cc.moveToFirst()
                     val crossed = cc.getString(5) == "1"
                     mDb.execSQL(
                         "UPDATE products SET amount = ? WHERE product = ?",
-                        listOf(!crossed, fridgeList[position].first).toTypedArray()
+                        listOf(!crossed, cartList[position].first).toTypedArray()
                     )
 
                     val addToFridge = loadCartMode() == 1
@@ -113,7 +115,7 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
                         if (addToFridge) {
                             mDb.execSQL(
                                 "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
-                                listOf(fridgeList[position].first).toTypedArray()
+                                listOf(cartList[position].first).toTypedArray()
                             )
 
                             val badge = bNav.getOrCreateBadge(R.id.nav_fridge)
@@ -128,7 +130,7 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
                         if (addToFridge) {
                             mDb.execSQL(
                                 "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
-                                listOf(fridgeList[position].first).toTypedArray()
+                                listOf(cartList[position].first).toTypedArray()
                             )
 
                             val badge = bNav.getOrCreateBadge(R.id.nav_fridge)
@@ -151,7 +153,7 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
     }
 
     fun addIDIntoSelectedIds(position: Int) {
-        val id = fridgeList[position].first
+        val id = cartList[position].first
         if (selectedIds.contains(id)) {
             selectedIds.remove(id)
             selectedPositions.remove(position)
@@ -256,34 +258,46 @@ class CartAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, S
                 val delList: ArrayList<Pair<String, String>> = ArrayList()
                 val indexes: ArrayList<Int> = ArrayList()
                 for (i in tempPositions!!) {
-                    delList.add(fridgeList[i])
+                    delList.add(cartList[i])
                 }
                 for (i in 0 until tempList!!.size) {
                     val temp = tempList!![i]
+                    val cursor: Cursor = mDb.rawQuery("SELECT * FROM products WHERE product = ?", listOf(temp).toTypedArray())
+                    cursor.moveToFirst()
+                    if (cursor.getInt(5) == 1) crossList.add(temp)
                     mDb.execSQL(
-                        "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
+                        "UPDATE products SET amount = 0 WHERE product = ?",
                         listOf(temp).toTypedArray()
                     )
-                    val tempPos = fridgeList.indexOf(delList[i])
+                    mDb.execSQL(
+                        "UPDATE products SET is_in_cart = 0 WHERE product = ?",
+                        listOf(temp).toTypedArray()
+                    )
+
+                    val tempPos = cartList.indexOf(delList[i])
                     indexes.add(tempPos)
-                    fridgeList.remove(delList[i])
+                    cartList.remove(delList[i])
                     notifyItemRemoved(tempPos)
                 }
                 CustomSnackbar(context)
                     .create(
                         (context as MainActivity).findViewById(R.id.main_root),
-                        context.getString(R.string.addedToBanList),
+                        context.getString(R.string.deleteFromCart),
                         Snackbar.LENGTH_SHORT
                     )
                     .setAction(context.getString(R.string.undo)) {
                         for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
                             mDb.execSQL(
-                                "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
+                                "UPDATE products SET is_in_cart = 1 WHERE product = ?",
                                 listOf(temp).toTypedArray()
                             )
-                            if (indexes[i] < fridgeList.size) fridgeList.add(indexes[i], delList[i])
-                            else fridgeList.add(delList[i])
+                            for (item in crossList) {
+                                mDb.execSQL("UPDATE products SET amount = 1 WHERE product = ?", listOf(item).toTypedArray())
+                            }
+                            crossList.clear()
+                            if (indexes[i] < cartList.size) cartList.add(indexes[i], delList[i])
+                            else cartList.add(delList[i])
                         }
                         notifyDataSetChanged()
                     }

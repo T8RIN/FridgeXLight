@@ -379,7 +379,7 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                 CustomSnackbar(context)
                     .create(
                         (context as MainActivity).findViewById(R.id.main_root),
-                        context.getString(R.string.addedToBanList),
+                        context.getString(R.string.deleteFromFridge),
                         Snackbar.LENGTH_SHORT
                     )
                     .setAction(context.getString(R.string.undo)) {

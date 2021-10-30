@@ -16,61 +16,56 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:padding="10dp"
                 android:id="@+id/product"
                 android:layout_width="150dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:gravity="center"
-                android:padding="25dp"
                 android:text="@string/products"
                 android:textColor="@color/manualText2" />
 
             <TextView
                 android:id="@+id/cup250"
                 android:layout_width="150dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:layout_toEndOf="@+id/product"
                 android:gravity="center"
-                android:padding="25dp"
                 android:text="@string/cup250"
                 android:textColor="@color/manualText2" />
 
             <TextView
                 android:id="@+id/cup200"
                 android:layout_width="150dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:layout_toEndOf="@+id/cup250"
                 android:gravity="center"
-                android:padding="25dp"
                 android:text="@string/cup200"
                 android:textColor="@color/manualText2" />
 
             <TextView
                 android:id="@+id/tbsp"
                 android:layout_width="150dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:layout_toEndOf="@+id/cup200"
                 android:gravity="center"
-                android:padding="25dp"
                 android:text="@string/tbsp"
                 android:textColor="@color/manualText2" />
 
             <TextView
                 android:id="@+id/tsp"
                 android:layout_width="150dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:layout_toEndOf="@+id/tbsp"
                 android:gravity="center"
-                android:padding="25dp"
                 android:text="@string/tsp"
                 android:textColor="@color/manualText2" />
 
             <TextView
                 android:id="@+id/onepcs"
                 android:layout_width="150dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:layout_toEndOf="@+id/tsp"
                 android:gravity="center"
-                android:padding="25dp"
                 android:text="@string/onePiece"
                 android:textColor="@color/manualText2" />
 
@@ -82,31 +77,31 @@
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:layout_alignEnd="@id/product"
                 android:background="@drawable/divider" />
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:layout_alignEnd="@id/cup250"
                 android:background="@drawable/divider" />
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:layout_alignEnd="@id/cup200"
                 android:background="@drawable/divider" />
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:layout_alignEnd="@id/tbsp"
                 android:background="@drawable/divider" />
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:layout_alignEnd="@id/tsp"
                 android:background="@drawable/divider" />
 

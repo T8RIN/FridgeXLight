@@ -18,6 +18,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/below"
+                app:cardBackgroundColor="@color/header2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="0dp"
@@ -30,59 +31,59 @@
                     <TextView
                         android:id="@+id/product"
                         android:layout_width="150dp"
-                        android:layout_height="80dp"
+                        android:layout_height="70dp"
                         android:gravity="center"
-                        android:padding="25dp"
+                        android:padding="10dp"
                         android:text="@string/products"
                         android:textColor="@color/manualText2" />
 
                     <TextView
                         android:id="@+id/cup250"
                         android:layout_width="150dp"
-                        android:layout_height="80dp"
-                        android:layout_toEndOf="@+id/product"
+                        android:layout_height="70dp"
                         android:gravity="center"
-                        android:padding="25dp"
+                        android:padding="10dp"
+                        android:layout_toEndOf="@+id/product"
                         android:text="@string/cup250"
                         android:textColor="@color/manualText2" />
 
                     <TextView
                         android:id="@+id/cup200"
                         android:layout_width="150dp"
-                        android:layout_height="80dp"
-                        android:layout_toEndOf="@+id/cup250"
+                        android:layout_height="70dp"
                         android:gravity="center"
-                        android:padding="25dp"
+                        android:padding="10dp"
+                        android:layout_toEndOf="@+id/cup250"
                         android:text="@string/cup200"
                         android:textColor="@color/manualText2" />
 
                     <TextView
                         android:id="@+id/tbsp"
                         android:layout_width="150dp"
-                        android:layout_height="80dp"
-                        android:layout_toEndOf="@+id/cup200"
+                        android:layout_height="70dp"
                         android:gravity="center"
-                        android:padding="25dp"
+                        android:padding="10dp"
+                        android:layout_toEndOf="@+id/cup200"
                         android:text="@string/tbsp"
                         android:textColor="@color/manualText2" />
 
                     <TextView
                         android:id="@+id/tsp"
                         android:layout_width="150dp"
-                        android:layout_height="80dp"
                         android:layout_toEndOf="@+id/tbsp"
+                        android:layout_height="70dp"
                         android:gravity="center"
-                        android:padding="25dp"
+                        android:padding="10dp"
                         android:text="@string/tsp"
                         android:textColor="@color/manualText2" />
 
                     <TextView
                         android:id="@+id/onepcs"
                         android:layout_width="150dp"
-                        android:layout_height="80dp"
-                        android:layout_toEndOf="@+id/tsp"
+                        android:layout_height="70dp"
                         android:gravity="center"
-                        android:padding="25dp"
+                        android:padding="10dp"
+                        android:layout_toEndOf="@+id/tsp"
                         android:text="@string/onePiece"
                         android:textColor="@color/manualText2" />
 
@@ -94,31 +95,31 @@
 
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="80dp"
+                        android:layout_height="70dp"
                         android:layout_alignEnd="@id/product"
                         android:background="@drawable/divider" />
 
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="80dp"
+                        android:layout_height="70dp"
                         android:layout_alignEnd="@id/cup250"
                         android:background="@drawable/divider" />
 
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="80dp"
+                        android:layout_height="70dp"
                         android:layout_alignEnd="@id/cup200"
                         android:background="@drawable/divider" />
 
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="80dp"
+                        android:layout_height="70dp"
                         android:layout_alignEnd="@id/tbsp"
                         android:background="@drawable/divider" />
 
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="80dp"
+                        android:layout_height="70dp"
                         android:layout_alignEnd="@id/tsp"
                         android:background="@drawable/divider" />
 

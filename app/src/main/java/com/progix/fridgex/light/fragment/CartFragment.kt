@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
@@ -71,18 +73,36 @@ class CartFragment : Fragment(), ActionInterface {
         recycler = v.findViewById(R.id.fridgeRecycler)
         annotationCard = v.findViewById(R.id.annotationCard)
         loading = v.findViewById(R.id.loading)
+        val swipeRefresh: SwipeRefreshLayout = v.findViewById(R.id.swipeRefresh)
 
-//        CoroutineScope(Dispatchers.Main).launch{
-//
-//            val it = suspend()
-//            if (it.isNotEmpty()) {
-//                recycler.adapter = CartAdapter(requireContext(), it)
-//            } else {
-//                annotationCard.visibility = View.VISIBLE
-//                recycler.visibility = View.INVISIBLE
-//            }
-//            loading.visibility = View.INVISIBLE
-//        }
+        swipeRefresh.setProgressBackgroundColorSchemeColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.manualBackground
+            )
+        )
+        swipeRefresh.setColorSchemeResources(R.color.checked, R.color.red, R.color.yellow)
+        swipeRefresh.setOnRefreshListener {
+
+            dispose?.dispose()
+            dispose = rxJava()
+                .debounce(200, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    if (it.isNotEmpty()) {
+                        adapter = CartAdapter(requireContext(), it)
+                        adapter!!.init(forThis())
+                        recycler.adapter = adapter
+                    } else {
+                        annotationCard.visibility = View.VISIBLE
+                        recycler.visibility = View.INVISIBLE
+                    }
+                    loading.visibility = View.GONE
+                }
+            swipeRefresh.isRefreshing = false
+
+        }
 
         dispose?.dispose()
         dispose = rxJava()

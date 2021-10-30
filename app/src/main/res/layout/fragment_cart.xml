@@ -7,13 +7,6 @@
     android:background="@android:color/transparent"
     tools:context=".fragment.CartFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fridgeRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-        app:spanCount="2" />
-
     <include layout="@layout/circular_loading" />
 
     <com.google.android.material.card.MaterialCardView
@@ -54,5 +47,18 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fridgeRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:spanCount="2" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </FrameLayout>

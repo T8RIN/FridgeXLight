@@ -267,4 +267,6 @@
     <string name="tbsp">Tbsp.</string>
     <string name="tsp">Tsp.</string>
     <string name="onePiece">One piece</string>
+    <string name="deletedFromBanned">Deleted from ban-list</string>
+    <string name="banClearError">You haven\'t blocked anything yet</string>
 </resources>

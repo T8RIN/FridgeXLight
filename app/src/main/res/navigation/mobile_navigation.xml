@@ -21,7 +21,7 @@
         android:id="@+id/nav_banned"
         android:name="com.progix.fridgex.light.fragment.BannedFragment"
         android:label="@string/ban_list"
-        tools:layout="@layout/fragment_banned" />
+        tools:layout="@layout/fragment_ban_list" />
 
     <fragment
         android:id="@+id/nav_folder"

@@ -7,10 +7,7 @@ import androidx.appcompat.view.ActionMode
 import com.progix.fridgex.light.MainActivity.Companion.actionMode
 import com.progix.fridgex.light.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.adapter.CartAdapter
-import com.progix.fridgex.light.adapter.FridgeAdapter
-import com.progix.fridgex.light.adapter.StarProductsAdapter
-import com.progix.fridgex.light.adapter.StarRecipesAdapter
+import com.progix.fridgex.light.adapter.*
 
 class ActionModeCallback : ActionMode.Callback {
 
@@ -18,6 +15,9 @@ class ActionModeCallback : ActionMode.Callback {
     private var myCartAdapter: CartAdapter? = null
     private var myStarredProductsAdapter: StarProductsAdapter? = null
     private var myStarredRecipesAdapter: StarRecipesAdapter? = null
+    private var myBannedRecipesAdapter: BannedRecipesAdapter? = null
+    private var myBannedProductsAdapter: BannedProductsAdapter? = null
+
     //private var myEditListAdapter: EditListAdapter? = null
 
     var fragmentId: Int? = null
@@ -36,6 +36,12 @@ class ActionModeCallback : ActionMode.Callback {
             }
             5 -> {
                 this.myStarredRecipesAdapter = myAdapter as StarRecipesAdapter
+            }
+            6 -> {
+                this.myBannedRecipesAdapter = myAdapter as BannedRecipesAdapter
+            }
+            7 -> {
+                this.myBannedProductsAdapter = myAdapter as BannedProductsAdapter
             }
 //            R.id.nav_edit_list -> {
 //                this.myEditListAdapter = myAdapter as EditListAdapter
@@ -171,6 +177,50 @@ class ActionModeCallback : ActionMode.Callback {
                     }
                 }
             }
+            6 -> {
+                myBannedRecipesAdapter?.tempPositions =
+                    myBannedRecipesAdapter?.selectedPositions?.clone() as ArrayList<Int>
+                myBannedRecipesAdapter?.tempList =
+                    myBannedRecipesAdapter?.selectedIds?.clone() as ArrayList<String>
+                when (item?.itemId) {
+                    android.R.id.home -> {
+                        shouldResetRecyclerView = false
+                        myBannedRecipesAdapter?.selectedIds?.clear()
+                        for (i in myBannedRecipesAdapter?.selectedPositions!!) {
+                            myBannedRecipesAdapter?.notifyItemChanged(i)
+                        }
+                        myBannedRecipesAdapter?.selectedPositions?.clear()
+                        actionMode?.title = ""
+                        actionMode?.finish()
+                    }
+                    R.id.clear -> {
+                        myBannedRecipesAdapter?.doSomeAction("delete")
+                        actionMode?.finish()
+                    }
+                }
+            }
+            7 -> {
+                myBannedProductsAdapter?.tempPositions =
+                    myBannedProductsAdapter?.selectedPositions?.clone() as ArrayList<Int>
+                myBannedProductsAdapter?.tempList =
+                    myBannedProductsAdapter?.selectedIds?.clone() as ArrayList<String>
+                when (item?.itemId) {
+                    android.R.id.home -> {
+                        shouldResetRecyclerView = false
+                        myBannedProductsAdapter?.selectedIds?.clear()
+                        for (i in myBannedProductsAdapter?.selectedPositions!!) {
+                            myBannedProductsAdapter?.notifyItemChanged(i)
+                        }
+                        myBannedProductsAdapter?.selectedPositions?.clear()
+                        actionMode?.title = ""
+                        actionMode?.finish()
+                    }
+                    R.id.clear -> {
+                        myBannedProductsAdapter?.doSomeAction("delete")
+                        actionMode?.finish()
+                    }
+                }
+            }
         }
         return false
     }
@@ -187,7 +237,13 @@ class ActionModeCallback : ActionMode.Callback {
                 mode?.menuInflater?.inflate(R.menu.action_menu_starred, menu)
             }
             5 -> {
-                mode?.menuInflater?.inflate(R.menu.starred_menu, menu)
+                mode?.menuInflater?.inflate(R.menu.menu_with_only_delete_option, menu)
+            }
+            6 -> {
+                mode?.menuInflater?.inflate(R.menu.menu_with_only_delete_option, menu)
+            }
+            7 -> {
+                mode?.menuInflater?.inflate(R.menu.menu_with_only_delete_option, menu)
             }
         }
         return true
@@ -234,6 +290,24 @@ class ActionModeCallback : ActionMode.Callback {
                         myStarredRecipesAdapter?.notifyItemChanged(i)
                     }
                     myStarredRecipesAdapter?.selectedPositions?.clear()
+                }
+            }
+            6 -> {
+                if (shouldResetRecyclerView) {
+                    myBannedRecipesAdapter?.selectedIds?.clear()
+                    for (i in myBannedRecipesAdapter?.selectedPositions!!) {
+                        myBannedRecipesAdapter?.notifyItemChanged(i)
+                    }
+                    myBannedRecipesAdapter?.selectedPositions?.clear()
+                }
+            }
+            7 -> {
+                if (shouldResetRecyclerView) {
+                    myBannedProductsAdapter?.selectedIds?.clear()
+                    for (i in myBannedProductsAdapter?.selectedPositions!!) {
+                        myBannedProductsAdapter?.notifyItemChanged(i)
+                    }
+                    myBannedProductsAdapter?.selectedPositions?.clear()
                 }
             }
         }

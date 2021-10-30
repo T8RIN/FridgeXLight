@@ -45,7 +45,7 @@ class MeasuresFragment : Fragment() {
 
         val table: Cursor = mDb.rawQuery("SELECT * FROM measures", null)
         table.moveToFirst()
-        while(!table.isAfterLast){
+        while (!table.isAfterLast) {
             measuresList.add(
                 MeasureItem(
                     table.getString(1),

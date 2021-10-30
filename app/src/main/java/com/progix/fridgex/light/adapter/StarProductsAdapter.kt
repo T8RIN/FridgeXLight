@@ -162,7 +162,7 @@ class StarProductsAdapter(
                 R.id.clear -> {
                     val tempValue = starProducstList[position]
                     mDb.execSQL(
-                        "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
+                        "UPDATE products SET is_starred = 0 WHERE product = ?",
                         listOf(tempValue.first).toTypedArray()
                     )
                     starProducstList.remove(tempValue)
@@ -175,7 +175,7 @@ class StarProductsAdapter(
                         )
                         .setAction(context.getString(R.string.undo)) {
                             mDb.execSQL(
-                                "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
+                                "UPDATE products SET is_starred = 1 WHERE product = ?",
                                 listOf(tempValue.first).toTypedArray()
                             )
                             starProducstList.add(position, tempValue)

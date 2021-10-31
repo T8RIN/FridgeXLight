@@ -43,7 +43,7 @@ class InfoFragment : Fragment() {
         val cursorData: Cursor = mDb.rawQuery(
             "SELECT * FROM recipes WHERE id = ?",
             listOf(id.toString()).toTypedArray()
-        );
+        )
         cursorData.moveToFirst()
         data.add(
             InfoItem(

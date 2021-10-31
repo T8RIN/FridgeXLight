@@ -25,7 +25,7 @@ class SearchAdapter(
     var context: Context,
     var recipeList: ArrayList<RecyclerSortItem>,
     var onClickListener: OnClickListener,
-    var navController: NavController
+    private var navController: NavController
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

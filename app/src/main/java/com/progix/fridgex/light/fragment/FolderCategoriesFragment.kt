@@ -13,16 +13,16 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
 import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.MainActivity.Companion.mDb
-import com.progix.fridgex.light.MainActivity.Companion.podFolder
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.SecondActivity
 import com.progix.fridgex.light.adapter.FolderCategoriesAdapter
 import com.progix.fridgex.light.adapter.FolderRecipesAdapter
+import com.progix.fridgex.light.data.DataArrays.recipeImages
+import com.progix.fridgex.light.data.DataArrays.secondaryFolderCategoriesImages
 import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -32,7 +32,6 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class PodFolderFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -67,12 +66,12 @@ class PodFolderFragment : Fragment() {
     private lateinit var recycler: RecyclerView
 
 
-    private fun buildContainerTransform(entering: Boolean): MaterialContainerTransform {
-        val context = requireContext()
-        val transform = MaterialContainerTransform(context, entering)
-        transform.drawingViewId = if (entering) R.id.end_root else R.id.start_root
-        return transform
-    }
+//    private fun buildContainerTransform(entering: Boolean): MaterialContainerTransform {
+//        val context = requireContext()
+//        val transform = MaterialContainerTransform(context, entering)
+//        transform.drawingViewId = if (entering) R.id.end_root else R.id.start_root
+//        return transform
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,24 +81,31 @@ class PodFolderFragment : Fragment() {
 
 
         val id: Int = arguments?.get("catF") as Int + 1
-        val curik: Cursor = mDb.rawQuery(
+        val cursor: Cursor = mDb.rawQuery(
             "SELECT * FROM recipe_categories_global WHERE id = ?",
             listOf(id.toString()).toTypedArray()
         )
-        curik.moveToFirst()
-        val name = curik.getString(1)
-        val curik2: Cursor = mDb.rawQuery(
+        cursor.moveToFirst()
+        val name = cursor.getString(1)
+        cursor.close()
+        val cursor2: Cursor = mDb.rawQuery(
             "SELECT * FROM recipe_category_local WHERE category_global = ?",
             listOf(name.toString()).toTypedArray()
         )
-        curik2.moveToFirst()
+        cursor2.moveToFirst()
         val listFolder: ArrayList<Pair<Int, String>> = ArrayList()
         val list: ArrayList<Int> = ArrayList()
-        while (!curik2.isAfterLast) {
-            listFolder.add(Pair(podFolder[curik2.getInt(0) - 1], curik2.getString(2)))
-            list.add(curik2.getInt(0) - 1)
-            curik2.moveToNext()
+        while (!cursor2.isAfterLast) {
+            listFolder.add(
+                Pair(
+                    secondaryFolderCategoriesImages[cursor2.getInt(0) - 1],
+                    cursor2.getString(2)
+                )
+            )
+            list.add(cursor2.getInt(0) - 1)
+            cursor2.moveToNext()
         }
+        cursor2.close()
 
         //val image = v.findViewById<ImageView>(R.id.image)
         //image.setImageResource(catG[id-1])
@@ -121,7 +127,7 @@ class PodFolderFragment : Fragment() {
         return v
     }
 
-    private val folderClicker = FolderCategoriesAdapter.OnClickListener { image, id ->
+    private val folderClicker = FolderCategoriesAdapter.OnClickListener { _, id ->
         val bundle = Bundle()
         bundle.putInt("catB", id)
 
@@ -141,7 +147,7 @@ class PodFolderFragment : Fragment() {
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.folder_menu, menu);
+        inflater.inflate(R.menu.folder_menu, menu)
         val myActionMenuItem = menu.findItem(R.id.search_search)
         val searchView = myActionMenuItem.actionView as SearchView
         searchView.queryTextChangeEvents()
@@ -195,7 +201,7 @@ class PodFolderFragment : Fragment() {
                     RecyclerSortItem(
                         percentage, time, cal, prot, fats, carboh,
                         RecipeItem(
-                            MainActivity.images[id],
+                            recipeImages[id],
                             indicator,
                             name,
                             time.toString(),
@@ -260,32 +266,32 @@ class PodFolderFragment : Fragment() {
         var j: Int
         var p = 0
         var t = 0
-        val M = chtoIshem.length
-        val N = gdeIshem.length
-        if (M <= N) {
+        val m = chtoIshem.length
+        val n = gdeIshem.length
+        if (m <= n) {
             i = 0
-            while (i < M - 1) {
+            while (i < m - 1) {
                 h = h * d % q
                 ++i
             }
             i = 0
-            while (i < M) {
+            while (i < m) {
                 p = (d * p + chtoIshem[i].code) % q
                 t = (d * t + gdeIshem[i].code) % q
                 ++i
             }
             i = 0
-            while (i <= N - M) {
+            while (i <= n - m) {
                 if (p == t) {
                     j = 0
-                    while (j < M) {
+                    while (j < m) {
                         if (gdeIshem[i + j] != chtoIshem[j]) break
                         ++j
                     }
-                    if (j == M) return i
+                    if (j == m) return i
                 }
-                if (i < N - M) {
-                    t = (d * (t - gdeIshem[i].code * h) + gdeIshem[i + M].code) % q
+                if (i < n - m) {
+                    t = (d * (t - gdeIshem[i].code * h) + gdeIshem[i + m].code) % q
                     if (t < 0) t += q
                 }
                 ++i

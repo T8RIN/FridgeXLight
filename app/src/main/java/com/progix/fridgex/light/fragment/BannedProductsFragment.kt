@@ -33,7 +33,7 @@ class BannedProductsFragment : Fragment(), ActionInterface {
         }
     }
 
-    var job: Job? = null
+    private var job: Job? = null
     var adapter: BannedProductsAdapter? = null
     var loading: CircularProgressIndicator? = null
 
@@ -113,6 +113,7 @@ class BannedProductsFragment : Fragment(), ActionInterface {
 
             productsList = pairList
 
+            @Suppress("BlockingMethodInNonBlockingContext")
             Thread.sleep(200)
         }
 

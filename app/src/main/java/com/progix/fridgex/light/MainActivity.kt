@@ -1,6 +1,5 @@
 package com.progix.fridgex.light
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.database.Cursor
@@ -28,7 +27,8 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
-import com.progix.fridgex.light.R.drawable.*
+import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
+import com.progix.fridgex.light.data.DataArrays.languages
 import com.progix.fridgex.light.helper.DatabaseHelper
 import kotlinx.coroutines.*
 import java.io.IOException
@@ -42,10 +42,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
     lateinit var toolbar: Toolbar
-    private var currentFragment: Int = 0
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navController: NavController
-    private var hide: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,9 +66,7 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawer_layout)
         toolbar = findViewById(R.id.toolbar)
         bottomNavigationView = findViewById(R.id.bottom_navigation)
-        drawer = drawerLayout
         setSupportActionBar(toolbar)
-        currentFragment = R.id.nav_home
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(ic_baseline_menu_24)
         navigationView.setCheckedItem(R.id.nav_home)
@@ -78,7 +74,10 @@ class MainActivity : AppCompatActivity() {
         setupDrawerNavigation()
         setupBottomNavigation()
         visibilityNavElements(navController)
-        if (guide) Toast.makeText(this, "Guide", Toast.LENGTH_SHORT).show()
+        if (guide) {
+            Toast.makeText(this, "Guide", Toast.LENGTH_SHORT).show()
+            guide = false
+        }
         if (restart) {
             navigateTo(R.id.nav_settings, null)
             bottomNavigationView.visibility = GONE
@@ -87,14 +86,11 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.visibility = VISIBLE
         }
         setUpBadges()
-//        val actionMode = startSupportActionMode(this)
-//
-//        actionMode!!.setTitle("dddsf")
 
         listAssign()
 
         CoroutineScope(Dispatchers.Main).launch {
-            reloadEvery60Seconds()
+            testDeleteAfterFinish()
         }
     }
 
@@ -138,13 +134,13 @@ class MainActivity : AppCompatActivity() {
         val cursor: Cursor = mDb.rawQuery("SELECT * FROM products", null)
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
-            products.add(cursor.getString(2))
+            allProducts.add(cursor.getString(2))
             cursor.moveToNext()
         }
         cursor.close()
     }
 
-    private suspend fun reloadEvery60Seconds() = withContext(Dispatchers.IO) {
+    private suspend fun testDeleteAfterFinish() = withContext(Dispatchers.IO) {
         for (i in 0..950) {
             mDb.execSQL(
                 "UPDATE products SET is_in_fridge = 1 WHERE id = ?",
@@ -222,29 +218,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNavigation() {
         bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    currentFragment = item.itemId
-                    navigateTo(R.id.nav_home, null)
-                    true
-                }
-                R.id.nav_search -> {
-                    currentFragment = item.itemId
-                    navigateTo(R.id.nav_search, null)
-                    true
-                }
-                R.id.nav_fridge -> {
-                    currentFragment = item.itemId
-                    navigateTo(R.id.nav_fridge, null)
-                    true
-                }
-                R.id.nav_cart -> {
-                    currentFragment = item.itemId
-                    navigateTo(R.id.nav_cart, null)
-                    true
-                }
-                else -> false
-            }
+            navigateTo(item.itemId, null)
+            true
         }
         bottomNavigationView.setOnItemReselectedListener { }
     }
@@ -261,78 +236,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navigationView.setupWithNavController(navController)
         navigationView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.nav_home -> {
-                    if (!it.isChecked) {
-                        bottomNavigationView.selectedItemId = R.id.nav_home
-                        currentFragment = it.itemId
-                        navigateTo(R.id.nav_home, null)
-                    }
-                }
-                R.id.nav_search -> {
-                    if (!it.isChecked) {
-                        bottomNavigationView.selectedItemId = R.id.nav_search
-                        currentFragment = it.itemId
-                        navigateTo(R.id.nav_search, null)
-                    }
-                }
-                R.id.nav_fridge -> {
-                    if (!it.isChecked) {
-                        bottomNavigationView.selectedItemId = R.id.nav_fridge
-                        currentFragment = it.itemId
-                        navigateTo(R.id.nav_fridge, null)
-                    }
-                }
-                R.id.nav_cart -> {
-                    if (!it.isChecked) {
-                        bottomNavigationView.selectedItemId = R.id.nav_cart
-                        currentFragment = it.itemId
-                        navigateTo(R.id.nav_cart, null)
-                    }
-                }
-                R.id.nav_star -> {
-                    if (!it.isChecked) {
-                        currentFragment = it.itemId
-                        navigateTo(R.id.nav_star, null)
-                    }
-                }
-                R.id.nav_banned -> {
-                    if (!it.isChecked) {
-                        currentFragment = it.itemId
-                        navigateTo(R.id.nav_banned, null)
-                    }
-                }
-                R.id.nav_folder -> {
-                    if (!it.isChecked) {
-                        currentFragment = it.itemId
-                        navigateTo(R.id.nav_folder, null)
-                    }
-                }
-                R.id.nav_edit -> {
-                    if (!it.isChecked) {
-                        currentFragment = it.itemId
-                        navigateTo(R.id.nav_edit, null)
-                    }
-                }
-                R.id.nav_measures -> {
-                    if (!it.isChecked) {
-                        currentFragment = it.itemId
-                        navigateTo(R.id.nav_measures, null)
-                    }
-                }
-                R.id.nav_tip -> {
-                    if (!it.isChecked) {
-                        currentFragment = it.itemId
-                        navigateTo(R.id.nav_tip, null)
-                    }
-                }
-                R.id.nav_settings -> {
-                    if (!it.isChecked) {
-                        currentFragment = it.itemId
-                        navigateTo(R.id.nav_settings, null)
-                    }
-                }
-            }
+            navigateTo(it.itemId, null)
+            bottomNavigationView.selectedItemId = it.itemId
             drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
@@ -360,7 +265,6 @@ class MainActivity : AppCompatActivity() {
                 val current = navController.currentDestination?.id
                 current.let { bundle.putInt("prodCat", it!!) }
                 navigateTo(R.id.nav_cat, bundle)
-                currentFragment = R.id.nav_cat
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -414,31 +318,18 @@ class MainActivity : AppCompatActivity() {
         navigationView.visibility = VISIBLE
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
         bottomSlideUp()
-        hide = false
     }
 
     private fun bottomSlideUp() {
-        val layoutParams = bottomNavigationView.layoutParams
-        if (layoutParams is CoordinatorLayout.LayoutParams) {
-            val behavior = layoutParams.behavior
-            if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                val hideShowBehavior =
-                    behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
-                hideShowBehavior.slideUp(bottomNavigationView)
-            }
-        }
+        val layoutParams = bottomNavigationView.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
+        behavior.slideUp(bottomNavigationView)
     }
 
     private fun bottomSlideDown() {
-        val layoutParams = bottomNavigationView.layoutParams
-        if (layoutParams is CoordinatorLayout.LayoutParams) {
-            val behavior = layoutParams.behavior
-            if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                val hideShowBehavior =
-                    behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
-                hideShowBehavior.slideDown(bottomNavigationView)
-            }
-        }
+        val layoutParams = bottomNavigationView.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
+        behavior.slideDown(bottomNavigationView)
     }
 
     private fun hideBothNavigation(lock: Boolean) {
@@ -450,7 +341,6 @@ class MainActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             bottomSlideDown()
         }, 1)
-        hide = true
     }
 
     private fun loadNightMode(): Int? {
@@ -462,216 +352,9 @@ class MainActivity : AppCompatActivity() {
         var guide = false
         var restart = false
 
-        @SuppressLint("StaticFieldLeak")
-        var languages = ArrayList(
-            listOf(
-                "ru",
-                "uk",
-                "be",
-                "ba",
-                "kk",
-                "русский",
-                "беларуская",
-                "українська",
-                "Қазақ тілі"
-            )
-        )
         lateinit var mDb: SQLiteDatabase
-        val images: ArrayList<Int> = ArrayList(
-            listOf(
-                recipe_1,
-                recipe_2,
-                recipe_3,
-                recipe_4,
-                recipe_5,
-                recipe_6,
-                recipe_7,
-                recipe_8,
-                recipe_9,
-                recipe_10,
-                recipe_11,
-                recipe_12,
-                recipe_13,
-                recipe_14,
-                recipe_15,
-                recipe_16,
-                recipe_17,
-                recipe_18,
-                recipe_19,
-                recipe_20,
-                recipe_21,
-                recipe_22,
-                recipe_23,
-                recipe_24,
-                recipe_25,
-                recipe_26,
-                recipe_27,
-                recipe_28,
-                recipe_29,
-                recipe_30,
-                recipe_31,
-                recipe_32,
-                recipe_33,
-                recipe_34,
-                recipe_35,
-                recipe_36,
-                recipe_37,
-                recipe_38,
-                recipe_39,
-                recipe_40,
-                recipe_41,
-                recipe_42,
-                recipe_43,
-                recipe_44,
-                recipe_45,
-                recipe_46,
-                recipe_47,
-                recipe_48,
-                recipe_49,
-                recipe_50,
-                recipe_51,
-                recipe_52,
-                recipe_53,
-                recipe_54,
-                recipe_55,
-                recipe_56,
-                recipe_57,
-                recipe_58,
-                recipe_59,
-                recipe_60,
-                recipe_61,
-                recipe_62,
-                recipe_63,
-                recipe_64,
-                recipe_65,
-                recipe_66,
-                recipe_67,
-                recipe_68,
-                recipe_69,
-                recipe_70,
-                recipe_71,
-                recipe_72,
-                recipe_73,
-                recipe_74,
-                recipe_75,
-                recipe_76,
-                recipe_77,
-                recipe_78,
-                recipe_79,
-                recipe_80,
-                recipe_81,
-                recipe_82,
-                recipe_83,
-                recipe_84,
-                recipe_85,
-                recipe_86,
-                recipe_87,
-                recipe_88,
-                recipe_89,
-                recipe_90,
-                recipe_91,
-                recipe_92,
-                recipe_93,
-                recipe_94,
-                recipe_95,
-                recipe_96,
-                recipe_97,
-                recipe_98,
-                recipe_99,
-                recipe_100,
-                recipe_101,
-                recipe_102,
-                recipe_103,
-                recipe_104,
-                recipe_105,
-                recipe_106,
-                recipe_107,
-                recipe_108,
-                recipe_109,
-                recipe_110,
-                recipe_111,
-                recipe_112,
-                recipe_113,
-                recipe_114,
-                recipe_115,
-                recipe_116,
-                recipe_117,
-                recipe_118,
-                recipe_119,
-                recipe_120,
-                recipe_121,
-                recipe_122,
-                recipe_123,
-                recipe_124,
-                recipe_125,
-                recipe_126,
-                recipe_127,
-                recipe_128,
-                recipe_129,
-                recipe_130,
-                recipe_131,
-                recipe_132,
-                recipe_133,
-                recipe_134,
-                recipe_135,
-                recipe_136,
-                recipe_137,
-                recipe_138,
-                recipe_139,
-                recipe_140,
-                recipe_141,
-                recipe_142,
-                recipe_143,
-                recipe_144,
-                recipe_145
-            )
-        )
-        val catG: ArrayList<Int> = ArrayList(
-            listOf(folder1, folder2, folder3, folder4, folder5, folder6, folder7, folder8)
-        )
 
-        val advices: ArrayList<Int> = ArrayList(
-            listOf(advice1, advice2, advice3, advice4, advice5, advice6, advice7, advice8)
-        )
-
-        val podFolder: ArrayList<Int> = ArrayList(
-            listOf(
-                podcateg_1, podcateg_2, podcateg_3, podcateg_4, podcateg_5,
-                podcateg_6, podcateg_7, podcateg_8, podcateg_9, podcateg_10, podcateg_11,
-                podcateg_12, podcateg_13, podcateg_14, podcateg_15, podcateg_16,
-                podcateg_17, podcateg_18, podcateg_19, podcateg_20, podcateg_21, podcateg_22,
-                podcateg_23, podcateg_24, podcateg_25, podcateg_26, podcateg_27, podcateg_28
-            )
-        )
-
-        val imagesCat: ArrayList<Int> = ArrayList(
-            listOf(
-                ic_1,
-                ic_2,
-                ic_3,
-                ic_4,
-                ic_5,
-                ic_6,
-                ic_7,
-                ic_8,
-                ic_9,
-                ic_10,
-                ic_11,
-                ic_12,
-                ic_13,
-                ic_14,
-                ic_15,
-                ic_16,
-                ic_17,
-                ic_18,
-                ic_19,
-                ic_20,
-                ic_21,
-            )
-        )
-
-        val products: ArrayList<String> = ArrayList()
-        lateinit var drawer: DrawerLayout
+        val allProducts: ArrayList<String> = ArrayList()
 
         var isMultiSelectOn = false
         var actionMode: ActionMode? = null
@@ -722,8 +405,9 @@ class MainActivity : AppCompatActivity() {
 
     private var waiting: Job? = null
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     private suspend fun checkForActivity() = withContext(Dispatchers.IO) {
-        Thread.sleep(900000)
+        Thread.sleep(600000)
     }
 
 }

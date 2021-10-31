@@ -1,5 +1,6 @@
 package com.progix.fridgex.light.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
@@ -17,11 +18,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import com.progix.fridgex.light.MainActivity
-import com.progix.fridgex.light.MainActivity.Companion.imagesCat
 import com.progix.fridgex.light.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.custom.CustomSnackbar
+import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
 import com.progix.fridgex.light.helper.ActionInterface
 
 
@@ -42,7 +43,7 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
             listOf(cartList[position].second).toTypedArray()
         )
         cursor.moveToFirst()
-        holder.image.setImageResource(imagesCat[cursor.getInt(0) - 1])
+        holder.image.setImageResource(productCategoriesImages[cursor.getInt(0) - 1])
         cursor.close()
         val cc: Cursor = mDb.rawQuery(
             "SELECT * FROM products WHERE product = ?",
@@ -70,7 +71,7 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
 
     var tempList: ArrayList<String>? = null
 
-    var crossList: ArrayList<String> = ArrayList()
+    private var crossList: ArrayList<String> = ArrayList()
 
     var tempPositions: ArrayList<Int>? = null
 
@@ -170,6 +171,7 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
 
     val selectedPositions: ArrayList<Int> = ArrayList()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun doSomeAction(modifier: String) {
         if (selectedIds.size < 1) return
         when (modifier) {
@@ -262,7 +264,10 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
                 }
                 for (i in 0 until tempList!!.size) {
                     val temp = tempList!![i]
-                    val cursor: Cursor = mDb.rawQuery("SELECT * FROM products WHERE product = ?", listOf(temp).toTypedArray())
+                    val cursor: Cursor = mDb.rawQuery(
+                        "SELECT * FROM products WHERE product = ?",
+                        listOf(temp).toTypedArray()
+                    )
                     cursor.moveToFirst()
                     if (cursor.getInt(5) == 1) crossList.add(temp)
                     mDb.execSQL(
@@ -273,6 +278,7 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
                         "UPDATE products SET is_in_cart = 0 WHERE product = ?",
                         listOf(temp).toTypedArray()
                     )
+                    cursor.close()
 
                     val tempPos = cartList.indexOf(delList[i])
                     indexes.add(tempPos)
@@ -293,7 +299,10 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
                                 listOf(temp).toTypedArray()
                             )
                             for (item in crossList) {
-                                mDb.execSQL("UPDATE products SET amount = 1 WHERE product = ?", listOf(item).toTypedArray())
+                                mDb.execSQL(
+                                    "UPDATE products SET amount = 1 WHERE product = ?",
+                                    listOf(item).toTypedArray()
+                                )
                             }
                             crossList.clear()
                             if (indexes[i] < cartList.size) cartList.add(indexes[i], delList[i])

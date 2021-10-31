@@ -43,7 +43,7 @@ class RecipeFragment : Fragment() {
         cursor.moveToFirst()
 
         val list = cursor.getString(8).split("\n")
-
+        cursor.close()
         recycler.adapter = RecipeAdapter(requireContext(), list as ArrayList<String>)
 
 

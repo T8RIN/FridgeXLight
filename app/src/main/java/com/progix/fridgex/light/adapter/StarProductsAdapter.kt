@@ -1,5 +1,6 @@
 package com.progix.fridgex.light.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.view.LayoutInflater
@@ -14,11 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
 import com.progix.fridgex.light.MainActivity
-import com.progix.fridgex.light.MainActivity.Companion.imagesCat
 import com.progix.fridgex.light.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.custom.CustomSnackbar
+import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
 import com.progix.fridgex.light.helper.ActionInterface
 
 
@@ -45,7 +46,7 @@ class StarProductsAdapter(
             listOf(starProducstList[position].second).toTypedArray()
         )
         cursor2.moveToFirst()
-        holder.image.setImageResource(imagesCat[cursor2.getInt(0) - 1])
+        holder.image.setImageResource(productCategoriesImages[cursor2.getInt(0) - 1])
 
         val cursor: Cursor =
             mDb.rawQuery("SELECT * FROM products WHERE product = ?", listOf(name).toTypedArray())
@@ -315,6 +316,7 @@ class StarProductsAdapter(
 
     val selectedPositions: ArrayList<Int> = ArrayList()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun doSomeAction(modifier: String) {
         val bottomNav =
             (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)

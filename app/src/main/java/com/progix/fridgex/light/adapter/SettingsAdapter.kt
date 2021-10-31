@@ -24,8 +24,8 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
         return SettingsHolder(itemView)
     }
 
-    private var checkedItem = 3;
-    private var checkedItemCart = 1;
+    private var checkedItem = 3
+    private var checkedItemCart = 1
     override fun onBindViewHolder(holder: SettingsHolder, position: Int) {
         when (position) {
             0 -> {

@@ -254,7 +254,6 @@
     <string name="addingModeText">Add</string>
     <string name="ignoreText">Ignore</string>
     <string name="deleteWord">Delete</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="deletedFromStarred">Removed from starred</string>
     <string name="addedToFridge">Added to fridge</string>
     <string name="deFridge">del Fridge</string>

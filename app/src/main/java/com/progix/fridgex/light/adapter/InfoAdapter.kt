@@ -19,7 +19,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.model.InfoItem
 
 
-class InfoAdapter(var context: Context, var infoList: ArrayList<InfoItem>) :
+class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -41,10 +41,10 @@ class InfoAdapter(var context: Context, var infoList: ArrayList<InfoItem>) :
     override fun getItemViewType(position: Int): Int {
         return when (position) {
             7 -> {
-                2;
+                2
             }
             else -> {
-                1;
+                1
             }
         }
     }

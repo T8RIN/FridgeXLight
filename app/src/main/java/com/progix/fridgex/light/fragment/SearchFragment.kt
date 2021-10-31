@@ -22,13 +22,13 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.MainActivity
-import com.progix.fridgex.light.MainActivity.Companion.images
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.integer
 import com.progix.fridgex.light.SecondActivity
 import com.progix.fridgex.light.adapter.NavigationAdapter
 import com.progix.fridgex.light.adapter.SearchAdapter
+import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.model.NavItem
 import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
@@ -167,16 +167,16 @@ class SearchFragment : Fragment() {
                     val fats = allRecipes.getDouble(12)
                     val carboh = allRecipes.getDouble(13)
                     var having = 0
-                    val products: Cursor = mDb.rawQuery(
+                    val prodCursor: Cursor = mDb.rawQuery(
                         "SELECT * FROM products WHERE is_in_fridge = 1",
                         null
                     )
-                    products.moveToFirst()
+                    prodCursor.moveToFirst()
                     val needed: ArrayList<String> =
                         ArrayList(allRecipes.getString(4).trim().split(" "))
-                    while (!products.isAfterLast) {
-                        if (needed.contains(products.getString(0))) having++
-                        products.moveToNext()
+                    while (!prodCursor.isAfterLast) {
+                        if (needed.contains(prodCursor.getString(0))) having++
+                        prodCursor.moveToNext()
                     }
                     var indicator = 0
                     when {
@@ -191,7 +191,7 @@ class SearchFragment : Fragment() {
                             RecyclerSortItem(
                                 percentage, time, cal, prot, fats, carboh,
                                 RecipeItem(
-                                    images[id],
+                                    recipeImages[id],
                                     indicator,
                                     name,
                                     time.toString(),
@@ -199,7 +199,7 @@ class SearchFragment : Fragment() {
                                 )
                             )
                         )
-                    products.close()
+                    prodCursor.close()
                 }
                 allRecipes.moveToNext()
             }
@@ -228,6 +228,7 @@ class SearchFragment : Fragment() {
             if (checked) {
                 pairList.reverse()
             }
+            @Suppress("BlockingMethodInNonBlockingContext")
             Thread.sleep(200)
         }
 
@@ -287,29 +288,17 @@ class SearchFragment : Fragment() {
     private fun slideDown() {
         val bNav =
             (requireContext() as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        val layoutParams = bNav.layoutParams
-        if (layoutParams is CoordinatorLayout.LayoutParams) {
-            val behavior = layoutParams.behavior
-            if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                val hideShowBehavior =
-                    behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
-                hideShowBehavior.slideDown(bNav)
-            }
-        }
+        val layoutParams = bNav.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
+        behavior.slideDown(bNav)
     }
 
     private fun slideUp() {
         val bNav =
             (requireContext() as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        val layoutParams = bNav.layoutParams
-        if (layoutParams is CoordinatorLayout.LayoutParams) {
-            val behavior = layoutParams.behavior
-            if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                val hideShowBehavior =
-                    behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
-                hideShowBehavior.slideUp(bNav)
-            }
-        }
+        val layoutParams = bNav.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
+        behavior.slideUp(bNav)
     }
 
     private val recipeClicker = SearchAdapter.OnClickListener { image, id ->

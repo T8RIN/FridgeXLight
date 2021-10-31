@@ -15,6 +15,7 @@ import com.progix.fridgex.light.MainActivity
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.SecondActivity
 import com.progix.fridgex.light.adapter.BannedRecipesAdapter
+import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.helper.ActionInterface
 import com.progix.fridgex.light.helper.ActionModeCallback
 import com.progix.fridgex.light.model.RecipeItem
@@ -124,7 +125,7 @@ class BannedRecipesFragment : Fragment(), ActionInterface {
                     RecyclerSortItem(
                         percentage, time, cal, prot, fats, carboh,
                         RecipeItem(
-                            MainActivity.images[id],
+                            recipeImages[id],
                             indicator,
                             name,
                             time.toString(),
@@ -140,10 +141,11 @@ class BannedRecipesFragment : Fragment(), ActionInterface {
 
             recipeList = pairList
 
+            @Suppress("BlockingMethodInNonBlockingContext")
             Thread.sleep(200)
         }
 
-    var job: Job? = null
+    private var job: Job? = null
     var adapter: BannedRecipesAdapter? = null
 
     companion object {

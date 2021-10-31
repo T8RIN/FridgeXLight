@@ -51,6 +51,7 @@ class TipFragment : Fragment() {
             tipList.add(Pair(cursor.getString(0).toInt(), cursor.getString(1)))
             cursor.moveToNext()
         }
+        cursor.close()
         val adapter = TipAdapter(requireContext(), tipList, findNavController())
         recyclerView.apply {
             this.adapter = adapter
@@ -76,7 +77,7 @@ class TipFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.tips_menu, menu);
+        inflater.inflate(R.menu.tips_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

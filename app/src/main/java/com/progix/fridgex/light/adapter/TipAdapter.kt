@@ -13,15 +13,15 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.progix.fridgex.light.MainActivity.Companion.advices
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.data.DataArrays.adviceImages
 
 
 class TipAdapter(
     var context: Context,
-    var folderList: ArrayList<Pair<Int, String>>,
+    var tipList: ArrayList<Pair<Int, String>>,
     //var onClickListener: OnClickListener,
-    var navController: NavController
+    private var navController: NavController
 ) : RecyclerView.Adapter<TipAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,8 +32,8 @@ class TipAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide.with(context).load(advices[folderList[position].first - 1]).into(holder.image)
-        holder.category.text = folderList[position].second
+        Glide.with(context).load(adviceImages[tipList[position].first - 1]).into(holder.image)
+        holder.category.text = tipList[position].second
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt("advice", position)
@@ -49,7 +49,7 @@ class TipAdapter(
     }
 
     override fun getItemCount(): Int {
-        return folderList.size
+        return tipList.size
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

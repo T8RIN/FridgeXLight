@@ -17,18 +17,10 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ProductsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProductsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -49,9 +41,9 @@ class ProductsFragment : Fragment() {
 
     lateinit var recycler: RecyclerView
     private var prodList: ArrayList<String> = ArrayList()
-    var idd: Int = 0
+    private var idd: Int = 0
 
-    var job: Job? = null
+    private var job: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,7 +85,7 @@ class ProductsFragment : Fragment() {
         return@withContext array
     }
 
-    var pD: ProductsAdapter? = null
+    private var pD: ProductsAdapter? = null
 
     companion object {
         @JvmStatic
@@ -110,7 +102,7 @@ class ProductsFragment : Fragment() {
         if (s!!.isNotEmpty()) {
             val pairArrayList = ArrayList<Pair<Int, String>>()
             val list = ArrayList<String>()
-            for (item in MainActivity.products) {
+            for (item in MainActivity.allProducts) {
                 val temp: Int =
                     searchString(s.lowercase(), item)
                 if (temp != 101) {
@@ -129,7 +121,7 @@ class ProductsFragment : Fragment() {
         }
     }
 
-    fun searchString(chtoIshem: String, gdeIshem: String): Int {
+    private fun searchString(chtoIshem: String, gdeIshem: String): Int {
         val d = 256
         val q = 101
         var h = 1
@@ -137,32 +129,32 @@ class ProductsFragment : Fragment() {
         var j: Int
         var p = 0
         var t = 0
-        val M = chtoIshem.length
-        val N = gdeIshem.length
-        if (M <= N) {
+        val m = chtoIshem.length
+        val n = gdeIshem.length
+        if (m <= n) {
             i = 0
-            while (i < M - 1) {
+            while (i < m - 1) {
                 h = h * d % q
                 ++i
             }
             i = 0
-            while (i < M) {
+            while (i < m) {
                 p = (d * p + chtoIshem[i].code) % q
                 t = (d * t + gdeIshem[i].code) % q
                 ++i
             }
             i = 0
-            while (i <= N - M) {
+            while (i <= n - m) {
                 if (p == t) {
                     j = 0
-                    while (j < M) {
+                    while (j < m) {
                         if (gdeIshem[i + j] != chtoIshem[j]) break
                         ++j
                     }
-                    if (j == M) return i
+                    if (j == m) return i
                 }
-                if (i < N - M) {
-                    t = (d * (t - gdeIshem[i].code * h) + gdeIshem[i + M].code) % q
+                if (i < n - m) {
+                    t = (d * (t - gdeIshem[i].code * h) + gdeIshem[i + m].code) % q
                     if (t < 0) t += q
                 }
                 ++i

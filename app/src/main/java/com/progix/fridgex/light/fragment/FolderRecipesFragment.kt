@@ -20,24 +20,17 @@ import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.SecondActivity
 import com.progix.fridgex.light.adapter.FolderRecipesAdapter
+import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PodPodFolderFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class PodPodFolderFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -67,12 +60,12 @@ class PodPodFolderFragment : Fragment() {
         val v = inflater.inflate(R.layout.fragment_pod_pod_folder, container, false)
 
         val id: Int = arguments?.get("catB") as Int + 1
-        val curik2: Cursor = mDb.rawQuery(
+        val cursor2: Cursor = mDb.rawQuery(
             "SELECT * FROM recipe_category_local WHERE id = ?",
             listOf(id.toString()).toTypedArray()
         )
-        curik2.moveToFirst()
-        val name = curik2.getString(2)
+        cursor2.moveToFirst()
+        val name = cursor2.getString(2)
 
         Handler(Looper.getMainLooper()).postDelayed({
             (requireActivity() as MainActivity).toolbar.title = name
@@ -94,7 +87,7 @@ class PodPodFolderFragment : Fragment() {
             (recycler.layoutManager as StaggeredGridLayoutManager).spanCount = 2
         }
 
-        curik2.close()
+        cursor2.close()
 
         return v
     }
@@ -125,7 +118,7 @@ class PodPodFolderFragment : Fragment() {
             allRecipes.moveToFirst()
             while (!allRecipes.isAfterLast) {
                 val id = allRecipes.getInt(0) - 1
-                val name = allRecipes.getString(3)
+                val recipeName = allRecipes.getString(3)
                 val time = allRecipes.getInt(6)
                 val cal = allRecipes.getInt(10).toDouble()
                 val prot = allRecipes.getDouble(11)
@@ -155,9 +148,9 @@ class PodPodFolderFragment : Fragment() {
                     RecyclerSortItem(
                         percentage, time, cal, prot, fats, carboh,
                         RecipeItem(
-                            MainActivity.images[id],
+                            recipeImages[id],
                             indicator,
-                            name,
+                            recipeName,
                             time.toString(),
                             xOfY
                         )
@@ -171,19 +164,11 @@ class PodPodFolderFragment : Fragment() {
 
             recipeList = pairList
 
+            @Suppress("BlockingMethodInNonBlockingContext")
             Thread.sleep(200)
         }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PodPodFolderFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             PodPodFolderFragment().apply {
@@ -195,7 +180,7 @@ class PodPodFolderFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.folder_menu, menu);
+        inflater.inflate(R.menu.folder_menu, menu)
         val myActionMenuItem = menu.findItem(R.id.search_search)
         val searchView = myActionMenuItem.actionView as SearchView
         searchView.queryTextChangeEvents()
@@ -249,7 +234,7 @@ class PodPodFolderFragment : Fragment() {
                     RecyclerSortItem(
                         percentage, time, cal, prot, fats, carboh,
                         RecipeItem(
-                            MainActivity.images[id],
+                            recipeImages[id],
                             indicator,
                             name,
                             time.toString(),
@@ -302,32 +287,32 @@ class PodPodFolderFragment : Fragment() {
         var j: Int
         var p = 0
         var t = 0
-        val M = chtoIshem.length
-        val N = gdeIshem.length
-        if (M <= N) {
+        val m = chtoIshem.length
+        val n = gdeIshem.length
+        if (m <= n) {
             i = 0
-            while (i < M - 1) {
+            while (i < m - 1) {
                 h = h * d % q
                 ++i
             }
             i = 0
-            while (i < M) {
+            while (i < m) {
                 p = (d * p + chtoIshem[i].code) % q
                 t = (d * t + gdeIshem[i].code) % q
                 ++i
             }
             i = 0
-            while (i <= N - M) {
+            while (i <= n - m) {
                 if (p == t) {
                     j = 0
-                    while (j < M) {
+                    while (j < m) {
                         if (gdeIshem[i + j] != chtoIshem[j]) break
                         ++j
                     }
-                    if (j == M) return i
+                    if (j == m) return i
                 }
-                if (i < N - M) {
-                    t = (d * (t - gdeIshem[i].code * h) + gdeIshem[i + M].code) % q
+                if (i < n - m) {
+                    t = (d * (t - gdeIshem[i].code * h) + gdeIshem[i + m].code) % q
                     if (t < 0) t += q
                 }
                 ++i

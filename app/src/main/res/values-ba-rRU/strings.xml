@@ -225,4 +225,26 @@
     <string name="rating">Мнение пользователя</string>
     <string name="inStarred">В избранном</string>
     <string name="inBanned">Заблокирован</string>
+    <string name="toFridge">В холодильник</string>
+    <string name="delFridgeProduct">Продукт удален из холодильника</string>
+    <string name="cartSettings">Режим корзины</string>
+    <string name="ignoreMessage">(автоматическое добавление будет отключено)</string>
+    <string name="addingModeMessage">(при вычеркивании продукта из корзины, он будет автоматичсеки помещен в холодильник)</string>
+    <string name="addingModeText">Добавление</string>
+    <string name="ignoreText">Игнорирование</string>
+    <string name="deleteWord">Удалить</string>
+    <string name="deletedFromStarred">Удалено из избранного</string>
+    <string name="addedToFridge">Добавлено в холодильник</string>
+    <string name="deFridge">Из холодильника</string>
+    <string name="deCart">Из корзины</string>
+    <string name="deleteFromCart">Удалено из корзины</string>
+    <string name="deleteFromFridge">Удалено из холодильника</string>
+    <string name="starClearError">У вас нет избранных рецептов/продуктов</string>
+    <string name="cup200">Стакан 200мл</string>
+    <string name="cup250">Стакан 250мл</string>
+    <string name="tbsp">Стол. Ложка</string>
+    <string name="tsp">Чн. Ложка</string>
+    <string name="onePiece">1 шт.</string>
+    <string name="deletedFromBanned">Удалено из блок-листа</string>
+    <string name="banClearError">Пока ничего не заблокировано</string>
 </resources>

@@ -91,7 +91,7 @@ class StarFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_with_only_delete_option, menu);
+        inflater.inflate(R.menu.menu_with_only_delete_option, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

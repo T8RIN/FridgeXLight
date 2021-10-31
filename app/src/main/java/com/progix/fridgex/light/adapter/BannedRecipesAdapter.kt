@@ -1,5 +1,6 @@
 package com.progix.fridgex.light.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.view.LayoutInflater
@@ -120,6 +121,7 @@ class BannedRecipesAdapter(
 
     val selectedPositions: ArrayList<Int> = ArrayList()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun doSomeAction(modifier: String) {
         if (selectedIds.size < 1) return
         when (modifier) {

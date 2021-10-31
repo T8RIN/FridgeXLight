@@ -31,7 +31,7 @@ class StarProductsFragment : Fragment(), ActionInterface {
         }
     }
 
-    var job: Job? = null
+    private var job: Job? = null
     var adapter: StarProductsAdapter? = null
 
     override fun onCreateView(
@@ -85,6 +85,7 @@ class StarProductsFragment : Fragment(), ActionInterface {
 
             productsList = pairList
 
+            @Suppress("BlockingMethodInNonBlockingContext")
             Thread.sleep(200)
         }
 

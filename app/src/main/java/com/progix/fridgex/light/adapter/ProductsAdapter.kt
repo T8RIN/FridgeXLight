@@ -173,6 +173,8 @@ class ProductsAdapter(var context: Context, var fridgeList: ArrayList<String>, v
         val popupMenus = PopupMenu(context, view)
         inflatePopup(popupMenus, starred, banned)
         popupMenus.setOnMenuItemClickListener {
+            val bNav =
+                (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
             when (it.itemId) {
                 R.id.star_recipe -> {
                     mDb.execSQL("UPDATE products SET is_starred = 1 WHERE id = $id")
@@ -217,8 +219,7 @@ class ProductsAdapter(var context: Context, var fridgeList: ArrayList<String>, v
                     true
                 }
                 R.id.nav_fridge -> {
-                    (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
-                        .getOrCreateBadge(R.id.nav_fridge).number += 1
+                    bNav.getOrCreateBadge(R.id.nav_fridge).number += 1
                     mDb.execSQL("UPDATE products SET is_in_fridge = 1 WHERE id = $id")
                     showSnackBar(
                         context.getString(R.string.delFridgeProduct),
@@ -231,8 +232,7 @@ class ProductsAdapter(var context: Context, var fridgeList: ArrayList<String>, v
                     true
                 }
                 R.id.nav_cart -> {
-                    (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
-                        .getOrCreateBadge(R.id.nav_cart).number += 1
+                    bNav.getOrCreateBadge(R.id.nav_cart).number += 1
                     mDb.execSQL("UPDATE products SET is_in_cart = 1 WHERE id = $id")
                     showSnackBar(
                         context.getString(R.string.delFridgeProduct),

@@ -11,9 +11,9 @@ import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.progix.fridgex.light.MainActivity.Companion.imagesCat
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
 
 
 class CategoryAdapter(
@@ -38,7 +38,7 @@ class CategoryAdapter(
             listOf(fridgeList[position]).toTypedArray()
         )
         cursor.moveToFirst()
-        holder.image.setImageResource(imagesCat[cursor.getInt(0) - 1])
+        holder.image.setImageResource(productCategoriesImages[cursor.getInt(0) - 1])
         cursor.close()
 
         holder.bind(onClickListener, fridgeList[position])

@@ -86,7 +86,7 @@ class CustomSnackbar(val context: Context) {
         snackBar.view.layoutParams = params
 
         snackBar.view.translationY =
-            -(50 * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
+            -((bottomMargin - 5) * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
 
         return snackBar
     }

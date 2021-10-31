@@ -60,7 +60,7 @@ class CartFragment : Fragment(), ActionInterface {
         }
     }
 
-    var dispose: Disposable? = null
+    private var dispose: Disposable? = null
 
     private lateinit var loading: CircularProgressIndicator
 
@@ -179,17 +179,12 @@ class CartFragment : Fragment(), ActionInterface {
                         .setPositiveButton(
                             getString(R.string.cont)
                         ) { _, _ ->
-                            val anchor: BottomNavigationView =
+                            val bottomNavigationView: BottomNavigationView =
                                 requireActivity().findViewById(R.id.bottom_navigation)
-                            val layoutParams = anchor.layoutParams
-                            if (layoutParams is CoordinatorLayout.LayoutParams) {
-                                val behavior = layoutParams.behavior
-                                if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                                    val hideShowBehavior =
-                                        behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
-                                    hideShowBehavior.slideUp(anchor)
-                                }
-                            }
+                            val layoutParams =
+                                bottomNavigationView.layoutParams as CoordinatorLayout.LayoutParams
+                            val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
+                            behavior.slideUp(bottomNavigationView)
                             CoroutineScope(Dispatchers.Main).launch {
                                 annotationCard.visibility = View.VISIBLE
                                 recycler.visibility = View.INVISIBLE
@@ -212,14 +207,7 @@ class CartFragment : Fragment(), ActionInterface {
                                         adapter = CartAdapter(requireContext(), cartList)
                                         adapter!!.init(forThis())
                                         recycler.adapter = adapter
-                                        if (layoutParams is CoordinatorLayout.LayoutParams) {
-                                            val behavior = layoutParams.behavior
-                                            if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                                                val hideShowBehavior =
-                                                    behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
-                                                hideShowBehavior.slideUp(anchor)
-                                            }
-                                        }
+                                        behavior.slideDown(bottomNavigationView)
                                         loading.visibility = View.GONE
                                     }
                                 }

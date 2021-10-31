@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.progix.fridgex.light.R
 
 
-class IngredsAdapter(var context: Context, var recipeList: ArrayList<Pair<String, String>>) :
-    RecyclerView.Adapter<IngredsAdapter.ViewHolder>() {
+class IngredientsAdapter(
+    var context: Context,
+    var ingredientsList: ArrayList<Pair<String, String>>
+) :
+    RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View =
@@ -20,17 +23,17 @@ class IngredsAdapter(var context: Context, var recipeList: ArrayList<Pair<String
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.prodName.text = recipeList[position].first.replaceFirstChar(Char::uppercase)
-        holder.amount.text = recipeList[position].second
+        holder.prodName.text = ingredientsList[position].first.replaceFirstChar(Char::uppercase)
+        holder.amount.text = ingredientsList[position].second
     }
 
     override fun getItemCount(): Int {
-        return recipeList.size
+        return ingredientsList.size
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var prodName = view.findViewById<TextView>(R.id.name)
-        val amount = view.findViewById<TextView>(R.id.amount)
+        var prodName: TextView = view.findViewById(R.id.name)
+        val amount: TextView = view.findViewById(R.id.amount)
 
     }
 

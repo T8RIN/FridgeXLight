@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
-import com.progix.fridgex.light.MainActivity
-import com.progix.fridgex.light.MainActivity.Companion.catG
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.SecondActivity
 import com.progix.fridgex.light.adapter.FolderAdapter
 import com.progix.fridgex.light.adapter.FolderRecipesAdapter
+import com.progix.fridgex.light.data.DataArrays.folderCategoriesImages
+import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -54,7 +54,7 @@ class FolderFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val v: View = inflater.inflate(R.layout.fragment_folder, container, false)
 
         recycler = v.findViewById(R.id.folderRecycler)
@@ -62,9 +62,10 @@ class FolderFragment : Fragment() {
         val cursor: Cursor = mDb.rawQuery("SELECT * FROM recipe_categories_global", null)
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
-            folderList.add(Pair(catG[cursor.getInt(0) - 1], cursor.getString(1)))
+            folderList.add(Pair(folderCategoriesImages[cursor.getInt(0) - 1], cursor.getString(1)))
             cursor.moveToNext()
         }
+        cursor.close()
 
         adapter = FolderAdapter(requireContext(), folderList, folderClicker)
 
@@ -86,7 +87,7 @@ class FolderFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.folder_menu, menu);
+        inflater.inflate(R.menu.folder_menu, menu)
         val myActionMenuItem = menu.findItem(R.id.search_search)
         val searchView = myActionMenuItem.actionView as SearchView
         searchView.queryTextChangeEvents()
@@ -140,7 +141,7 @@ class FolderFragment : Fragment() {
                     RecyclerSortItem(
                         percentage, time, cal, prot, fats, carboh,
                         RecipeItem(
-                            MainActivity.images[id],
+                            recipeImages[id],
                             indicator,
                             name,
                             time.toString(),
@@ -200,32 +201,32 @@ class FolderFragment : Fragment() {
         var j: Int
         var p = 0
         var t = 0
-        val M = chtoIshem.length
-        val N = gdeIshem.length
-        if (M <= N) {
+        val m = chtoIshem.length
+        val n = gdeIshem.length
+        if (m <= n) {
             i = 0
-            while (i < M - 1) {
+            while (i < m - 1) {
                 h = h * d % q
                 ++i
             }
             i = 0
-            while (i < M) {
+            while (i < m) {
                 p = (d * p + chtoIshem[i].code) % q
                 t = (d * t + gdeIshem[i].code) % q
                 ++i
             }
             i = 0
-            while (i <= N - M) {
+            while (i <= n - m) {
                 if (p == t) {
                     j = 0
-                    while (j < M) {
+                    while (j < m) {
                         if (gdeIshem[i + j] != chtoIshem[j]) break
                         ++j
                     }
-                    if (j == M) return i
+                    if (j == m) return i
                 }
-                if (i < N - M) {
-                    t = (d * (t - gdeIshem[i].code * h) + gdeIshem[i + M].code) % q
+                if (i < n - m) {
+                    t = (d * (t - gdeIshem[i].code * h) + gdeIshem[i + m].code) % q
                     if (t < 0) t += q
                 }
                 ++i
@@ -235,7 +236,7 @@ class FolderFragment : Fragment() {
     }
 
 
-    private val folderClicker = FolderAdapter.OnClickListener { image, id ->
+    private val folderClicker = FolderAdapter.OnClickListener { _, id ->
         val bundle = Bundle()
         bundle.putInt("catF", id)
 //        val extras = FragmentNavigatorExtras(

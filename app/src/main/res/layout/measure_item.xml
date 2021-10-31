@@ -16,11 +16,11 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:padding="10dp"
                 android:id="@+id/product"
                 android:layout_width="150dp"
                 android:layout_height="90dp"
                 android:gravity="center"
+                android:padding="10dp"
                 android:text="@string/products"
                 android:textColor="@color/manualText2" />
 

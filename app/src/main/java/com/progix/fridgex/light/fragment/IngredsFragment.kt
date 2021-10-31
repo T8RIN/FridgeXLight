@@ -1,5 +1,6 @@
 package com.progix.fridgex.light.fragment
 
+import android.annotation.SuppressLint
 import android.database.Cursor
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +13,7 @@ import com.google.android.material.slider.Slider
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.SecondActivity
-import com.progix.fridgex.light.adapter.IngredsAdapter
+import com.progix.fridgex.light.adapter.IngredientsAdapter
 import java.text.DecimalFormat
 
 
@@ -31,6 +32,7 @@ class IngredsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,7 +48,9 @@ class IngredsFragment : Fragment() {
         cursor.moveToFirst()
         val products = cursor.getString(4).trim().split(" ")
         val amount = cursor.getString(5).split(" ")
-        val productss: ArrayList<Pair<String, String>> = ArrayList()
+        cursor.close()
+
+        val prodList: ArrayList<Pair<String, String>> = ArrayList()
         val range = products.size - 1
         for (i in 0..range) {
             val cursor2: Cursor = mDb.rawQuery(
@@ -55,26 +59,26 @@ class IngredsFragment : Fragment() {
             )
             cursor2.moveToFirst()
             if (amount[i] != "-1") {
-                val cursorr: Cursor = mDb.rawQuery(
+                val tempCursor: Cursor = mDb.rawQuery(
                     "SELECT * FROM categories WHERE category = ?",
                     listOf(cursor2.getString(1)).toTypedArray()
                 )
-                cursorr.moveToFirst()
-                productss.add(Pair(cursor2.getString(2), amount[i] + " " + cursorr.getString(2)))
-                cursorr.close()
+                tempCursor.moveToFirst()
+                prodList.add(Pair(cursor2.getString(2), amount[i] + " " + tempCursor.getString(2)))
+                tempCursor.close()
             } else
-                productss.add(Pair(cursor2.getString(2), getString(R.string.taste)))
+                prodList.add(Pair(cursor2.getString(2), getString(R.string.taste)))
             cursor2.close()
         }
         slider.addOnChangeListener(Slider.OnChangeListener { _, valuer, _ ->
             portions = valuer.toInt()
-            productss.clear()
-            val rangeous = products.size - 1
+            prodList.clear()
+            val rangeLocal = products.size - 1
             val df = DecimalFormat("#.#")
             v.findViewById<TextView>(R.id.text).text =
                 getString(R.string.portions) + " " + portions
 
-            for (i in 0..rangeous) {
+            for (i in 0..rangeLocal) {
                 val cursor2: Cursor = mDb.rawQuery(
                     "SELECT * FROM products WHERE id = ?",
                     listOf(products[i]).toTypedArray()
@@ -82,35 +86,37 @@ class IngredsFragment : Fragment() {
                 cursor2.moveToFirst()
                 if (amount[i] != "-1") {
                     val new = amount[i].split(",")
-                    val integr: Double = if (new.size > 1) {
+                    val modifier: Double = if (new.size > 1) {
                         (new[0] + "." + new[1]).toDouble()
                     } else {
                         amount[i].toDouble()
                     }
-                    val cursorr: Cursor = mDb.rawQuery(
+                    val tempCursor: Cursor = mDb.rawQuery(
                         "SELECT * FROM categories WHERE category = ?",
                         listOf(cursor2.getString(1)).toTypedArray()
                     )
-                    cursorr.moveToFirst()
-                    productss.add(
+                    tempCursor.moveToFirst()
+                    prodList.add(
                         Pair(
                             cursor2.getString(2),
-                            df.format(integr * valuer.toInt()).toString() + " " + cursorr.getString(
+                            df.format(modifier * valuer.toInt())
+                                .toString() + " " + tempCursor.getString(
                                 2
                             )
                         )
                     )
+                    tempCursor.close()
                 } else
-                    productss.add(Pair(cursor2.getString(2), getString(R.string.taste)))
+                    prodList.add(Pair(cursor2.getString(2), getString(R.string.taste)))
                 cursor2.close()
             }
-            recycler.adapter = IngredsAdapter(requireContext(), productss)
+            recycler.adapter = IngredientsAdapter(requireContext(), prodList)
         })
 
 
-        recycler.adapter = IngredsAdapter(requireContext(), productss)
+        recycler.adapter = IngredientsAdapter(requireContext(), prodList)
 
-        init(productss)
+        init(prodList)
 
         return v
     }

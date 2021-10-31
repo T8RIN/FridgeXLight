@@ -39,7 +39,6 @@ private const val ARG_PARAM2 = "param2"
 class FridgeFragment : Fragment(), ActionInterface {
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var wuv: View
     private val fridgeList: ArrayList<Pair<String, String>> = ArrayList()
     private lateinit var recycler: RecyclerView
     private lateinit var annotationCard: MaterialCardView
@@ -60,7 +59,7 @@ class FridgeFragment : Fragment(), ActionInterface {
         }
     }
 
-    var dispose: Disposable? = null
+    private var dispose: Disposable? = null
 
     private var adapter: FridgeAdapter? = null
 
@@ -110,6 +109,7 @@ class FridgeFragment : Fragment(), ActionInterface {
             }
             fridgeList.sortBy { it.first }
             item.onNext(fridgeList)
+            cursor.close()
         }
     }
 
@@ -139,17 +139,13 @@ class FridgeFragment : Fragment(), ActionInterface {
                         .setPositiveButton(
                             getString(R.string.cont)
                         ) { _, _ ->
-                            val anchor: BottomNavigationView =
+                            val bottomNavigationView: BottomNavigationView =
                                 requireActivity().findViewById(R.id.bottom_navigation)
-                            val layoutParams = anchor.layoutParams
-                            if (layoutParams is CoordinatorLayout.LayoutParams) {
-                                val behavior = layoutParams.behavior
-                                if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                                    val hideShowBehavior =
-                                        behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
-                                    hideShowBehavior.slideUp(anchor)
-                                }
-                            }
+                            val layoutParams =
+                                bottomNavigationView.layoutParams as CoordinatorLayout.LayoutParams
+                            val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
+                            behavior.slideDown(bottomNavigationView)
+
                             CoroutineScope(Dispatchers.Main).launch {
                                 annotationCard.visibility = VISIBLE
                                 recycler.visibility = INVISIBLE
@@ -164,7 +160,6 @@ class FridgeFragment : Fragment(), ActionInterface {
                                     LENGTH_LONG
                                 )
                                 .setAction(getString(R.string.undo)) {
-                                    //TODO: clearing fridge and undo and error if it empty already
                                     CoroutineScope(Dispatchers.Main).launch {
                                         loading.visibility = VISIBLE
                                         annotationCard.visibility = INVISIBLE
@@ -173,14 +168,9 @@ class FridgeFragment : Fragment(), ActionInterface {
                                         adapter = FridgeAdapter(requireContext(), fridgeList)
                                         adapter!!.init(tHis())
                                         recycler.adapter = adapter
-                                        if (layoutParams is CoordinatorLayout.LayoutParams) {
-                                            val behavior = layoutParams.behavior
-                                            if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                                                val hideShowBehavior =
-                                                    behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
-                                                hideShowBehavior.slideUp(anchor)
-                                            }
-                                        }
+
+                                        behavior.slideUp(bottomNavigationView)
+
                                         loading.visibility = GONE
                                     }
                                 }

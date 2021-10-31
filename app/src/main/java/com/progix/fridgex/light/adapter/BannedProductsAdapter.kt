@@ -1,5 +1,6 @@
 package com.progix.fridgex.light.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.view.LayoutInflater
@@ -13,11 +14,11 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.progix.fridgex.light.MainActivity
-import com.progix.fridgex.light.MainActivity.Companion.imagesCat
 import com.progix.fridgex.light.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.custom.CustomSnackbar
+import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
 import com.progix.fridgex.light.helper.ActionInterface
 
 
@@ -44,14 +45,9 @@ class BannedProductsAdapter(
             listOf(bannedProductsList[position].second).toTypedArray()
         )
         cursor2.moveToFirst()
-        holder.image.setImageResource(imagesCat[cursor2.getInt(0) - 1])
+        holder.image.setImageResource(productCategoriesImages[cursor2.getInt(0) - 1])
 
-        val cursor: Cursor =
-            mDb.rawQuery("SELECT * FROM products WHERE product = ?", listOf(name).toTypedArray())
-        cursor.moveToFirst()
-
-        holder.bind(cursor.getInt(0), position)
-        cursor.close()
+        holder.bind(position)
         cursor2.close()
         setAnimation(holder.itemView, position)
 
@@ -61,7 +57,6 @@ class BannedProductsAdapter(
 
     private fun popupMenus(
         view: View,
-        id: Int,
         position: Int
     ) {
         val popupMenus = PopupMenu(context, view)
@@ -127,7 +122,6 @@ class BannedProductsAdapter(
         }
 
         fun bind(
-            id: Int,
             position: Int
         ) {
             itemView.setOnLongClickListener {
@@ -139,7 +133,7 @@ class BannedProductsAdapter(
             }
             itemView.setOnClickListener {
                 if (isMultiSelectOn) addIDIntoSelectedIds(position)
-                else popupMenus(it, id, position)
+                else popupMenus(it, position)
             }
         }
 
@@ -173,6 +167,7 @@ class BannedProductsAdapter(
 
     val selectedPositions: ArrayList<Int> = ArrayList()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun doSomeAction(modifier: String) {
         if (selectedIds.size < 1) return
         when (modifier) {

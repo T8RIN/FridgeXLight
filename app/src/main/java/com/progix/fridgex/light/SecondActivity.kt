@@ -1,5 +1,6 @@
 package com.progix.fridgex.light
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -21,10 +22,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.progix.fridgex.light.MainActivity.Companion.images
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.InfoAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
+import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.fragment.IngredsFragment.Companion.list
 import com.progix.fridgex.light.fragment.IngredsFragment.Companion.portions
 import com.progix.fridgex.light.viewpager.RecipeViewPagerAdapter
@@ -52,7 +53,7 @@ class SecondActivity : AppCompatActivity() {
         )
         cursor.moveToFirst()
 
-        image.setImageResource(images[id - 1])
+        image.setImageResource(recipeImages[id - 1])
         supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_TITLE
         supportActionBar?.title = cursor.getString(3)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -139,7 +140,7 @@ class SecondActivity : AppCompatActivity() {
                     getString(R.string.fats) + "............." + fats + getString(R.string.gram) + "\n" +
                     getString(R.string.carbohydrates) + "............." + carboh + getString(R.string.gram) + "\n" +
                     getString(R.string.portions) + " " + portions + "\n\n\n" + ingreds + "\n\n" + recipe
-
+        cursor.close()
         when (s) {
             "copy" -> {
                 Toast.makeText(this, getString(R.string.copiedRecipe), Toast.LENGTH_SHORT).show()
@@ -267,6 +268,8 @@ class SecondActivity : AppCompatActivity() {
 
     companion object {
         var id = 1
+
+        @SuppressLint("StaticFieldLeak")
         var adapter: InfoAdapter? = null
     }
 

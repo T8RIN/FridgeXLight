@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.MainActivity.Companion.images
 import com.progix.fridgex.light.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.SecondActivity
 import com.progix.fridgex.light.adapter.DailyAdapter
+import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.model.RecipeItem
 import kotlinx.coroutines.*
 import java.text.DateFormat
@@ -31,7 +31,7 @@ private const val ARG_PARAM2 = "param2"
 class DailyFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
-    var job: Job? = null
+    private var job: Job? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -48,8 +48,6 @@ class DailyFragment : Fragment() {
     }
 
     private lateinit var loading: CircularProgressIndicator
-
-    private var mActionMode: ActionMode? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -98,7 +96,7 @@ class DailyFragment : Fragment() {
         val currentDate = Date()
         val data: ArrayList<Int> = ArrayList()
         while (true) {
-            val thumbnail = (Math.random() * images.size).toInt()
+            val thumbnail = (Math.random() * recipeImages.size).toInt()
             if (!data.contains(thumbnail) && thumbnail != 0) data.add(thumbnail)
             if (data.size == 6) break
         }
@@ -140,7 +138,7 @@ class DailyFragment : Fragment() {
                 val xOfY = having.toString() + "/" + needed.size.toString()
                 recipeList.add(
                     RecipeItem(
-                        images[data[i] - 1],
+                        recipeImages[data[i] - 1],
                         indicator,
                         cursor.getString(3),
                         cursor.getString(6),
@@ -185,7 +183,7 @@ class DailyFragment : Fragment() {
                 val xOfY = having.toString() + "/" + needed.size.toString()
                 recipeList.add(
                     RecipeItem(
-                        images[id!!.toInt() - 1],
+                        recipeImages[id!!.toInt() - 1],
                         indicator,
                         cursor.getString(3),
                         cursor.getString(6),
@@ -196,6 +194,7 @@ class DailyFragment : Fragment() {
                 cursor.close()
             }
         }
+        @Suppress("BlockingMethodInNonBlockingContext")
         Thread.sleep(420)
         return@withContext recipeList
     }
@@ -249,7 +248,7 @@ class DailyFragment : Fragment() {
                 image,
                 "recipe"
             )
-        };
+        }
         startActivity(intent, options!!.toBundle())
     }
 }

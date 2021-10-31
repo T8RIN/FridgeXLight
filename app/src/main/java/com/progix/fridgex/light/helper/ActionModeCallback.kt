@@ -20,7 +20,7 @@ class ActionModeCallback : ActionMode.Callback {
 
     //private var myEditListAdapter: EditListAdapter? = null
 
-    var fragmentId: Int? = null
+    private var fragmentId: Int? = null
 
     fun init(myAdapter: Any, fragmentId: Int) {
         this.fragmentId = fragmentId
@@ -52,6 +52,7 @@ class ActionModeCallback : ActionMode.Callback {
     private var shouldResetRecyclerView = true
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+        @Suppress("UNCHECKED_CAST")
         when (fragmentId) {
             R.id.nav_fridge -> {
                 myFridgeAdapter?.tempPositions =

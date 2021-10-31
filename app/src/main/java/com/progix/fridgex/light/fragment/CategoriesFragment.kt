@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
+import com.progix.fridgex.light.MainActivity.Companion.allProducts
 import com.progix.fridgex.light.MainActivity.Companion.mDb
-import com.progix.fridgex.light.MainActivity.Companion.products
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.CategoryAdapter
 import com.progix.fridgex.light.adapter.ProductsAdapter
@@ -60,6 +60,7 @@ class CategoriesFragment : Fragment() {
         }
         pD = CategoryAdapter(requireContext(), catList, productClicker)
         recycler.adapter = pD
+        cursor.close()
 
 
         return v
@@ -94,7 +95,7 @@ class CategoriesFragment : Fragment() {
         if (s!!.isNotEmpty()) {
             val pairArrayList = ArrayList<Pair<Int, String>>()
             val list = ArrayList<String>()
-            for (item in products) {
+            for (item in allProducts) {
                 val temp: Int =
                     searchString(s.lowercase(), item)
                 if (temp != 101) {
@@ -113,7 +114,7 @@ class CategoriesFragment : Fragment() {
         }
     }
 
-    var pD: CategoryAdapter? = null
+    private var pD: CategoryAdapter? = null
 
     private fun searchString(chtoIshem: String, gdeIshem: String): Int {
         val d = 256
@@ -123,32 +124,32 @@ class CategoriesFragment : Fragment() {
         var j: Int
         var p = 0
         var t = 0
-        val M = chtoIshem.length
-        val N = gdeIshem.length
-        if (M <= N) {
+        val m = chtoIshem.length
+        val n = gdeIshem.length
+        if (m <= n) {
             i = 0
-            while (i < M - 1) {
+            while (i < m - 1) {
                 h = h * d % q
                 ++i
             }
             i = 0
-            while (i < M) {
+            while (i < m) {
                 p = (d * p + chtoIshem[i].code) % q
                 t = (d * t + gdeIshem[i].code) % q
                 ++i
             }
             i = 0
-            while (i <= N - M) {
+            while (i <= n - m) {
                 if (p == t) {
                     j = 0
-                    while (j < M) {
+                    while (j < m) {
                         if (gdeIshem[i + j] != chtoIshem[j]) break
                         ++j
                     }
-                    if (j == M) return i
+                    if (j == m) return i
                 }
-                if (i < N - M) {
-                    t = (d * (t - gdeIshem[i].code * h) + gdeIshem[i + M].code) % q
+                if (i < n - m) {
+                    t = (d * (t - gdeIshem[i].code * h) + gdeIshem[i + m].code) % q
                     if (t < 0) t += q
                 }
                 ++i

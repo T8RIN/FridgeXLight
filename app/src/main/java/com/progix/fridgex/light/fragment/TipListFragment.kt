@@ -13,21 +13,13 @@ import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.MainActivity
-import com.progix.fridgex.light.MainActivity.Companion.advices
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.data.DataArrays.adviceImages
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TipListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TipListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -58,8 +50,8 @@ class TipListFragment : Fragment() {
         val id: Int = arguments?.get("advice") as Int
 
         val image = v.findViewById<ImageView>(R.id.image)
-        image.setImageResource(advices[id])
-        image.transitionName = "advice" + id
+        image.setImageResource(adviceImages[id])
+        image.transitionName = "advice$id"
 
         val cursor: Cursor = MainActivity.mDb.rawQuery(
             "SELECT * FROM advices WHERE id = ?",
@@ -73,6 +65,7 @@ class TipListFragment : Fragment() {
         val text: TextView = v.findViewById(R.id.advice)
         text.text = cursor.getString(2)
 
+        cursor.close()
 
         return v
     }

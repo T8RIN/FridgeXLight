@@ -47,7 +47,7 @@ class EditFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.factory_menu, menu);
+        inflater.inflate(R.menu.factory_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 }

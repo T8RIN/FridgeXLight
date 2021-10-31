@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.MainActivity
+import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.data.DataArrays.adviceImages
 

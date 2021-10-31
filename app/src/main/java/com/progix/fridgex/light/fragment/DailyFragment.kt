@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.MainActivity.Companion.mDb
+import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.SecondActivity
+import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.DailyAdapter
 import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.model.RecipeItem

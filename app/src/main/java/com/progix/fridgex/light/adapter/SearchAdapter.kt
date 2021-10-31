@@ -14,8 +14,8 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.progix.fridgex.light.MainActivity
-import com.progix.fridgex.light.MainActivity.Companion.mDb
+import com.progix.fridgex.light.activity.MainActivity
+import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.model.RecyclerSortItem

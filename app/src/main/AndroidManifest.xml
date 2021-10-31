@@ -12,6 +12,7 @@
         android:required="false" />
 
     <application
+        android:name=".FridgeXLightApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,10 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/FridgeXLight">
         <activity
-            android:name=".SecondActivity"
+            android:name=".activity.SecondActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true"
             android:theme="@style/FridgeXLight.Launcher">
             <intent-filter>

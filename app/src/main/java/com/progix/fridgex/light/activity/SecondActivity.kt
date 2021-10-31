@@ -1,4 +1,4 @@
-package com.progix.fridgex.light
+package com.progix.fridgex.light.activity
 
 import android.annotation.SuppressLint
 import android.content.ClipData
@@ -22,7 +22,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.progix.fridgex.light.MainActivity.Companion.mDb
+import com.progix.fridgex.light.R
+import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.InfoAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.recipeImages

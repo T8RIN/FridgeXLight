@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
-import com.progix.fridgex.light.MainActivity
-import com.progix.fridgex.light.MainActivity.Companion.mDb
+import com.progix.fridgex.light.activity.MainActivity
+import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.ProductsAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

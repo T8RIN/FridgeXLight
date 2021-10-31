@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.MainActivity
+import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.TipAdapter
 

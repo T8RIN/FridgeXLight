@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.progix.fridgex.light.MainActivity
+import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.SecondActivity
+import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.RecipeAdapter
 
 private const val ARG_PARAM1 = "param1"

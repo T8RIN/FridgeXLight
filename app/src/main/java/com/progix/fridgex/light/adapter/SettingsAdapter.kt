@@ -10,9 +10,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.progix.fridgex.light.MainActivity
-import com.progix.fridgex.light.MainActivity.Companion.guide
-import com.progix.fridgex.light.MainActivity.Companion.restart
+import com.progix.fridgex.light.activity.MainActivity
+import com.progix.fridgex.light.activity.MainActivity.Companion.guide
+import com.progix.fridgex.light.activity.MainActivity.Companion.restart
 import com.progix.fridgex.light.R
 
 

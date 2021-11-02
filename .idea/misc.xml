@@ -136,6 +136,7 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/fragment_fridge.xml" value="0.20855379188712522" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/fragment_products.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/fragment_search.xml" value="0.2111111111111111" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/fragment_settings.xml" value="0.176" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/fragment_star_products.xml" value="0.17735042735042736" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/fragment_star_recipes.xml" value="0.17735042735042736" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/fragment_tip.xml" value="0.19572649572649573" />
@@ -162,6 +163,7 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_pod_pod_folder.xml" value="0.20213675213675214" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_products.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_search.xml" value="0.19610507246376813" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_settings.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_star_list.xml" value="0.20213675213675214" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_star_products.xml" value="0.1905982905982906" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_star_recipes.xml" value="0.20213675213675214" />
@@ -177,7 +179,7 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_product.xml" value="0.3984251968503937" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_product_checkable.xml" value="0.264" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_recipe.xml" value="0.4" />
-        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_settings.xml" value="0.19957805907172996" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_settings.xml" value="0.4" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_tip.xml" value="0.20213675213675214" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/measure_item.xml" value="0.3365963855421687" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/measure_vertical_item.xml" value="0.20213675213675214" />

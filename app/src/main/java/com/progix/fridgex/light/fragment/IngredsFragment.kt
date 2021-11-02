@@ -10,8 +10,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.slider.Slider
-import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.IngredientsAdapter
 import java.text.DecimalFormat

@@ -9,8 +9,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.fragment.BannedProductsFragment.Companion.prodAnno
 import com.progix.fridgex.light.fragment.BannedProductsFragment.Companion.prodRecycler

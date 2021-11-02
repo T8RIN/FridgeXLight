@@ -17,9 +17,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.activity.MainActivity
-import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.activity.MainActivity
+import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
+import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.CartAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.helper.ActionInterface
@@ -42,8 +43,6 @@ class CartFragment : Fragment(), ActionInterface {
     private var param2: String? = null
 
     private val cartList: ArrayList<Pair<String, String>> = ArrayList()
-    private lateinit var recycler: RecyclerView
-    private lateinit var annotationCard: MaterialCardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +82,7 @@ class CartFragment : Fragment(), ActionInterface {
         )
         swipeRefresh.setColorSchemeResources(R.color.checked, R.color.red, R.color.yellow)
         swipeRefresh.setOnRefreshListener {
-
+            actionMode?.finish()
             dispose?.dispose()
             dispose = rxJava()
                 .debounce(200, TimeUnit.MILLISECONDS)
@@ -163,6 +162,9 @@ class CartFragment : Fragment(), ActionInterface {
                     putString(ARG_PARAM2, param2)
                 }
             }
+
+        lateinit var recycler: RecyclerView
+        lateinit var annotationCard: MaterialCardView
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -207,7 +209,7 @@ class CartFragment : Fragment(), ActionInterface {
                                         adapter = CartAdapter(requireContext(), cartList)
                                         adapter!!.init(forThis())
                                         recycler.adapter = adapter
-                                        behavior.slideDown(bottomNavigationView)
+                                        behavior.slideUp(bottomNavigationView)
                                         loading.visibility = View.GONE
                                     }
                                 }

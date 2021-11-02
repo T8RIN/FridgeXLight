@@ -3,24 +3,31 @@ package com.progix.fridgex.light.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
+import android.os.Handler
+import android.os.Looper.getMainLooper
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
+import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.R
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
+import com.progix.fridgex.light.fragment.FridgeFragment
 import com.progix.fridgex.light.helper.ActionInterface
 
 
@@ -51,8 +58,8 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
         val banned = cursor.getInt(7) == 1
         val inCart = cursor.getInt(4) == 1
 
-        if (starred) holder.star.visibility = View.VISIBLE
-        else holder.star.visibility = View.GONE
+        if (starred) holder.star.visibility = VISIBLE
+        else holder.star.visibility = GONE
         holder.bind(cursor.getInt(0), position, starred, banned, inCart)
         cursor.close()
         cursor2.close()
@@ -62,6 +69,7 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun popupMenus(
         view: View,
         id: Int,
@@ -131,13 +139,19 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                     true
                 }
                 R.id.clear -> {
+                    Handler(getMainLooper()).postDelayed({
+                        notifyDataSetChanged()
+                    }, 500)
                     val tempValue = fridgeList[position]
                     mDb.execSQL(
                         "UPDATE products SET is_in_fridge = 0 WHERE product = ?",
                         listOf(tempValue.first).toTypedArray()
                     )
                     fridgeList.remove(tempValue)
-                    notifyItemRemoved(position)
+                    if (fridgeList.isEmpty()) {
+                        FridgeFragment.recycler.visibility = GONE
+                        FridgeFragment.annotationCard.visibility = VISIBLE
+                    } else notifyItemRemoved(position)
                     CustomSnackbar(context)
                         .create(
                             (context as MainActivity).findViewById(R.id.main_root),
@@ -149,8 +163,10 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                                 "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
                                 listOf(tempValue.first).toTypedArray()
                             )
+                            FridgeFragment.recycler.visibility = VISIBLE
+                            FridgeFragment.annotationCard.visibility = GONE
+                            if (fridgeList.isNotEmpty()) notifyItemInserted(position)
                             fridgeList.add(position, tempValue)
-                            notifyItemInserted(position)
                         }
                         .show()
                     true
@@ -362,6 +378,11 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                     .show()
             }
             "delete" -> {
+                val layoutParams =
+                    bottomNav.layoutParams as CoordinatorLayout.LayoutParams
+                val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
+                behavior.slideUp(bottomNav)
+
                 val delList: ArrayList<Pair<String, String>> = ArrayList()
                 val indexes: ArrayList<Int> = ArrayList()
                 for (i in tempPositions!!) {
@@ -376,8 +397,14 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                     val tempPos = fridgeList.indexOf(delList[i])
                     indexes.add(tempPos)
                     fridgeList.remove(delList[i])
-                    notifyItemRemoved(tempPos)
+                    if (fridgeList.isEmpty()) {
+                        FridgeFragment.recycler.visibility = GONE
+                        FridgeFragment.annotationCard.visibility = VISIBLE
+                    } else notifyItemRemoved(tempPos)
                 }
+                Handler(getMainLooper()).postDelayed({
+                    notifyDataSetChanged()
+                }, 500)
                 CustomSnackbar(context)
                     .create(
                         (context as MainActivity).findViewById(R.id.main_root),
@@ -385,6 +412,9 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                         Snackbar.LENGTH_SHORT
                     )
                     .setAction(context.getString(R.string.undo)) {
+                        behavior.slideUp(bottomNav)
+                        FridgeFragment.recycler.visibility = VISIBLE
+                        FridgeFragment.annotationCard.visibility = GONE
                         for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
                             mDb.execSQL(

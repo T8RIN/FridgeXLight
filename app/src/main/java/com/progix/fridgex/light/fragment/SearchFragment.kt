@@ -21,10 +21,10 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.activity.MainActivity
-import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.integer
+import com.progix.fridgex.light.activity.MainActivity
+import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.NavigationAdapter
 import com.progix.fridgex.light.adapter.SearchAdapter

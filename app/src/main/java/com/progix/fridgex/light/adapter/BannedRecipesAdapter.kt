@@ -3,6 +3,8 @@ package com.progix.fridgex.light.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -14,11 +16,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
+import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.R
 import com.progix.fridgex.light.custom.CustomSnackbar
+import com.progix.fridgex.light.fragment.BannedRecipesFragment.Companion.recAnno
+import com.progix.fridgex.light.fragment.BannedRecipesFragment.Companion.recRecycler
 import com.progix.fridgex.light.helper.ActionInterface
 import com.progix.fridgex.light.model.RecyclerSortItem
 
@@ -140,8 +144,14 @@ class BannedRecipesAdapter(
                     val tempPos = recipeList.indexOf(delList[i])
                     indexes.add(tempPos)
                     recipeList.remove(delList[i])
-                    notifyItemRemoved(tempPos)
+                    if (recipeList.isEmpty()) {
+                        recRecycler?.visibility = GONE
+                        recAnno?.visibility = View.VISIBLE
+                    } else notifyItemRemoved(tempPos)
                 }
+                Handler(Looper.getMainLooper()).postDelayed({
+                    notifyDataSetChanged()
+                }, 500)
                 CustomSnackbar(context)
                     .create(
                         55,
@@ -149,6 +159,8 @@ class BannedRecipesAdapter(
                         context.getString(R.string.deletedFromBanned)
                     )
                     .setAction(context.getString(R.string.undo)) {
+                        recRecycler?.visibility = View.VISIBLE
+                        recAnno?.visibility = GONE
                         for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
                             mDb.execSQL(

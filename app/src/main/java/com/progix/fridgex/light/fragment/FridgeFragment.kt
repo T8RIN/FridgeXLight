@@ -15,10 +15,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.transition.MaterialFadeThrough
+import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.FridgeAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.helper.ActionInterface
@@ -40,8 +40,7 @@ class FridgeFragment : Fragment(), ActionInterface {
     private var param1: String? = null
     private var param2: String? = null
     private val fridgeList: ArrayList<Pair<String, String>> = ArrayList()
-    private lateinit var recycler: RecyclerView
-    private lateinit var annotationCard: MaterialCardView
+
     private lateinit var loading: CircularProgressIndicator
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -123,6 +122,9 @@ class FridgeFragment : Fragment(), ActionInterface {
                     putString(ARG_PARAM2, param2)
                 }
             }
+
+        lateinit var recycler: RecyclerView
+        lateinit var annotationCard: MaterialCardView
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -144,7 +146,7 @@ class FridgeFragment : Fragment(), ActionInterface {
                             val layoutParams =
                                 bottomNavigationView.layoutParams as CoordinatorLayout.LayoutParams
                             val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
-                            behavior.slideDown(bottomNavigationView)
+                            behavior.slideUp(bottomNavigationView)
 
                             CoroutineScope(Dispatchers.Main).launch {
                                 annotationCard.visibility = VISIBLE

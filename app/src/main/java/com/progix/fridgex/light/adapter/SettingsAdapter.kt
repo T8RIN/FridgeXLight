@@ -4,16 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.guide
 import com.progix.fridgex.light.activity.MainActivity.Companion.restart
-import com.progix.fridgex.light.R
 
 
 class SettingsAdapter(var context: Context, var settingsList: List<String>) :
@@ -25,10 +27,12 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
     }
 
     private var checkedItem = 3
-    private var checkedItemCart = 1
     override fun onBindViewHolder(holder: SettingsHolder, position: Int) {
         when (position) {
             0 -> {
+                holder.switcher.visibility = GONE
+                holder.subText.visibility = GONE
+
                 holder.icon.setImageResource(R.drawable.ic_baseline_dark_mode_24)
                 holder.text.text = settingsList[position]
                 val temp = loadNightMode()
@@ -76,69 +80,45 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                 }
             }
             1 -> {
+                holder.switcher.visibility = VISIBLE
+                holder.subText.visibility = VISIBLE
+                holder.onOff.visibility = GONE
+
                 holder.icon.setImageResource(R.drawable.ic_baseline_shopping_cart_24)
                 holder.text.text = settingsList[position]
-                holder.onOff.text = when (loadCartMode()) {
-                    1 -> context.getString(R.string.addingModeText)
-                    else -> context.getString(R.string.ignoreText)
+
+                val isCartSetting = loadCartMode() == 1
+
+                holder.switcher.isChecked = when (isCartSetting) {
+                    true -> true
+                    else -> false
                 }
-                checkedItemCart = loadCartMode()
-                holder.card.setOnClickListener {
-                    val listItems = arrayOf(
-                        context.getString(R.string.ignoreText),
-                        context.getString(R.string.addingModeText)
-                    )
-                    MaterialAlertDialogBuilder(context, R.style.modeAlert)
-                        .setTitle(context.getString(R.string.cartSettings))
-                        .setPositiveButton(context.getString(R.string.ok)) { _, _ ->
-                            when (checkedItem) {
-                                1 -> {
-                                    holder.onOff.text = context.getString(R.string.addingModeText)
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.addingModeMessage),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    saveCartMode(1)
-                                }
-                                0 -> {
-                                    holder.onOff.text = context.getString(R.string.ignoreText)
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.ignoreMessage),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    saveCartMode(0)
-                                }
-                            }
+
+                holder.subText.text = when (isCartSetting) {
+                    true -> context.getString(R.string.addingModeMessage)
+                    else -> context.getString(R.string.ignoreMessage)
+                }
+
+                holder.switcher.setOnClickListener {
+                    when (holder.switcher.isChecked) {
+                        true -> {
+                            saveCartMode(1)
+                            holder.subText.text = context.getString(R.string.addingModeMessage)
                         }
-                        .setSingleChoiceItems(listItems, checkedItemCart) { _, which ->
-                            checkedItemCart = which
-                            when (checkedItemCart) {
-                                1 -> {
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.addingModeMessage),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                                0 -> {
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.ignoreMessage),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            }
+                        else -> {
+                            saveCartMode(0)
+                            holder.subText.text = context.getString(R.string.ignoreMessage)
                         }
-                        .setOnDismissListener { checkedItemCart = loadCartMode() }
-                        .show()
+                    }
                 }
             }
             2 -> {
+                holder.switcher.visibility = GONE
+                holder.subText.visibility = GONE
+
                 holder.icon.setImageResource(R.drawable.ic_baseline_info_24)
                 holder.text.text = settingsList[position]
-                holder.onOff.visibility = View.GONE
+                holder.onOff.visibility = GONE
                 holder.card.setOnClickListener {
                     guide = true
                     context.startActivity(Intent(context, MainActivity::class.java))
@@ -157,6 +137,8 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
         var icon: ImageView = itemView.findViewById(R.id.icon)
         var onOff: TextView = itemView.findViewById(R.id.switcher)
         var card: View = itemView
+        var subText: TextView = itemView.findViewById(R.id.subtext)
+        var switcher: SwitchMaterial = itemView.findViewById(R.id.switcher_switch)
     }
 
     private fun saveNightMode(value: Int) {

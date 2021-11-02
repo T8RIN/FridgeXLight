@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.view.ActionMode
+import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
 import com.progix.fridgex.light.activity.MainActivity.Companion.isMultiSelectOn
-import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.*
 
 class ActionModeCallback : ActionMode.Callback {

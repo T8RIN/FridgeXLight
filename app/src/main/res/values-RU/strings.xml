@@ -227,7 +227,7 @@
     <string name="inBanned">Заблокирован</string>
     <string name="toFridge">В холодильник</string>
     <string name="delFridgeProduct">Продукт удален из холодильника</string>
-    <string name="cartSettings">Режим корзины</string>
+    <string name="cartSettings">Связь корзины с холодильником</string>
     <string name="ignoreMessage">(автоматическое добавление будет отключено)</string>
     <string name="addingModeMessage">(при вычеркивании продукта из корзины, он будет автоматичсеки помещен в холодильник)</string>
     <string name="addingModeText">Добавление</string>

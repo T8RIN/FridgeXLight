@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.activity.SecondActivity.Companion.adapter
 import com.progix.fridgex.light.adapter.InfoAdapter

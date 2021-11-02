@@ -5,24 +5,30 @@ import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Paint
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
+import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.R
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
+import com.progix.fridgex.light.fragment.CartFragment
 import com.progix.fridgex.light.helper.ActionInterface
 
 
@@ -257,6 +263,13 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
                     .show()
             }
             "delete" -> {
+                val bottomNav =
+                    (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
+                val layoutParams =
+                    bottomNav.layoutParams as CoordinatorLayout.LayoutParams
+                val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
+                behavior.slideUp(bottomNav)
+
                 val delList: ArrayList<Pair<String, String>> = ArrayList()
                 val indexes: ArrayList<Int> = ArrayList()
                 for (i in tempPositions!!) {
@@ -283,8 +296,14 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
                     val tempPos = cartList.indexOf(delList[i])
                     indexes.add(tempPos)
                     cartList.remove(delList[i])
-                    notifyItemRemoved(tempPos)
+                    if (cartList.isEmpty()) {
+                        CartFragment.recycler.visibility = GONE
+                        CartFragment.annotationCard.visibility = VISIBLE
+                    } else notifyItemRemoved(tempPos)
                 }
+                Handler(Looper.getMainLooper()).postDelayed({
+                    notifyDataSetChanged()
+                }, 500)
                 CustomSnackbar(context)
                     .create(
                         (context as MainActivity).findViewById(R.id.main_root),
@@ -292,6 +311,9 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
                         Snackbar.LENGTH_SHORT
                     )
                     .setAction(context.getString(R.string.undo)) {
+                        behavior.slideUp(bottomNav)
+                        CartFragment.recycler.visibility = VISIBLE
+                        CartFragment.annotationCard.visibility = GONE
                         for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
                             mDb.execSQL(

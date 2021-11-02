@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "613556640697",
+    "project_id": "fridgex-7fd91",
+    "storage_bucket": "fridgex-7fd91.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613556640697:android:bf8659c345f60c74bfb468",
+        "android_client_info": {
+          "package_name": "com.progix.fridgex.light"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613556640697-ohrcrt56hfp3h5u9nec5avgg7k9ocnbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxru_KOpTydWN57OY_oLDwKKbhiVMb25g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "613556640697-ohrcrt56hfp3h5u9nec5avgg7k9ocnbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

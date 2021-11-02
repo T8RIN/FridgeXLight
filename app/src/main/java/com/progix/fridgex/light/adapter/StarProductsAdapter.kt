@@ -3,6 +3,8 @@ package com.progix.fridgex.light.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,18 +16,20 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
+import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.R
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
+import com.progix.fridgex.light.fragment.StarProductsFragment.Companion.prodAnno
+import com.progix.fridgex.light.fragment.StarProductsFragment.Companion.prodRecycler
 import com.progix.fridgex.light.helper.ActionInterface
 
 
 class StarProductsAdapter(
     var context: Context,
-    var starProducstList: ArrayList<Pair<String, String>>
+    var starProductsList: ArrayList<Pair<String, String>>
 ) :
     RecyclerView.Adapter<StarProductsAdapter.ViewHolder>() {
 
@@ -37,13 +41,13 @@ class StarProductsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val name = starProducstList[position].first
+        val name = starProductsList[position].first
         holder.star.visibility = View.GONE
 
         holder.name.text = name.replaceFirstChar(Char::uppercase)
         val cursor2: Cursor = mDb.rawQuery(
             "SELECT * FROM categories WHERE category = ?",
-            listOf(starProducstList[position].second).toTypedArray()
+            listOf(starProductsList[position].second).toTypedArray()
         )
         cursor2.moveToFirst()
         holder.image.setImageResource(productCategoriesImages[cursor2.getInt(0) - 1])
@@ -64,6 +68,7 @@ class StarProductsAdapter(
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun popupMenus(
         view: View,
         id: Int,
@@ -161,13 +166,19 @@ class StarProductsAdapter(
                 }
 
                 R.id.clear -> {
-                    val tempValue = starProducstList[position]
+                    val tempValue = starProductsList[position]
                     mDb.execSQL(
                         "UPDATE products SET is_starred = 0 WHERE product = ?",
                         listOf(tempValue.first).toTypedArray()
                     )
-                    starProducstList.remove(tempValue)
-                    notifyItemRemoved(position)
+                    starProductsList.remove(tempValue)
+                    if (starProductsList.isEmpty()) {
+                        prodRecycler?.visibility = View.GONE
+                        prodAnno?.visibility = View.VISIBLE
+                    } else notifyItemRemoved(position)
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        notifyDataSetChanged()
+                    }, 500)
                     CustomSnackbar(context)
                         .create(
                             55,
@@ -179,8 +190,10 @@ class StarProductsAdapter(
                                 "UPDATE products SET is_starred = 1 WHERE product = ?",
                                 listOf(tempValue.first).toTypedArray()
                             )
-                            starProducstList.add(position, tempValue)
-                            notifyItemInserted(position)
+                            prodRecycler?.visibility = View.VISIBLE
+                            prodAnno?.visibility = View.GONE
+                            if (starProductsList.isNotEmpty()) notifyItemInserted(position)
+                            starProductsList.add(position, tempValue)
                         }
                         .show()
                     true
@@ -255,7 +268,7 @@ class StarProductsAdapter(
 
 
     override fun getItemCount(): Int {
-        return starProducstList.size
+        return starProductsList.size
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -295,7 +308,7 @@ class StarProductsAdapter(
     }
 
     fun addIDIntoSelectedIds(position: Int) {
-        val id = starProducstList[position].first
+        val id = starProductsList[position].first
         if (selectedIds.contains(id)) {
             selectedIds.remove(id)
             selectedPositions.remove(position)
@@ -415,7 +428,7 @@ class StarProductsAdapter(
                 val delList: ArrayList<Pair<String, String>> = ArrayList()
                 val indexes: ArrayList<Int> = ArrayList()
                 for (i in tempPositions!!) {
-                    delList.add(starProducstList[i])
+                    delList.add(starProductsList[i])
                 }
                 for (i in 0 until tempList!!.size) {
                     val temp = tempList!![i]
@@ -423,11 +436,17 @@ class StarProductsAdapter(
                         "UPDATE products SET is_starred = 0 WHERE product = ?",
                         listOf(temp).toTypedArray()
                     )
-                    val tempPos = starProducstList.indexOf(delList[i])
+                    val tempPos = starProductsList.indexOf(delList[i])
                     indexes.add(tempPos)
-                    starProducstList.remove(delList[i])
-                    notifyItemRemoved(tempPos)
+                    starProductsList.remove(delList[i])
+                    if (starProductsList.isEmpty()) {
+                        prodRecycler?.visibility = View.GONE
+                        prodAnno?.visibility = View.VISIBLE
+                    } else notifyItemRemoved(tempPos)
                 }
+                Handler(Looper.getMainLooper()).postDelayed({
+                    notifyDataSetChanged()
+                }, 500)
                 CustomSnackbar(context)
                     .create(
                         55,
@@ -435,17 +454,19 @@ class StarProductsAdapter(
                         context.getString(R.string.deletedFromStarred)
                     )
                     .setAction(context.getString(R.string.undo)) {
+                        prodRecycler?.visibility = View.VISIBLE
+                        prodAnno?.visibility = View.GONE
                         for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
                             mDb.execSQL(
                                 "UPDATE products SET is_starred = 1 WHERE product = ?",
                                 listOf(temp).toTypedArray()
                             )
-                            if (indexes[i] < starProducstList.size) starProducstList.add(
+                            if (indexes[i] < starProductsList.size) starProductsList.add(
                                 indexes[i],
                                 delList[i]
                             )
-                            else starProducstList.add(delList[i])
+                            else starProductsList.add(delList[i])
                         }
                         notifyDataSetChanged()
                     }

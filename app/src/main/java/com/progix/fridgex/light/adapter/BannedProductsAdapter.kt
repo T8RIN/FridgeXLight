@@ -3,6 +3,8 @@ package com.progix.fridgex.light.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +15,14 @@ import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.R
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
+import com.progix.fridgex.light.fragment.BannedProductsFragment.Companion.prodAnno
+import com.progix.fridgex.light.fragment.BannedProductsFragment.Companion.prodRecycler
 import com.progix.fridgex.light.helper.ActionInterface
 
 
@@ -70,7 +74,13 @@ class BannedProductsAdapter(
                         listOf(tempValue.first).toTypedArray()
                     )
                     bannedProductsList.remove(tempValue)
-                    notifyItemRemoved(position)
+                    if (bannedProductsList.isEmpty()) {
+                        prodRecycler?.visibility = View.GONE
+                        prodAnno?.visibility = View.VISIBLE
+                    } else notifyItemRemoved(position)
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        notifyDataSetChanged()
+                    }, 500)
                     CustomSnackbar(context)
                         .create(
                             55,
@@ -82,8 +92,10 @@ class BannedProductsAdapter(
                                 "UPDATE products SET banned = 1 WHERE product = ?",
                                 listOf(tempValue.first).toTypedArray()
                             )
+                            prodRecycler?.visibility = View.VISIBLE
+                            prodAnno?.visibility = View.GONE
+                            if (bannedProductsList.isNotEmpty()) notifyItemInserted(position)
                             bannedProductsList.add(position, tempValue)
-                            notifyItemInserted(position)
                         }
                         .show()
                     true
@@ -186,8 +198,14 @@ class BannedProductsAdapter(
                     val tempPos = bannedProductsList.indexOf(delList[i])
                     indexes.add(tempPos)
                     bannedProductsList.remove(delList[i])
-                    notifyItemRemoved(tempPos)
+                    if (bannedProductsList.isEmpty()) {
+                        prodRecycler?.visibility = View.GONE
+                        prodAnno?.visibility = View.VISIBLE
+                    } else notifyItemRemoved(tempPos)
                 }
+                Handler(Looper.getMainLooper()).postDelayed({
+                    notifyDataSetChanged()
+                }, 500)
                 CustomSnackbar(context)
                     .create(
                         55,
@@ -195,6 +213,8 @@ class BannedProductsAdapter(
                         context.getString(R.string.deletedFromBanned)
                     )
                     .setAction(context.getString(R.string.undo)) {
+                        prodRecycler?.visibility = View.VISIBLE
+                        prodAnno?.visibility = View.GONE
                         for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
                             mDb.execSQL(

@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
-import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.FolderAdapter
 import com.progix.fridgex.light.adapter.FolderRecipesAdapter

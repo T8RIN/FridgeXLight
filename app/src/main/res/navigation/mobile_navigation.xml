@@ -35,9 +35,9 @@
 
     <fragment
         android:id="@+id/nav_edit"
-        android:name="com.progix.fridgex.light.fragment.EditFragment"
+        android:name="com.progix.fridgex.light.fragment.EditListFragment"
         android:label="@string/create_edit_recipes"
-        tools:layout="@layout/fragment_edit" />
+        tools:layout="@layout/fragment_edit_list" />
 
     <fragment
         android:id="@+id/nav_measures"

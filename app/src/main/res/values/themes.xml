@@ -20,6 +20,11 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:colorEdgeEffect">@color/checked</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_color</item>
+
+        <item name="colorError">@color/red</item>
+        <item name="colorControlActivated">@color/checked</item>
+        <item name="rippleColor">@color/checkedTrans</item>
     </style>
 
     <style name="Comfortaa" parent="android:Widget.TextView">

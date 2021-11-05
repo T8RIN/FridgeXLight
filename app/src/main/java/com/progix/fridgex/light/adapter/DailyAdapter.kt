@@ -61,6 +61,7 @@ class DailyAdapter(
 
     private var rand: ArrayList<Int> = ArrayList()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        setAnimation(holder.itemView, position)
         Glide.with(context).load(recipeList[position].image).into(holder.image)
         Glide.with(context).load(recipeList[position].indicator).into(holder.indicator)
         holder.recipeName.text = recipeList[position].recipeName
@@ -88,7 +89,6 @@ class DailyAdapter(
         else holder.star.visibility = GONE
         holder.bind(onClickListener, cursor.getInt(0), position, starred, banned)
         cursor.close()
-        setAnimation(holder.itemView, position)
     }
 
     private fun popupMenus(view: View, id: Int, position: Int, starred: Boolean, banned: Boolean) {

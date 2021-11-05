@@ -268,4 +268,9 @@
     <string name="onePiece">One piece</string>
     <string name="deletedFromBanned">Deleted from ban-list</string>
     <string name="banClearError">You haven\'t blocked anything yet</string>
+    <string name="recipeName">Recipe name</string>
+    <string name="timeCookRecipe">Time</string>
+    <string name="theFieldCantBeEmpty">Empty field!</string>
+    <string name="chooseCategory">Choose category!</string>
+    <string name="recipeHint">Recipe with acions</string>
 </resources>

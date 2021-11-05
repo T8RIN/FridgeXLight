@@ -86,6 +86,8 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:4.9.2"
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.2"
 
+    implementation "com.github.skydoves:transformationlayout:1.1.0"
+
 //    implementation platform('com.google.firebase:firebase-bom:29.0.0')
 //    implementation 'com.google.firebase:firebase-database-ktx'
 

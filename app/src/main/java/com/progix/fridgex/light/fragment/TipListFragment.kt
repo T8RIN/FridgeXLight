@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
 import com.google.android.material.transition.MaterialFadeThrough
@@ -59,9 +60,8 @@ class TipListFragment : Fragment() {
         )
         cursor.moveToFirst()
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).toolbar.title = cursor.getString(1)
-        }, 1)
+        requireActivity().findViewById<Toolbar>(R.id.toolbar).title = cursor.getString(1)
+
         val text: TextView = v.findViewById(R.id.advice)
         text.text = cursor.getString(2)
 

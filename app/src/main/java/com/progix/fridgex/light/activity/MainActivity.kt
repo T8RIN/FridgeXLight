@@ -31,6 +31,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
 import com.progix.fridgex.light.data.DataArrays.languages
 import com.progix.fridgex.light.helper.DatabaseHelper
+import com.skydoves.transformationlayout.onTransformationStartContainer
 import kotlinx.coroutines.*
 import java.io.IOException
 import java.util.*
@@ -54,6 +55,8 @@ class MainActivity : AppCompatActivity() {
             2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
         setTheme(R.style.FridgeXLight)
+
+        onTransformationStartContainer()
 
         super.onCreate(savedInstanceState)
 

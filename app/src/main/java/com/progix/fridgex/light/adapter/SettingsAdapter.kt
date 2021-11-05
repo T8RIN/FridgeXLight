@@ -28,12 +28,11 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
 
     private var checkedItem = 3
     override fun onBindViewHolder(holder: SettingsHolder, position: Int) {
+        holder.itemView.isClickable = true
+        holder.switcher.visibility = GONE
+        holder.subText.visibility = GONE
         when (position) {
             0 -> {
-                holder.switcher.visibility = GONE
-                holder.subText.visibility = GONE
-
-                holder.icon.setImageResource(R.drawable.ic_baseline_dark_mode_24)
                 holder.text.text = settingsList[position]
                 val temp = loadNightMode()
                 holder.onOff.text = when (temp) {
@@ -41,6 +40,11 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                     1 -> context.getString(R.string.off)
                     else -> context.getString(R.string.auto)
                 }
+                holder.icon.setImageResource(when(temp){
+                    0 -> R.drawable.ic_baseline_dark_mode_24
+                    1 -> R.drawable.ic_light_mode_24dp
+                    else -> R.drawable.ic_auto_24dp
+                })
                 checkedItem = temp
                 holder.card.setOnClickListener {
                     val listItems = arrayOf(
@@ -53,19 +57,16 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                         .setPositiveButton(context.getString(R.string.ok)) { _, _ ->
                             when (checkedItem) {
                                 0 -> {
-                                    holder.onOff.text = context.getString(R.string.on)
                                     saveNightMode(0)
                                     context.startActivity(Intent(context, MainActivity::class.java))
                                     restart = true
                                 }
                                 1 -> {
-                                    holder.onOff.text = context.getString(R.string.off)
                                     saveNightMode(1)
                                     context.startActivity(Intent(context, MainActivity::class.java))
                                     restart = true
                                 }
                                 2 -> {
-                                    holder.onOff.text = context.getString(R.string.auto)
                                     saveNightMode(2)
                                     context.startActivity(Intent(context, MainActivity::class.java))
                                     restart = true
@@ -83,6 +84,8 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                 holder.switcher.visibility = VISIBLE
                 holder.subText.visibility = VISIBLE
                 holder.onOff.visibility = GONE
+
+                holder.itemView.isClickable = false
 
                 holder.icon.setImageResource(R.drawable.ic_baseline_shopping_cart_24)
                 holder.text.text = settingsList[position]
@@ -113,9 +116,6 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                 }
             }
             2 -> {
-                holder.switcher.visibility = GONE
-                holder.subText.visibility = GONE
-
                 holder.icon.setImageResource(R.drawable.ic_baseline_info_24)
                 holder.text.text = settingsList[position]
                 holder.onOff.visibility = GONE

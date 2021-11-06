@@ -45,13 +45,15 @@ class EditListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val transformationLayout: TransformationLayout = view.findViewById(R.id.transformationLayout)
+        val transformationLayout: TransformationLayout =
+            view.findViewById(R.id.transformationLayout)
         transformationLayout.transitionName = "myTransitionName"
 
-        val fab : FloatingActionButton = view.findViewById(R.id.fab)
+        val fab: FloatingActionButton = view.findViewById(R.id.fab)
 
         fab.setOnClickListener {
             val intent = Intent(requireContext(), ThirdActivity::class.java)
+            intent.putExtra("orient", resources.configuration.orientation)
             TransformationCompat.startActivity(transformationLayout, intent)
         }
     }

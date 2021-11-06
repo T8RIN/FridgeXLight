@@ -247,4 +247,5 @@
     <string name="onePiece">1 шт.</string>
     <string name="deletedFromBanned">Удалено из блок-листа</string>
     <string name="banClearError">Пока ничего не заблокировано</string>
+    <string name="someFilledMessageAlert">Вы начали создавать рецепт, но не завершили его, хотите продолжить, или отменить создание?</string>
 </resources>

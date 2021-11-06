@@ -24,8 +24,8 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/zaglushka_dlya_editora"
                 android:fitsSystemWindows="true"
+                android:src="@drawable/zaglushka_dlya_editora"
                 android:transitionName="recipe"
                 app:layout_collapseMode="parallax" />
 
@@ -40,23 +40,24 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:layout_gravity="top"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
                 app:layout_collapseMode="pin"
                 app:subtitleTextAppearance="@style/interFont">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/recipeNameTextField"
-                    app:endIconMode="clear_text"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
-                        android:hint="@string/recipeName" />
+                        android:hint="@string/recipeName"
+                        android:inputType="text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,6 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/timeCookRecipe"
+                    android:inputType="numberDecimal"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -120,6 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/cal"
+                    android:inputType="numberDecimal"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -145,6 +148,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/proteins"
+                    android:inputType="numberDecimal"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -169,6 +173,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/fats"
+                    android:inputType="numberDecimal"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -194,6 +199,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/carbohydrates"
+                    android:inputType="numberDecimal"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -221,27 +227,72 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/recipeTextField"
+                android:id="@+id/productsTextField"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
+                app:endIconDrawable="@drawable/ic_round_add_circle_outline_24"
+                app:endIconMode="custom"
+                app:layout_constraintTop_toBottomOf="@id/categoryTextField"
+                app:startIconDrawable="@drawable/ic_baseline_category_24">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:hint="@string/products"
+                    android:inputType="none"
+                    android:lineSpacingMultiplier="1.5" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:id="@+id/prodAction"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/productsTextField"
+                app:layout_constraintEnd_toEndOf="@id/productsTextField"
+                app:layout_constraintStart_toStartOf="@id/productsTextField"
+                app:layout_constraintTop_toBottomOf="@+id/categoryTextField" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/recipeTextField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:paddingBottom="10dp"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
-                app:layout_constraintTop_toBottomOf="@id/categoryTextField"
-                app:startIconDrawable="@drawable/ic_baseline_text_snippet_24">
+                app:layout_constraintTop_toBottomOf="@id/productsTextField"
+                app:startIconDrawable="@drawable/ic_baseline_short_text_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/recipeHint" />
+                    android:hint="@string/recipeHint"
+                    android:inputType="textMultiLine" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="20dp"
+        android:contentDescription="@string/none"
+        android:src="@drawable/ic_published_with_changes_black_24dp"
+        app:elevation="0dp" />
 
 </RelativeLayout>

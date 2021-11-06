@@ -127,13 +127,14 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/ic__.xml" value="0.2153846153846154" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/ic_auto_24dp.xml" value="0.2153846153846154" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/ic_baseline_source_24.xml" value="0.21265822784810126" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/ic_baseline_text_snippet_24.xml" value="0.2153846153846154" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/ic_light_mode_24dp.xml" value="0.2153846153846154" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/manual_gradient.xml" value="0.2123931623931624" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/navigation_badge.xml" value="0.2153846153846154" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/radial_gradient.xml" value="0.2153846153846154" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/activity_second.xml" value="0.2" />
-        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/activity_third.xml" value="0.16" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/activity_third.xml" value="0.176" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/fragment_banned_products.xml" value="0.17735042735042736" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/fragment_banned_recipes.xml" value="0.17735042735042736" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/fragment_cart.xml" value="0.1" />
@@ -149,7 +150,7 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/fragment_tip.xml" value="0.19572649572649573" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/activity_second.xml" value="0.2" />
-        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/activity_third.xml" value="0.20213675213675214" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/activity_third.xml" value="0.264" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/bottom_navigation_view.xml" value="0.20213675213675214" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/circular_loading.xml" value="0.152" />
@@ -164,10 +165,12 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_cart.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_categories.xml" value="0.19610507246376813" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_daily.xml" value="0.20213675213675214" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_dialog_products.xml" value="0.1905982905982906" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_edit.xml" value="0.2" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_edit_list.xml" value="0.8" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_folder.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_fridge.xml" value="0.20213675213675214" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_fullscreen.xml" value="0.2" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_ingreds.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_measures.xml" value="0.20213675213675214" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/fragment_pod_folder.xml" value="0.20213675213675214" />
@@ -189,6 +192,7 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_navigation.xml" value="0.20213675213675214" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_product.xml" value="0.3984251968503937" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_product_checkable.xml" value="0.264" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_product_writable.xml" value="0.4" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_recipe.xml" value="0.4" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_settings.xml" value="0.4" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout/item_tip.xml" value="0.20213675213675214" />
@@ -207,6 +211,7 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/cart_menu.xml" value="0.20213675213675214" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/drawer_view.xml" value="0.264" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/filter_list_menu.xml" value="0.20213675213675214" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/folder_menu.xml" value="0.20213675213675214" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/ingred_menu.xml" value="0.72" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/popup_menu.xml" value="0.536" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/popup_menu_banned.xml" value="0.20213675213675214" />

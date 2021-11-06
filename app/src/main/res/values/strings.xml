@@ -272,5 +272,22 @@
     <string name="timeCookRecipe">Time</string>
     <string name="theFieldCantBeEmpty">Empty field!</string>
     <string name="chooseCategory">Choose category!</string>
-    <string name="recipeHint">Recipe with acions</string>
+    <string name="recipeHint">Recipe with actions</string>
+    <string name="screenOrientation">Screen orientation</string>
+    <string name="portrait">Portrait</string>
+    <string name="landscape">Landscape</string>
+    <string name="autoRotate">Auto</string>
+    <string name="someFilledTitleAlert">Recipe creating started</string>
+    <string name="someFilledMessageAlert">You started creating a recipe, but did not complete it, do you want to continue or cancel the creation?</string>
+    <string name="close">Close</string>
+    <string name="otmenyt">Cancel creating</string>
+    <string name="recipeIsAlmostReady">Recipe is almost ready</string>
+    <string name="recipeIsAlmostReadyMessage">Do you want to save it, or cancel the creation?</string>
+    <string name="valueIn">Value in </string>
+    <string name="addProducts">Add products!</string>
+    <string name="annotationEditing">Add products by tapping this icon</string>
+    <string name="recipeIsAlmostReadyMessage2">Do you want to save it, or do you want to make edits?</string>
+    <string name="continueToEdit">Edit</string>
+    <string name="thereIsNoChangesToSave">There is no changes to save</string>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.progix.fridgex.light.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.database.Cursor
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         when (loadNightMode()) {
             0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -59,6 +61,8 @@ class MainActivity : AppCompatActivity() {
         onTransformationStartContainer()
 
         super.onCreate(savedInstanceState)
+
+        tempContext = this
 
         initDataBase()
 
@@ -139,6 +143,13 @@ class MainActivity : AppCompatActivity() {
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
             allProducts.add(cursor.getString(2))
+            val tCurs = mDb.rawQuery(
+                "SELECT * FROM categories WHERE category = ?",
+                listOf(cursor.getString(1)).toTypedArray()
+            )
+            tCurs.moveToFirst()
+            allHints.add(tCurs.getString(2))
+            tCurs.close()
             cursor.moveToNext()
         }
         cursor.close()
@@ -359,9 +370,13 @@ class MainActivity : AppCompatActivity() {
         lateinit var mDb: SQLiteDatabase
 
         val allProducts: ArrayList<String> = ArrayList()
+        val allHints: ArrayList<String> = ArrayList()
 
         var isMultiSelectOn = false
         var actionMode: ActionMode? = null
+
+        @SuppressLint("StaticFieldLeak")
+        lateinit var tempContext: Context
     }
 
     private fun saveBoolean(key: String?, value: Boolean) {
@@ -390,6 +405,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         saveBadgeState()
+        allProducts.clear()
+        allHints.clear()
         super.onDestroy()
     }
 

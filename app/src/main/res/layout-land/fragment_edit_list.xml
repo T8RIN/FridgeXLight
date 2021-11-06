@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.EditListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -57,18 +57,18 @@
     <com.skydoves.transformationlayout.TransformationLayout
         android:id="@+id/transformationLayout"
         android:layout_width="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="end|bottom"
         android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
         app:transformation_duration="550">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
-            app:elevation="0dp"
-            android:contentDescription="@string/none"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_round_edit_24"/>
+            android:contentDescription="@string/none"
+            android:src="@drawable/ic_round_edit_24"
+            app:elevation="0dp" />
 
     </com.skydoves.transformationlayout.TransformationLayout>
 

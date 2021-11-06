@@ -18,7 +18,7 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.guide
 import com.progix.fridgex.light.activity.MainActivity.Companion.restart
 
 
-class SettingsAdapter(var context: Context, var settingsList: List<String>) :
+class SettingsAdapter(var context: Context, private var settingsList: List<String>) :
     RecyclerView.Adapter<SettingsAdapter.SettingsHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsHolder {
         val itemView: View = LayoutInflater.from(context)
@@ -26,7 +26,8 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
         return SettingsHolder(itemView)
     }
 
-    private var checkedItem = 3
+    private var checkedItem = 2
+
     override fun onBindViewHolder(holder: SettingsHolder, position: Int) {
         holder.itemView.isClickable = true
         holder.switcher.visibility = GONE
@@ -40,11 +41,13 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                     1 -> context.getString(R.string.off)
                     else -> context.getString(R.string.auto)
                 }
-                holder.icon.setImageResource(when(temp){
-                    0 -> R.drawable.ic_baseline_dark_mode_24
-                    1 -> R.drawable.ic_light_mode_24dp
-                    else -> R.drawable.ic_auto_24dp
-                })
+                holder.icon.setImageResource(
+                    when (temp) {
+                        0 -> R.drawable.ic_baseline_dark_mode_24
+                        1 -> R.drawable.ic_light_mode_24
+                        else -> R.drawable.ic_auto_24
+                    }
+                )
                 checkedItem = temp
                 holder.card.setOnClickListener {
                     val listItems = arrayOf(
@@ -55,21 +58,38 @@ class SettingsAdapter(var context: Context, var settingsList: List<String>) :
                     MaterialAlertDialogBuilder(context, R.style.modeAlert)
                         .setTitle(context.getString(R.string.nightMode))
                         .setPositiveButton(context.getString(R.string.ok)) { _, _ ->
-                            when (checkedItem) {
-                                0 -> {
-                                    saveNightMode(0)
-                                    context.startActivity(Intent(context, MainActivity::class.java))
-                                    restart = true
-                                }
-                                1 -> {
-                                    saveNightMode(1)
-                                    context.startActivity(Intent(context, MainActivity::class.java))
-                                    restart = true
-                                }
-                                2 -> {
-                                    saveNightMode(2)
-                                    context.startActivity(Intent(context, MainActivity::class.java))
-                                    restart = true
+                            if (checkedItem != loadNightMode()) {
+                                when (checkedItem) {
+                                    0 -> {
+                                        saveNightMode(0)
+                                        context.startActivity(
+                                            Intent(
+                                                context,
+                                                MainActivity::class.java
+                                            )
+                                        )
+                                        restart = true
+                                    }
+                                    1 -> {
+                                        saveNightMode(1)
+                                        context.startActivity(
+                                            Intent(
+                                                context,
+                                                MainActivity::class.java
+                                            )
+                                        )
+                                        restart = true
+                                    }
+                                    2 -> {
+                                        saveNightMode(2)
+                                        context.startActivity(
+                                            Intent(
+                                                context,
+                                                MainActivity::class.java
+                                            )
+                                        )
+                                        restart = true
+                                    }
                                 }
                             }
                         }

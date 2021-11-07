@@ -248,4 +248,24 @@
     <string name="deletedFromBanned">Удалено из блок-листа</string>
     <string name="banClearError">Пока ничего не заблокировано</string>
     <string name="someFilledMessageAlert">Вы начали создавать рецепт, но не завершили его, хотите продолжить, или отменить создание?</string>
+    <string name="recipeName">Название рецепта</string>
+    <string name="timeCookRecipe">Время</string>
+    <string name="theFieldCantBeEmpty">Пустое поле!</string>
+    <string name="chooseCategory">Выберите категорию!</string>
+    <string name="recipeHint">Пошаговый рецепт</string>
+    <string name="screenOrientation">Блокировка ориентации</string>
+    <string name="portrait">Портрет</string>
+    <string name="landscape">Альбом</string>
+    <string name="autoRotate">Авто</string>
+    <string name="someFilledTitleAlert">Начато создание рецепта</string>
+    <string name="close">Закрыть</string>
+    <string name="otmenyt">Отменить создание</string>
+    <string name="recipeIsAlmostReady">Рецепт почти готов</string>
+    <string name="recipeIsAlmostReadyMessage">Вы хотите сохранить его, или отменить создание?</string>
+    <string name="valueIn">Значение в</string>
+    <string name="addProducts">Добавьте продукты!</string>
+    <string name="annotationEditing">Добавьте продукты, нажав на эту иконку</string>
+    <string name="recipeIsAlmostReadyMessage2">Вы хотите сохранить его, или желаете внести правки?</string>
+    <string name="continueToEdit">Внести правки</string>
+    <string name="thereIsNoChangesToSave">Нет измений, чтобы сохранить</string>
 </resources>

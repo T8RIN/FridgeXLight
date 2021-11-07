@@ -175,6 +175,7 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
         var error: String = getString(R.string.theFieldCantBeEmpty)
         fieldsCount++
         if (textInputLayout == categoryTextField) error = getString(R.string.chooseCategory)
+        if (textInputLayout == productsTextField) error = getString(R.string.addProducts)
         return object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (s.isNotEmpty()) textInputLayout.error = null
@@ -222,6 +223,7 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
         carbohydratesTextField.error = getString(R.string.theFieldCantBeEmpty)
         categoryTextField.error = getString(R.string.chooseCategory)
         recipeTextField.error = getString(R.string.theFieldCantBeEmpty)
+        productsTextField.error = getString(R.string.addProducts)
     }
 
     private fun initTextFields() {

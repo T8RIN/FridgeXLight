@@ -23,6 +23,7 @@ import com.progix.fridgex.light.adapter.folder.FolderCategoriesAdapter
 import com.progix.fridgex.light.adapter.folder.FolderRecipesAdapter
 import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.data.DataArrays.secondaryFolderCategoriesImages
+import com.progix.fridgex.light.data.Functions
 import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -203,17 +204,18 @@ class FolderCategoriesFragment : Fragment() {
                 }
                 val xOfY = having.toString() + "/" + needed.size.toString()
                 val percentage = having.toDouble() / needed.size
-                pairList.add(
-                    RecyclerSortItem(
-                        percentage, time, cal, prot, fats, carboh,
-                        RecipeItem(
-                            recipeImages[id],
-                            indicator,
-                            name,
-                            time.toString(),
-                            xOfY
-                        )
-                    )
+                Functions.addItemToList(
+                    id,
+                    pairList,
+                    percentage,
+                    time,
+                    cal,
+                    prot,
+                    fats,
+                    carboh,
+                    indicator,
+                    name,
+                    xOfY
                 )
                 products.close()
                 allRecipes.moveToNext()

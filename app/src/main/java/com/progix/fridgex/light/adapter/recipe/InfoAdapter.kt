@@ -57,7 +57,7 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
                 holder.name.text = infoList[position].name
                 holder.value.text = infoList[position].value
                 holder.image.setImageResource(infoList[position].image)
-                if (infoList[position].name == context.getString(R.string.source)) {
+                if (infoList[position].name == context.getString(R.string.source) && infoList[position].value != "Авторский") {
                     holder.itemView.setOnClickListener {
                         MaterialAlertDialogBuilder(context, R.style.modeAlert)
                             .setTitle(context.getString(R.string.redirect))
@@ -73,13 +73,19 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
                             .show()
                     }
                 }
+                else if (infoList[position].value == "Авторский"){
+                    holder.image.setImageResource(R.drawable.ic_round_edit_24)
+                    holder.itemView.setOnClickListener {
+                        //TODO: clickHandling
+                    }
+                }
             }
             2 -> {
                 val holder = holderMain as ViewHolder2
                 holder.name.text = infoList[position].name
                 holder.value.text = infoList[position].value
                 holder.image.setImageResource(infoList[position].image)
-                if (infoList[position].name == context.getString(R.string.source)) {
+                if (infoList[position].name == context.getString(R.string.source) && infoList[position].value != "Авторский") {
                     holder.itemView.setOnClickListener {
                         MaterialAlertDialogBuilder(context, R.style.modeAlert)
                             .setTitle(context.getString(R.string.redirect))
@@ -93,6 +99,12 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
                             }
                             .setNegativeButton(context.getString(R.string.cancel), null)
                             .show()
+                    }
+                }
+                else if (infoList[position].value == "Авторский"){
+                    holder.image.setImageResource(R.drawable.ic_round_edit_24)
+                    holder.itemView.setOnClickListener {
+                        //TODO: clickHandling
                     }
                 }
                 if (position == 7) {

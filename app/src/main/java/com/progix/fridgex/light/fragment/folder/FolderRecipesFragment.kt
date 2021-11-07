@@ -21,6 +21,7 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.folder.FolderRecipesAdapter
 import com.progix.fridgex.light.data.DataArrays.recipeImages
+import com.progix.fridgex.light.data.Functions
 import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -125,7 +126,6 @@ class FolderRecipesFragment : Fragment() {
             allRecipes.moveToFirst()
             while (!allRecipes.isAfterLast) {
                 val id = allRecipes.getInt(0) - 1
-                val recipeName = allRecipes.getString(3)
                 val time = allRecipes.getInt(6)
                 val cal = allRecipes.getInt(10).toDouble()
                 val prot = allRecipes.getDouble(11)
@@ -151,17 +151,18 @@ class FolderRecipesFragment : Fragment() {
                 }
                 val xOfY = having.toString() + "/" + needed.size.toString()
                 val percentage = having.toDouble() / needed.size
-                pairList.add(
-                    RecyclerSortItem(
-                        percentage, time, cal, prot, fats, carboh,
-                        RecipeItem(
-                            recipeImages[id],
-                            indicator,
-                            recipeName,
-                            time.toString(),
-                            xOfY
-                        )
-                    )
+                Functions.addItemToList(
+                    id,
+                    pairList,
+                    percentage,
+                    time,
+                    cal,
+                    prot,
+                    fats,
+                    carboh,
+                    indicator,
+                    name,
+                    xOfY
                 )
                 products.close()
                 allRecipes.moveToNext()

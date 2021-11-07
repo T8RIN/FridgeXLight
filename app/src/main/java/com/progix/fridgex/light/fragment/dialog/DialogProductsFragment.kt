@@ -17,6 +17,7 @@ import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.allHints
 import com.progix.fridgex.light.activity.MainActivity.Companion.allProducts
+import com.progix.fridgex.light.activity.ThirdActivity.Companion.thirdContext
 import com.progix.fridgex.light.adapter.dialog.DialogListProductsAdapter
 import com.progix.fridgex.light.adapter.dialog.DialogSearchProductsAdapter
 import com.progix.fridgex.light.helper.interfaces.AdapterInterface
@@ -95,7 +96,7 @@ class DialogProductsFragment : DialogFragment() {
         for (item in pairArrayList) {
             list.add(item.second.replaceFirstChar { it.titlecase() })
         }
-        return DialogSearchProductsAdapter(requireContext(), list)
+        return DialogSearchProductsAdapter(thirdContext!!, list)
     }
 
     private fun searchString(chtoIshem: String, gdeIshem: String): Int {
@@ -174,7 +175,7 @@ class DialogProductsFragment : DialogFragment() {
         for (item in adapterListNames) {
             hintList.add(allHints[allProducts.indexOf(item.lowercase())])
         }
-        adapterList = DialogListProductsAdapter(requireContext(), adapterListNames, hintList)
+        adapterList = DialogListProductsAdapter(thirdContext!!, adapterListNames, hintList)
         if (adapterListNames.isEmpty()) {
             recycler?.visibility = GONE
             annotationCard?.visibility = VISIBLE

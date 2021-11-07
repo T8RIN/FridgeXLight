@@ -19,6 +19,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.custom.CustomSnackbar
+import com.progix.fridgex.light.data.Functions
 import com.progix.fridgex.light.model.RecyclerSortItem
 
 
@@ -36,7 +37,13 @@ class FolderRecipesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide.with(context).load(recipeList[position].recipeItem.image).into(holder.image)
+        if (recipeList[position].recipeItem.image != -1) {
+            Glide.with(context).load(recipeList[position].recipeItem.image).into(holder.image)
+        } else {
+            val id: Int = Functions.strToInt(recipeList[position].recipeItem.recipeName)
+            Glide.with(context).load(Functions.loadImageFromStorage(context, "recipe_$id.png"))
+                .into(holder.image)
+        }
         Glide.with(context).load(recipeList[position].recipeItem.indicator).into(holder.indicator)
         holder.recipeName.text = recipeList[position].recipeItem.recipeName
         holder.time.text = recipeList[position].recipeItem.time

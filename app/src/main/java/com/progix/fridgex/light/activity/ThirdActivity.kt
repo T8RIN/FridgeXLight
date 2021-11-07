@@ -3,12 +3,14 @@ package com.progix.fridgex.light.activity
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -18,26 +20,36 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
+import androidx.core.graphics.drawable.toBitmap
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
+import com.progix.fridgex.light.data.Functions.saveToInternalStorage
+import com.progix.fridgex.light.data.Functions.strToInt
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterInterface
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListNames
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListValues
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.initAdapterInterface
 import com.progix.fridgex.light.helper.interfaces.AdapterInterface
+import com.progix.fridgex.light.helper.interfaces.EditListChangesInterface
 import com.skydoves.transformationlayout.TransformationAppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
+
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        var thirdContext: Context? = null
+        var editorInterface: EditListChangesInterface? = null
+    }
 
     private lateinit var recipeNameTextField: TextInputLayout
     private lateinit var timeTextField: TextInputLayout
@@ -59,6 +71,7 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
 
     private lateinit var fab: FloatingActionButton
     private lateinit var imageOverlay: ImageView
+    private lateinit var imageRecipe: ImageView
 
     val fragment = DialogProductsFragment()
 
@@ -66,6 +79,8 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_third)
+
+        thirdContext = this
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -95,7 +110,13 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
     }
 
     private fun initImageOnClick() {
+
         imageOverlay = findViewById(R.id.imageOverlay)
+        imageRecipe = findViewById(R.id.image)
+
+        val image = AppCompatResources.getDrawable(this, R.drawable.ic_baseline_image_400)
+        imageRecipe.setImageBitmap(image?.toBitmap())
+
         imageOverlay.setOnClickListener {
             toggleImageSelector()
         }
@@ -116,7 +137,7 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
                 val imageStream = contentResolver.openInputStream(imageUri!!)
                 val selectedImage = BitmapFactory.decodeStream(imageStream)
                 bitmapImage = selectedImage
-                imageOverlay.setImageBitmap(selectedImage)
+                imageRecipe.setImageBitmap(selectedImage)
             }
         }
 
@@ -148,10 +169,10 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
 
     private fun initProductPicker() {
         productsTextField.setEndIconOnClickListener {
-            fragment.show(supportFragmentManager, "custom")
+            if (!fragment.isAdded) fragment.show(supportFragmentManager, "custom")
         }
         findViewById<View>(R.id.prodAction).setOnClickListener {
-            fragment.show(supportFragmentManager, "custom")
+            if (!fragment.isAdded) fragment.show(supportFragmentManager, "custom")
         }
     }
 
@@ -284,18 +305,23 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
     private fun requestSaving() {
         CoroutineScope(Dispatchers.Main).launch {
             when (asyncSaving()) {
-                false -> Toast.makeText(
-                    applicationContext,
-                    getString(R.string.saveErrorName),
-                    Toast.LENGTH_SHORT
-                ).show()
+                false -> {
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.saveErrorName),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    saved = false
+                }
                 true -> {
                     super.onBackPressed()
+                    editorInterface?.onNeedsToBeRecreated()
                     Toast.makeText(
                         applicationContext,
                         getString(R.string.saved),
                         Toast.LENGTH_SHORT
                     ).show()
+                    saved = true
                 }
             }
 
@@ -313,27 +339,68 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
         test.close()
         if (count != 0) return@withContext false
         else {
+            var cursor = mDb.rawQuery("SELECT * FROM recipes", null)
+            cursor.moveToLast()
+            val id = cursor.getString(0) + 1
+            cursor.close()
+
+            cursor = mDb.rawQuery(
+                "SELECT * FROM recipe_category_local WHERE category_local = ?",
+                listOf(resultList[6]).toTypedArray()
+            )
+            cursor.moveToFirst()
+            val catGlb = cursor.getString(1)
+            cursor.close()
+
+            val products = resultList[8].split("\n")
+
+            var productsResult = ""
+            var productsValues = ""
+
+            for (i in products) {
+                val product = i.split(" ... ")[0]
+                val prodCount = i.split(" ... ")[1].split(" ")[0]
+
+                productsValues += "$prodCount "
+                cursor = mDb.rawQuery(
+                    "SELECT * FROM products WHERE product = ?",
+                    listOf(product.lowercase()).toTypedArray()
+                )
+                cursor.moveToFirst()
+                productsResult += "${cursor.getString(0)} "
+                cursor.close()
+            }
 
             val newValues = ContentValues()
-//            newValues.put("id", id)
-//            newValues.put("category_global", )
-//            newValues.put("category_local", resultList[6])
-//            newValues.put("recipe_name", resultList[0])
-//            newValues.put("recipe", )
-//            newValues.put("recipe_value", )
-//            newValues.put("time", resultList[1])
-//            newValues.put("is_starred", "0")
-//            newValues.put("actions", resultList[7])
-//            newValues.put("source", "Авторский")
-//            newValues.put("calories", resultList[2])
-//            newValues.put("proteins", resultList[3])
-//            newValues.put("fats", resultList[4])
-//            newValues.put("carboh", resultList[5])
-//            newValues.put("banned", "0")
+            newValues.put("id", id)
+            newValues.put("category_global", catGlb)
+            newValues.put("category_local", resultList[6])
+            newValues.put("recipe_name", resultList[0])
+            newValues.put("recipe", productsResult.trim())
+            newValues.put("recipe_value", productsValues.trim())
+            newValues.put("time", resultList[1])
+            newValues.put("is_starred", "0")
+            newValues.put("actions", resultList[7])
+            newValues.put("source", "Авторский")
+            newValues.put("calories", resultList[2])
+            newValues.put("proteins", resultList[3])
+            newValues.put("fats", resultList[4])
+            newValues.put("carboh", resultList[5])
+            newValues.put("banned", "0")
+
+            mDb.insert("recipes", null, newValues)
+
+            val imageId = strToInt(resultList[0])
+
+            val ll: BitmapDrawable = imageRecipe.drawable as BitmapDrawable
+            bitmapImage = ll.bitmap
+
+            saveToInternalStorage(applicationContext, bitmapImage!!, "recipe_$imageId.png")
+
+
 
             return@withContext true
         }
-        //TODO: saving to bd
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -355,6 +422,8 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
         adapterListValues.clear()
         adapterListNames.clear()
         adapterInterface = null
+        thirdContext = null
+        editorInterface = null
     }
 
     override fun onTextChange(tempString: String) {

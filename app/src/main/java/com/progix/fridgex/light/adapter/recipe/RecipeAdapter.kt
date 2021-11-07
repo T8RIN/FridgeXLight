@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.progix.fridgex.light.R
 
 
-class RecipeAdapter(var context: Context, var recipeList: ArrayList<String>) :
+class RecipeAdapter(var context: Context, var recipeList: List<String>) :
     RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View =

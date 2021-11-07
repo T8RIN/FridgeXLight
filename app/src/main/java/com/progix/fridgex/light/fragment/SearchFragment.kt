@@ -26,11 +26,10 @@ import com.progix.fridgex.light.R.integer
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
-import com.progix.fridgex.light.adapter.search.SearchFilterNavigationAdapter
 import com.progix.fridgex.light.adapter.search.SearchAdapter
-import com.progix.fridgex.light.data.DataArrays.recipeImages
+import com.progix.fridgex.light.adapter.search.SearchFilterNavigationAdapter
+import com.progix.fridgex.light.data.Functions.addItemToList
 import com.progix.fridgex.light.model.NavItem
-import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import kotlinx.coroutines.*
 
@@ -194,17 +193,18 @@ class SearchFragment : Fragment() {
                     val xOfY = having.toString() + "/" + needed.size.toString()
                     val percentage = having.toDouble() / needed.size
                     if (percentage >= 0.35)
-                        pairList.add(
-                            RecyclerSortItem(
-                                percentage, time, cal, prot, fats, carboh,
-                                RecipeItem(
-                                    recipeImages[id],
-                                    indicator,
-                                    name,
-                                    time.toString(),
-                                    xOfY
-                                )
-                            )
+                        addItemToList(
+                            id,
+                            pairList,
+                            percentage,
+                            time,
+                            cal,
+                            prot,
+                            fats,
+                            carboh,
+                            indicator,
+                            name,
+                            xOfY
                         )
                     prodCursor.close()
                 }

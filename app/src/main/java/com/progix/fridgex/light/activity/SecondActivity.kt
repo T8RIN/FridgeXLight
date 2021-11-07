@@ -19,6 +19,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -28,6 +29,7 @@ import com.progix.fridgex.light.adapter.recipe.InfoAdapter
 import com.progix.fridgex.light.adapter.viewpager.RecipeViewPagerAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.recipeImages
+import com.progix.fridgex.light.data.Functions
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.list
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.portions
 
@@ -54,7 +56,14 @@ class SecondActivity : AppCompatActivity() {
         )
         cursor.moveToFirst()
 
-        image.setImageResource(recipeImages[id - 1])
+        if (id - 1 < recipeImages.size) {
+            Glide.with(this).load(recipeImages[id - 1]).into(image)
+        } else {
+            val id: Int = Functions.strToInt(cursor.getString(3))
+            Glide.with(this).load(Functions.loadImageFromStorage(this, "recipe_$id.png"))
+                .into(image)
+        }
+
         supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_TITLE
         supportActionBar?.title = cursor.getString(3)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

@@ -35,6 +35,27 @@ class CustomSnackbar(val context: Context) {
     }
 
     fun create(
+        indefinite: Boolean,
+        view: View?,
+        text: String?
+    ): Snackbar {
+        val snackBar = Snackbar.make(view!!, text!!, Snackbar.LENGTH_INDEFINITE)
+            .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
+        //.setBackgroundTint(ContextCompat.getColor(context, R.color.manualBackground))
+        //.setTextColor(ContextCompat.getColor(context, R.color.manualText))
+        val params = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
+        params.anchorId = R.id.bottom_navigation
+        params.anchorGravity = TOP
+        params.gravity = TOP
+        snackBar.view.layoutParams = params
+
+        snackBar.view.translationY =
+            -(5 * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
+
+        return snackBar
+    }
+
+    fun create(
         leftMargin: Int,
         view: View?,
         text: String?,

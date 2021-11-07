@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.StarFragment">
+    tools:context=".fragment.starred.StarListFragment">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/star_view_pager"

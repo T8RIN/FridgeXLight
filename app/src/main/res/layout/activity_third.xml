@@ -50,6 +50,7 @@
                     android:id="@+id/recipeNameTextField"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:theme="@style/abchihba"
                     app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -57,7 +58,8 @@
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
                         android:hint="@string/recipeName"
-                        android:inputType="text" />
+                        android:inputType="text"
+                        android:textColor="@color/manualText3" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

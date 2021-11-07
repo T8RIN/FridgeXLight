@@ -2,6 +2,8 @@ package com.progix.fridgex.light.fragment
 
 import android.database.Cursor
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
 import android.view.View.*
 import android.widget.Toast
@@ -19,10 +21,10 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.adapter.FridgeAdapter
+import com.progix.fridgex.light.adapter.fridge.FridgeAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
-import com.progix.fridgex.light.helper.ActionInterface
-import com.progix.fridgex.light.helper.ActionModeCallback
+import com.progix.fridgex.light.helper.interfaces.ActionInterface
+import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -42,6 +44,13 @@ class FridgeFragment : Fragment(), ActionInterface {
     private val fridgeList: ArrayList<Pair<String, String>> = ArrayList()
 
     private lateinit var loading: CircularProgressIndicator
+
+    override fun onResume() {
+        super.onResume()
+        Handler(Looper.getMainLooper()).postDelayed({
+            (requireActivity() as MainActivity).bottomSlideUp()
+        }, 1)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -220,12 +229,12 @@ class FridgeFragment : Fragment(), ActionInterface {
         }
     }
 
-    override fun actionInterface(size: Int) {
+    override fun onSelectedItemsCountChanged(count: Int) {
         val callback = ActionModeCallback()
         callback.init(adapter!!, R.id.nav_fridge)
         if (actionMode == null) actionMode =
             (requireContext() as MainActivity).startSupportActionMode(callback)
-        if (size > 0) actionMode?.title = "$size"
+        if (count > 0) actionMode?.title = "$count"
         else actionMode?.finish()
     }
 

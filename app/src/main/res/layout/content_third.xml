@@ -23,6 +23,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
+            android:theme="@style/abchihba"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:layout_constraintEnd_toStartOf="@id/caloriesTextField"
@@ -36,7 +37,8 @@
                 android:layout_height="match_parent"
                 android:hint="@string/timeCookRecipe"
                 android:inputType="numberDecimal"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/manualText3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -49,6 +51,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
+            android:theme="@style/abchihba"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +64,8 @@
                 android:layout_height="match_parent"
                 android:hint="@string/cal"
                 android:inputType="numberDecimal"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/manualText3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,6 +78,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
+            android:theme="@style/abchihba"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:layout_constraintEnd_toStartOf="@id/fatsTextField"
@@ -87,7 +92,8 @@
                 android:layout_height="match_parent"
                 android:hint="@string/proteins"
                 android:inputType="numberDecimal"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/manualText3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,6 +106,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
+            android:theme="@style/abchihba"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +119,8 @@
                 android:layout_height="match_parent"
                 android:hint="@string/fats"
                 android:inputType="numberDecimal"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/manualText3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,6 +132,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
+            android:theme="@style/abchihba"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:layout_constraintTop_toBottomOf="@id/proteinsTextField"
@@ -134,7 +143,8 @@
                 android:layout_height="match_parent"
                 android:hint="@string/carbohydrates"
                 android:inputType="numberDecimal"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/manualText3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,6 +156,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
+            android:theme="@style/abchihba"
             app:errorEnabled="true"
             app:layout_constraintTop_toBottomOf="@id/carbohydratesTextField"
             app:startIconDrawable="@drawable/ic_baseline_folder_24">
@@ -154,7 +165,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/category"
-                android:inputType="none" />
+                android:inputType="none"
+                android:textColor="@color/manualText3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,6 +178,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
+            android:theme="@style/abchihba"
             app:endIconDrawable="@drawable/ic_round_add_circle_outline_24"
             app:endIconMode="custom"
             app:layout_constraintTop_toBottomOf="@id/categoryTextField"
@@ -177,7 +190,8 @@
                 android:clickable="false"
                 android:hint="@string/products"
                 android:inputType="none"
-                android:lineSpacingMultiplier="1.5" />
+                android:lineSpacingMultiplier="1.5"
+                android:textColor="@color/manualText3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -197,6 +211,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
+            android:theme="@style/abchihba"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:layout_constraintTop_toBottomOf="@id/productsTextField"
@@ -206,7 +221,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/recipeHint"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:textColor="@color/manualText3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

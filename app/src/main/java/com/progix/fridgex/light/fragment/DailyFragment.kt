@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
@@ -13,10 +15,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.MainActivity.Companion.tempContext
 import com.progix.fridgex.light.activity.SecondActivity
-import com.progix.fridgex.light.adapter.DailyAdapter
+import com.progix.fridgex.light.adapter.daily.DailyAdapter
 import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.model.RecipeItem
 import kotlinx.coroutines.*
@@ -33,6 +36,14 @@ class DailyFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var job: Job? = null
+
+    override fun onResume() {
+        super.onResume()
+        Handler(Looper.getMainLooper()).postDelayed({
+            (requireActivity() as MainActivity).bottomSlideUp()
+        }, 1)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)

@@ -24,12 +24,12 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.adapter.InfoAdapter
+import com.progix.fridgex.light.adapter.recipe.InfoAdapter
+import com.progix.fridgex.light.adapter.viewpager.RecipeViewPagerAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.recipeImages
-import com.progix.fridgex.light.fragment.IngredsFragment.Companion.list
-import com.progix.fridgex.light.fragment.IngredsFragment.Companion.portions
-import com.progix.fridgex.light.viewpager.RecipeViewPagerAdapter
+import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.list
+import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.portions
 
 
 class SecondActivity : AppCompatActivity() {

@@ -3,6 +3,8 @@ package com.progix.fridgex.light.fragment
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -21,10 +23,10 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.adapter.CartAdapter
+import com.progix.fridgex.light.adapter.cart.CartAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
-import com.progix.fridgex.light.helper.ActionInterface
-import com.progix.fridgex.light.helper.ActionModeCallback
+import com.progix.fridgex.light.helper.interfaces.ActionInterface
+import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -43,6 +45,13 @@ class CartFragment : Fragment(), ActionInterface {
     private var param2: String? = null
 
     private val cartList: ArrayList<Pair<String, String>> = ArrayList()
+
+    override fun onResume() {
+        super.onResume()
+        Handler(Looper.getMainLooper()).postDelayed({
+            (requireActivity() as MainActivity).bottomSlideUp()
+        }, 1)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -284,12 +293,12 @@ class CartFragment : Fragment(), ActionInterface {
 
     private val crossList: ArrayList<Int> = ArrayList()
 
-    override fun actionInterface(size: Int) {
+    override fun onSelectedItemsCountChanged(count: Int) {
         val callback = ActionModeCallback()
         callback.init(adapter!!, R.id.nav_cart)
         if (MainActivity.actionMode == null) MainActivity.actionMode =
             (requireContext() as MainActivity).startSupportActionMode(callback)
-        if (size > 0) MainActivity.actionMode?.title = "$size"
+        if (count > 0) MainActivity.actionMode?.title = "$count"
         else MainActivity.actionMode?.finish()
     }
 

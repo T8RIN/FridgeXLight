@@ -24,6 +24,7 @@
         <item name="colorError">@color/red</item>
         <item name="colorControlActivated">@color/checked</item>
         <item name="rippleColor">@color/checkedTrans</item>
+
     </style>
 
     <style name="Comfortaa" parent="android:Widget.TextView">
@@ -73,9 +74,10 @@
         <item name="cornerSize">14dp</item>
     </style>
 
-    <style name="ThemeOverlay.FridgeXLight.FullscreenContainer" parent="">
-        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
-        <item name="fullscreenTextColor">@color/light_blue_A400</item>
+    <style name="abchihba">
+        <item name="colorOnSurface">#FF862B</item>
+        <item name="colorPrimary">@color/checked</item>
+        <item name="colorError">@color/red</item>
     </style>
 
 </resources>

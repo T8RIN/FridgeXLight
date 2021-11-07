@@ -5,7 +5,7 @@
     android:id="@+id/end_advice"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.TipListFragment">
+    tools:context=".fragment.tips.TipListFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"

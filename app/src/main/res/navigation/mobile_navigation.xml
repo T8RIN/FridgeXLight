@@ -13,19 +13,19 @@
 
     <fragment
         android:id="@+id/nav_star"
-        android:name="com.progix.fridgex.light.fragment.StarFragment"
+        android:name="com.progix.fridgex.light.fragment.starred.StarListFragment"
         android:label="@string/starred"
         tools:layout="@layout/fragment_star_list" />
 
     <fragment
         android:id="@+id/nav_banned"
-        android:name="com.progix.fridgex.light.fragment.BannedFragment"
+        android:name="com.progix.fridgex.light.fragment.banned.BannedFragment"
         android:label="@string/ban_list"
         tools:layout="@layout/fragment_ban_list" />
 
     <fragment
         android:id="@+id/nav_folder"
-        android:name="com.progix.fridgex.light.fragment.FolderFragment"
+        android:name="com.progix.fridgex.light.fragment.folder.FolderFragment"
         android:label="@string/recipe_catalog"
         tools:layout="@layout/fragment_folder">
         <action
@@ -35,19 +35,19 @@
 
     <fragment
         android:id="@+id/nav_edit"
-        android:name="com.progix.fridgex.light.fragment.EditListFragment"
+        android:name="com.progix.fridgex.light.fragment.editor.EditListFragment"
         android:label="@string/create_edit_recipes"
         tools:layout="@layout/fragment_edit_list" />
 
     <fragment
         android:id="@+id/nav_measures"
-        android:name="com.progix.fridgex.light.fragment.MeasuresFragment"
+        android:name="com.progix.fridgex.light.fragment.measures.MeasuresFragment"
         android:label="@string/measures"
         tools:layout="@layout/fragment_measures" />
 
     <fragment
         android:id="@+id/nav_tip"
-        android:name="com.progix.fridgex.light.fragment.TipFragment"
+        android:name="com.progix.fridgex.light.fragment.tips.TipFragment"
         android:label="@string/tips"
         tools:layout="@layout/fragment_tip">
         <action
@@ -57,7 +57,7 @@
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.progix.fridgex.light.fragment.SettingsFragment"
+        android:name="com.progix.fridgex.light.fragment.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
 
@@ -85,7 +85,7 @@
 
     <fragment
         android:id="@+id/nav_cat"
-        android:name="com.progix.fridgex.light.fragment.CategoriesFragment"
+        android:name="com.progix.fridgex.light.fragment.productselection.CategoriesFragment"
         android:label="@string/categories"
         tools:layout="@layout/fragment_categories">
         <action
@@ -95,13 +95,13 @@
 
     <fragment
         android:id="@+id/nav_products"
-        android:name="com.progix.fridgex.light.fragment.ProductsFragment"
+        android:name="com.progix.fridgex.light.fragment.productselection.ProductsFragment"
         android:label=""
         tools:layout="@layout/fragment_products" />
 
     <fragment
         android:id="@+id/nav_pod_folder"
-        android:name="com.progix.fridgex.light.fragment.PodFolderFragment"
+        android:name="com.progix.fridgex.light.fragment.folder.FolderCategoriesFragment"
         android:label=""
         tools:layout="@layout/fragment_pod_folder">
         <action
@@ -111,15 +111,15 @@
 
     <fragment
         android:id="@+id/nav_pod_pod_folder"
-        android:name="com.progix.fridgex.light.fragment.PodPodFolderFragment"
+        android:name="com.progix.fridgex.light.fragment.folder.FolderRecipesFragment"
         android:label=""
-        tools:layout="@layout/fragment_pod_pod_folder"></fragment>
+        tools:layout="@layout/fragment_pod_pod_folder" />
 
     <fragment
         android:id="@+id/nav_tip_list"
-        android:name="com.progix.fridgex.light.fragment.TipListFragment"
+        android:name="com.progix.fridgex.light.fragment.tips.TipListFragment"
         android:label=""
-        tools:layout="@layout/fragment_tip_list"></fragment>
+        tools:layout="@layout/fragment_tip_list" />
 
 
 </navigation>

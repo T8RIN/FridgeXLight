@@ -26,8 +26,8 @@ import com.progix.fridgex.light.R.integer
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
-import com.progix.fridgex.light.adapter.NavigationAdapter
-import com.progix.fridgex.light.adapter.SearchAdapter
+import com.progix.fridgex.light.adapter.search.SearchFilterNavigationAdapter
+import com.progix.fridgex.light.adapter.search.SearchAdapter
 import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.model.NavItem
 import com.progix.fridgex.light.model.RecipeItem
@@ -46,6 +46,13 @@ class SearchFragment : Fragment() {
 
     private lateinit var searchRecycler: RecyclerView
     private lateinit var annotationCard: MaterialCardView
+
+    override fun onResume() {
+        super.onResume()
+        Handler(Looper.getMainLooper()).postDelayed({
+            (requireActivity() as MainActivity).bottomSlideUp()
+        }, 1)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +98,7 @@ class SearchFragment : Fragment() {
             NavItem(getString(R.string.byCbh), R.drawable.ic_carbohydrates_24),
         )
 
-        navRecycler.adapter = NavigationAdapter(requireContext(), list, navClicker)
+        navRecycler.adapter = SearchFilterNavigationAdapter(requireContext(), list, navClicker)
 
         val checkBox: CheckBox = v.findViewById(R.id.checkbox)
         checkBox.setOnClickListener {
@@ -308,7 +315,7 @@ class SearchFragment : Fragment() {
         startActivity(intent, options!!.toBundle())
     }
 
-    private val navClicker = NavigationAdapter.OnClickListener { id ->
+    private val navClicker = SearchFilterNavigationAdapter.OnClickListener { id ->
 
         val drawerLayout: DrawerLayout? = view?.findViewById(R.id.drawer_layout)
         job?.cancel()

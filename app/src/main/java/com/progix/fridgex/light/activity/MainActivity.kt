@@ -3,6 +3,7 @@ package com.progix.fridgex.light.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
+import android.content.res.Configuration
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
     lateinit var toolbar: Toolbar
-    private lateinit var bottomNavigationView: BottomNavigationView
+    lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navController: NavController
 
 
@@ -81,7 +82,9 @@ class MainActivity : AppCompatActivity() {
         setupNavController()
         setupDrawerNavigation()
         setupBottomNavigation()
+
         visibilityNavElements(navController)
+
         if (guide) {
             Toast.makeText(this, "Guide", Toast.LENGTH_SHORT).show()
             guide = false
@@ -91,7 +94,9 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.visibility = GONE
             restart = false
         } else {
-            bottomNavigationView.visibility = VISIBLE
+            if (resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
+                bottomNavigationView.visibility = VISIBLE
+            }
         }
         setUpBadges()
 
@@ -101,6 +106,7 @@ class MainActivity : AppCompatActivity() {
             testDeleteAfterFinish()
         }
     }
+
 
     private fun setUpBadges() {
         val fridgeBadge = loadString("R.id.nav_fridge")!!
@@ -215,17 +221,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var des = 0
+    private var des = ""
     private fun visibilityNavElements(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            des = destination.id
-            when (destination.id) {
-                R.id.nav_home -> showBothNavigation()
-                R.id.nav_search -> showBothNavigation()
-                R.id.nav_fridge -> showBothNavigation()
-                R.id.nav_cart -> showBothNavigation()
-                R.id.nav_cat -> hideBothNavigation(true)
-                R.id.nav_products -> hideBothNavigation(true)
+            des = destination.displayName.split("id/")[1]
+            when (des) {
+                "nav_home" -> showBothNavigation()
+                "nav_search" -> showBothNavigation()
+                "nav_fridge" -> showBothNavigation()
+                "nav_cart" -> showBothNavigation()
+                "nav_cat" -> hideBothNavigation(true)
+                "nav_products" -> hideBothNavigation(true)
                 else -> hideBothNavigation(false)
             }
         }
@@ -329,30 +335,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showBothNavigation() {
-        bottomNavigationView.visibility = VISIBLE
+        if (resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            bottomNavigationView.visibility = VISIBLE
+        }
         navigationView.visibility = VISIBLE
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
         bottomSlideUp()
     }
 
-    private fun bottomSlideUp() {
+    fun bottomSlideUp() {
         val layoutParams = bottomNavigationView.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
         behavior.slideUp(bottomNavigationView)
     }
 
-    private fun bottomSlideDown() {
+    fun bottomSlideDown() {
         val layoutParams = bottomNavigationView.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
         behavior.slideDown(bottomNavigationView)
     }
 
     private fun hideBothNavigation(lock: Boolean) {
-        if (des == R.id.nav_banned) {
+        if (lock) {
             bottomNavigationView.visibility = INVISIBLE
-            navigationView.visibility = INVISIBLE
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
-        if (lock) drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         Handler(Looper.getMainLooper()).postDelayed({
             bottomSlideDown()
         }, 1)

@@ -291,5 +291,7 @@
     <string name="thereIsNoChangesToSave">There is no changes to save</string>
     <string name="recipeDeleted">Recipe will be deleted after 5 seconds</string>
     <string name="wait">Wait before previous recipe deletes!</string>
+    <string name="recipeIsAlmostReadyMessageEditing">Do you want to save it, or discard changes?</string>
+    <string name="discard">"Discard "</string>
 
 </resources>

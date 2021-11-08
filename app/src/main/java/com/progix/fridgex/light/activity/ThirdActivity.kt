@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
@@ -33,9 +34,9 @@ import com.progix.fridgex.light.data.Functions.loadImageFromStorage
 import com.progix.fridgex.light.data.Functions.saveToInternalStorage
 import com.progix.fridgex.light.data.Functions.strToInt
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment
-import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.dialogAdapterInterface
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListNames
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListValues
+import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.dialogAdapterInterface
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.initAdapterInterface
 import com.progix.fridgex.light.helper.interfaces.DialogAdapterInterface
 import com.progix.fridgex.light.helper.interfaces.EditListChangesInterface
@@ -44,6 +45,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.IOException
 
 class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface {
 
@@ -51,6 +54,7 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
         @SuppressLint("StaticFieldLeak")
         var thirdContext: Context? = null
         var editorInterface: EditListChangesInterface? = null
+        var second = false
     }
 
     private lateinit var recipeNameTextField: TextInputLayout
@@ -78,6 +82,8 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
 
     val fragment = DialogProductsFragment()
 
+    var idEditingNow = 0
+
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
@@ -100,8 +106,8 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             }
         }
 
-        val idToEdit = intent.extras?.get("toEdit")
-        editionMode = idToEdit != -1
+        idEditingNow = intent.extras?.get("toEdit") as Int
+        editionMode = idEditingNow != -1
 
         Handler(Looper.getMainLooper()).postDelayed({
             initTextFields()
@@ -112,13 +118,13 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             initAdapterInterface(this@ThirdActivity)
             initFabOnClick()
             initImageOnClick()
-            initEditMode(idToEdit as Int)
+            initEditMode(idEditingNow)
         }, 550)
 
     }
 
     private fun initEditMode(idToEdit: Int) {
-        if(editionMode){
+        if (editionMode) {
             val about =
                 mDb.rawQuery("SELECT * FROM recipes WHERE id = $idToEdit", null)
             about.moveToFirst()
@@ -153,9 +159,12 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             val prodArr: ArrayList<String> = ArrayList(products.split(" "))
             val valArr: ArrayList<String> = ArrayList(values.split(" "))
             for (i in 0 until prodArr.size) {
-                val cursor = mDb.rawQuery("SELECT * FROM products WHERE id = ?", listOf(prodArr[i]).toTypedArray())
+                val cursor = mDb.rawQuery(
+                    "SELECT * FROM products WHERE id = ?",
+                    listOf(prodArr[i]).toTypedArray()
+                )
                 cursor.moveToFirst()
-                val prodName = cursor.getString(2).replaceFirstChar{it.titlecase()}
+                val prodName = cursor.getString(2).replaceFirstChar { it.titlecase() }
                 adapterListNames.add(prodName)
                 adapterListValues.add(Pair(prodName, valArr[i]))
                 cursor.close()
@@ -171,8 +180,12 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
                 )]
             }\n"
             onTextChange(tempString)
+
+            startEditingRecipeState = getTextStatus()
         }
     }
+
+    private var startEditingRecipeState: ArrayList<String>? = null
 
     private fun initImageOnClick() {
 
@@ -212,21 +225,33 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             if (someFieldsAreFilled || allEmpty) {
                 Toast.makeText(this@ThirdActivity, getString(R.string.saveError), Toast.LENGTH_LONG)
                     .show()
-            } else if (noChanges) {
+            } else if (noChanges && !editionMode) {
                 Toast.makeText(
                     this@ThirdActivity,
                     getString(R.string.thereIsNoChangesToSave),
                     Toast.LENGTH_LONG
                 ).show()
+            } else if (editionMode) {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(getString(R.string.recipeIsAlmostReady))
+                    .setMessage(getString(R.string.recipeIsAlmostReadyMessageEditing))
+                    .setPositiveButton(getString(R.string.saveY)) { _, _ ->
+                        requestUpdate(idEditingNow)
+                    }
+                    .setNegativeButton(getString(R.string.discard)) { _, _ ->
+                        super.onBackPressed()
+                    }
+                    .show()
             } else {
                 MaterialAlertDialogBuilder(this)
                     .setTitle(getString(R.string.recipeIsAlmostReady))
-                    .setMessage(getString(R.string.recipeIsAlmostReadyMessage2))
+                    .setMessage(getString(R.string.recipeIsAlmostReadyMessage))
                     .setPositiveButton(getString(R.string.saveY)) { _, _ ->
                         requestSaving()
                     }
-                    .setNegativeButton(getString(R.string.continueToEdit), null)
-                    .setCancelable(false)
+                    .setNegativeButton(getString(R.string.otmenyt)) { _, _ ->
+                        super.onBackPressed()
+                    }
                     .show()
             }
         }
@@ -341,14 +366,26 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
     }
 
     private fun showExitDialog() {
+        if (startEditingRecipeState == getTextStatus()) noChanges = true
         if (saved || noChanges || allEmpty) {
             super.onBackPressed()
-        } else if (someFieldsAreFilled) {
+        } else if (someFieldsAreFilled && !editionMode) {
             MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.someFilledTitleAlert))
                 .setMessage(getString(R.string.someFilledMessageAlert))
                 .setPositiveButton(getString(R.string.cont), null)
                 .setNegativeButton(getString(R.string.otmenyt)) { _, _ ->
+                    super.onBackPressed()
+                }
+                .show()
+        } else if (editionMode) {
+            MaterialAlertDialogBuilder(this)
+                .setTitle(getString(R.string.recipeIsAlmostReady))
+                .setMessage(getString(R.string.recipeIsAlmostReadyMessageEditing))
+                .setPositiveButton(getString(R.string.saveY)) { _, _ ->
+                    requestUpdate(idEditingNow)
+                }
+                .setNegativeButton(getString(R.string.discard)) { _, _ ->
                     super.onBackPressed()
                 }
                 .show()
@@ -362,7 +399,6 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
                 .setNegativeButton(getString(R.string.otmenyt)) { _, _ ->
                     super.onBackPressed()
                 }
-                .setCancelable(false)
                 .show()
         }
     }
@@ -370,6 +406,32 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
     private fun requestSaving() {
         CoroutineScope(Dispatchers.Main).launch {
             when (asyncSaving()) {
+                false -> {
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.saveErrorName),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    saved = false
+                }
+                true -> {
+                    super.onBackPressed()
+                    editorInterface?.onNeedsToBeRecreated()
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.saved),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    saved = true
+                }
+            }
+
+        }
+    }
+
+    private fun requestUpdate(idEditingNow: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            when (asyncUpdating(idEditingNow)) {
                 false -> {
                     Toast.makeText(
                         applicationContext,
@@ -467,6 +529,99 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             return@withContext true
         }
     }
+
+    private suspend fun asyncUpdating(idEditingNow: Int) = withContext(Dispatchers.IO) {
+        val resultList = getTextStatus()
+        val test = mDb.rawQuery(
+            "SELECT * FROM recipes WHERE recipe_name = ? AND id NOT LIKE ?",
+            listOf(resultList[0], idEditingNow.toString()).toTypedArray()
+        )
+        test.moveToFirst()
+        val count = test.count
+        test.close()
+        if (count != 0) return@withContext false
+        else {
+            var cursor = mDb.rawQuery("SELECT * FROM recipes", null)
+            cursor.moveToLast()
+            val id = idEditingNow
+            cursor.close()
+
+            cursor = mDb.rawQuery(
+                "SELECT * FROM recipe_category_local WHERE category_local = ?",
+                listOf(resultList[6]).toTypedArray()
+            )
+            cursor.moveToFirst()
+            val catGlb = cursor.getString(1)
+            cursor.close()
+
+            val products = resultList[8].split("\n")
+
+            var productsResult = ""
+            var productsValues = ""
+
+            for (i in products) {
+                val product = i.split(" ... ")[0]
+                val prodCount = i.split(" ... ")[1].split(" ")[0]
+
+                productsValues += "$prodCount "
+                cursor = mDb.rawQuery(
+                    "SELECT * FROM products WHERE product = ?",
+                    listOf(product.lowercase()).toTypedArray()
+                )
+                cursor.moveToFirst()
+                productsResult += "${cursor.getString(0)} "
+                cursor.close()
+            }
+
+            val newValues = ContentValues()
+            newValues.put("id", id)
+            newValues.put("category_global", catGlb)
+            newValues.put("category_local", resultList[6])
+            newValues.put("recipe_name", resultList[0])
+            newValues.put("recipe", productsResult.trim())
+            newValues.put("recipe_value", productsValues.trim())
+            newValues.put("time", resultList[1])
+            newValues.put("is_starred", "0")
+            newValues.put("actions", resultList[7])
+            newValues.put("source", "Авторский")
+            newValues.put("calories", resultList[2])
+            newValues.put("proteins", resultList[3])
+            newValues.put("fats", resultList[4])
+            newValues.put("carboh", resultList[5])
+            newValues.put("banned", "0")
+
+            mDb.update("recipes", newValues, "id = $id", null)
+
+            val z: Int = strToInt(startEditingRecipeState!![0])
+            val cw = ContextWrapper(this@ThirdActivity)
+            val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
+            val file = File(
+                directory,
+                "recipe_$z.png"
+            )
+            file.delete()
+            if (file.exists()) {
+                try {
+                    file.canonicalFile.delete()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                if (file.exists()) {
+                    deleteFile(file.name)
+                }
+            }
+
+            val imageId = strToInt(resultList[0])
+
+            val ll: BitmapDrawable = imageRecipe.drawable as BitmapDrawable
+            bitmapImage = ll.bitmap
+
+            saveToInternalStorage(applicationContext, bitmapImage!!, "recipe_$imageId.png")
+
+            return@withContext true
+        }
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

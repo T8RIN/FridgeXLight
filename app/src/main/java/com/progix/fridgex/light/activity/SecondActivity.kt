@@ -25,7 +25,6 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.activity.ThirdActivity.Companion.second
 import com.progix.fridgex.light.adapter.recipe.InfoAdapter
 import com.progix.fridgex.light.adapter.viewpager.RecipeViewPagerAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
@@ -282,16 +281,6 @@ class SecondActivity : AppCompatActivity() {
 
         @SuppressLint("StaticFieldLeak")
         var adapter: InfoAdapter? = null
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (second) {
-            second = false;
-            val intent = Intent(this, SecondActivity::class.java)
-            intent.putExtra("rec", id)
-            startActivity(intent)
-        }
     }
 
     override fun onDestroy() {

@@ -54,7 +54,6 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
         @SuppressLint("StaticFieldLeak")
         var thirdContext: Context? = null
         var editorInterface: EditListChangesInterface? = null
-        var second = false
     }
 
     private lateinit var recipeNameTextField: TextInputLayout

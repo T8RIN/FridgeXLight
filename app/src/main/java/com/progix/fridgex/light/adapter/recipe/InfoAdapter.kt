@@ -13,16 +13,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.activity.SecondActivity.Companion.id
-import com.progix.fridgex.light.activity.ThirdActivity
-import com.progix.fridgex.light.activity.ThirdActivity.Companion.second
 import com.progix.fridgex.light.model.InfoItem
-import com.skydoves.transformationlayout.TransformationCompat
-import com.skydoves.transformationlayout.TransformationLayout
 
 
 class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem>) :
@@ -80,13 +74,7 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
                     }
                 } else if (infoList[position].value == "Авторский") {
                     holder.image.setImageResource(R.drawable.ic_round_edit_24)
-                    holder.card.setOnClickListener {
-                        val intent = Intent(context, ThirdActivity::class.java)
-                        intent.putExtra("orient", context.resources.configuration.orientation)
-                        intent.putExtra("toEdit", id)
-                        second = true
-                        TransformationCompat.startActivity(holder.transformationLayout, intent)
-
+                    holder.itemView.setOnClickListener {
                     }
                 }
             }
@@ -112,12 +100,7 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
                     }
                 } else if (infoList[position].value == "Авторский") {
                     holder.image.setImageResource(R.drawable.ic_round_edit_24)
-                    holder.card.setOnClickListener {
-                        val intent = Intent(context, ThirdActivity::class.java)
-                        intent.putExtra("orient", context.resources.configuration.orientation)
-                        intent.putExtra("toEdit", id)
-                        second = true
-                        TransformationCompat.startActivity(holder.transformationLayout, intent)
+                    holder.itemView.setOnClickListener {
                     }
                 }
                 if (position == 7) {
@@ -159,9 +142,6 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
         val name: TextView = view.findViewById(R.id.name)
         val value: TextView = view.findViewById(R.id.value)
         val image: ImageView = view.findViewById(R.id.image)
-        val card: MaterialCardView = view.findViewById(R.id.itemView)
-        val transformationLayout: TransformationLayout =
-            view.findViewById(R.id.transformationLayout)
     }
 
     inner class ViewHolder2(view: View) : RecyclerView.ViewHolder(view) {
@@ -171,9 +151,6 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
         val value2: TextView = view.findViewById(R.id.value2)
         val starLayout: LinearLayout = view.findViewById(R.id.star_layout)
         val banLayout: LinearLayout = view.findViewById(R.id.ban_layout)
-        val card: MaterialCardView = view.findViewById(R.id.itemView)
-        val transformationLayout: TransformationLayout =
-            view.findViewById(R.id.transformationLayout)
     }
 
 }

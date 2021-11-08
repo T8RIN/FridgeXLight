@@ -43,7 +43,7 @@ class DialogSearchProductsAdapter(var context: Context, private var prodList: Ar
             }
             var tempString = ""
             for (i in adapterListValues) tempString += "${i.first} ... ${i.second}\n"
-            DialogProductsFragment.adapterInterface?.onTextChange(tempString)
+            DialogProductsFragment.dialogAdapterInterface?.onTextChange(tempString)
         }
         holder.checkBox.setOnClickListener {
             if (holder.checkBox.isChecked && !adapterListNames.contains(prodList[position])) {
@@ -55,7 +55,7 @@ class DialogSearchProductsAdapter(var context: Context, private var prodList: Ar
             }
             var tempString = ""
             for (i in adapterListValues) tempString += "${i.first} ... ${i.second}\n"
-            DialogProductsFragment.adapterInterface?.onTextChange(tempString)
+            DialogProductsFragment.dialogAdapterInterface?.onTextChange(tempString)
         }
 
     }

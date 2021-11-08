@@ -17,11 +17,9 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.banned.BannedRecipesAdapter
-import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.data.Functions.addItemToList
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
-import com.progix.fridgex.light.model.RecipeItem
+import com.progix.fridgex.light.helper.interfaces.ActionInterface
 import com.progix.fridgex.light.model.RecyclerSortItem
 import kotlinx.coroutines.*
 
@@ -131,7 +129,19 @@ class BannedRecipesFragment : Fragment(), ActionInterface {
                 }
                 val xOfY = having.toString() + "/" + needed.size.toString()
                 val percentage = having.toDouble() / needed.size
-                addItemToList(id, pairList, percentage, time, cal, prot, fats, carboh, indicator, name, xOfY)
+                addItemToList(
+                    id,
+                    pairList,
+                    percentage,
+                    time,
+                    cal,
+                    prot,
+                    fats,
+                    carboh,
+                    indicator,
+                    name,
+                    xOfY
+                )
                 products.close()
                 allRecipes.moveToNext()
             }

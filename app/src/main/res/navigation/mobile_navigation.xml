@@ -30,7 +30,7 @@
         tools:layout="@layout/fragment_folder">
         <action
             android:id="@+id/action_nav_folder_to_nav_pod_folder"
-            app:destination="@id/nav_pod_folder" />
+            app:destination="@id/nav_folder_categories" />
     </fragment>
 
     <fragment
@@ -100,20 +100,20 @@
         tools:layout="@layout/fragment_products" />
 
     <fragment
-        android:id="@+id/nav_pod_folder"
+        android:id="@+id/nav_folder_categories"
         android:name="com.progix.fridgex.light.fragment.folder.FolderCategoriesFragment"
         android:label=""
-        tools:layout="@layout/fragment_pod_folder">
+        tools:layout="@layout/fragment_folder_categories">
         <action
             android:id="@+id/action_nav_pod_folder_to_nav_pod_pod_folder"
-            app:destination="@id/nav_pod_pod_folder" />
+            app:destination="@id/nav_folder_recipes" />
     </fragment>
 
     <fragment
-        android:id="@+id/nav_pod_pod_folder"
+        android:id="@+id/nav_folder_recipes"
         android:name="com.progix.fridgex.light.fragment.folder.FolderRecipesFragment"
         android:label=""
-        tools:layout="@layout/fragment_pod_pod_folder" />
+        tools:layout="@layout/fragment_folder_recipes" />
 
     <fragment
         android:id="@+id/nav_tip_list"

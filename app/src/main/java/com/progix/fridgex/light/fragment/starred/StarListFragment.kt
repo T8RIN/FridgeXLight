@@ -18,6 +18,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
+import com.progix.fridgex.light.adapter.viewpager.StarredViewPagerAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.fragment.starred.StarProductsFragment.Companion.prodAnno
 import com.progix.fridgex.light.fragment.starred.StarProductsFragment.Companion.prodRecycler
@@ -25,7 +26,6 @@ import com.progix.fridgex.light.fragment.starred.StarProductsFragment.Companion.
 import com.progix.fridgex.light.fragment.starred.StarRecipesFragment.Companion.recAnno
 import com.progix.fridgex.light.fragment.starred.StarRecipesFragment.Companion.recRecycler
 import com.progix.fridgex.light.fragment.starred.StarRecipesFragment.Companion.recipeList
-import com.progix.fridgex.light.adapter.viewpager.StarredViewPagerAdapter
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"

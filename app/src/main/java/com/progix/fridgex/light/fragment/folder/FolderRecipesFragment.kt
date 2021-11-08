@@ -65,7 +65,7 @@ class FolderRecipesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.fragment_pod_pod_folder, container, false)
+        val v = inflater.inflate(R.layout.fragment_folder_recipes, container, false)
 
         val id: Int = arguments?.get("catB") as Int + 1
         val cursor2: Cursor = mDb.rawQuery(
@@ -126,6 +126,7 @@ class FolderRecipesFragment : Fragment() {
             allRecipes.moveToFirst()
             while (!allRecipes.isAfterLast) {
                 val id = allRecipes.getInt(0) - 1
+                val recipeName = allRecipes.getString(3)
                 val time = allRecipes.getInt(6)
                 val cal = allRecipes.getInt(10).toDouble()
                 val prot = allRecipes.getDouble(11)
@@ -161,7 +162,7 @@ class FolderRecipesFragment : Fragment() {
                     fats,
                     carboh,
                     indicator,
-                    name,
+                    recipeName,
                     xOfY
                 )
                 products.close()

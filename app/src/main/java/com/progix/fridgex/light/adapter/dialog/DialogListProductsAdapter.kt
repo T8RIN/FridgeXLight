@@ -10,7 +10,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterInterface
+import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.dialogAdapterInterface
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListNames
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListValues
 
@@ -53,7 +53,7 @@ class DialogListProductsAdapter(
                     i
                 )]
             }\n"
-            adapterInterface?.onTextChange(tempString)
+            dialogAdapterInterface?.onTextChange(tempString)
         }
         val tempVal = adapterListValues[adapterListNames.indexOf(prodList[position])].second
         if (tempVal != "0") {
@@ -92,7 +92,7 @@ class DialogListProductsAdapter(
                             i
                         )]
                     }\n"
-                    adapterInterface?.onTextChange(tempString)
+                    dialogAdapterInterface?.onTextChange(tempString)
                     true
                 }
                 else -> true

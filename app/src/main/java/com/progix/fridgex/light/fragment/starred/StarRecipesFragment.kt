@@ -21,11 +21,9 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.starred.StarRecipesAdapter
-import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.data.Functions
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
-import com.progix.fridgex.light.model.RecipeItem
+import com.progix.fridgex.light.helper.interfaces.ActionInterface
 import com.progix.fridgex.light.model.RecyclerSortItem
 import kotlinx.coroutines.*
 
@@ -42,6 +40,7 @@ class StarRecipesFragment : Fragment(), ActionInterface {
             (requireActivity() as MainActivity).bottomSlideDown()
         }, 1)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {

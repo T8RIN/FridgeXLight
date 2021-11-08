@@ -16,8 +16,8 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.adapter.banned.BannedProductsAdapter
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
+import com.progix.fridgex.light.helper.interfaces.ActionInterface
 import kotlinx.coroutines.*
 
 private const val ARG_PARAM1 = "param1"

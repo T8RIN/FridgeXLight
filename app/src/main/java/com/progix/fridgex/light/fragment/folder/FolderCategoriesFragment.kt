@@ -21,10 +21,8 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.folder.FolderCategoriesAdapter
 import com.progix.fridgex.light.adapter.folder.FolderRecipesAdapter
-import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.data.DataArrays.secondaryFolderCategoriesImages
 import com.progix.fridgex.light.data.Functions
-import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
@@ -42,6 +40,7 @@ class FolderCategoriesFragment : Fragment() {
             (requireActivity() as MainActivity).bottomSlideDown()
         }, 1)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -84,7 +83,7 @@ class FolderCategoriesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val v: View = inflater.inflate(R.layout.fragment_pod_folder, container, false)
+        val v: View = inflater.inflate(R.layout.fragment_folder_categories, container, false)
 
 
         val id: Int = arguments?.get("catF") as Int + 1
@@ -137,8 +136,7 @@ class FolderCategoriesFragment : Fragment() {
     private val folderClicker = FolderCategoriesAdapter.OnClickListener { _, id ->
         val bundle = Bundle()
         bundle.putInt("catB", id)
-
-        findNavController().navigate(R.id.nav_pod_pod_folder, bundle)
+        findNavController().navigate(R.id.nav_folder_recipes, bundle)
     }
 
     companion object {

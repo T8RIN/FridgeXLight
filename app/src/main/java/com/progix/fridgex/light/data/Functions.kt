@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import java.io.*
-import java.lang.Exception
 
 object Functions {
 
@@ -28,7 +27,11 @@ object Functions {
         return ida * cnt
     }
 
-    fun saveToInternalStorage(applicationContext: Context, bitmapImage: Bitmap, name: String): String? {
+    fun saveToInternalStorage(
+        applicationContext: Context,
+        bitmapImage: Bitmap,
+        name: String
+    ): String? {
         val cw = ContextWrapper(applicationContext)
         val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
         val path = File(directory, name)

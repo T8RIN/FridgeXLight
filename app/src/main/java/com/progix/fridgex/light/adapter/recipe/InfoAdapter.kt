@@ -72,8 +72,7 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
                             .setNegativeButton(context.getString(R.string.cancel), null)
                             .show()
                     }
-                }
-                else if (infoList[position].value == "Авторский"){
+                } else if (infoList[position].value == "Авторский") {
                     holder.image.setImageResource(R.drawable.ic_round_edit_24)
                     holder.itemView.setOnClickListener {
                         //TODO: clickHandling
@@ -100,8 +99,7 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
                             .setNegativeButton(context.getString(R.string.cancel), null)
                             .show()
                     }
-                }
-                else if (infoList[position].value == "Авторский"){
+                } else if (infoList[position].value == "Авторский") {
                     holder.image.setImageResource(R.drawable.ic_round_edit_24)
                     holder.itemView.setOnClickListener {
                         //TODO: clickHandling

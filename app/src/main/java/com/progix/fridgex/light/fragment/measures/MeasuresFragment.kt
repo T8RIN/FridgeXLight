@@ -27,6 +27,7 @@ class MeasuresFragment : Fragment() {
             (requireActivity() as MainActivity).bottomSlideDown()
         }, 1)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)

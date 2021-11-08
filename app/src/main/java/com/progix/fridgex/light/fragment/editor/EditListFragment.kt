@@ -155,7 +155,7 @@ class EditListFragment : Fragment(), EditListChangesInterface {
             recipeList = pairList
 
             @Suppress("BlockingMethodInNonBlockingContext")
-            Thread.sleep(200)
+            Thread.sleep(400)
         }
 
     private val recipeClicker = EditListAdapter.OnClickListener { image, id ->
@@ -183,6 +183,7 @@ class EditListFragment : Fragment(), EditListChangesInterface {
         fab.setOnClickListener {
             val intent = Intent(requireContext(), ThirdActivity::class.java)
             intent.putExtra("orient", resources.configuration.orientation)
+            intent.putExtra("toEdit", -1)
             TransformationCompat.startActivity(transformationLayout, intent)
             editorInterface = this@EditListFragment
         }

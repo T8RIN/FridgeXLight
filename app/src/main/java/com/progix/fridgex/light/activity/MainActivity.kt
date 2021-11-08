@@ -274,8 +274,8 @@ class MainActivity : AppCompatActivity() {
                 when (navController.currentDestination?.id) {
                     R.id.nav_cat -> onBackPressed()
                     R.id.nav_products -> onBackPressed()
-                    R.id.nav_pod_folder -> onBackPressed()
-                    R.id.nav_pod_pod_folder -> onBackPressed()
+                    R.id.nav_folder_categories -> onBackPressed()
+                    R.id.nav_folder_recipes -> onBackPressed()
                     R.id.nav_tip_list -> onBackPressed()
                     else -> drawerLayout.openDrawer(GravityCompat.START)
                 }
@@ -313,8 +313,8 @@ class MainActivity : AppCompatActivity() {
             )
         } else if (navController.currentDestination?.id != R.id.nav_cat &&
             navController.currentDestination?.id != R.id.nav_products &&
-            navController.currentDestination?.id != R.id.nav_pod_folder &&
-            navController.currentDestination?.id != R.id.nav_pod_pod_folder &&
+            navController.currentDestination?.id != R.id.nav_folder_categories &&
+            navController.currentDestination?.id != R.id.nav_folder_recipes &&
             navController.currentDestination?.id != R.id.nav_tip_list
         ) {
             drawerLayout.openDrawer(GravityCompat.START)

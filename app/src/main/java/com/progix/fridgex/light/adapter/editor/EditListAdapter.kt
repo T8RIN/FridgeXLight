@@ -2,6 +2,7 @@ package com.progix.fridgex.light.adapter.editor
 
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
 import android.database.Cursor
 import android.view.LayoutInflater
 import android.view.View
@@ -19,11 +20,13 @@ import com.google.android.material.snackbar.Snackbar
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
+import com.progix.fridgex.light.activity.ThirdActivity
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.Functions
 import com.progix.fridgex.light.data.Functions.strToInt
 import com.progix.fridgex.light.helper.interfaces.EditListChangesInterface
 import com.progix.fridgex.light.model.RecyclerSortItem
+import com.skydoves.transformationlayout.TransformationCompat
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.IOException
@@ -94,7 +97,11 @@ class EditListAdapter(
                     true
                 }
                 R.id.edit -> {
-
+                    val intent = Intent(context, ThirdActivity::class.java)
+                    intent.putExtra("orient", context.resources.configuration.orientation)
+                    intent.putExtra("toEdit", id)
+                    TransformationCompat.startActivity((context as MainActivity).findViewById(R.id.transformationLayout), intent)
+                    ThirdActivity.editorInterface = editorInterface
                     true
                 }
                 else -> true
@@ -208,7 +215,7 @@ class EditListAdapter(
     private var lastPosition = -1
     private fun setAnimation(viewToAnimate: View, position: Int) {
         val animation: Animation =
-            loadAnimation(context, R.anim.enter_fade_through)
+            loadAnimation(context, R.anim.item_animation_fall_down)
         viewToAnimate.startAnimation(animation)
         lastPosition = position
     }

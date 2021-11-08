@@ -23,19 +23,21 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.drawable.toBitmap
+import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
+import com.progix.fridgex.light.data.Functions.loadImageFromStorage
 import com.progix.fridgex.light.data.Functions.saveToInternalStorage
 import com.progix.fridgex.light.data.Functions.strToInt
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment
-import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterInterface
+import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.dialogAdapterInterface
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListNames
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListValues
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.initAdapterInterface
-import com.progix.fridgex.light.helper.interfaces.AdapterInterface
+import com.progix.fridgex.light.helper.interfaces.DialogAdapterInterface
 import com.progix.fridgex.light.helper.interfaces.EditListChangesInterface
 import com.skydoves.transformationlayout.TransformationAppCompatActivity
 import kotlinx.coroutines.CoroutineScope
@@ -43,7 +45,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
+class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface {
 
     companion object {
         @SuppressLint("StaticFieldLeak")
@@ -61,6 +63,7 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
     private lateinit var recipeTextField: TextInputLayout
     private lateinit var productsTextField: TextInputLayout
 
+    private var editionMode = false
     private var saved = false
     private var allEmpty = true
     private var noChanges = false
@@ -77,6 +80,7 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
+        overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_third)
 
@@ -96,6 +100,9 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
             }
         }
 
+        val idToEdit = intent.extras?.get("toEdit")
+        editionMode = idToEdit != -1
+
         Handler(Looper.getMainLooper()).postDelayed({
             initTextFields()
             setupErrors()
@@ -105,8 +112,66 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
             initAdapterInterface(this@ThirdActivity)
             initFabOnClick()
             initImageOnClick()
+            initEditMode(idToEdit as Int)
         }, 550)
 
+    }
+
+    private fun initEditMode(idToEdit: Int) {
+        if(editionMode){
+            val about =
+                mDb.rawQuery("SELECT * FROM recipes WHERE id = $idToEdit", null)
+            about.moveToFirst()
+
+            val recipeName = about.getString(3)
+            val products = about.getString(4)
+            val values = about.getString(5)
+            val time = about.getString(6)
+            val calories = about.getString(10)
+            val category = about.getString(2)
+            val recipeActions = about.getString(8)
+            val proteins = about.getString(11)
+            val fats = about.getString(12)
+            val carbohydrates = about.getString(13)
+
+            about.close()
+
+            val y = strToInt(recipeName)
+            bitmapImage = loadImageFromStorage(this, "recipe_$y.png")
+
+            Glide.with(this).load(bitmapImage).into(imageRecipe)
+
+            recipeNameTextField.editText?.setText(recipeName)
+            timeTextField.editText?.setText(time)
+            caloriesTextField.editText?.setText(calories)
+            categoryTextField.editText?.setText(category)
+            recipeTextField.editText?.setText(recipeActions)
+            proteinsTextField.editText?.setText(proteins)
+            fatsTextField.editText?.setText(fats)
+            carbohydratesTextField.editText?.setText(carbohydrates)
+
+            val prodArr: ArrayList<String> = ArrayList(products.split(" "))
+            val valArr: ArrayList<String> = ArrayList(values.split(" "))
+            for (i in 0 until prodArr.size) {
+                val cursor = mDb.rawQuery("SELECT * FROM products WHERE id = ?", listOf(prodArr[i]).toTypedArray())
+                cursor.moveToFirst()
+                val prodName = cursor.getString(2).replaceFirstChar{it.titlecase()}
+                adapterListNames.add(prodName)
+                adapterListValues.add(Pair(prodName, valArr[i]))
+                cursor.close()
+            }
+            val hintList = ArrayList<String>()
+            for (item in adapterListNames) {
+                hintList.add(MainActivity.allHints[MainActivity.allProducts.indexOf(item.lowercase())])
+            }
+            var tempString = ""
+            for (i in adapterListValues) tempString += "${i.first} ... ${i.second} ${
+                hintList[adapterListValues.indexOf(
+                    i
+                )]
+            }\n"
+            onTextChange(tempString)
+        }
     }
 
     private fun initImageOnClick() {
@@ -341,7 +406,7 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
         else {
             var cursor = mDb.rawQuery("SELECT * FROM recipes", null)
             cursor.moveToLast()
-            val id = cursor.getString(0) + 1
+            val id = cursor.getInt(0) + 1
             cursor.close()
 
             cursor = mDb.rawQuery(
@@ -421,7 +486,7 @@ class ThirdActivity : TransformationAppCompatActivity(), AdapterInterface {
         super.onDestroy()
         adapterListValues.clear()
         adapterListNames.clear()
-        adapterInterface = null
+        dialogAdapterInterface = null
         thirdContext = null
         editorInterface = null
     }

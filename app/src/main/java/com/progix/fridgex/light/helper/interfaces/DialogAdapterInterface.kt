@@ -1,5 +1,5 @@
 package com.progix.fridgex.light.helper.interfaces
 
-interface AdapterInterface {
+interface DialogAdapterInterface {
     fun onTextChange(tempString: String)
 }

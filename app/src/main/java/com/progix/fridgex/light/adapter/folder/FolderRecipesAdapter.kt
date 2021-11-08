@@ -181,7 +181,7 @@ class FolderRecipesAdapter(
     private var lastPosition = -1
     private fun setAnimation(viewToAnimate: View, position: Int) {
         val animation: Animation =
-            loadAnimation(context, R.anim.enter_fade_through)
+            loadAnimation(context, R.anim.item_animation_fall_down)
         viewToAnimate.startAnimation(animation)
         lastPosition = position
     }

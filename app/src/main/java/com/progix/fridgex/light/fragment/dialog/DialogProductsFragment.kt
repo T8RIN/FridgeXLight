@@ -20,14 +20,14 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.allProducts
 import com.progix.fridgex.light.activity.ThirdActivity.Companion.thirdContext
 import com.progix.fridgex.light.adapter.dialog.DialogListProductsAdapter
 import com.progix.fridgex.light.adapter.dialog.DialogSearchProductsAdapter
-import com.progix.fridgex.light.helper.interfaces.AdapterInterface
+import com.progix.fridgex.light.helper.interfaces.DialogAdapterInterface
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class DialogProductsFragment : DialogFragment() {
+class DialogProductsFragment : DialogFragment(){
     private var param1: String? = null
     private var param2: String? = null
 
@@ -59,6 +59,7 @@ class DialogProductsFragment : DialogFragment() {
 
         recycler = v.findViewById(R.id.dialogProductsRecycler)
         annotationCard = v.findViewById(R.id.annotationCard)
+
 
         val toolbar: Toolbar = v.findViewById(R.id.toolbar)
         toolbar.inflateMenu(R.menu.folder_menu)
@@ -154,9 +155,9 @@ class DialogProductsFragment : DialogFragment() {
         val adapterListValues: ArrayList<Pair<String, String>> = ArrayList()
         val adapterListNames: ArrayList<String> = ArrayList()
 
-        var adapterInterface: AdapterInterface? = null
-        fun initAdapterInterface(adapterInterface: AdapterInterface) {
-            this.adapterInterface = adapterInterface
+        var dialogAdapterInterface: DialogAdapterInterface? = null
+        fun initAdapterInterface(dialogAdapterInterface: DialogAdapterInterface){
+            this.dialogAdapterInterface = dialogAdapterInterface
         }
     }
 
@@ -176,6 +177,7 @@ class DialogProductsFragment : DialogFragment() {
             hintList.add(allHints[allProducts.indexOf(item.lowercase())])
         }
         adapterList = DialogListProductsAdapter(thirdContext!!, adapterListNames, hintList)
+
         if (adapterListNames.isEmpty()) {
             recycler?.visibility = GONE
             annotationCard?.visibility = VISIBLE

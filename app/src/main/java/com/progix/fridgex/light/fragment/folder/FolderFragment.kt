@@ -22,9 +22,7 @@ import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.folder.FolderAdapter
 import com.progix.fridgex.light.adapter.folder.FolderRecipesAdapter
 import com.progix.fridgex.light.data.DataArrays.folderCategoriesImages
-import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.data.Functions
-import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
@@ -254,7 +252,7 @@ class FolderFragment : Fragment() {
 //        val extras = FragmentNavigatorExtras(
 //            image to image.transitionName
 //        )
-        findNavController().navigate(R.id.nav_pod_folder, bundle)// bundle, null, extras)
+        findNavController().navigate(R.id.nav_folder_categories, bundle)// bundle, null, extras)
     }
 
 

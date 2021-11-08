@@ -16,6 +16,10 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.guide
 import com.progix.fridgex.light.activity.MainActivity.Companion.restart
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadCartMode
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadNightMode
+import com.progix.fridgex.light.data.SharedPreferencesAccess.saveCartMode
+import com.progix.fridgex.light.data.SharedPreferencesAccess.saveNightMode
 
 
 class SettingsAdapter(var context: Context, private var settingsList: List<String>) :
@@ -35,7 +39,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
         when (position) {
             0 -> {
                 holder.text.text = settingsList[position]
-                val temp = loadNightMode()
+                val temp = loadNightMode(context)
                 holder.onOff.text = when (temp) {
                     0 -> context.getString(R.string.on)
                     1 -> context.getString(R.string.off)
@@ -58,10 +62,10 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                     MaterialAlertDialogBuilder(context, R.style.modeAlert)
                         .setTitle(context.getString(R.string.nightMode))
                         .setPositiveButton(context.getString(R.string.ok)) { _, _ ->
-                            if (checkedItem != loadNightMode()) {
+                            if (checkedItem != loadNightMode(context)) {
                                 when (checkedItem) {
                                     0 -> {
-                                        saveNightMode(0)
+                                        saveNightMode(context,0)
                                         context.startActivity(
                                             Intent(
                                                 context,
@@ -71,7 +75,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                                         restart = true
                                     }
                                     1 -> {
-                                        saveNightMode(1)
+                                        saveNightMode(context,1)
                                         context.startActivity(
                                             Intent(
                                                 context,
@@ -81,7 +85,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                                         restart = true
                                     }
                                     2 -> {
-                                        saveNightMode(2)
+                                        saveNightMode(context,2)
                                         context.startActivity(
                                             Intent(
                                                 context,
@@ -96,7 +100,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                         .setSingleChoiceItems(listItems, checkedItem) { _, which ->
                             checkedItem = which
                         }
-                        .setOnDismissListener { checkedItem = loadNightMode() }
+                        .setOnDismissListener { checkedItem = loadNightMode(context) }
                         .show()
                 }
             }
@@ -110,7 +114,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                 holder.icon.setImageResource(R.drawable.ic_baseline_shopping_cart_24)
                 holder.text.text = settingsList[position]
 
-                val isCartSetting = loadCartMode() == 1
+                val isCartSetting = loadCartMode(context) == 1
 
                 holder.switcher.isChecked = when (isCartSetting) {
                     true -> true
@@ -125,11 +129,11 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                 holder.switcher.setOnClickListener {
                     when (holder.switcher.isChecked) {
                         true -> {
-                            saveCartMode(1)
+                            saveCartMode(context,1)
                             holder.subText.text = context.getString(R.string.addingModeMessage)
                         }
                         else -> {
-                            saveCartMode(0)
+                            saveCartMode(context,0)
                             holder.subText.text = context.getString(R.string.ignoreMessage)
                         }
                     }
@@ -159,30 +163,6 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
         var card: View = itemView
         var subText: TextView = itemView.findViewById(R.id.subtext)
         var switcher: SwitchMaterial = itemView.findViewById(R.id.switcher_switch)
-    }
-
-    private fun saveNightMode(value: Int) {
-        val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        val editor = sharedPreferences?.edit()
-        editor?.putInt("mode", value)
-        editor?.apply()
-    }
-
-    private fun loadNightMode(): Int {
-        val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        return sharedPreferences.getInt("mode", 2)
-    }
-
-    private fun saveCartMode(value: Int) {
-        val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        val editor = sharedPreferences?.edit()
-        editor?.putInt("cartMode", value)
-        editor?.apply()
-    }
-
-    private fun loadCartMode(): Int {
-        val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        return sharedPreferences.getInt("cartMode", 1)
     }
 
 }

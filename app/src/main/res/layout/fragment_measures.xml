@@ -140,4 +140,6 @@
 
     </HorizontalScrollView>
 
+    <include layout="@layout/circular_loading"/>
+
 </FrameLayout>

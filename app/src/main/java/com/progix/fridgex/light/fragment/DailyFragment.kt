@@ -1,6 +1,5 @@
 package com.progix.fridgex.light.fragment
 
-import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
@@ -21,6 +20,10 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.tempContext
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.daily.DailyAdapter
 import com.progix.fridgex.light.data.DataArrays.recipeImages
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadDailyRecipe
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadDate
+import com.progix.fridgex.light.data.SharedPreferencesAccess.saveDailyRecipe
+import com.progix.fridgex.light.data.SharedPreferencesAccess.saveDate
 import com.progix.fridgex.light.model.RecipeItem
 import kotlinx.coroutines.*
 import java.text.DateFormat
@@ -76,12 +79,12 @@ class DailyFragment : Fragment() {
 
             val recipeList: ArrayList<RecipeItem> = startCoroutine()
             loading.visibility = View.GONE
-            dailyRecycler.adapter = DailyAdapter(tempContext, recipeList, recipeClicker)
+            dailyRecycler.adapter = DailyAdapter(tempContext!!, recipeList, recipeClicker)
 
         }
         swipeRefresh.setProgressBackgroundColorSchemeColor(
             ContextCompat.getColor(
-                tempContext,
+                tempContext!!,
                 R.color.manualBackground
             )
         )
@@ -90,7 +93,7 @@ class DailyFragment : Fragment() {
 
             job = CoroutineScope(Dispatchers.Main).launch {
 
-                saveDate(0)
+                saveDate(tempContext!!, 0)
                 val recipeList: ArrayList<RecipeItem> = startCoroutine()
                 dailyRecycler.adapter = DailyAdapter(requireContext(), recipeList, recipeClicker)
                 swipeRefresh.isRefreshing = false
@@ -104,7 +107,7 @@ class DailyFragment : Fragment() {
     private suspend fun startCoroutine(): ArrayList<RecipeItem> = withContext(Dispatchers.IO) {
         val recipeList: ArrayList<RecipeItem> = ArrayList()
 
-        val dateOld = loadDate()
+        val dateOld = loadDate(tempContext!!)
         val currentDate = Date()
         val data: ArrayList<Int> = ArrayList()
         while (true) {
@@ -118,7 +121,7 @@ class DailyFragment : Fragment() {
         val dateParts = dateText.split(":").toTypedArray()
         val dateNew = dateParts[0].toInt()
         if (dateNew != dateOld) {
-            saveDate(dateNew)
+            saveDate(tempContext!!, dateNew)
             val products: Cursor = mDb.rawQuery(
                 "SELECT * FROM products WHERE is_in_fridge = 1",
                 null
@@ -158,7 +161,7 @@ class DailyFragment : Fragment() {
                     )
                 )
                 products.close()
-                saveDailyRecipe("rc$i", (data[i]).toString())
+                saveDailyRecipe(tempContext!!, "rc$i", (data[i]).toString())
                 cursor.close()
             }
 
@@ -174,7 +177,7 @@ class DailyFragment : Fragment() {
                 products.moveToNext()
             }
             for (i in 0..5) {
-                val id = loadDailyRecipe("rc$i")
+                val id = loadDailyRecipe(tempContext!!, "rc$i")
                 var having = 0
                 val cursor: Cursor = mDb.rawQuery(
                     "SELECT * FROM recipes WHERE id = ?",
@@ -225,30 +228,6 @@ class DailyFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.daily_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    private fun saveDate(value: Int) {
-        val sharedPreferences = context?.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        val editor = sharedPreferences?.edit()
-        editor?.putInt("date", value)
-        editor?.apply()
-    }
-
-    private fun loadDate(): Int? {
-        val sharedPreferences = context?.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        return sharedPreferences?.getInt("date", 0)
-    }
-
-    private fun saveDailyRecipe(key: String, value: String) {
-        val sharedPreferences = context?.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        val editor = sharedPreferences?.edit()
-        editor?.putString(key, value)
-        editor?.apply()
-    }
-
-    private fun loadDailyRecipe(key: String): String? {
-        val sharedPreferences = context?.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        return sharedPreferences?.getString(key, "")
     }
 
     private val recipeClicker = DailyAdapter.OnClickListener { image, id ->

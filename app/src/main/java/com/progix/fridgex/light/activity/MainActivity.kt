@@ -32,6 +32,12 @@ import com.google.android.material.navigation.NavigationView
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
 import com.progix.fridgex.light.data.DataArrays.languages
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadBoolean
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFirstStart
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadNightMode
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadString
+import com.progix.fridgex.light.data.SharedPreferencesAccess.saveBoolean
+import com.progix.fridgex.light.data.SharedPreferencesAccess.saveString
 import com.progix.fridgex.light.helper.DatabaseHelper
 import com.skydoves.transformationlayout.onTransformationStartContainer
 import kotlinx.coroutines.*
@@ -52,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
-        when (loadNightMode()) {
+        when (loadNightMode(this)) {
             0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -70,7 +76,6 @@ class MainActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
         setContentView(R.layout.activity_main)
 
-
         navigationView = findViewById(R.id.nav_view)
         drawerLayout = findViewById(R.id.drawer_layout)
         toolbar = findViewById(R.id.toolbar)
@@ -86,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         visibilityNavElements(navController)
 
         if (guide) {
-            Toast.makeText(this, "Guide", Toast.LENGTH_SHORT).show()
+            beginGuide()
             guide = false
         }
         if (restart) {
@@ -102,15 +107,19 @@ class MainActivity : AppCompatActivity() {
 
         listAssign()
 
-        CoroutineScope(Dispatchers.Main).launch {
-            testDeleteAfterFinish()
+        if(loadFirstStart(this)){
+            beginGuide()
         }
+    }
+
+    private fun beginGuide() {
+
     }
 
 
     private fun setUpBadges() {
-        val fridgeBadge = loadString("R.id.nav_fridge")!!
-        val cartBadge = loadString("R.id.nav_cart")!!
+        val fridgeBadge = loadString(this,"R.id.nav_fridge")!!
+        val cartBadge = loadString(this,"R.id.nav_cart")!!
 
         if (fridgeBadge != "0") {
             bottomNavigationView.getOrCreateBadge(R.id.nav_fridge).number =
@@ -134,8 +143,8 @@ class MainActivity : AppCompatActivity() {
                 .hasNumber()
         ) bottomNavigationView.removeBadge(R.id.nav_fridge)
 
-        saveString("R.id.nav_fridge", fridgeBadge)
-        saveString("R.id.nav_cart", cartBadge)
+        saveString(this,"R.id.nav_fridge", fridgeBadge)
+        saveString(this,"R.id.nav_cart", cartBadge)
     }
 
     private fun listAssign() {
@@ -161,26 +170,6 @@ class MainActivity : AppCompatActivity() {
         cursor.close()
     }
 
-    private suspend fun testDeleteAfterFinish() = withContext(Dispatchers.IO) {
-        for (i in 0..950) {
-            mDb.execSQL(
-                "UPDATE products SET is_in_fridge = 1 WHERE id = ?",
-                listOf(i.toString()).toTypedArray()
-            )
-        }
-        for (i in 0..30) {
-            mDb.execSQL(
-                "UPDATE recipes SET banned = 1 WHERE id = ?",
-                listOf(i.toString()).toTypedArray()
-            )
-        }
-        for (i in 20..60) {
-            mDb.execSQL(
-                "UPDATE recipes SET is_starred = 1 WHERE id = ?",
-                listOf(i.toString()).toTypedArray()
-            )
-        }
-    }
 
     private fun initDataBase() {
         if (languages.contains(Locale.getDefault().displayLanguage)) {
@@ -190,9 +179,9 @@ class MainActivity : AppCompatActivity() {
         }
         val mDBHelper = DatabaseHelper(this)
         mDb = mDBHelper.writableDatabase
-        if (loadBoolean("triedOnce") && !loadBoolean("upgraded") || DatabaseHelper.mNeedUpdate) {
-            saveBoolean("triedOnce", true)
-            saveBoolean("upgraded", false)
+        if (loadBoolean(this,"triedOnce") && !loadBoolean(this,"upgraded") || DatabaseHelper.mNeedUpdate) {
+            saveBoolean(this,"triedOnce", true)
+            saveBoolean(this,"upgraded", false)
             DatabaseHelper.mNeedUpdate = true
             MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.updatedRecently))
@@ -200,7 +189,7 @@ class MainActivity : AppCompatActivity() {
                 .setPositiveButton(getString(R.string.update)) { _: DialogInterface?, _: Int ->
                     try {
                         mDBHelper.updateDataBase()
-                        saveBoolean("upgraded", true)
+                        saveBoolean(this,"upgraded", true)
                         Toast.makeText(this, getString(R.string.bdSuccess), Toast.LENGTH_SHORT)
                             .show()
                     } catch (mIOException: IOException) {
@@ -210,7 +199,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 .setCancelable(false)
                 .show()
-            saveBoolean("upgraded", false)
+            saveBoolean(this,"upgraded", false)
         } else {
             try {
                 mDBHelper.updateDataBase()
@@ -330,7 +319,7 @@ class MainActivity : AppCompatActivity() {
     private fun navigateTo(resId: Int, args: Bundle?) {
         navController.navigate(resId, args)
         bottomNavigationView.removeBadge(resId)
-        saveString(resId.toString(), "0")
+        saveString(this, resId.toString(), "0")
         actionMode?.finish()
     }
 
@@ -365,11 +354,6 @@ class MainActivity : AppCompatActivity() {
         }, 1)
     }
 
-    private fun loadNightMode(): Int? {
-        val sharedPreferences = getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        return sharedPreferences?.getInt("mode", 2)
-    }
-
     companion object {
         var guide = false
         var restart = false
@@ -383,37 +367,14 @@ class MainActivity : AppCompatActivity() {
         var actionMode: ActionMode? = null
 
         @SuppressLint("StaticFieldLeak")
-        lateinit var tempContext: Context
-    }
-
-    private fun saveBoolean(key: String?, value: Boolean) {
-        val sharedPreferences = getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putBoolean(key, value)
-        editor.apply()
-    }
-
-    private fun loadBoolean(key: String?): Boolean {
-        val sharedPreferences = getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        return sharedPreferences.getBoolean(key, true)
-    }
-
-    private fun saveString(key: String, value: String) {
-        val sharedPreferences = getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString(key, value)
-        editor.apply()
-    }
-
-    private fun loadString(key: String): String? {
-        val sharedPreferences = getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        return sharedPreferences.getString(key, "0")
+        var tempContext: Context? = null
     }
 
     override fun onDestroy() {
         saveBadgeState()
         allProducts.clear()
         allHints.clear()
+        tempContext = null
         super.onDestroy()
     }
 

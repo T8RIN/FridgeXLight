@@ -28,6 +28,7 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadCartMode
 import com.progix.fridgex.light.fragment.CartFragment
 import com.progix.fridgex.light.helper.interfaces.ActionInterface
 
@@ -114,7 +115,7 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
                         listOf(!crossed, cartList[position].first).toTypedArray()
                     )
 
-                    val addToFridge = loadCartMode() == 1
+                    val addToFridge = loadCartMode(context) == 1
                     val bNav =
                         (context as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
@@ -352,11 +353,6 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
 
     override fun onViewDetachedFromWindow(holder: ViewHolder) {
         holder.clearAnimation()
-    }
-
-    private fun loadCartMode(): Int {
-        val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
-        return sharedPreferences.getInt("cartMode", 1)
     }
 
 }

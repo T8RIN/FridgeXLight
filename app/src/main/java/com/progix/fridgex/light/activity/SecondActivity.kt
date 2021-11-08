@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.app.ActivityOptionsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -285,9 +284,9 @@ class SecondActivity : AppCompatActivity() {
         var adapter: InfoAdapter? = null
     }
 
-    override fun onResume(){
+    override fun onResume() {
         super.onResume()
-        if(second){
+        if (second) {
             second = false;
             val intent = Intent(this, SecondActivity::class.java)
             intent.putExtra("rec", id)

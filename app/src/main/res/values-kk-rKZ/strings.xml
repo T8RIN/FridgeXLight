@@ -268,4 +268,8 @@
     <string name="recipeIsAlmostReadyMessage2">Вы хотите сохранить его, или желаете внести правки?</string>
     <string name="continueToEdit">Внести правки</string>
     <string name="thereIsNoChangesToSave">Нет измений, чтобы сохранить</string>
+    <string name="recipeDeleted">Рецепт будет удален через 5 секунд</string>
+    <string name="wait">Подождите, пока удалится предыдущий!</string>
+    <string name="recipeIsAlmostReadyMessageEditing">Хотите сохранить его, или не применять изменения?</string>
+    <string name="discard">Не применять</string>
 </resources>

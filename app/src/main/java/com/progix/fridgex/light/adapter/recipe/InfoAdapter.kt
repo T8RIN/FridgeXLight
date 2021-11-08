@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity.Companion.id
 import com.progix.fridgex.light.activity.ThirdActivity
@@ -161,7 +160,8 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
         val value: TextView = view.findViewById(R.id.value)
         val image: ImageView = view.findViewById(R.id.image)
         val card: MaterialCardView = view.findViewById(R.id.itemView)
-        val transformationLayout: TransformationLayout = view.findViewById(R.id.transformationLayout)
+        val transformationLayout: TransformationLayout =
+            view.findViewById(R.id.transformationLayout)
     }
 
     inner class ViewHolder2(view: View) : RecyclerView.ViewHolder(view) {
@@ -172,7 +172,8 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
         val starLayout: LinearLayout = view.findViewById(R.id.star_layout)
         val banLayout: LinearLayout = view.findViewById(R.id.ban_layout)
         val card: MaterialCardView = view.findViewById(R.id.itemView)
-        val transformationLayout: TransformationLayout = view.findViewById(R.id.transformationLayout)
+        val transformationLayout: TransformationLayout =
+            view.findViewById(R.id.transformationLayout)
     }
 
 }

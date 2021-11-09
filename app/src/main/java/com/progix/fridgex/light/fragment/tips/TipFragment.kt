@@ -2,8 +2,6 @@ package com.progix.fridgex.light.fragment.tips
 
 import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper.getMainLooper
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -21,12 +19,6 @@ class TipFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    override fun onResume() {
-        super.onResume()
-        Handler(getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).bottomSlideDown()
-        }, 1)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -3,13 +3,12 @@ package com.progix.fridgex.light.fragment.starred
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -34,12 +33,6 @@ class StarRecipesFragment : Fragment(), ActionInterface {
     private var param1: String? = null
     private var param2: String? = null
 
-    override fun onResume() {
-        super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).bottomSlideDown()
-        }, 1)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +66,12 @@ class StarRecipesFragment : Fragment(), ActionInterface {
                 adapter!!.init(tHis())
                 recycler.adapter = adapter
             } else {
+                annotationCard.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        requireContext(),
+                        R.anim.item_animation_fall_down
+                    )
+                )
                 annotationCard.visibility = VISIBLE
                 recycler.visibility = GONE
             }

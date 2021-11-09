@@ -2,8 +2,6 @@ package com.progix.fridgex.light.fragment.productselection
 
 import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Pair
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -14,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.allProducts
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.productselection.CategoryAdapter
@@ -29,13 +26,6 @@ private const val ARG_PARAM2 = "param2"
 class CategoriesFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
-
-    override fun onResume() {
-        super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).bottomSlideDown()
-        }, 1)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

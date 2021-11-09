@@ -1,14 +1,11 @@
 package com.progix.fridgex.light.fragment.settings
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.adapter.settings.SettingsAdapter
 
 private const val ARG_PARAM1 = "param1"
@@ -18,12 +15,6 @@ class SettingsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    override fun onResume() {
-        super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).bottomSlideDown()
-        }, 1)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

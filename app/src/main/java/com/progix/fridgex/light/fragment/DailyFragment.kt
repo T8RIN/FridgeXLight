@@ -3,8 +3,6 @@ package com.progix.fridgex.light.fragment
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.*
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
@@ -14,7 +12,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.MainActivity.Companion.tempContext
 import com.progix.fridgex.light.activity.SecondActivity
@@ -40,12 +37,6 @@ class DailyFragment : Fragment() {
     private var param2: String? = null
     private var job: Job? = null
 
-    override fun onResume() {
-        super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).bottomSlideUp()
-        }, 1)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

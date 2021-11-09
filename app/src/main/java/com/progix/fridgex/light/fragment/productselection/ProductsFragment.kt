@@ -2,8 +2,6 @@ package com.progix.fridgex.light.fragment.productselection
 
 import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Pair
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -26,12 +24,6 @@ class ProductsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    override fun onResume() {
-        super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).bottomSlideDown()
-        }, 1)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

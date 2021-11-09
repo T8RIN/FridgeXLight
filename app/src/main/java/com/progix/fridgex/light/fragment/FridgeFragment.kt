@@ -2,10 +2,9 @@ package com.progix.fridgex.light.fragment
 
 import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.*
 import android.view.View.*
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
@@ -45,12 +44,6 @@ class FridgeFragment : Fragment(), ActionInterface {
 
     private lateinit var loading: CircularProgressIndicator
 
-    override fun onResume() {
-        super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).bottomSlideUp()
-        }, 1)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +86,12 @@ class FridgeFragment : Fragment(), ActionInterface {
                     adapter!!.init(this)
                     recycler.adapter = adapter
                 } else {
+                    annotationCard.startAnimation(
+                        AnimationUtils.loadAnimation(
+                            requireContext(),
+                            R.anim.item_animation_fall_down
+                        )
+                    )
                     annotationCard.visibility = VISIBLE
                     recycler.visibility = INVISIBLE
                 }
@@ -158,6 +157,12 @@ class FridgeFragment : Fragment(), ActionInterface {
                             behavior.slideUp(bottomNavigationView)
 
                             CoroutineScope(Dispatchers.Main).launch {
+                                annotationCard.startAnimation(
+                                    AnimationUtils.loadAnimation(
+                                        requireContext(),
+                                        R.anim.item_animation_fall_down
+                                    )
+                                )
                                 annotationCard.visibility = VISIBLE
                                 recycler.visibility = INVISIBLE
                                 recycler.adapter = null

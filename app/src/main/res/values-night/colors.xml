@@ -70,4 +70,6 @@
 
     <color name="manualText3">#9E9E9E</color>
 
+    <color name="manualTarget">#FFFFFF</color>
+
 </resources>

@@ -10,9 +10,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.dialogAdapterInterface
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListNames
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListValues
+import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.dialogAdapterInterface
 
 
 class DialogListProductsAdapter(

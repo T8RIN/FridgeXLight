@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.*
+import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.CheckBox
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityOptionsCompat.makeSceneTransitionAnimation
@@ -25,6 +26,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.integer
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
+import com.progix.fridgex.light.activity.MainActivity.Companion.tempContext
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.search.SearchAdapter
 import com.progix.fridgex.light.adapter.search.SearchFilterNavigationAdapter
@@ -46,12 +48,6 @@ class SearchFragment : Fragment() {
     private lateinit var searchRecycler: RecyclerView
     private lateinit var annotationCard: MaterialCardView
 
-    override fun onResume() {
-        super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).bottomSlideUp()
-        }, 1)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,6 +136,12 @@ class SearchFragment : Fragment() {
                         findNavController()
                     )
             } else {
+                annotationCard.startAnimation(
+                    loadAnimation(
+                        tempContext,
+                        R.anim.item_animation_fall_down
+                    )
+                )
                 annotationCard.visibility = View.VISIBLE
                 searchRecycler.visibility = View.INVISIBLE
             }
@@ -332,6 +334,12 @@ class SearchFragment : Fragment() {
                         findNavController()
                     )
             } else {
+                annotationCard.startAnimation(
+                    loadAnimation(
+                        tempContext,
+                        R.anim.item_animation_fall_down
+                    )
+                )
                 annotationCard.visibility = View.VISIBLE
                 searchRecycler.visibility = View.INVISIBLE
             }

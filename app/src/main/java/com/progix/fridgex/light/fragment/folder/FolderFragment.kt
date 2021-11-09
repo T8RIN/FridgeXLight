@@ -4,8 +4,6 @@ import android.content.Intent
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper.getMainLooper
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityOptionsCompat
@@ -16,7 +14,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.folder.FolderAdapter
@@ -35,12 +32,6 @@ class FolderFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    override fun onResume() {
-        super.onResume()
-        Handler(getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).bottomSlideDown()
-        }, 1)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

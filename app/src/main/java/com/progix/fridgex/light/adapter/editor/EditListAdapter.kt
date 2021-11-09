@@ -100,7 +100,10 @@ class EditListAdapter(
                     val intent = Intent(context, ThirdActivity::class.java)
                     intent.putExtra("orient", context.resources.configuration.orientation)
                     intent.putExtra("toEdit", id)
-                    TransformationCompat.startActivity((context as MainActivity).findViewById(R.id.transformationLayout), intent)
+                    TransformationCompat.startActivity(
+                        (context as MainActivity).findViewById(R.id.transformationLayout),
+                        intent
+                    )
                     ThirdActivity.editorInterface = editorInterface
                     true
                 }

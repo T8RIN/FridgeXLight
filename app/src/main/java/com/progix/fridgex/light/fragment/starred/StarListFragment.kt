@@ -1,8 +1,6 @@
 package com.progix.fridgex.light.fragment.starred
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -34,12 +32,6 @@ class StarListFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    override fun onResume() {
-        super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).bottomSlideDown()
-        }, 1)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -76,10 +76,10 @@ object SharedPreferencesAccess {
         return sharedPreferences.getString(key, "")
     }
 
-    fun saveFirstStart(context: Context) {
+    fun saveFirstStart(context: Context, value: Boolean) {
         val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putBoolean("firstStart", false)
+        editor.putBoolean("firstStart", value)
         editor.apply()
     }
 

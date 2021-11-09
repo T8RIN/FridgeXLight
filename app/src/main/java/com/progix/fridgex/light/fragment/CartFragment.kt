@@ -3,9 +3,8 @@ package com.progix.fridgex.light.fragment
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.*
+import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -46,12 +45,6 @@ class CartFragment : Fragment(), ActionInterface {
 
     private val cartList: ArrayList<Pair<String, String>> = ArrayList()
 
-    override fun onResume() {
-        super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).bottomSlideUp()
-        }, 1)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,6 +96,12 @@ class CartFragment : Fragment(), ActionInterface {
                         adapter!!.init(forThis())
                         recycler.adapter = adapter
                     } else {
+                        annotationCard.startAnimation(
+                            loadAnimation(
+                                requireContext(),
+                                R.anim.item_animation_fall_down
+                            )
+                        )
                         annotationCard.visibility = View.VISIBLE
                         recycler.visibility = View.INVISIBLE
                     }
@@ -123,6 +122,12 @@ class CartFragment : Fragment(), ActionInterface {
                     adapter!!.init(forThis())
                     recycler.adapter = adapter
                 } else {
+                    annotationCard.startAnimation(
+                        loadAnimation(
+                            requireContext(),
+                            R.anim.item_animation_fall_down
+                        )
+                    )
                     annotationCard.visibility = View.VISIBLE
                     recycler.visibility = View.INVISIBLE
                 }
@@ -197,6 +202,12 @@ class CartFragment : Fragment(), ActionInterface {
                             val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
                             behavior.slideUp(bottomNavigationView)
                             CoroutineScope(Dispatchers.Main).launch {
+                                annotationCard.startAnimation(
+                                    loadAnimation(
+                                        requireContext(),
+                                        R.anim.item_animation_fall_down
+                                    )
+                                )
                                 annotationCard.visibility = View.VISIBLE
                                 recycler.visibility = View.INVISIBLE
                                 recycler.adapter = null
@@ -212,7 +223,7 @@ class CartFragment : Fragment(), ActionInterface {
                                 .setAction(getString(R.string.undo)) {
                                     CoroutineScope(Dispatchers.Main).launch {
                                         loading.visibility = View.VISIBLE
-                                        annotationCard.visibility = View.INVISIBLE
+                                        annotationCard.visibility = View.GONE
                                         undoOrDoActionCoroutine("undo")
                                         recycler.visibility = View.VISIBLE
                                         adapter = CartAdapter(requireContext(), cartList)

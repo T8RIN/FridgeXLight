@@ -49,17 +49,17 @@
     <string name="goOut">Exit</string>
     <string name="stay">Stay</string>
     <string name="exitApp">Exit the app?</string>
-    <string name="guide1">Every day you will be able to see 6 unique recipes</string>
+    <string name="guideDaily">Every day you will be able to see 6 unique recipes</string>
     <string name="guide2">By clicking on this button, you can complete guide again</string>
     <string name="guide3">Click to open.\nclick to add\nto favorites</string>
-    <string name="guide4">Recipes will be selected here based on the contents of your fridge</string>
+    <string name="guideSearch">Recipes will be selected here based on the contents of your fridge</string>
     <string name="guide5">Here you will find all the recipes</string>
     <string name="guide6">Click to see the subcategory\n of hot dishes</string>
     <string name="guide7">Search for recipes with one click</string>
     <string name="guide8">Create or edit the recipes you have already created in this tab</string>
     <string name="guide9">Recipes added to favorites are displayed in this tab</string>
     <string name="guide10">This button will help you to clear \nfavorites/trash/fridge</string>
-    <string name="guide11">The products available in the fridge will be displayed here</string>
+    <string name="guideFridge">The products available in the fridge will be displayed here</string>
     <string name="guide12">Fill out the fridge to get started with the application</string>
     <string name="guide13">When you add a recipe to your favorites, the missing products will be automatically added to the basket</string>
     <string name="guide14">The shopping cart has the functionality of a shopping list, click on the product to delete it from the list and add it to the fridge</string>
@@ -293,5 +293,9 @@
     <string name="wait">Wait before previous recipe deletes!</string>
     <string name="recipeIsAlmostReadyMessageEditing">Do you want to save it, or discard changes?</string>
     <string name="discard">"Discard "</string>
+    <string name="guideCart">Here you can manage your shopping list, check settings, for setting up its behaviour</string>
+    <string name="otherOptions">Other options</string>
+    <string name="guideOther">You can find more functions here, lets go!</string>
+    <string name="guideAlert">You can also complete guide on settings page</string>
 
 </resources>

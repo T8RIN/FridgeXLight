@@ -7,6 +7,8 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +36,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
 
     override fun onBindViewHolder(holder: SettingsHolder, position: Int) {
         holder.itemView.isClickable = true
+        setAnimation(holder.itemView, position)
         holder.switcher.visibility = GONE
         holder.subText.visibility = GONE
         when (position) {
@@ -65,7 +68,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                             if (checkedItem != loadNightMode(context)) {
                                 when (checkedItem) {
                                     0 -> {
-                                        saveNightMode(context,0)
+                                        saveNightMode(context, 0)
                                         context.startActivity(
                                             Intent(
                                                 context,
@@ -75,7 +78,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                                         restart = true
                                     }
                                     1 -> {
-                                        saveNightMode(context,1)
+                                        saveNightMode(context, 1)
                                         context.startActivity(
                                             Intent(
                                                 context,
@@ -85,7 +88,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                                         restart = true
                                     }
                                     2 -> {
-                                        saveNightMode(context,2)
+                                        saveNightMode(context, 2)
                                         context.startActivity(
                                             Intent(
                                                 context,
@@ -129,11 +132,11 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                 holder.switcher.setOnClickListener {
                     when (holder.switcher.isChecked) {
                         true -> {
-                            saveCartMode(context,1)
+                            saveCartMode(context, 1)
                             holder.subText.text = context.getString(R.string.addingModeMessage)
                         }
                         else -> {
-                            saveCartMode(context,0)
+                            saveCartMode(context, 0)
                             holder.subText.text = context.getString(R.string.ignoreMessage)
                         }
                     }
@@ -163,6 +166,27 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
         var card: View = itemView
         var subText: TextView = itemView.findViewById(R.id.subtext)
         var switcher: SwitchMaterial = itemView.findViewById(R.id.switcher_switch)
+
+        fun clearAnimation() {
+            itemView.clearAnimation()
+        }
     }
+
+    private var lastPosition = -1
+    private fun setAnimation(viewToAnimate: View, position: Int) {
+        val animation: Animation =
+            AnimationUtils.loadAnimation(context, R.anim.item_animation_fall_down)
+        viewToAnimate.startAnimation(animation)
+        lastPosition = position
+    }
+
+    override fun onFailedToRecycleView(holder: SettingsHolder): Boolean {
+        return true
+    }
+
+    override fun onViewDetachedFromWindow(holder: SettingsHolder) {
+        holder.clearAnimation()
+    }
+
 
 }

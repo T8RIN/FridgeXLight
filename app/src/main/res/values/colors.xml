@@ -77,4 +77,8 @@
 
     <color name="manualText3">#171717</color>
 
+    <color name="manualTarget">#3C3C3C</color>
+    <color name="manualTitleTarget">#FFFFFF</color>
+    <color name="manualDescriptionTarget">#DEDEDE</color>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.progix.fridgex.light.activity
 
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
@@ -25,18 +26,22 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetSequence
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
+import com.progix.fridgex.light.custom.CustomTapTarget
 import com.progix.fridgex.light.data.DataArrays.languages
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFirstStart
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadNightMode
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadString
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveBoolean
+import com.progix.fridgex.light.data.SharedPreferencesAccess.saveFirstStart
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveString
 import com.progix.fridgex.light.helper.DatabaseHelper
 import com.skydoves.transformationlayout.onTransformationStartContainer
@@ -107,19 +112,97 @@ class MainActivity : AppCompatActivity() {
 
         listAssign()
 
-        if(loadFirstStart(this)){
-            beginGuide()
+        if (loadFirstStart(this)) {
+            showGuideDialog()
         }
     }
 
-    private fun beginGuide() {
+    private fun showGuideDialog() {
+        MaterialAlertDialogBuilder(this, R.style.modeAlert)
+            .setTitle(getString(R.string.guide))
+            .setMessage(getString(R.string.guider))
+            .setPositiveButton(getString(R.string.pass)) { _, _ ->
+                beginGuide()
+            }
+            .setNegativeButton(getString(R.string.skip)) { _, _ ->
+                saveFirstStart(this@MainActivity, false)
+                Toast.makeText(this@MainActivity, getString(R.string.guideAlert), Toast.LENGTH_LONG)
+                    .show()
+            }
+            .setCancelable(false)
+            .show()
+    }
 
+    private fun beginGuide() {
+        val targetCreator = CustomTapTarget(this)
+        TapTargetSequence(this)
+            .targets(
+                targetCreator.create(
+                    bottomNavigationView.findViewById(R.id.nav_home),
+                    getString(R.string.recipesOfTheDay),
+                    getString(R.string.guideDaily),
+                    R.id.nav_search,
+                    60
+                ),
+                targetCreator.create(
+                    bottomNavigationView.findViewById(R.id.nav_search),
+                    getString(R.string.searchG),
+                    getString(R.string.guideSearch),
+                    R.id.nav_fridge,
+                    60
+                ),
+                targetCreator.create(
+                    bottomNavigationView.findViewById(R.id.nav_fridge),
+                    getString(R.string.fridgeG),
+                    getString(R.string.guideFridge),
+                    R.id.nav_cart,
+                    60
+                ),
+                targetCreator.create(
+                    bottomNavigationView.findViewById(R.id.nav_cart),
+                    getString(R.string.cartG),
+                    getString(R.string.guideCart),
+                    R.id.nav_home,
+                    60
+                ),
+                targetCreator.create(
+                    toolbar.getChildAt(1),
+                    getString(R.string.otherOptions),
+                    getString(R.string.guideOther),
+                    -1,
+                    45
+                )
+            )
+            .listener(object : TapTargetSequence.Listener {
+                override fun onSequenceFinish() {
+                    saveFirstStart(this@MainActivity, false)
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.guideAlert),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                override fun onSequenceStep(lastTarget: TapTarget, targetClicked: Boolean) {
+                    val id = lastTarget.id()
+                    if (id != -1) {
+                        navigateTo(id, null)
+                        bottomNavigationView.selectedItemId = lastTarget.id()
+                    } else {
+                        drawerLayout.openDrawer(GravityCompat.START)
+                    }
+                }
+
+                override fun onSequenceCanceled(lastTarget: TapTarget) {
+                }
+            })
+            .start()
     }
 
 
     private fun setUpBadges() {
-        val fridgeBadge = loadString(this,"R.id.nav_fridge")!!
-        val cartBadge = loadString(this,"R.id.nav_cart")!!
+        val fridgeBadge = loadString(this, "R.id.nav_fridge")!!
+        val cartBadge = loadString(this, "R.id.nav_cart")!!
 
         if (fridgeBadge != "0") {
             bottomNavigationView.getOrCreateBadge(R.id.nav_fridge).number =
@@ -143,8 +226,8 @@ class MainActivity : AppCompatActivity() {
                 .hasNumber()
         ) bottomNavigationView.removeBadge(R.id.nav_fridge)
 
-        saveString(this,"R.id.nav_fridge", fridgeBadge)
-        saveString(this,"R.id.nav_cart", cartBadge)
+        saveString(this, "R.id.nav_fridge", fridgeBadge)
+        saveString(this, "R.id.nav_cart", cartBadge)
     }
 
     private fun listAssign() {
@@ -179,9 +262,13 @@ class MainActivity : AppCompatActivity() {
         }
         val mDBHelper = DatabaseHelper(this)
         mDb = mDBHelper.writableDatabase
-        if (loadBoolean(this,"triedOnce") && !loadBoolean(this,"upgraded") || DatabaseHelper.mNeedUpdate) {
-            saveBoolean(this,"triedOnce", true)
-            saveBoolean(this,"upgraded", false)
+        if (loadBoolean(this, "triedOnce") && !loadBoolean(
+                this,
+                "upgraded"
+            ) || DatabaseHelper.mNeedUpdate
+        ) {
+            saveBoolean(this, "triedOnce", true)
+            saveBoolean(this, "upgraded", false)
             DatabaseHelper.mNeedUpdate = true
             MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.updatedRecently))
@@ -189,7 +276,7 @@ class MainActivity : AppCompatActivity() {
                 .setPositiveButton(getString(R.string.update)) { _: DialogInterface?, _: Int ->
                     try {
                         mDBHelper.updateDataBase()
-                        saveBoolean(this,"upgraded", true)
+                        saveBoolean(this, "upgraded", true)
                         Toast.makeText(this, getString(R.string.bdSuccess), Toast.LENGTH_SHORT)
                             .show()
                     } catch (mIOException: IOException) {
@@ -199,7 +286,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 .setCancelable(false)
                 .show()
-            saveBoolean(this,"upgraded", false)
+            saveBoolean(this, "upgraded", false)
         } else {
             try {
                 mDBHelper.updateDataBase()
@@ -332,13 +419,13 @@ class MainActivity : AppCompatActivity() {
         bottomSlideUp()
     }
 
-    fun bottomSlideUp() {
+    private fun bottomSlideUp() {
         val layoutParams = bottomNavigationView.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
         behavior.slideUp(bottomNavigationView)
     }
 
-    fun bottomSlideDown() {
+    private fun bottomSlideDown() {
         val layoutParams = bottomNavigationView.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
         behavior.slideDown(bottomNavigationView)
@@ -379,24 +466,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        waiting = CoroutineScope(Dispatchers.Main).launch {
-            checkForActivity()
-            finishAffinity()
-        }
         saveBadgeState()
         super.onPause()
     }
 
     override fun onResume() {
-        waiting?.cancel()
+        des = navController.currentDestination?.displayName!!.split("id/")[1]
+        when (des) {
+            "nav_home" -> showBothNavigation()
+            "nav_search" -> showBothNavigation()
+            "nav_fridge" -> showBothNavigation()
+            "nav_cart" -> showBothNavigation()
+            "nav_cat" -> hideBothNavigation(true)
+            "nav_products" -> hideBothNavigation(true)
+            else -> hideBothNavigation(false)
+        }
         super.onResume()
     }
-
-    private var waiting: Job? = null
-
-    @Suppress("BlockingMethodInNonBlockingContext")
-    private suspend fun checkForActivity() = withContext(Dispatchers.IO) {
-        Thread.sleep(600000)
-    }
-
 }

@@ -13,7 +13,6 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.activity.MainActivity.Companion.tempContext
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.daily.DailyAdapter
 import com.progix.fridgex.light.data.DataArrays.recipeImages
@@ -70,23 +69,24 @@ class DailyFragment : Fragment() {
 
             val recipeList: ArrayList<RecipeItem> = startCoroutine()
             loading.visibility = View.GONE
-            dailyRecycler.adapter = DailyAdapter(tempContext!!, recipeList, recipeClicker)
+            dailyRecycler.adapter = DailyAdapter(requireActivity(), recipeList, recipeClicker)
+            swipeRefresh.setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.manualBackground
+                )
+            )
 
         }
-        swipeRefresh.setProgressBackgroundColorSchemeColor(
-            ContextCompat.getColor(
-                tempContext!!,
-                R.color.manualBackground
-            )
-        )
+
         swipeRefresh.setColorSchemeResources(R.color.checked, R.color.red, R.color.yellow)
         swipeRefresh.setOnRefreshListener {
 
             job = CoroutineScope(Dispatchers.Main).launch {
 
-                saveDate(tempContext!!, 0)
+                saveDate(requireActivity(), 0)
                 val recipeList: ArrayList<RecipeItem> = startCoroutine()
-                dailyRecycler.adapter = DailyAdapter(requireContext(), recipeList, recipeClicker)
+                dailyRecycler.adapter = DailyAdapter(requireActivity(), recipeList, recipeClicker)
                 swipeRefresh.isRefreshing = false
 
             }
@@ -96,9 +96,10 @@ class DailyFragment : Fragment() {
     }
 
     private suspend fun startCoroutine(): ArrayList<RecipeItem> = withContext(Dispatchers.IO) {
+
         val recipeList: ArrayList<RecipeItem> = ArrayList()
 
-        val dateOld = loadDate(tempContext!!)
+        val dateOld = loadDate(requireActivity())
         val currentDate = Date()
         val data: ArrayList<Int> = ArrayList()
         while (true) {
@@ -112,7 +113,7 @@ class DailyFragment : Fragment() {
         val dateParts = dateText.split(":").toTypedArray()
         val dateNew = dateParts[0].toInt()
         if (dateNew != dateOld) {
-            saveDate(tempContext!!, dateNew)
+            saveDate(requireActivity(), dateNew)
             val products: Cursor = mDb.rawQuery(
                 "SELECT * FROM products WHERE is_in_fridge = 1",
                 null
@@ -152,7 +153,7 @@ class DailyFragment : Fragment() {
                     )
                 )
                 products.close()
-                saveDailyRecipe(tempContext!!, "rc$i", (data[i]).toString())
+                saveDailyRecipe(requireActivity(), "rc$i", (data[i]).toString())
                 cursor.close()
             }
 
@@ -168,7 +169,7 @@ class DailyFragment : Fragment() {
                 products.moveToNext()
             }
             for (i in 0..5) {
-                val id = loadDailyRecipe(tempContext!!, "rc$i")
+                val id = loadDailyRecipe(requireActivity(), "rc$i")
                 var having = 0
                 val cursor: Cursor = mDb.rawQuery(
                     "SELECT * FROM recipes WHERE id = ?",
@@ -200,8 +201,6 @@ class DailyFragment : Fragment() {
                 cursor.close()
             }
         }
-        @Suppress("BlockingMethodInNonBlockingContext")
-        Thread.sleep(420)
         return@withContext recipeList
     }
 

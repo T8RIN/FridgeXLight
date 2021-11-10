@@ -26,7 +26,6 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.integer
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
-import com.progix.fridgex.light.activity.MainActivity.Companion.tempContext
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.search.SearchAdapter
 import com.progix.fridgex.light.adapter.search.SearchFilterNavigationAdapter
@@ -138,7 +137,7 @@ class SearchFragment : Fragment() {
             } else {
                 annotationCard.startAnimation(
                     loadAnimation(
-                        tempContext,
+                        requireContext(),
                         R.anim.item_animation_fall_down
                     )
                 )
@@ -336,7 +335,7 @@ class SearchFragment : Fragment() {
             } else {
                 annotationCard.startAnimation(
                     loadAnimation(
-                        tempContext,
+                        requireContext(),
                         R.anim.item_animation_fall_down
                     )
                 )

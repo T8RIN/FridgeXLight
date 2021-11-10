@@ -2,7 +2,6 @@ package com.progix.fridgex.light.activity
 
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.database.Cursor
@@ -74,8 +73,6 @@ class MainActivity : AppCompatActivity() {
         onTransformationStartContainer()
 
         super.onCreate(savedInstanceState)
-
-        tempContext = this
 
         initDataBase()
 
@@ -464,15 +461,12 @@ class MainActivity : AppCompatActivity() {
         var isMultiSelectOn = false
         var actionMode: ActionMode? = null
 
-        @SuppressLint("StaticFieldLeak")
-        var tempContext: Context? = null
     }
 
     override fun onDestroy() {
         saveBadgeState()
         allProducts.clear()
         allHints.clear()
-        tempContext = null
         actionMode = null
         isMultiSelectOn = false
         super.onDestroy()

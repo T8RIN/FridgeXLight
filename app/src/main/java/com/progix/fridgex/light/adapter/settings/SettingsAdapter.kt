@@ -69,33 +69,15 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                                 when (checkedItem) {
                                     0 -> {
                                         saveNightMode(context, 0)
-                                        context.startActivity(
-                                            Intent(
-                                                context,
-                                                MainActivity::class.java
-                                            )
-                                        )
-                                        restart = true
+                                        restartActivity()
                                     }
                                     1 -> {
                                         saveNightMode(context, 1)
-                                        context.startActivity(
-                                            Intent(
-                                                context,
-                                                MainActivity::class.java
-                                            )
-                                        )
-                                        restart = true
+                                        restartActivity()
                                     }
                                     2 -> {
                                         saveNightMode(context, 2)
-                                        context.startActivity(
-                                            Intent(
-                                                context,
-                                                MainActivity::class.java
-                                            )
-                                        )
-                                        restart = true
+                                        restartActivity()
                                     }
                                 }
                             }
@@ -152,6 +134,17 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                 }
             }
         }
+    }
+
+    private fun restartActivity() {
+        (context as MainActivity).finishAffinity()
+        context.startActivity(
+            Intent(
+                context,
+                MainActivity::class.java
+            )
+        )
+        restart = true
     }
 
     override fun getItemCount(): Int {

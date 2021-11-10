@@ -240,10 +240,7 @@ class FolderFragment : Fragment() {
     private val folderClicker = FolderAdapter.OnClickListener { _, id ->
         val bundle = Bundle()
         bundle.putInt("catF", id)
-//        val extras = FragmentNavigatorExtras(
-//            image to image.transitionName
-//        )
-        findNavController().navigate(R.id.nav_folder_categories, bundle)// bundle, null, extras)
+        findNavController().navigate(R.id.nav_folder_categories, bundle)
     }
 
 

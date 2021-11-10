@@ -32,7 +32,6 @@ class FolderAdapter(
 
         holder.bind(onClickListener, position)
         setAnimation(holder.itemView, position)
-        //holder.image.transitionName = "folder" + position
     }
 
     override fun getItemCount(): Int {

@@ -33,7 +33,6 @@ class DialogProductsFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setStyle(STYLE_NO_FRAME, android.R.style.Theme_Holo_Light);
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)

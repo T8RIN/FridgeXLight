@@ -36,12 +36,12 @@
                 android:theme="@style/interFont" />
 
             <ImageView
-                android:contentDescription="@string/none"
                 android:id="@+id/arrow"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
                 android:layout_gravity="center"
                 android:layout_weight="0"
+                android:contentDescription="@string/none"
                 android:src="@drawable/ic_round_add_circle_outline_24" />
 
         </LinearLayout>

@@ -43,7 +43,6 @@ class TipFragment : Fragment() {
     }
 
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
-        // postponeEnterTransition()
         val recyclerView: RecyclerView = v.findViewById(R.id.tipRecycler)
         val tipList: ArrayList<Pair<Int, String>> = ArrayList()
         val cursor: Cursor = MainActivity.mDb.rawQuery("SELECT * FROM advices", null)

@@ -48,8 +48,8 @@
                 android:layout_height="38dp"
                 android:layout_gravity="center"
                 android:layout_weight="0"
-                android:src="@drawable/ic_baseline_block_24"
-                android:contentDescription="@string/none" />
+                android:contentDescription="@string/none"
+                android:src="@drawable/ic_baseline_block_24" />
 
         </LinearLayout>
 

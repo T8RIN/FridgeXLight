@@ -137,18 +137,6 @@ class CartFragment : Fragment(), ActionInterface {
         return v
     }
 
-//    private suspend fun suspend(): ArrayList<Pair<String, String>> = withContext(Dispatchers.IO){
-//        cartList.clear()
-//        val cursor: Cursor = MainActivity.mDb.rawQuery("SELECT * FROM products WHERE is_in_cart = 1", null)
-//        cursor.moveToFirst()
-//
-//        while (!cursor.isAfterLast) {
-//            cartList.add(Pair(cursor.getString(2), cursor.getString(1)))
-//            cursor.moveToNext()
-//        }
-//        cartList.sortBy { it.first }
-//        return@withContext cartList
-//    }
 
     private fun rxJava(): Observable<ArrayList<Pair<String, String>>> {
         return Observable.create { item ->
@@ -307,10 +295,10 @@ class CartFragment : Fragment(), ActionInterface {
     override fun onSelectedItemsCountChanged(count: Int) {
         val callback = ActionModeCallback()
         callback.init(adapter!!, R.id.nav_cart)
-        if (MainActivity.actionMode == null) MainActivity.actionMode =
+        if (actionMode == null) actionMode =
             (requireContext() as MainActivity).startSupportActionMode(callback)
-        if (count > 0) MainActivity.actionMode?.title = "$count"
-        else MainActivity.actionMode?.finish()
+        if (count > 0) actionMode?.title = "$count"
+        else actionMode?.finish()
     }
 
     private fun forThis(): CartFragment {

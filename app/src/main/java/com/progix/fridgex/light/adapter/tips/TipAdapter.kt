@@ -20,7 +20,6 @@ import com.progix.fridgex.light.data.DataArrays.adviceImages
 class TipAdapter(
     var context: Context,
     var tipList: ArrayList<Pair<Int, String>>,
-    //var onClickListener: OnClickListener,
     private var navController: NavController
 ) : RecyclerView.Adapter<TipAdapter.ViewHolder>() {
 
@@ -43,7 +42,6 @@ class TipAdapter(
             )
             navController.navigate(R.id.nav_tip_list, bundle, null, extras)
         }
-        //holder.bind(onClickListener, position)
         setAnimation(holder.itemView, position)
 
     }
@@ -60,23 +58,8 @@ class TipAdapter(
             itemView.clearAnimation()
         }
 
-//        fun bind(
-//            onClickListener: OnClickListener,
-//            id: Int
-//        ) {
-//            itemView.setOnClickListener {
-//                image.transitionName = "advice$id"
-//                onClickListener.onClick(image, id)
-//            }
-//        }
     }
 
-//    class OnClickListener(val clickListener: (ImageView, Int) -> Unit) {
-//        fun onClick(
-//            image: ImageView,
-//            id: Int
-//        ) = clickListener(image, id)
-//    }
 
     private var lastPosition = -1
     private fun setAnimation(viewToAnimate: View, position: Int) {

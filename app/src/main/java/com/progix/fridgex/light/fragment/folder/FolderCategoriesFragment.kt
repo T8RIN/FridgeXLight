@@ -50,28 +50,11 @@ class FolderCategoriesFragment : Fragment() {
         }
 
         setHasOptionsMenu(true)
-
-        // For all 3 container layer colors, use colorSurface since this transform can be configured
-        // using any fade mode and some of the start views don't have a background and the end view
-        // doesn't have a background.
-//
-//        val enterContainerTransform: MaterialContainerTransform = buildContainerTransform(true)
-//        sharedElementEnterTransition = enterContainerTransform
-//
-//        val returnContainerTransform: MaterialContainerTransform = buildContainerTransform(false)
-//        sharedElementReturnTransition = returnContainerTransform
     }
 
 
     private lateinit var recycler: RecyclerView
 
-
-//    private fun buildContainerTransform(entering: Boolean): MaterialContainerTransform {
-//        val context = requireContext()
-//        val transform = MaterialContainerTransform(context, entering)
-//        transform.drawingViewId = if (entering) R.id.end_root else R.id.start_root
-//        return transform
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -107,9 +90,6 @@ class FolderCategoriesFragment : Fragment() {
         }
         cursor2.close()
 
-        //val image = v.findViewById<ImageView>(R.id.image)
-        //image.setImageResource(catG[id-1])
-        //image.transitionName = "folder" + id
         Handler(Looper.getMainLooper()).postDelayed({
             (requireActivity() as MainActivity).toolbar.title = name
         }, 1)

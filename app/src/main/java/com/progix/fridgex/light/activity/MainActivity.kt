@@ -186,7 +186,7 @@ class MainActivity : AppCompatActivity() {
                         getString(R.string.guideAlert),
                         Toast.LENGTH_LONG
                     ).show()
-                    if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+                    if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         bottomNavigationView.visibility = INVISIBLE
                         val params2 = bottomNavigationView.layoutParams
                         params2.height = dipToPixels(2f).toInt()
@@ -473,6 +473,8 @@ class MainActivity : AppCompatActivity() {
         allProducts.clear()
         allHints.clear()
         tempContext = null
+        actionMode = null
+        isMultiSelectOn = false
         super.onDestroy()
     }
 
@@ -482,6 +484,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        updateNavStatus()
+        super.onResume()
+    }
+
+    override fun onStart() {
+        actionMode?.finish()
+        actionMode = null
+        isMultiSelectOn = false
+        updateNavStatus()
+        super.onStart()
+    }
+
+    private fun updateNavStatus() {
         des = navController.currentDestination?.displayName!!.split("id/")[1]
         when (des) {
             "nav_home" -> showBothNavigation()
@@ -492,6 +507,5 @@ class MainActivity : AppCompatActivity() {
             "nav_products" -> hideBothNavigation(true)
             else -> hideBothNavigation(false)
         }
-        super.onResume()
     }
 }

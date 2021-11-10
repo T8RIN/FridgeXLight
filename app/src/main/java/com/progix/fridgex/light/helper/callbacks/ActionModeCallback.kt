@@ -23,7 +23,6 @@ class ActionModeCallback : ActionMode.Callback {
     private var myBannedRecipesAdapter: BannedRecipesAdapter? = null
     private var myBannedProductsAdapter: BannedProductsAdapter? = null
 
-    //private var myEditListAdapter: EditListAdapter? = null
 
     private var fragmentId: Int? = null
 
@@ -48,9 +47,6 @@ class ActionModeCallback : ActionMode.Callback {
             7 -> {
                 this.myBannedProductsAdapter = myAdapter as BannedProductsAdapter
             }
-//            R.id.nav_edit_list -> {
-//                this.myEditListAdapter = myAdapter as EditListAdapter
-//            }
         }
     }
 
@@ -261,6 +257,11 @@ class ActionModeCallback : ActionMode.Callback {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onDestroyActionMode(mode: ActionMode?) {
+
+        isMultiSelectOn = false
+        actionMode = null
+        shouldResetRecyclerView = true
+
         when (fragmentId) {
             R.id.nav_fridge -> {
                 if (shouldResetRecyclerView) {
@@ -317,8 +318,6 @@ class ActionModeCallback : ActionMode.Callback {
                 }
             }
         }
-        isMultiSelectOn = false
-        actionMode = null
-        shouldResetRecyclerView = true
+
     }
 }

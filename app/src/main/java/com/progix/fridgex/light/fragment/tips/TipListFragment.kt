@@ -2,18 +2,15 @@ package com.progix.fridgex.light.fragment.tips
 
 import android.database.Cursor
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
+import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.transition.TransitionInflater
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
-import com.progix.fridgex.light.data.DataArrays.adviceImages
+import com.progix.fridgex.light.adapter.tips.TipListAdapter
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -25,48 +22,47 @@ class TipListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.anim_duration).toLong()
+        }
+        exitTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.anim_duration).toLong()
+        }
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        setHasOptionsMenu(true)
-        exitTransition = MaterialFadeThrough().apply {
-            duration = resources.getInteger(R.integer.anim_duration).toLong()
-        }
-        val transform =
-            TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
-        transform.duration = 400
-        sharedElementEnterTransition = transform
-
-        sharedElementReturnTransition = transform
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.fragment_tip_list, container, false)
+        return inflater.inflate(R.layout.fragment_tip_list, container, false)
+    }
 
-        val id: Int = arguments?.get("advice") as Int
-
-        val image = v.findViewById<ImageView>(R.id.image)
-        image.setImageResource(adviceImages[id])
-        image.transitionName = "advice$id"
-
-        val cursor: Cursor = MainActivity.mDb.rawQuery(
-            "SELECT * FROM advices WHERE id = ?",
-            listOf((id + 1).toString()).toTypedArray()
-        )
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        val recyclerView: RecyclerView = v.findViewById(R.id.tipRecycler)
+        val tipList: ArrayList<Pair<Int, String>> = ArrayList()
+        val cursor: Cursor = MainActivity.mDb.rawQuery("SELECT * FROM advices", null)
         cursor.moveToFirst()
-
-        requireActivity().findViewById<Toolbar>(R.id.toolbar).title = cursor.getString(1)
-
-        val text: TextView = v.findViewById(R.id.advice)
-        text.text = cursor.getString(2)
-
+        while (!cursor.isAfterLast) {
+            tipList.add(Pair(cursor.getString(0).toInt(), cursor.getString(1)))
+            cursor.moveToNext()
+        }
         cursor.close()
+        val adapter = TipListAdapter(requireContext(), tipList, findNavController())
+        recyclerView.apply {
+            this.adapter = adapter
+            postponeEnterTransition()
+            viewTreeObserver.addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
+        }
 
-        return v
+
     }
 
     companion object {
@@ -79,4 +75,19 @@ class TipListFragment : Fragment() {
                 }
             }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.tips_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+//    private val adviceClicker = TipListAdapter.OnClickListener { image, id ->
+//        val bundle = Bundle()
+//        bundle.putInt("advice", id)
+//        val extras = FragmentNavigatorExtras(
+//            image to image.transitionName
+//        )
+//
+//        findNavController().navigate(R.id.nav_tip_list, bundle, null, extras)
+//    }
 }

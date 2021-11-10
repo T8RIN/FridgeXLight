@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.tips.TipFragment">
+    tools:context=".fragment.tips.TipListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tipRecycler"
@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:nestedScrollingEnabled="false"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-        app:spanCount="2" />
-
+        app:spanCount="4" />
 
 </FrameLayout>

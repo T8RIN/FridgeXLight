@@ -47,9 +47,9 @@
 
     <fragment
         android:id="@+id/nav_tip"
-        android:name="com.progix.fridgex.light.fragment.tips.TipFragment"
+        android:name="com.progix.fridgex.light.fragment.tips.TipListFragment"
         android:label="@string/tips"
-        tools:layout="@layout/fragment_tip">
+        tools:layout="@layout/fragment_tip_list">
         <action
             android:id="@+id/action_nav_tip_to_nav_tip_list"
             app:destination="@id/nav_tip_list" />
@@ -117,9 +117,9 @@
 
     <fragment
         android:id="@+id/nav_tip_list"
-        android:name="com.progix.fridgex.light.fragment.tips.TipListFragment"
+        android:name="com.progix.fridgex.light.fragment.tips.TipDisplayFragment"
         android:label=""
-        tools:layout="@layout/fragment_tip_list" />
+        tools:layout="@layout/fragment_tip_display" />
 
 
 </navigation>

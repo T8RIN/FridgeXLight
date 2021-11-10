@@ -17,11 +17,11 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.data.DataArrays.adviceImages
 
 
-class TipAdapter(
+class TipListAdapter(
     var context: Context,
     var tipList: ArrayList<Pair<Int, String>>,
     private var navController: NavController
-) : RecyclerView.Adapter<TipAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<TipListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View =

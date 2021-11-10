@@ -1,39 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/end_advice"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.tips.TipListFragment">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/image"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tipRecycler"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_margin="4dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/advice1"
-        android:transitionName="advice"
-        app:shapeAppearanceOverlay="@style/shape12dp" />
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:spanCount="2" />
 
-    <ScrollView
-        android:id="@+id/tipListRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/image">
-
-        <TextView
-            android:id="@+id/advice"
-            style="@style/interFont"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:text=""
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textColor="?attr/colorControlNormal" />
-
-    </ScrollView>
-
-
-</RelativeLayout>
+</FrameLayout>

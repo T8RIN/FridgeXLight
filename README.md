@@ -56,7 +56,8 @@ Go to the [Releases](https://github.com/t8rin/FridgeXLight/releases) to download
 
 ## Architecture
 
-will be here
+FridgeXLight is based on MVC architecture and a SQLite database.
+<img src="blob/preview/architecture.png"/>
 
 # License
 ```xml

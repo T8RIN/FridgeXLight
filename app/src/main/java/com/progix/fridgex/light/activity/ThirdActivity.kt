@@ -81,7 +81,7 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
 
     val fragment = DialogProductsFragment()
 
-    var idEditingNow = 0
+    private var idEditingNow = 0
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {

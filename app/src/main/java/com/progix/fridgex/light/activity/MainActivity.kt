@@ -36,6 +36,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
 import com.progix.fridgex.light.custom.CustomTapTarget
 import com.progix.fridgex.light.data.DataArrays.languages
+import com.progix.fridgex.light.data.Extensions.dipToPixels
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFirstStart
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadNightMode
@@ -134,6 +135,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun beginGuide() {
+        bottomNavigationView.visibility = VISIBLE
+        val params = bottomNavigationView.layoutParams
+        params.height = dipToPixels(56f).toInt()
+        bottomNavigationView.layoutParams = params
         val targetCreator = CustomTapTarget(this)
         TapTargetSequence(this)
             .targets(
@@ -181,6 +186,12 @@ class MainActivity : AppCompatActivity() {
                         getString(R.string.guideAlert),
                         Toast.LENGTH_LONG
                     ).show()
+                    if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+                        bottomNavigationView.visibility = INVISIBLE
+                        val params2 = bottomNavigationView.layoutParams
+                        params2.height = dipToPixels(2f).toInt()
+                        bottomNavigationView.layoutParams = params2
+                    }
                 }
 
                 override fun onSequenceStep(lastTarget: TapTarget, targetClicked: Boolean) {

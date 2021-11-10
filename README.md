@@ -46,6 +46,8 @@ Go to the [Releases](https://github.com/t8rin/FridgeXLight/releases) to download
 
 - [TapTargetView](https://https://github.com/KeepSafe/TapTargetView) - made app guide intuitive and beautiful 
 
+- SQLite database to store and get data
+
 
 
 ## MAD Score

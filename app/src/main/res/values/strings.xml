@@ -297,5 +297,7 @@
     <string name="otherOptions">Other options</string>
     <string name="guideOther">You can find more functions here, lets go!</string>
     <string name="guideAlert">You can also complete guide on settings page</string>
+    <string name="_8_12" translatable="false">8/12</string>
+    <string name="_25" translatable="false">25</string>
 
 </resources>

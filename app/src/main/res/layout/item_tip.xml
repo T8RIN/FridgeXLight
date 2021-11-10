@@ -40,6 +40,6 @@
         android:layout_marginBottom="10dp"
         android:gravity="start"
         android:maxLines="10"
-        android:text="Салаты с растительными ингредиентами под соусом из морепродуктов" />
+        android:text="@string/category" />
 
 </com.google.android.material.card.MaterialCardView>

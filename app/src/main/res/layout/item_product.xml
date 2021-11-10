@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card3"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -31,7 +32,8 @@
         android:layout_gravity="center"
         android:orientation="horizontal"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        tools:ignore="UseCompoundDrawables">
 
         <TextView
             android:id="@+id/name"
@@ -51,6 +53,7 @@
             android:layout_height="38dp"
             android:layout_gravity="center"
             android:layout_marginEnd="10dp"
+            android:contentDescription="@string/none"
             android:src="@drawable/ic_baseline_kitchen_24"
             app:tint="@color/manualText2" />
 

@@ -11,6 +11,7 @@
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="75dp"
+        android:contentDescription="@string/none"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_wavey_fingerprint"
         app:layout_constraintTop_toTopOf="parent" />

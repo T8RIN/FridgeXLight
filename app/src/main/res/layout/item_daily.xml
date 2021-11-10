@@ -22,6 +22,7 @@
             android:id="@+id/indicator"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/none"
             android:src="@drawable/indicator_0" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -74,6 +75,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/none"
                 android:src="@drawable/ic_baseline_kitchen_24" />
 
             <TextView
@@ -81,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:text="8/12" />
+                android:text="@string/_8_12" />
 
             <View
                 android:layout_width="0dp"
@@ -91,6 +93,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/none"
                 android:src="@drawable/ic_baseline_av_timer_24" />
 
             <TextView
@@ -98,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:text="25" />
+                android:text="@string/_25" />
 
             <TextView
                 android:layout_width="wrap_content"

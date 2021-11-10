@@ -5,7 +5,7 @@
     android:id="@+id/end_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.FolderCategoriesFragment">
+    tools:context=".fragment.folder.FolderCategoriesFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView

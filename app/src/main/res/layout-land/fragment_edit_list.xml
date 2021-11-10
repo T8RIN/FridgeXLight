@@ -42,6 +42,7 @@
                 android:theme="@style/interFont" />
 
             <ImageView
+                android:contentDescription="@string/none"
                 android:id="@+id/arrow"
                 android:layout_width="38dp"
                 android:layout_height="38dp"

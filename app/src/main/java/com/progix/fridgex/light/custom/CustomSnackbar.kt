@@ -119,8 +119,6 @@ class CustomSnackbar(val context: Context) {
     ): Snackbar {
         val snackBar = Snackbar.make(view!!, text!!, duration)
             .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
-        //.setBackgroundTint(ContextCompat.getColor(context, R.color.manualBackground))
-        //.setTextColor(ContextCompat.getColor(context, R.color.manualText))
         val params = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
         params.anchorId = anchorId
         params.anchorGravity = anchorGravity

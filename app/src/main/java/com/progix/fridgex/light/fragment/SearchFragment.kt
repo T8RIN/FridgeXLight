@@ -81,7 +81,7 @@ class SearchFragment : Fragment() {
         searchRecycler.setHasFixedSize(true)
 
         navigationView = v.findViewById(R.id.nav2)
-        
+
         val navRecycler: RecyclerView = navigationView.findViewById(R.id.navRecycler)
         val list: ArrayList<NavItem> = arrayListOf(
             NavItem(getString(R.string.amount), R.drawable.ic_baseline_kitchen_24),
@@ -105,17 +105,10 @@ class SearchFragment : Fragment() {
 
         initSort(annotationCard, searchRecycler, loading)
 
-
-//        val radioGroup: RadioGroup = navigationView.findViewById(R.id.radio)
-//        radioGroup.setOnCheckedChangeListener { _, checkedId ->
-//
-//        }
-
         return v
     }
 
     private fun initSort(
-        //modifier: Int,
         annotationCard: MaterialCardView,
         searchRecycler: RecyclerView,
         loading: CircularProgressIndicator

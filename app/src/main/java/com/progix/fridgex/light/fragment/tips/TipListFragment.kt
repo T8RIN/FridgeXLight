@@ -81,13 +81,4 @@ class TipListFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-//    private val adviceClicker = TipListAdapter.OnClickListener { image, id ->
-//        val bundle = Bundle()
-//        bundle.putInt("advice", id)
-//        val extras = FragmentNavigatorExtras(
-//            image to image.transitionName
-//        )
-//
-//        findNavController().navigate(R.id.nav_tip_list, bundle, null, extras)
-//    }
 }

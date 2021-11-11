@@ -19,7 +19,7 @@ import com.progix.fridgex.light.data.DataArrays.adviceImages
 
 class TipListAdapter(
     var context: Context,
-    var tipList: ArrayList<Pair<Int, String>>,
+    private var tipList: ArrayList<Pair<Int, String>>,
     private var navController: NavController
 ) : RecyclerView.Adapter<TipListAdapter.ViewHolder>() {
 

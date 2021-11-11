@@ -167,16 +167,6 @@ class DailyAdapter(
             .show()
     }
 
-//    private fun ImageView.setTint(@ColorRes colorRes: Int?) {
-//        if(colorRes != null) {
-//            ImageViewCompat.setImageTintMode(this, PorterDuff.Mode.SRC_ATOP);
-//            ImageViewCompat.setImageTintList(
-//                this,
-//                ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
-//            )
-//        }
-//        else ImageViewCompat.setImageTintList(this, null)
-//    }
 
     override fun getItemCount(): Int {
         return recipeList.size

@@ -20,7 +20,7 @@ FridgeXLight is a simple and handy application that allows you not to think abou
 Go to the [Releases](https://github.com/t8rin/FridgeXLight/releases) to download the latest APK.
 
 
-<img src="blob/preview/preview.gif" align="right" width="26%"/>
+<img src="blob/preview/preview.gif" align="right" width="32%"/>
 
 
 ## Tech stack & Open-source libraries

@@ -253,4 +253,23 @@ object DataArrays {
         )
     )
 
+    val mainFragmentIds: ArrayList<Int> = ArrayList(
+        listOf(
+            R.id.nav_home,
+            R.id.nav_search,
+            R.id.nav_fridge,
+            R.id.nav_cart
+        )
+    )
+
+    val notNeedToOpenDrawerFragmentIds: ArrayList<Int> = ArrayList(
+        listOf(
+            R.id.nav_cat,
+            R.id.nav_products,
+            R.id.nav_folder_categories,
+            R.id.nav_folder_recipes,
+            R.id.nav_tip_list
+        )
+    )
+
 }

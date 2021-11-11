@@ -2,7 +2,6 @@ package com.progix.fridgex.light.activity
 
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -35,6 +34,8 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
 import com.progix.fridgex.light.custom.CustomTapTarget
 import com.progix.fridgex.light.data.DataArrays.languages
+import com.progix.fridgex.light.data.DataArrays.mainFragmentIds
+import com.progix.fridgex.light.data.DataArrays.notNeedToOpenDrawerFragmentIds
 import com.progix.fridgex.light.data.Extensions.dipToPixels
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFirstStart
@@ -43,10 +44,10 @@ import com.progix.fridgex.light.data.SharedPreferencesAccess.loadString
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveFirstStart
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveString
+import com.progix.fridgex.light.fragment.dialog.DialogLoadingFragment
 import com.progix.fridgex.light.helper.DatabaseHelper
 import com.skydoves.transformationlayout.onTransformationStartContainer
 import kotlinx.coroutines.*
-import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -207,7 +208,6 @@ class MainActivity : AppCompatActivity() {
             .start()
     }
 
-
     private fun setUpBadges() {
         val fridgeBadge = loadString(this, "R.id.nav_fridge")!!
         val cartBadge = loadString(this, "R.id.nav_cart")!!
@@ -261,7 +261,6 @@ class MainActivity : AppCompatActivity() {
         cursor.close()
     }
 
-
     private fun initDataBase() {
         if (languages.contains(Locale.getDefault().displayLanguage)) {
             DatabaseHelper.DB_NAME = "FridgeXX.db"
@@ -281,29 +280,39 @@ class MainActivity : AppCompatActivity() {
             MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.updatedRecently))
                 .setMessage(getString(R.string.updateMessage))
-                .setPositiveButton(getString(R.string.update)) { _: DialogInterface?, _: Int ->
-                    try {
-                        mDBHelper.updateDataBase()
-                        saveBoolean(this, "upgraded", true)
-                        Toast.makeText(this, getString(R.string.bdSuccess), Toast.LENGTH_SHORT)
+                .setPositiveButton(getString(R.string.update)) { _, _ ->
+                    job?.cancel()
+                    job = CoroutineScope(Dispatchers.Main).launch {
+                        val loadingFragment = DialogLoadingFragment()
+                        loadingFragment.isCancelable = false
+                        if (!loadingFragment.isAdded) loadingFragment.show(
+                            supportFragmentManager,
+                            "custom"
+                        )
+                        asyncUpdatingDatabase(mDBHelper)
+                        loadingFragment.dismiss()
+                        saveBoolean(this@MainActivity, "upgraded", true)
+                        Toast.makeText(
+                            this@MainActivity,
+                            getString(R.string.bdSuccess),
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
-                    } catch (mIOException: IOException) {
-                        throw Error("UnableToUpdateDatabase")
+                        mDb = mDBHelper.writableDatabase
                     }
-                    mDb = mDBHelper.writableDatabase
                 }
                 .setCancelable(false)
                 .show()
             saveBoolean(this, "upgraded", false)
-        } else {
-            try {
-                mDBHelper.updateDataBase()
-            } catch (mIOException: IOException) {
-                throw Error("UnableToUpdateDatabase")
-            }
-            mDb = mDBHelper.writableDatabase
         }
     }
+
+    private suspend fun asyncUpdatingDatabase(mDBHelper: DatabaseHelper) =
+        withContext(Dispatchers.IO) {
+            mDBHelper.updateDataBase()
+        }
+
+    private var job: Job? = null
 
     private var des = ""
     private fun visibilityNavElements(navController: NavController) {
@@ -378,13 +387,11 @@ class MainActivity : AppCompatActivity() {
 
     private var doubleBackToExitPressedOnce = false
     override fun onBackPressed() {
+        val currentId = navController.currentDestination?.id
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
-        } else if (navController.currentDestination?.id == R.id.nav_home
-            || navController.currentDestination?.id == R.id.nav_search
-            || navController.currentDestination?.id == R.id.nav_fridge
-            || navController.currentDestination?.id == R.id.nav_cart
-        ) {
+        }
+        else if (mainFragmentIds.contains(currentId)) {
             if (doubleBackToExitPressedOnce) {
                 finishAffinity()
                 return
@@ -395,12 +402,8 @@ class MainActivity : AppCompatActivity() {
                 { doubleBackToExitPressedOnce = false },
                 2000
             )
-        } else if (navController.currentDestination?.id != R.id.nav_cat &&
-            navController.currentDestination?.id != R.id.nav_products &&
-            navController.currentDestination?.id != R.id.nav_folder_categories &&
-            navController.currentDestination?.id != R.id.nav_folder_recipes &&
-            navController.currentDestination?.id != R.id.nav_tip_list
-        ) {
+        }
+        else if (!notNeedToOpenDrawerFragmentIds.contains(currentId)) {
             drawerLayout.openDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()

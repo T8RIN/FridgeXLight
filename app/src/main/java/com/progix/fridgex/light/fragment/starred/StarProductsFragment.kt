@@ -17,21 +17,7 @@ import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
 import com.progix.fridgex.light.helper.interfaces.ActionInterface
 import kotlinx.coroutines.*
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class StarProductsFragment : Fragment(), ActionInterface {
-    private var param1: String? = null
-    private var param2: String? = null
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     private var job: Job? = null
     var adapter: StarProductsAdapter? = null
@@ -98,15 +84,6 @@ class StarProductsFragment : Fragment(), ActionInterface {
         }
 
     companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StarProductsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-
         var prodRecycler: RecyclerView? = null
         var prodAnno: MaterialCardView? = null
         var productsList: ArrayList<Pair<String, String>> = ArrayList()

@@ -150,5 +150,6 @@
     <string name="otherOptions">Другие опции</string>
     <string name="guideOther">Вы можете найти больше функций здесь, вперед!</string>
     <string name="guideAlert">Обучение всегда доступно во вкладке настроек</string>
+    <string name="waitItIsNecessary">Ожидайте…\\n это важно</string>
 
 </resources>

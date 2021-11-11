@@ -36,15 +36,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class CartFragment : Fragment(), ActionInterface {
-    private var param1: String? = null
-    private var param2: String? = null
-
     private val cartList: ArrayList<Pair<String, String>> = ArrayList()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +47,6 @@ class CartFragment : Fragment(), ActionInterface {
         }
         exitTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.anim_duration).toLong()
-        }
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -156,15 +145,6 @@ class CartFragment : Fragment(), ActionInterface {
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CartFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-
         lateinit var recycler: RecyclerView
         lateinit var annotationCard: MaterialCardView
     }

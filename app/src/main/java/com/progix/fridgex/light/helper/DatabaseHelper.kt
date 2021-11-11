@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.io.OutputStream
 import java.util.*
 
@@ -15,7 +14,7 @@ class DatabaseHelper(context: Context) :
     private val mContext: Context
     private var mDataBase: SQLiteDatabase? = null
 
-    @Throws(IOException::class)
+
     fun updateDataBase() {
         if (mNeedUpdate) {
             val mDb = this.writableDatabase
@@ -122,15 +121,10 @@ class DatabaseHelper(context: Context) :
         if (!checkDataBase()) {
             this.readableDatabase
             close()
-            try {
-                copyDBFile()
-            } catch (mIOException: IOException) {
-                throw Error("ErrorCopyingDataBase")
-            }
+            copyDBFile()
         }
     }
 
-    @Throws(IOException::class)
     private fun copyDBFile() {
         val mInput = mContext.assets.open(DB_NAME)
         val mOutput: OutputStream = FileOutputStream(DB_PATH + DB_NAME)

@@ -17,12 +17,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class ProductsFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +28,6 @@ class ProductsFragment : Fragment() {
         }
         exitTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.anim_duration).toLong()
-        }
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -88,16 +79,6 @@ class ProductsFragment : Fragment() {
 
     private var pD: ProductsAdapter? = null
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProductsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 
     private fun search(s: String?, int: Int?) {
         if (s!!.isNotEmpty()) {

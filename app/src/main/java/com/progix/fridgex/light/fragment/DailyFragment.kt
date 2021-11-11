@@ -27,15 +27,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class DailyFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
     private var job: Job? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +38,6 @@ class DailyFragment : Fragment() {
         }
         exitTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.anim_duration).toLong()
-        }
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -202,17 +191,6 @@ class DailyFragment : Fragment() {
             }
         }
         return@withContext recipeList
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DailyFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

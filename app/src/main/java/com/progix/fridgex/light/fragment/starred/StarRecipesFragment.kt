@@ -26,21 +26,8 @@ import com.progix.fridgex.light.helper.interfaces.ActionInterface
 import com.progix.fridgex.light.model.RecyclerSortItem
 import kotlinx.coroutines.*
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class StarRecipesFragment : Fragment(), ActionInterface {
-    private var param1: String? = null
-    private var param2: String? = null
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     private var job: Job? = null
     var adapter: StarRecipesAdapter? = null
@@ -158,15 +145,6 @@ class StarRecipesFragment : Fragment(), ActionInterface {
         }
 
     companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StarRecipesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-
         var recRecycler: RecyclerView? = null
         var recAnno: MaterialCardView? = null
         var recipeList: ArrayList<RecyclerSortItem> = ArrayList()

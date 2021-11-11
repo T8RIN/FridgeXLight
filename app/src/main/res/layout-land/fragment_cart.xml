@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/swipeRefresh"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
     tools:context=".fragment.CartFragment">
 
-    <include layout="@layout/circular_loading" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/annotationCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:outlineProvider="none"
-        android:visibility="invisible"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:cardCornerRadius="12dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="26dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:text="@string/annotation4"
-                android:textColor="@color/manualText2"
-                android:textSize="15sp"
-                android:theme="@style/interFont" />
-
-            <ImageView
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_gravity="center"
-                android:layout_weight="0"
-                android:contentDescription="@string/none"
-                android:src="@drawable/ic_round_add_circle_outline_24" />
-
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefresh"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <include layout="@layout/circular_loading" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/annotationCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:outlineProvider="none"
+            android:visibility="invisible"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="26dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/annotation4"
+                    android:textColor="@color/manualText2"
+                    android:textSize="15sp"
+                    android:theme="@style/interFont" />
+
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:contentDescription="@string/none"
+                    android:src="@drawable/ic_round_add_circle_outline_24" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fridgeRecycler"
@@ -58,6 +58,6 @@
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:spanCount="4" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </FrameLayout>
 
-</FrameLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -3,7 +3,9 @@ package com.progix.fridgex.light.fragment.banned
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
@@ -20,12 +22,7 @@ import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment.Companion.
 import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment.Companion.recRecycler
 import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment.Companion.recipeList
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class BannedFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,10 +34,6 @@ class BannedFragment : Fragment() {
         exitTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.anim_duration).toLong()
         }
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -49,6 +42,30 @@ class BannedFragment : Fragment() {
     ): View? {
         val v = inflater.inflate(R.layout.fragment_ban_list, container, false)
 
+        setUpViewPager(v)
+
+        val swipeRefresh: SwipeRefreshLayout = v.findViewById(R.id.swipeRefresh)
+
+        swipeRefresh.setProgressBackgroundColorSchemeColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.manualBackground
+            )
+        )
+
+        swipeRefresh.setColorSchemeResources(R.color.checked, R.color.red, R.color.yellow)
+
+        swipeRefresh.setOnRefreshListener {
+            setUpViewPager(v)
+            swipeRefresh.isRefreshing = false
+        }
+
+
+
+        return v
+    }
+
+    private fun setUpViewPager(v: View) {
         val viewPager: ViewPager2 = v.findViewById(R.id.ban_view_pager)
         viewPager.adapter = BannedViewPagerAdapter(requireActivity())
         val titles = arrayOf(
@@ -71,20 +88,8 @@ class BannedFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-
-        return v
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BannedFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.banned_menu, menu)

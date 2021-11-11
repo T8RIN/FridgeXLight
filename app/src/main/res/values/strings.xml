@@ -169,5 +169,6 @@
     <string name="guideAlert">You can also complete guide on settings page</string>
     <string name="_8_12" translatable="false">8/12</string>
     <string name="_25" translatable="false">25</string>
+    <string name="waitItIsNecessary">Wait…\n it is necessary</string>
 
 </resources>

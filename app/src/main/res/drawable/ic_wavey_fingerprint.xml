@@ -1,0 +1,39 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="60dp"
+    android:viewportWidth="1000"
+    android:viewportHeight="120">
+    <path
+        android:fillColor="@color/header1"
+        android:pathData="M0,0h1000v120h-1000z" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M-500,75c0,0 125,-30 250,-30S0,75 0,75s125,30 250,30s250,-30 250,-30s125,-30 250,-30s250,30 250,30s125,30 250,30s250,-30 250,-30"
+        android:strokeWidth="4.8"
+        android:strokeColor="@color/header2" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M-500,45c0,0 125,-30 250,-30S0,45 0,45s125,30 250,30s250,-30 250,-30s125,-30 250,-30s250,30 250,30s125,30 250,30s250,-30 250,-30"
+        android:strokeWidth="4.8"
+        android:strokeColor="@color/header2" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M-500,105c0,0 125,-30 250,-30S0,105 0,105s125,30 250,30s250,-30 250,-30s125,-30 250,-30s250,30 250,30s125,30 250,30s250,-30 250,-30"
+        android:strokeWidth="4.8"
+        android:strokeColor="@color/header2" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M-500,15c0,0 125,-30 250,-30S0,15 0,15s125,30 250,30s250,-30 250,-30s125,-30 250,-30s250,30 250,30s125,30 250,30s250,-30 250,-30"
+        android:strokeWidth="4.8"
+        android:strokeColor="@color/header2" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M-500,-15c0,0 125,-30 250,-30S0,-15 0,-15s125,30 250,30s250,-30 250,-30s125,-30 250,-30s250,30 250,30s125,30 250,30s250,-30 250,-30"
+        android:strokeWidth="4.8"
+        android:strokeColor="@color/header2" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M-500,135c0,0 125,-30 250,-30S0,135 0,135s125,30 250,30s250,-30 250,-30s125,-30 250,-30s250,30 250,30s125,30 250,30s250,-30 250,-30"
+        android:strokeWidth="4.8"
+        android:strokeColor="@color/header2" />
+</vector>

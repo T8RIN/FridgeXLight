@@ -30,6 +30,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
+import com.progix.fridgex.light.adapter.dialog.DialogListProductsAdapter
 import com.progix.fridgex.light.data.Functions.loadImageFromStorage
 import com.progix.fridgex.light.data.Functions.saveToInternalStorage
 import com.progix.fridgex.light.data.Functions.strToInt
@@ -41,10 +42,7 @@ import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion
 import com.progix.fridgex.light.helper.interfaces.DialogAdapterInterface
 import com.progix.fridgex.light.helper.interfaces.EditListChangesInterface
 import com.skydoves.transformationlayout.TransformationAppCompatActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.File
 import java.io.IOException
 
@@ -89,6 +87,7 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_third)
 
+        fragment.isCancelable = true
         thirdContext = this
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -654,5 +653,13 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             fragment.recycler?.visibility = View.VISIBLE
             fragment.annotationCard?.visibility = View.GONE
         }
+    }
+
+    override fun onNeedToNotifyDataSet() {
+        val hintList = ArrayList<String>()
+        for (item in adapterListNames) {
+            hintList.add(MainActivity.allHints[MainActivity.allProducts.indexOf(item.lowercase())])
+        }
+        fragment.adapterList = DialogListProductsAdapter(this, adapterListNames, hintList)
     }
 }

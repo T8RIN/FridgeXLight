@@ -1,5 +1,6 @@
 package com.progix.fridgex.light.adapter.dialog
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -37,15 +38,16 @@ class DialogListProductsAdapter(
             popupMenus(it)
             true
         }
-        holder.prodName.text = prodList[position]
+        holder.prodName.text = prodList[position].replaceFirstChar { it.titlecase() }
         holder.textField.hint = hintList[position]
+
         holder.textField.editText?.addTextChangedListener {
             if (it?.isEmpty() == true) {
                 holder.textField.error = context.getString(R.string.theFieldCantBeEmpty)
             } else {
                 holder.textField.error = null
-                val index = adapterListNames.indexOf(prodList[position])
-                adapterListValues[index] = Pair(prodList[position], it.toString())
+                val index = adapterListNames.indexOf(holder.prodName.text.toString())
+                adapterListValues[index] = Pair(holder.prodName.text.toString(), it.toString())
             }
             var tempString = ""
             for (i in adapterListValues) tempString += "${i.first} ... ${i.second} ${
@@ -55,12 +57,14 @@ class DialogListProductsAdapter(
             }\n"
             dialogAdapterInterface?.onTextChange(tempString)
         }
+
         val tempVal = adapterListValues[adapterListNames.indexOf(prodList[position])].second
         if (tempVal != "0") {
             holder.textField.editText?.setText(tempVal)
             holder.textField.error = null
         } else {
             holder.textField.error = context.getString(R.string.theFieldCantBeEmpty)
+            holder.textField.editText?.setText("")
         }
 
     }
@@ -74,6 +78,7 @@ class DialogListProductsAdapter(
         var textField: TextInputLayout = view.findViewById(R.id.textField)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun popupMenus(
         view: View
     ) {
@@ -85,7 +90,7 @@ class DialogListProductsAdapter(
                     val item = view.findViewById<TextView>(R.id.name).text
                     adapterListValues.removeAt(adapterListNames.indexOf(item))
                     adapterListNames.remove(item)
-                    notifyItemRemoved(prodList.indexOf(item) - 1)
+                    notifyDataSetChanged()
                     var tempString = ""
                     for (i in adapterListValues) tempString += "${i.first} ... ${i.second} ${
                         hintList[adapterListValues.indexOf(

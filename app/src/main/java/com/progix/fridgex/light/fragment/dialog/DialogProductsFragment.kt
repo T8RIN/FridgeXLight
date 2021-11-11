@@ -38,7 +38,7 @@ class DialogProductsFragment : DialogFragment() {
     }
 
     private var adapterSearch: DialogSearchProductsAdapter? = null
-    private var adapterList: DialogListProductsAdapter? = null
+    var adapterList: DialogListProductsAdapter? = null
     var recycler: RecyclerView? = null
     var annotationCard: MaterialCardView? = null
 

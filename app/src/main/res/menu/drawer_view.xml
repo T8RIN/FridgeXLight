@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
-        android:id="@+id/group1"
-        android:checkableBehavior="single">
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_baseline_flash_on_24"
@@ -20,9 +18,7 @@
             android:icon="@drawable/ic_baseline_shopping_cart_24"
             android:title="@string/cart" />
     </group>
-    <group
-        android:id="@+id/group2"
-        android:checkableBehavior="single">
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_star"
             android:icon="@drawable/ic_round_star_24"
@@ -36,9 +32,7 @@
             android:icon="@drawable/ic_baseline_folder_24"
             android:title="@string/recipe_catalog" />
     </group>
-    <group
-        android:id="@+id/group4"
-        android:checkableBehavior="single">
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_edit"
             android:icon="@drawable/ic_round_edit_24"
@@ -52,9 +46,7 @@
             android:icon="@drawable/ic_baseline_book_24"
             android:title="@string/tips" />
     </group>
-    <group
-        android:id="@+id/group3"
-        android:checkableBehavior="single">
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_baseline_settings_24"

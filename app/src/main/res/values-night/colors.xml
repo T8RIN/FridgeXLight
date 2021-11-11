@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="transBlack">#B7000000</color>
-    <color name="back">#BE000000</color>
-    <color name="transBlack2">#C6000000</color>
-    <color name="transBlack3">#DC2C2C2C</color>
-    <color name="transBlack4">#D2515151</color>
 
 
     <color name="lred">#FF5B8A</color>
-    <color name="red">#D82356</color>
+    <color name="red">#FD2A66</color>
     <color name="dred">#C50038</color>
 
     <color name="lred2">#FF5B5B</color>
@@ -27,13 +17,13 @@
     <color name="dorange">#CA6F00</color>
 
     <color name="lyellow">#FFF163</color>
-    <color name="yellow">#CEBB01</color>
+    <color name="yellow">#FFE700</color>
     <color name="dyellow">#C5B41D</color>
 
     <color name="llgreen">#B7EC9A</color>
     <color name="lgreen">#9BEC6F</color>
     <color name="green">#59FF00</color>
-    <color name="dgreen">#3D8D1C</color>
+    <color name="dgreen">#55CA24</color>
     <color name="ddgreen">#2D8000</color>
 
     <color name="llblue">#C8DCDF</color>
@@ -48,6 +38,12 @@
     <color name="linactive">#B5B5B5</color>
     <color name="inactive">#939393</color>
     <color name="dinactive">#707070</color>
+    <color name="ddinactive">#565656</color>
+
+    <color name="lactive">#FFAA4F</color>
+    <color name="active">#FF8C00</color>
+    <color name="dactive">#FF6600</color>
+    <color name="ddactive">#C15400</color>
 
     <color name="unchecked">#A4A4A4</color>
     <color name="checked">#FF6600</color>
@@ -55,13 +51,7 @@
     <color name="manualBackground">#202020</color>
     <color name="manualText">#FFFFFF</color>
     <color name="manualText2">#A5A5A5</color>
-    <color name="manualTrans">#A6000000</color>
     <color name="manualGradient">#000000</color>
-    <color name="manualGradient2">#B9000000</color>
-
-    <color name="manualBadge">#FD2A66</color>
-
-    <color name="tabBackground">#2B2B2B</color>
 
     <color name="header1">#1C1C1C</color>
     <color name="header2">#2F2F2F</color>

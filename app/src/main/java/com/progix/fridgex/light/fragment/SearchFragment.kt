@@ -81,7 +81,7 @@ class SearchFragment : Fragment() {
         searchRecycler.setHasFixedSize(true)
 
         navigationView = v.findViewById(R.id.nav2)
-        navigationView.setCheckedItem(R.id.amount_f)
+        
         val navRecycler: RecyclerView = navigationView.findViewById(R.id.navRecycler)
         val list: ArrayList<NavItem> = arrayListOf(
             NavItem(getString(R.string.amount), R.drawable.ic_baseline_kitchen_24),

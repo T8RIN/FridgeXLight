@@ -60,19 +60,16 @@
             app:tabTextColor="@color/unchecked">
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/tabIngreds"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/products" />
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/tabRecipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/recipe" />
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/tabThird"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/infoTab" />
@@ -89,7 +86,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"

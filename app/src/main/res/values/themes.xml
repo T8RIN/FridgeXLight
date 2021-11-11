@@ -27,10 +27,6 @@
         <item name="rippleColor">@color/checkedTrans</item>
     </style>
 
-    <style name="Comfortaa" parent="android:Widget.TextView">
-        <item name="android:fontFamily">@font/comfortaa_medium</item>
-    </style>
-
     <style name="FridgeXLight.Launcher">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>

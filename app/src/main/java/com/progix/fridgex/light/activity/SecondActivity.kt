@@ -1,14 +1,15 @@
 package com.progix.fridgex.light.activity
 
 import android.annotation.SuppressLint
-import android.content.*
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.View.VISIBLE
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
@@ -19,13 +20,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.activity.MainActivity.Companion.badgeCnt
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.recipe.InfoAdapter
 import com.progix.fridgex.light.adapter.viewpager.RecipeViewPagerAdapter
@@ -89,57 +87,6 @@ class SecondActivity : AppCompatActivity() {
         }.attach()
 
         cursor.close()
-
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        Handler(mainLooper).postDelayed(
-            { fabOnClick(fab) },
-            1000
-        )
-    }
-
-    private fun fabOnClick(fab: FloatingActionButton) {
-        missList!!.removeAll { !it }
-        if (missList?.isNotEmpty() == true) {
-            fab.visibility = VISIBLE
-            fab.setOnClickListener {
-                badgeCnt = 0
-                for (i in missList!!) {
-                    if (i) badgeCnt++
-                }
-                val names = arrayOfNulls<String>(badgeCnt)
-                val bool = BooleanArray(badgeCnt)
-                var tcnt = 0
-                for (i in missList!!.indices) {
-                    if (missList!![i]) {
-                        names[tcnt] = prodList!![i].first.replaceFirstChar { it.titlecase() }
-                        bool[tcnt] = true
-                        tcnt++
-                    }
-                }
-                MaterialAlertDialogBuilder(this@SecondActivity, R.style.modeAlert)
-                    .setTitle(getString(R.string.chooseProd))
-                    .setMultiChoiceItems(
-                        names, bool
-                    ) { _, which: Int, isChecked: Boolean ->
-                        bool[which] = isChecked
-                    }
-                    .setPositiveButton(
-                        getString(R.string.ok)
-                    ) { _, _ ->
-                        for (i in bool.indices) {
-                            if (bool[i]) {
-                                mDb.execSQL(
-                                    "UPDATE products SET is_in_cart = 1 WHERE product = ?",
-                                    listOf(names[i]!!.lowercase()).toTypedArray()
-                                )
-                            }
-                        }
-                    }
-                    .setNegativeButton(getString(R.string.cancel), null)
-                    .setCancelable(false)
-                    .show()
-            }
-        }
     }
 
     override fun onBackPressed() {

@@ -30,8 +30,8 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
         val amount = cursor.getString(5).split(" ")
         cursor.close()
 
-        val prodList: ArrayList<Pair<String, String>> = ArrayList()
-        val missList: ArrayList<Boolean> = ArrayList()
+        prodList = ArrayList()
+        missList = ArrayList()
         val range = products.size - 1
         for (i in 0..range) {
             val cursor2: Cursor = mDb.rawQuery(
@@ -39,23 +39,28 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
                 listOf(products[i]).toTypedArray()
             )
             cursor2.moveToFirst()
-            missList.add(cursor2.getInt(3) == 0)
+            missList?.add(cursor2.getInt(3) == 0)
             if (amount[i] != "-1") {
                 val tempCursor: Cursor = mDb.rawQuery(
                     "SELECT * FROM categories WHERE category = ?",
                     listOf(cursor2.getString(1)).toTypedArray()
                 )
                 tempCursor.moveToFirst()
-                prodList.add(Pair(cursor2.getString(2), amount[i] + " " + tempCursor.getString(2)))
+                prodList!!.add(
+                    Pair(
+                        cursor2.getString(2),
+                        amount[i] + " " + tempCursor.getString(2)
+                    )
+                )
                 tempCursor.close()
             } else
-                prodList.add(Pair(cursor2.getString(2), getString(R.string.taste)))
+                prodList!!.add(Pair(cursor2.getString(2), getString(R.string.taste)))
             cursor2.close()
         }
         slider.addOnChangeListener(Slider.OnChangeListener { _, valuer, _ ->
             portions = valuer.toInt()
-            prodList.clear()
-            missList.clear()
+            prodList!!.clear()
+            missList?.clear()
             val rangeLocal = products.size - 1
             val df = DecimalFormat("#.#")
             v.findViewById<TextView>(R.id.text).text =
@@ -67,7 +72,7 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
                     listOf(products[i]).toTypedArray()
                 )
                 cursor2.moveToFirst()
-                missList.add(cursor2.getInt(3) == 0)
+                missList?.add(cursor2.getInt(3) == 0)
                 if (amount[i] != "-1") {
                     val new = amount[i].split(",")
                     val modifier: Double = if (new.size > 1) {
@@ -80,7 +85,7 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
                         listOf(cursor2.getString(1)).toTypedArray()
                     )
                     tempCursor.moveToFirst()
-                    prodList.add(
+                    prodList!!.add(
                         Pair(
                             cursor2.getString(2),
                             df.format(modifier * valuer.toInt())
@@ -91,21 +96,23 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
                     )
                     tempCursor.close()
                 } else
-                    prodList.add(Pair(cursor2.getString(2), getString(R.string.taste)))
+                    prodList!!.add(Pair(cursor2.getString(2), getString(R.string.taste)))
                 cursor2.close()
             }
-            recycler.adapter = IngredientsAdapter(requireContext(), prodList, missList)
+            recycler.adapter = IngredientsAdapter(requireContext(), prodList!!, missList!!)
         })
 
 
-        recycler.adapter = IngredientsAdapter(requireContext(), prodList, missList)
+        recycler.adapter = IngredientsAdapter(requireContext(), prodList!!, missList!!)
 
-        init(prodList)
+        init(prodList!!)
     }
 
     companion object {
         var portions = 1
         var list: ArrayList<Pair<String, String>>? = null
+        var missList: ArrayList<Boolean>? = null
+        var prodList: ArrayList<Pair<String, String>>? = null
     }
 
     private fun init(products: ArrayList<Pair<String, String>>) {

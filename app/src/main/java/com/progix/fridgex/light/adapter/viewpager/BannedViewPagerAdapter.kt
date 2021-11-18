@@ -11,12 +11,8 @@ class BannedViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
     override fun createFragment(position: Int): Fragment {
         when (position) {
-            0 -> {
-                return BannedRecipesFragment()
-            }
-            1 -> {
-                return BannedProductsFragment()
-            }
+            0 -> return BannedRecipesFragment()
+            1 -> return BannedProductsFragment()
         }
         return BannedRecipesFragment()
     }

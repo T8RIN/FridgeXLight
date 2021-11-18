@@ -1,15 +1,14 @@
 package com.progix.fridgex.light.activity
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.database.Cursor
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.VISIBLE
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
@@ -20,6 +19,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -31,7 +32,9 @@ import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.data.Functions
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.list
+import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.missList
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.portions
+import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.prodList
 
 
 class SecondActivity : AppCompatActivity() {
@@ -86,6 +89,56 @@ class SecondActivity : AppCompatActivity() {
 
         cursor.close()
 
+        val fab: FloatingActionButton = findViewById(R.id.fab)
+        Handler(mainLooper).postDelayed(
+            { fabOnClick(fab) },
+            1000
+        )
+    }
+
+    private fun fabOnClick(fab: FloatingActionButton) {
+        missList!!.removeAll { !it }
+        if (missList?.isNotEmpty() == true) {
+            fab.visibility = VISIBLE
+            fab.setOnClickListener {
+                var cnt = 0
+                for (i in missList!!) {
+                    if (i) cnt++
+                }
+                val names = arrayOfNulls<String>(cnt)
+                val bool = BooleanArray(cnt)
+                cnt = 0
+                for (i in missList!!.indices) {
+                    if (missList!![i]) {
+                        names[cnt] = prodList!![i].first.replaceFirstChar { it.titlecase() }
+                        bool[cnt] = true
+                        cnt++
+                    }
+                }
+                MaterialAlertDialogBuilder(this@SecondActivity, R.style.modeAlert)
+                    .setTitle(getString(R.string.chooseProd))
+                    .setMultiChoiceItems(
+                        names, bool
+                    ) { _, which: Int, isChecked: Boolean ->
+                        bool[which] = isChecked
+                    }
+                    .setPositiveButton(
+                        getString(R.string.ok)
+                    ) { _, _ ->
+                        for (i in bool.indices) {
+                            if (bool[i]) {
+                                mDb.execSQL(
+                                    "UPDATE products SET is_in_cart = 1 WHERE product = ?",
+                                    listOf(names[i]!!.lowercase()).toTypedArray()
+                                )
+                            }
+                        }
+                    }
+                    .setNegativeButton(getString(R.string.cancel), null)
+                    .setCancelable(false)
+                    .show()
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -285,6 +338,9 @@ class SecondActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         adapter = null
+        list = null
+        prodList = null
+        missList = null
         super.onDestroy()
     }
 }

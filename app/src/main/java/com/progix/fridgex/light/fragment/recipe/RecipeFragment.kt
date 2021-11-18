@@ -10,7 +10,7 @@ import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.recipe.RecipeAdapter
 
-class RecipeFragment : Fragment() {
+class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         super.onViewCreated(v, savedInstanceState)

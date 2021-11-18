@@ -2,7 +2,9 @@ package com.progix.fridgex.light.fragment.tips
 
 import android.database.Cursor
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +13,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.adapter.tips.TipListAdapter
 
-class TipListFragment : Fragment() {
+class TipListFragment : Fragment(R.layout.fragment_tip_list) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,13 +24,6 @@ class TipListFragment : Fragment() {
         exitTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.anim_duration).toLong()
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_tip_list, container, false)
     }
 
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
@@ -50,8 +45,6 @@ class TipListFragment : Fragment() {
                 true
             }
         }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

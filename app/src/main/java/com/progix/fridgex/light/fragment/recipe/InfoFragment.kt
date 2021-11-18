@@ -2,9 +2,7 @@ package com.progix.fridgex.light.fragment.recipe
 
 import android.database.Cursor
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.progix.fridgex.light.R
@@ -14,14 +12,10 @@ import com.progix.fridgex.light.activity.SecondActivity.Companion.adapter
 import com.progix.fridgex.light.adapter.recipe.InfoAdapter
 import com.progix.fridgex.light.model.InfoItem
 
-class InfoFragment : Fragment() {
+class InfoFragment : Fragment(R.layout.fragment_info) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_info, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         val id = SecondActivity.id
         val recycler = v.findViewById<RecyclerView>(R.id.infoRecycler)
 
@@ -92,9 +86,6 @@ class InfoFragment : Fragment() {
         adapter = InfoAdapter(requireContext(), data)
 
         recycler.adapter = adapter
-
-
-        return v
     }
 
 }

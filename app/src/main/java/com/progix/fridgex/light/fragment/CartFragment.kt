@@ -3,7 +3,10 @@ package com.progix.fridgex.light.fragment
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -36,7 +39,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
-class CartFragment : Fragment(), ActionInterface {
+class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
     private val cartList: ArrayList<Pair<String, String>> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,12 +57,8 @@ class CartFragment : Fragment(), ActionInterface {
 
     private lateinit var loading: CircularProgressIndicator
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_cart, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         recycler = v.findViewById(R.id.fridgeRecycler)
         annotationCard = v.findViewById(R.id.annotationCard)
         loading = v.findViewById(R.id.loading)
@@ -122,10 +121,7 @@ class CartFragment : Fragment(), ActionInterface {
                 }
                 loading.visibility = View.GONE
             }
-
-        return v
     }
-
 
     private fun rxJava(): Observable<ArrayList<Pair<String, String>>> {
         return Observable.create { item ->

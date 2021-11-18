@@ -2,9 +2,7 @@ package com.progix.fridgex.light.fragment.banned
 
 import android.database.Cursor
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -24,12 +22,8 @@ class BannedProductsFragment : Fragment(), ActionInterface {
     var adapter: BannedProductsAdapter? = null
     var loading: CircularProgressIndicator? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_banned_products, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         val recycler: RecyclerView = v.findViewById(R.id.bannedProductsRecycler)
         prodRecycler = recycler
         val annotationCard: MaterialCardView = v.findViewById(R.id.annotationCard)
@@ -55,8 +49,6 @@ class BannedProductsFragment : Fragment(), ActionInterface {
                 recycler.visibility = View.GONE
             }
         }
-
-        return v
     }
 
     private fun tHis(): BannedProductsFragment {

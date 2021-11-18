@@ -1,7 +1,10 @@
 package com.progix.fridgex.light.fragment.starred
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
@@ -25,7 +28,7 @@ import com.progix.fridgex.light.fragment.starred.StarRecipesFragment.Companion.r
 import com.progix.fridgex.light.fragment.starred.StarRecipesFragment.Companion.recRecycler
 import com.progix.fridgex.light.fragment.starred.StarRecipesFragment.Companion.recipeList
 
-class StarListFragment : Fragment() {
+class StarListFragment : Fragment(R.layout.fragment_star_list) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +41,8 @@ class StarListFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_star_list, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         val viewPager: ViewPager2 = v.findViewById(R.id.star_view_pager)
         viewPager.adapter = StarredViewPagerAdapter(requireActivity())
         val titles = arrayOf(
@@ -67,7 +66,6 @@ class StarListFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
 
-        return v
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

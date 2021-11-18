@@ -27,7 +27,7 @@ import com.skydoves.transformationlayout.onTransformationStartContainer
 import kotlinx.coroutines.*
 
 
-class EditListFragment : Fragment(), EditListChangesInterface {
+class EditListFragment : Fragment(R.layout.fragment_edit_list), EditListChangesInterface {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,43 +48,6 @@ class EditListFragment : Fragment(), EditListChangesInterface {
     private lateinit var recycler: RecyclerView
     private lateinit var loading: CircularProgressIndicator
     private lateinit var annotationCard: MaterialCardView
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_edit_list, container, false)
-
-        recycler = v.findViewById(R.id.editListRecycler)
-        loading = v.findViewById(R.id.loading)
-        annotationCard = v.findViewById(R.id.annotationCard)
-
-        job?.cancel()
-        job = CoroutineScope(Dispatchers.Main).launch {
-            startCoroutine()
-            loading.visibility = View.GONE
-            if (recipeList.isNotEmpty()) {
-                recycler.adapter = EditListAdapter(
-                    requireContext(),
-                    recipeList,
-                    recipeClicker,
-                    this@EditListFragment
-                )
-                recycler.visibility = View.VISIBLE
-                annotationCard.visibility = View.GONE
-            } else {
-                annotationCard.startAnimation(
-                    AnimationUtils.loadAnimation(
-                        requireContext(),
-                        R.anim.item_animation_fall_down
-                    )
-                )
-                recycler.visibility = View.GONE
-                annotationCard.visibility = View.VISIBLE
-            }
-        }
-        return v
-    }
 
     private suspend fun startCoroutine() =
         withContext(Dispatchers.IO) {
@@ -161,14 +124,14 @@ class EditListFragment : Fragment(), EditListChangesInterface {
         startActivity(intent, options!!.toBundle())
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
 
         val transformationLayout: TransformationLayout =
-            view.findViewById(R.id.transformationLayout)
+            v.findViewById(R.id.transformationLayout)
         transformationLayout.transitionName = "myTransitionName"
 
-        val fab: FloatingActionButton = view.findViewById(R.id.fab)
+        val fab: FloatingActionButton = v.findViewById(R.id.fab)
 
         fab.setOnClickListener {
             val intent = Intent(requireContext(), ThirdActivity::class.java)
@@ -176,6 +139,35 @@ class EditListFragment : Fragment(), EditListChangesInterface {
             intent.putExtra("toEdit", -1)
             TransformationCompat.startActivity(transformationLayout, intent)
             editorInterface = this@EditListFragment
+        }
+
+        recycler = v.findViewById(R.id.editListRecycler)
+        loading = v.findViewById(R.id.loading)
+        annotationCard = v.findViewById(R.id.annotationCard)
+
+        job?.cancel()
+        job = CoroutineScope(Dispatchers.Main).launch {
+            startCoroutine()
+            loading.visibility = View.GONE
+            if (recipeList.isNotEmpty()) {
+                recycler.adapter = EditListAdapter(
+                    requireContext(),
+                    recipeList,
+                    recipeClicker,
+                    this@EditListFragment
+                )
+                recycler.visibility = View.VISIBLE
+                annotationCard.visibility = View.GONE
+            } else {
+                annotationCard.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        requireContext(),
+                        R.anim.item_animation_fall_down
+                    )
+                )
+                recycler.visibility = View.GONE
+                annotationCard.visibility = View.VISIBLE
+            }
         }
     }
 

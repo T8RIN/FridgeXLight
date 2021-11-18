@@ -6,7 +6,9 @@ import android.database.Cursor
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
@@ -27,7 +29,7 @@ import com.progix.fridgex.light.model.RecyclerSortItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
-class FolderCategoriesFragment : Fragment() {
+class FolderCategoriesFragment : Fragment(R.layout.fragment_folder_categories) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,14 +46,8 @@ class FolderCategoriesFragment : Fragment() {
 
     private lateinit var recycler: RecyclerView
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val v: View = inflater.inflate(R.layout.fragment_folder_categories, container, false)
-
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         val id: Int = arguments?.get("catF") as Int + 1
         val cursor: Cursor = mDb.rawQuery(
             "SELECT * FROM recipe_categories_global WHERE id = ?",
@@ -92,9 +88,8 @@ class FolderCategoriesFragment : Fragment() {
         } else {
             (recycler.layoutManager as StaggeredGridLayoutManager).spanCount = 2
         }
-
-        return v
     }
+
 
     private val folderClicker = FolderCategoriesAdapter.OnClickListener { _, id ->
         val bundle = Bundle()

@@ -2,9 +2,7 @@ package com.progix.fridgex.light.fragment.tips
 
 import android.database.Cursor
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -15,7 +13,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.data.DataArrays.adviceImages
 
-class TipDisplayFragment : Fragment() {
+class TipDisplayFragment : Fragment(R.layout.fragment_tip_display) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,12 +29,8 @@ class TipDisplayFragment : Fragment() {
         sharedElementReturnTransition = transform
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_tip_display, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         val id: Int = arguments?.get("advice") as Int
 
         val image = v.findViewById<ImageView>(R.id.image)
@@ -55,7 +49,6 @@ class TipDisplayFragment : Fragment() {
         text.text = cursor.getString(2)
 
         cursor.close()
-
-        return v
     }
+
 }

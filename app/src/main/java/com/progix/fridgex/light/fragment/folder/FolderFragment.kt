@@ -4,7 +4,9 @@ import android.content.Intent
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.database.Cursor
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
@@ -24,7 +26,7 @@ import com.progix.fridgex.light.model.RecyclerSortItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
-class FolderFragment : Fragment() {
+class FolderFragment : Fragment(R.layout.fragment_folder) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +42,8 @@ class FolderFragment : Fragment() {
 
     private lateinit var recycler: RecyclerView
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val v: View = inflater.inflate(R.layout.fragment_folder, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         recycler = v.findViewById(R.id.folderRecycler)
         val folderList = ArrayList<Pair<Int, String>>()
         val cursor: Cursor = mDb.rawQuery("SELECT * FROM recipe_categories_global", null)
@@ -59,9 +57,6 @@ class FolderFragment : Fragment() {
         adapter = FolderAdapter(requireContext(), folderList, folderClicker)
 
         recycler.adapter = adapter
-
-
-        return v
     }
 
 

@@ -6,7 +6,9 @@ import android.database.Cursor
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
@@ -29,7 +31,7 @@ import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
 
-class FolderRecipesFragment : Fragment() {
+class FolderRecipesFragment : Fragment(R.layout.fragment_folder_recipes) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialFadeThrough().apply {
@@ -45,12 +47,8 @@ class FolderRecipesFragment : Fragment() {
 
     private lateinit var recycler: RecyclerView
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_folder_recipes, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         val id: Int = arguments?.get("catB") as Int + 1
         val cursor2: Cursor = mDb.rawQuery(
             "SELECT * FROM recipe_category_local WHERE id = ?",
@@ -80,8 +78,6 @@ class FolderRecipesFragment : Fragment() {
         }
 
         cursor2.close()
-
-        return v
     }
 
     private var recipeList: ArrayList<RecyclerSortItem> = ArrayList()

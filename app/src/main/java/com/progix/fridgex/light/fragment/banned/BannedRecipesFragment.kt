@@ -3,9 +3,7 @@ package com.progix.fridgex.light.fragment.banned
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
@@ -24,13 +22,8 @@ import kotlinx.coroutines.*
 
 class BannedRecipesFragment : Fragment(), ActionInterface {
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_banned_recipes, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         val recycler: RecyclerView = v.findViewById(R.id.bannedRecipesRecycler)
         recRecycler = recycler
         val annotationCard: MaterialCardView = v.findViewById(R.id.annotationCard)
@@ -58,10 +51,7 @@ class BannedRecipesFragment : Fragment(), ActionInterface {
                 annotationCard.visibility = View.VISIBLE
                 recycler.visibility = View.GONE
             }
-
         }
-
-        return v
     }
 
     private fun tHis(): BannedRecipesFragment {

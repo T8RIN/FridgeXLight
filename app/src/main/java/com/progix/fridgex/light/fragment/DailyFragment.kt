@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class DailyFragment : Fragment() {
+class DailyFragment : Fragment(R.layout.fragment_daily) {
     private var job: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,19 +43,14 @@ class DailyFragment : Fragment() {
 
     private lateinit var loading: CircularProgressIndicator
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val v: View = inflater.inflate(R.layout.fragment_daily, container, false)
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         val dailyRecycler: RecyclerView = v.findViewById(R.id.dailyRecycler)
         loading = v.findViewById(R.id.loading)
         val swipeRefresh: SwipeRefreshLayout = v.findViewById(R.id.swipeRefresh)
 
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
-
             val recipeList: ArrayList<RecipeItem> = startCoroutine()
             loading.visibility = View.GONE
             dailyRecycler.adapter = DailyAdapter(requireActivity(), recipeList, recipeClicker)
@@ -65,7 +60,6 @@ class DailyFragment : Fragment() {
                     R.color.manualBackground
                 )
             )
-
         }
 
         swipeRefresh.setColorSchemeResources(R.color.checked, R.color.red, R.color.yellow)
@@ -81,7 +75,6 @@ class DailyFragment : Fragment() {
             }
         }
 
-        return v
     }
 
     private suspend fun startCoroutine(): ArrayList<RecipeItem> = withContext(Dispatchers.IO) {

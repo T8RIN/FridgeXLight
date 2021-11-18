@@ -118,18 +118,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun showGuideDialog() {
         MaterialAlertDialogBuilder(this, R.style.modeAlert)
-                .setTitle(getString(R.string.guide))
-                .setMessage(getString(R.string.guider))
-                .setPositiveButton(getString(R.string.pass)) { _, _ ->
-                    beginGuide()
-                }
-                .setNegativeButton(getString(R.string.skip)) { _, _ ->
-                    saveFirstStart(this@MainActivity, false)
-                    Toast.makeText(this@MainActivity, getString(R.string.guideAlert), Toast.LENGTH_LONG)
-                            .show()
-                }
-                .setCancelable(false)
-                .show()
+            .setTitle(getString(R.string.guide))
+            .setMessage(getString(R.string.guider))
+            .setPositiveButton(getString(R.string.pass)) { _, _ ->
+                beginGuide()
+            }
+            .setNegativeButton(getString(R.string.skip)) { _, _ ->
+                saveFirstStart(this@MainActivity, false)
+                Toast.makeText(this@MainActivity, getString(R.string.guideAlert), Toast.LENGTH_LONG)
+                    .show()
+            }
+            .setCancelable(false)
+            .show()
     }
 
     private fun beginGuide() {
@@ -139,73 +139,73 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.layoutParams = params
         val targetCreator = CustomTapTarget(this)
         TapTargetSequence(this)
-                .targets(
-                        targetCreator.create(
-                                bottomNavigationView.findViewById(R.id.nav_home),
-                                getString(R.string.recipesOfTheDay),
-                                getString(R.string.guideDaily),
-                                R.id.nav_search,
-                                60
-                        ),
-                        targetCreator.create(
-                                bottomNavigationView.findViewById(R.id.nav_search),
-                                getString(R.string.searchG),
-                                getString(R.string.guideSearch),
-                                R.id.nav_fridge,
-                                60
-                        ),
-                        targetCreator.create(
-                                bottomNavigationView.findViewById(R.id.nav_fridge),
-                                getString(R.string.fridgeG),
-                                getString(R.string.guideFridge),
-                                R.id.nav_cart,
-                                60
-                        ),
-                        targetCreator.create(
-                                bottomNavigationView.findViewById(R.id.nav_cart),
-                                getString(R.string.cartG),
-                                getString(R.string.guideCart),
-                                R.id.nav_home,
-                                60
-                        ),
-                        targetCreator.create(
-                                toolbar.getChildAt(1),
-                                getString(R.string.otherOptions),
-                                getString(R.string.guideOther),
-                                -1,
-                                45
-                        )
+            .targets(
+                targetCreator.create(
+                    bottomNavigationView.findViewById(R.id.nav_home),
+                    getString(R.string.recipesOfTheDay),
+                    getString(R.string.guideDaily),
+                    R.id.nav_search,
+                    60
+                ),
+                targetCreator.create(
+                    bottomNavigationView.findViewById(R.id.nav_search),
+                    getString(R.string.searchG),
+                    getString(R.string.guideSearch),
+                    R.id.nav_fridge,
+                    60
+                ),
+                targetCreator.create(
+                    bottomNavigationView.findViewById(R.id.nav_fridge),
+                    getString(R.string.fridgeG),
+                    getString(R.string.guideFridge),
+                    R.id.nav_cart,
+                    60
+                ),
+                targetCreator.create(
+                    bottomNavigationView.findViewById(R.id.nav_cart),
+                    getString(R.string.cartG),
+                    getString(R.string.guideCart),
+                    R.id.nav_home,
+                    60
+                ),
+                targetCreator.create(
+                    toolbar.getChildAt(1),
+                    getString(R.string.otherOptions),
+                    getString(R.string.guideOther),
+                    -1,
+                    45
                 )
-                .listener(object : TapTargetSequence.Listener {
-                    override fun onSequenceFinish() {
-                        saveFirstStart(this@MainActivity, false)
-                        Toast.makeText(
-                                this@MainActivity,
-                                getString(R.string.guideAlert),
-                                Toast.LENGTH_LONG
-                        ).show()
-                        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                            bottomNavigationView.visibility = INVISIBLE
-                            val params2 = bottomNavigationView.layoutParams
-                            params2.height = dipToPixels(2f).toInt()
-                            bottomNavigationView.layoutParams = params2
-                        }
+            )
+            .listener(object : TapTargetSequence.Listener {
+                override fun onSequenceFinish() {
+                    saveFirstStart(this@MainActivity, false)
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.guideAlert),
+                        Toast.LENGTH_LONG
+                    ).show()
+                    if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        bottomNavigationView.visibility = INVISIBLE
+                        val params2 = bottomNavigationView.layoutParams
+                        params2.height = dipToPixels(2f).toInt()
+                        bottomNavigationView.layoutParams = params2
                     }
+                }
 
-                    override fun onSequenceStep(lastTarget: TapTarget, targetClicked: Boolean) {
-                        val id = lastTarget.id()
-                        if (id != -1) {
-                            navigateTo(id, null)
-                            bottomNavigationView.selectedItemId = lastTarget.id()
-                        } else {
-                            drawerLayout.openDrawer(GravityCompat.START)
-                        }
+                override fun onSequenceStep(lastTarget: TapTarget, targetClicked: Boolean) {
+                    val id = lastTarget.id()
+                    if (id != -1) {
+                        navigateTo(id, null)
+                        bottomNavigationView.selectedItemId = lastTarget.id()
+                    } else {
+                        drawerLayout.openDrawer(GravityCompat.START)
                     }
+                }
 
-                    override fun onSequenceCanceled(lastTarget: TapTarget) {
-                    }
-                })
-                .start()
+                override fun onSequenceCanceled(lastTarget: TapTarget) {
+                }
+            })
+            .start()
     }
 
     private fun setUpBadges() {
@@ -214,11 +214,11 @@ class MainActivity : AppCompatActivity() {
 
         if (fridgeBadge != "0") {
             bottomNavigationView.getOrCreateBadge(R.id.nav_fridge).number =
-                    Integer.valueOf(fridgeBadge)
+                Integer.valueOf(fridgeBadge)
         }
         if (cartBadge != "0") {
             bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number =
-                    Integer.valueOf(cartBadge)
+                Integer.valueOf(cartBadge)
         }
 
     }
@@ -228,10 +228,10 @@ class MainActivity : AppCompatActivity() {
         val cartBadge = bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number.toString()
 
         if (!bottomNavigationView.getOrCreateBadge(R.id.nav_cart)
-                        .hasNumber()
+                .hasNumber()
         ) bottomNavigationView.removeBadge(R.id.nav_cart)
         if (!bottomNavigationView.getOrCreateBadge(R.id.nav_fridge)
-                        .hasNumber()
+                .hasNumber()
         ) bottomNavigationView.removeBadge(R.id.nav_fridge)
 
         saveString(this, "R.id.nav_fridge", fridgeBadge)
@@ -250,8 +250,8 @@ class MainActivity : AppCompatActivity() {
         while (!cursor.isAfterLast) {
             allProducts.add(cursor.getString(2))
             val tCurs = mDb.rawQuery(
-                    "SELECT * FROM categories WHERE category = ?",
-                    listOf(cursor.getString(1)).toTypedArray()
+                "SELECT * FROM categories WHERE category = ?",
+                listOf(cursor.getString(1)).toTypedArray()
             )
             tCurs.moveToFirst()
             allHints.add(tCurs.getString(2))
@@ -270,47 +270,47 @@ class MainActivity : AppCompatActivity() {
         val mDBHelper = DatabaseHelper(this)
         mDb = mDBHelper.writableDatabase
         if (loadBoolean(this, "triedOnce") && !loadBoolean(
-                        this,
-                        "upgraded"
-                ) || DatabaseHelper.mNeedUpdate
+                this,
+                "upgraded"
+            ) || DatabaseHelper.mNeedUpdate
         ) {
             saveBoolean(this, "triedOnce", true)
             saveBoolean(this, "upgraded", false)
             DatabaseHelper.mNeedUpdate = true
             MaterialAlertDialogBuilder(this)
-                    .setTitle(getString(R.string.updatedRecently))
-                    .setMessage(getString(R.string.updateMessage))
-                    .setPositiveButton(getString(R.string.update)) { _, _ ->
-                        job?.cancel()
-                        job = CoroutineScope(Dispatchers.Main).launch {
-                            val loadingFragment = DialogLoadingFragment()
-                            loadingFragment.isCancelable = false
-                            if (!loadingFragment.isAdded) loadingFragment.show(
-                                    supportFragmentManager,
-                                    "custom"
-                            )
-                            asyncUpdatingDatabase(mDBHelper)
-                            loadingFragment.dismiss()
-                            saveBoolean(this@MainActivity, "upgraded", true)
-                            Toast.makeText(
-                                    this@MainActivity,
-                                    getString(R.string.bdSuccess),
-                                    Toast.LENGTH_SHORT
-                            )
-                                    .show()
-                            mDb = mDBHelper.writableDatabase
-                        }
+                .setTitle(getString(R.string.updatedRecently))
+                .setMessage(getString(R.string.updateMessage))
+                .setPositiveButton(getString(R.string.update)) { _, _ ->
+                    job?.cancel()
+                    job = CoroutineScope(Dispatchers.Main).launch {
+                        val loadingFragment = DialogLoadingFragment()
+                        loadingFragment.isCancelable = false
+                        if (!loadingFragment.isAdded) loadingFragment.show(
+                            supportFragmentManager,
+                            "custom"
+                        )
+                        asyncUpdatingDatabase(mDBHelper)
+                        loadingFragment.dismiss()
+                        saveBoolean(this@MainActivity, "upgraded", true)
+                        Toast.makeText(
+                            this@MainActivity,
+                            getString(R.string.bdSuccess),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        mDb = mDBHelper.writableDatabase
                     }
-                    .setCancelable(false)
-                    .show()
+                }
+                .setCancelable(false)
+                .show()
             saveBoolean(this, "upgraded", false)
         }
     }
 
     private suspend fun asyncUpdatingDatabase(mDBHelper: DatabaseHelper) =
-            withContext(Dispatchers.IO) {
-                mDBHelper.updateDataBase()
-            }
+        withContext(Dispatchers.IO) {
+            mDBHelper.updateDataBase()
+        }
 
     private var job: Job? = null
 
@@ -340,12 +340,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupDrawerNavigation() {
         appBarConfiguration = AppBarConfiguration(
-                setOf(
-                        R.id.nav_home, R.id.nav_search, R.id.nav_fridge, R.id.nav_cart,
-                        R.id.nav_star, R.id.nav_banned, R.id.nav_folder, R.id.nav_edit,
-                        R.id.nav_measures, R.id.nav_tip, R.id.nav_settings
-                ),
-                drawerLayout
+            setOf(
+                R.id.nav_home, R.id.nav_search, R.id.nav_fridge, R.id.nav_cart,
+                R.id.nav_star, R.id.nav_banned, R.id.nav_folder, R.id.nav_edit,
+                R.id.nav_measures, R.id.nav_tip, R.id.nav_settings
+            ),
+            drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navigationView.setupWithNavController(navController)
@@ -398,8 +398,8 @@ class MainActivity : AppCompatActivity() {
             this.doubleBackToExitPressedOnce = true
             Toast.makeText(this, getString(R.string.exitConfirm), Toast.LENGTH_SHORT).show()
             Handler(Looper.getMainLooper()).postDelayed(
-                    { doubleBackToExitPressedOnce = false },
-                    2000
+                { doubleBackToExitPressedOnce = false },
+                2000
             )
         } else if (!notNeedToOpenDrawerFragmentIds.contains(currentId)) {
             drawerLayout.openDrawer(GravityCompat.START)

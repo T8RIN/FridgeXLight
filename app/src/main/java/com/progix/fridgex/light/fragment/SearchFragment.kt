@@ -5,7 +5,10 @@ import android.database.Cursor
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.CheckBox
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -34,13 +37,12 @@ import com.progix.fridgex.light.model.NavItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import kotlinx.coroutines.*
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private var job: Job? = null
 
     private lateinit var searchRecycler: RecyclerView
     private lateinit var annotationCard: MaterialCardView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,12 +60,8 @@ class SearchFragment : Fragment() {
     private lateinit var loading: CircularProgressIndicator
     var checked = false
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val v: View = inflater.inflate(R.layout.fragment_search, container, false)
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         searchRecycler = v.findViewById(R.id.searchRecycler)
         annotationCard = v.findViewById(R.id.annotationCard)
         loading = v.findViewById(R.id.loading)
@@ -92,10 +90,7 @@ class SearchFragment : Fragment() {
                 SearchAdapter(requireContext(), recipeList!!, recipeClicker, findNavController())
         }
 
-
         initSort(annotationCard, searchRecycler, loading)
-
-        return v
     }
 
     private fun initSort(

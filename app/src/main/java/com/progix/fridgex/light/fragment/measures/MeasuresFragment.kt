@@ -2,7 +2,9 @@ package com.progix.fridgex.light.fragment.measures
 
 import android.database.Cursor
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import android.view.View.GONE
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
@@ -15,7 +17,7 @@ import com.progix.fridgex.light.adapter.measures.MeasureAdapter
 import com.progix.fridgex.light.model.MeasureItem
 import kotlinx.coroutines.*
 
-class MeasuresFragment : Fragment() {
+class MeasuresFragment : Fragment(R.layout.fragment_measures) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,12 +29,8 @@ class MeasuresFragment : Fragment() {
 
     var job: Job? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_measures, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         val recycler: RecyclerView = v.findViewById(R.id.measuresRecycler)
         val loading: CircularProgressIndicator = v.findViewById(R.id.loading)
 
@@ -55,9 +53,8 @@ class MeasuresFragment : Fragment() {
             recycler.adapter = MeasureAdapter(requireContext(), measuresList)
 
         }
-
-        return v
     }
+
 
     private suspend fun suspendFun(measuresList: ArrayList<MeasureItem>) =
         withContext(Dispatchers.IO) {

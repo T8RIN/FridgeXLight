@@ -1,7 +1,10 @@
 package com.progix.fridgex.light.fragment.banned
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -22,7 +25,7 @@ import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment.Companion.
 import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment.Companion.recRecycler
 import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment.Companion.recipeList
 
-class BannedFragment : Fragment() {
+class BannedFragment : Fragment(R.layout.fragment_ban_list) {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,12 +39,8 @@ class BannedFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_ban_list, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         setUpViewPager(v)
 
         val swipeRefresh: SwipeRefreshLayout = v.findViewById(R.id.swipeRefresh)
@@ -59,10 +58,6 @@ class BannedFragment : Fragment() {
             setUpViewPager(v)
             swipeRefresh.isRefreshing = false
         }
-
-
-
-        return v
     }
 
     private fun setUpViewPager(v: View) {

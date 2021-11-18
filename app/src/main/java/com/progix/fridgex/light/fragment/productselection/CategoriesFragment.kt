@@ -3,7 +3,10 @@ package com.progix.fridgex.light.fragment.productselection
 import android.database.Cursor
 import android.os.Bundle
 import android.util.Pair
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -19,7 +22,7 @@ import com.progix.fridgex.light.adapter.productselection.ProductsAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
-class CategoriesFragment : Fragment() {
+class CategoriesFragment : Fragment(R.layout.fragment_categories) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,13 +37,9 @@ class CategoriesFragment : Fragment() {
 
     private val catList: ArrayList<String> = ArrayList()
     private lateinit var recycler: RecyclerView
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_categories, container, false)
 
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         recycler = v.findViewById(R.id.categoriesRecycler)
         val cursor: Cursor = mDb.rawQuery("SELECT * FROM categories", null)
         cursor.moveToFirst()
@@ -51,9 +50,6 @@ class CategoriesFragment : Fragment() {
         pD = CategoryAdapter(requireContext(), catList, productClicker)
         recycler.adapter = pD
         cursor.close()
-
-
-        return v
     }
 
 

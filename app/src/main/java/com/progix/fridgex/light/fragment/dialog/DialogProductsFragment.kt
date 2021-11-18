@@ -2,7 +2,6 @@ package com.progix.fridgex.light.fragment.dialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -25,7 +24,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
 
-class DialogProductsFragment : DialogFragment() {
+class DialogProductsFragment : DialogFragment(R.layout.fragment_dialog_products) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +41,8 @@ class DialogProductsFragment : DialogFragment() {
     var recycler: RecyclerView? = null
     var annotationCard: MaterialCardView? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_dialog_products, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         recycler = v.findViewById(R.id.dialogProductsRecycler)
         annotationCard = v.findViewById(R.id.annotationCard)
 
@@ -70,9 +65,8 @@ class DialogProductsFragment : DialogFragment() {
                     recycler!!.adapter = adapterSearch
                 }
             }
-
-        return v
     }
+
 
     private fun search(s: String): DialogSearchProductsAdapter {
         val pairArrayList = ArrayList<Pair<Int, String>>()

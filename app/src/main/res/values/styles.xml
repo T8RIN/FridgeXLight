@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/checked</item>
+    </style>
+
+    <style name="modeAlert" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/buttonSecAlert1</item>
+        <item name="buttonBarNegativeButtonStyle">@style/buttonSecAlert2</item>
+    </style>
+
+    <style name="buttonSecAlert1" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="materialThemeOverlay">@style/buttonSecOverlay1</item>
+    </style>
+
+    <style name="buttonSecOverlay1" parent="">
+        <item name="colorPrimary">@color/checked</item>
+    </style>
+
+    <style name="buttonSecAlert2" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="materialThemeOverlay">@style/buttonSecOverlay2</item>
+    </style>
+
+    <style name="buttonSecOverlay2" parent="">
+        <item name="colorPrimary">@color/red</item>
+    </style>
+
+    <style name="shape11dp" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">11dp</item>
+    </style>
+
+    <style name="shape12dp" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="shape0dp" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">0dp</item>
+    </style>
+
+    <style name="interFont" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/inter_regular</item>
+        <item name="font">@font/inter_regular</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.LargeComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.App.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">14dp</item>
+    </style>
+
+    <style name="abchihba">
+        <item name="colorOnSurface">#BA3702</item>
+        <item name="colorPrimary">@color/checked</item>
+        <item name="colorError">@color/red</item>
+    </style>
+</resources>

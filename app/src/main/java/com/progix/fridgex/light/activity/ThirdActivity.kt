@@ -111,12 +111,12 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             initTextFields()
             setupErrors()
             addWatchersToTextFields()
-            initCategoriesDropDown(categoryTextField)
             initProductPicker()
             initAdapterInterface(this@ThirdActivity)
             initFabOnClick()
             initImageOnClick()
             initEditMode(idEditingNow)
+            initCategoriesDropDown(categoryTextField)
         }, 550)
 
     }
@@ -124,7 +124,7 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
     private fun initEditMode(idToEdit: Int) {
         if (editionMode) {
             val about =
-                    mDb.rawQuery("SELECT * FROM recipes WHERE id = $idToEdit", null)
+                mDb.rawQuery("SELECT * FROM recipes WHERE id = $idToEdit", null)
             about.moveToFirst()
 
             val recipeName = about.getString(3)
@@ -158,8 +158,8 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             val valArr: ArrayList<String> = ArrayList(values.split(" "))
             for (i in 0 until prodArr.size) {
                 val cursor = mDb.rawQuery(
-                        "SELECT * FROM products WHERE id = ?",
-                        listOf(prodArr[i]).toTypedArray()
+                    "SELECT * FROM products WHERE id = ?",
+                    listOf(prodArr[i]).toTypedArray()
                 )
                 cursor.moveToFirst()
                 val prodName = cursor.getString(2).replaceFirstChar { it.titlecase() }
@@ -174,7 +174,7 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             var tempString = ""
             for (i in adapterListValues) tempString += "${i.first} ... ${i.second} ${
                 hintList[adapterListValues.indexOf(
-                        i
+                    i
                 )]
             }\n"
             onTextChange(tempString)
@@ -206,51 +206,47 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
     }
 
     private var resultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                    val data: Intent = result.data!!
-                    val imageUri = data.data
-                    val imageStream = contentResolver.openInputStream(imageUri!!)
-                    val selectedImage = BitmapFactory.decodeStream(imageStream)
-                    bitmapImage = selectedImage
-                    imageRecipe.setImageBitmap(selectedImage)
-                }
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                val data: Intent = result.data!!
+                val imageUri = data.data
+                val imageStream = contentResolver.openInputStream(imageUri!!)
+                val selectedImage = BitmapFactory.decodeStream(imageStream)
+                bitmapImage = selectedImage
+                imageRecipe.setImageBitmap(selectedImage)
             }
+        }
 
     private fun initFabOnClick() {
         fab = findViewById(R.id.fab)
         fab.setOnClickListener {
             if (someFieldsAreFilled || allEmpty) {
                 Toast.makeText(this@ThirdActivity, getString(R.string.saveError), Toast.LENGTH_LONG)
-                        .show()
+                    .show()
             } else if (noChanges && !editionMode) {
                 Toast.makeText(
-                        this@ThirdActivity,
-                        getString(R.string.thereIsNoChangesToSave),
-                        Toast.LENGTH_LONG
+                    this@ThirdActivity,
+                    getString(R.string.thereIsNoChangesToSave),
+                    Toast.LENGTH_LONG
                 ).show()
             } else if (editionMode) {
                 MaterialAlertDialogBuilder(this)
-                        .setTitle(getString(R.string.recipeIsAlmostReady))
-                        .setMessage(getString(R.string.recipeIsAlmostReadyMessageEditing))
-                        .setPositiveButton(getString(R.string.saveY)) { _, _ ->
-                            requestUpdate(idEditingNow)
-                        }
-                        .setNegativeButton(getString(R.string.discard)) { _, _ ->
-                            super.onBackPressed()
-                        }
-                        .show()
+                    .setTitle(getString(R.string.recipeIsAlmostReady))
+                    .setMessage(getString(R.string.recipeIsAlmostReadyMessageEditingFab))
+                    .setPositiveButton(getString(R.string.saveY)) { _, _ ->
+                        requestUpdate(idEditingNow)
+                    }
+                    .setNegativeButton(getString(R.string.editor), null)
+                    .show()
             } else {
                 MaterialAlertDialogBuilder(this)
-                        .setTitle(getString(R.string.recipeIsAlmostReady))
-                        .setMessage(getString(R.string.recipeIsAlmostReadyMessage))
-                        .setPositiveButton(getString(R.string.saveY)) { _, _ ->
-                            requestSaving()
-                        }
-                        .setNegativeButton(getString(R.string.otmenyt)) { _, _ ->
-                            super.onBackPressed()
-                        }
-                        .show()
+                    .setTitle(getString(R.string.recipeIsAlmostReady))
+                    .setMessage(getString(R.string.recipeIsAlmostReadyMessageEditingFab))
+                    .setPositiveButton(getString(R.string.saveY)) { _, _ ->
+                        requestSaving()
+                    }
+                    .setNegativeButton(getString(R.string.editor), null)
+                    .show()
             }
         }
     }
@@ -271,9 +267,9 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
         proteinsTextField.editText?.addTextChangedListener(textChangedListener(proteinsTextField))
         fatsTextField.editText?.addTextChangedListener(textChangedListener(fatsTextField))
         carbohydratesTextField.editText?.addTextChangedListener(
-                textChangedListener(
-                        carbohydratesTextField
-                )
+            textChangedListener(
+                carbohydratesTextField
+            )
         )
         categoryTextField.editText?.addTextChangedListener(textChangedListener(categoryTextField))
         recipeTextField.editText?.addTextChangedListener(textChangedListener(recipeTextField))
@@ -347,8 +343,6 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
         productsTextField = findViewById(R.id.productsTextField)
     }
 
-    //TODO: fix categories bug when editmode
-
     private fun initCategoriesDropDown(categoryTextField: TextInputLayout) {
         val categories: ArrayList<String> = ArrayList()
 
@@ -371,35 +365,35 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             super.onBackPressed()
         } else if (someFieldsAreFilled && !editionMode) {
             MaterialAlertDialogBuilder(this)
-                    .setTitle(getString(R.string.someFilledTitleAlert))
-                    .setMessage(getString(R.string.someFilledMessageAlert))
-                    .setPositiveButton(getString(R.string.cont), null)
-                    .setNegativeButton(getString(R.string.otmenyt)) { _, _ ->
-                        super.onBackPressed()
-                    }
-                    .show()
+                .setTitle(getString(R.string.someFilledTitleAlert))
+                .setMessage(getString(R.string.someFilledMessageAlert))
+                .setPositiveButton(getString(R.string.cont), null)
+                .setNegativeButton(getString(R.string.otmenyt)) { _, _ ->
+                    super.onBackPressed()
+                }
+                .show()
         } else if (editionMode) {
             MaterialAlertDialogBuilder(this)
-                    .setTitle(getString(R.string.recipeIsAlmostReady))
-                    .setMessage(getString(R.string.recipeIsAlmostReadyMessageEditing))
-                    .setPositiveButton(getString(R.string.saveY)) { _, _ ->
-                        requestUpdate(idEditingNow)
-                    }
-                    .setNegativeButton(getString(R.string.discard)) { _, _ ->
-                        super.onBackPressed()
-                    }
-                    .show()
+                .setTitle(getString(R.string.recipeIsAlmostReady))
+                .setMessage(getString(R.string.recipeIsAlmostReadyMessageEditing))
+                .setPositiveButton(getString(R.string.saveY)) { _, _ ->
+                    requestUpdate(idEditingNow)
+                }
+                .setNegativeButton(getString(R.string.discard)) { _, _ ->
+                    super.onBackPressed()
+                }
+                .show()
         } else {
             MaterialAlertDialogBuilder(this)
-                    .setTitle(getString(R.string.recipeIsAlmostReady))
-                    .setMessage(getString(R.string.recipeIsAlmostReadyMessage))
-                    .setPositiveButton(getString(R.string.saveY)) { _, _ ->
-                        requestSaving()
-                    }
-                    .setNegativeButton(getString(R.string.otmenyt)) { _, _ ->
-                        super.onBackPressed()
-                    }
-                    .show()
+                .setTitle(getString(R.string.recipeIsAlmostReady))
+                .setMessage(getString(R.string.recipeIsAlmostReadyMessage))
+                .setPositiveButton(getString(R.string.saveY)) { _, _ ->
+                    requestSaving()
+                }
+                .setNegativeButton(getString(R.string.otmenyt)) { _, _ ->
+                    super.onBackPressed()
+                }
+                .show()
         }
     }
 
@@ -408,9 +402,9 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             when (asyncSaving()) {
                 false -> {
                     Toast.makeText(
-                            applicationContext,
-                            getString(R.string.saveErrorName),
-                            Toast.LENGTH_SHORT
+                        applicationContext,
+                        getString(R.string.saveErrorName),
+                        Toast.LENGTH_SHORT
                     ).show()
                     saved = false
                 }
@@ -418,9 +412,9 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
                     super.onBackPressed()
                     editorInterface?.onNeedsToBeRecreated()
                     Toast.makeText(
-                            applicationContext,
-                            getString(R.string.saved),
-                            Toast.LENGTH_SHORT
+                        applicationContext,
+                        getString(R.string.saved),
+                        Toast.LENGTH_SHORT
                     ).show()
                     saved = true
                 }
@@ -434,9 +428,9 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             when (asyncUpdating(idEditingNow)) {
                 false -> {
                     Toast.makeText(
-                            applicationContext,
-                            getString(R.string.saveErrorName),
-                            Toast.LENGTH_SHORT
+                        applicationContext,
+                        getString(R.string.saveErrorName),
+                        Toast.LENGTH_SHORT
                     ).show()
                     saved = false
                 }
@@ -444,9 +438,9 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
                     super.onBackPressed()
                     editorInterface?.onNeedsToBeRecreated()
                     Toast.makeText(
-                            applicationContext,
-                            getString(R.string.saved),
-                            Toast.LENGTH_SHORT
+                        applicationContext,
+                        getString(R.string.saved),
+                        Toast.LENGTH_SHORT
                     ).show()
                     saved = true
                 }
@@ -458,8 +452,8 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
     private suspend fun asyncSaving() = withContext(Dispatchers.IO) {
         val resultList = getTextStatus()
         val test = mDb.rawQuery(
-                "SELECT * FROM recipes WHERE recipe_name = ?",
-                listOf(resultList[0]).toTypedArray()
+            "SELECT * FROM recipes WHERE recipe_name = ?",
+            listOf(resultList[0]).toTypedArray()
         )
         test.moveToFirst()
         val count = test.count
@@ -472,8 +466,8 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             cursor.close()
 
             cursor = mDb.rawQuery(
-                    "SELECT * FROM recipe_category_local WHERE category_local = ?",
-                    listOf(resultList[6]).toTypedArray()
+                "SELECT * FROM recipe_category_local WHERE category_local = ?",
+                listOf(resultList[6]).toTypedArray()
             )
             cursor.moveToFirst()
             val catGlb = cursor.getString(1)
@@ -490,8 +484,8 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
 
                 productsValues += "$prodCount "
                 cursor = mDb.rawQuery(
-                        "SELECT * FROM products WHERE product = ?",
-                        listOf(product.lowercase()).toTypedArray()
+                    "SELECT * FROM products WHERE product = ?",
+                    listOf(product.lowercase()).toTypedArray()
                 )
                 cursor.moveToFirst()
                 productsResult += "${cursor.getString(0)} "
@@ -533,8 +527,8 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
     private suspend fun asyncUpdating(idEditingNow: Int) = withContext(Dispatchers.IO) {
         val resultList = getTextStatus()
         val test = mDb.rawQuery(
-                "SELECT * FROM recipes WHERE recipe_name = ? AND id NOT LIKE ?",
-                listOf(resultList[0], idEditingNow.toString()).toTypedArray()
+            "SELECT * FROM recipes WHERE recipe_name = ? AND id NOT LIKE ?",
+            listOf(resultList[0], idEditingNow.toString()).toTypedArray()
         )
         test.moveToFirst()
         val count = test.count
@@ -547,8 +541,8 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             cursor.close()
 
             cursor = mDb.rawQuery(
-                    "SELECT * FROM recipe_category_local WHERE category_local = ?",
-                    listOf(resultList[6]).toTypedArray()
+                "SELECT * FROM recipe_category_local WHERE category_local = ?",
+                listOf(resultList[6]).toTypedArray()
             )
             cursor.moveToFirst()
             val catGlb = cursor.getString(1)
@@ -565,8 +559,8 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
 
                 productsValues += "$prodCount "
                 cursor = mDb.rawQuery(
-                        "SELECT * FROM products WHERE product = ?",
-                        listOf(product.lowercase()).toTypedArray()
+                    "SELECT * FROM products WHERE product = ?",
+                    listOf(product.lowercase()).toTypedArray()
                 )
                 cursor.moveToFirst()
                 productsResult += "${cursor.getString(0)} "
@@ -596,8 +590,8 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             val cw = ContextWrapper(this@ThirdActivity)
             val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
             val file = File(
-                    directory,
-                    "recipe_$z.png"
+                directory,
+                "recipe_$z.png"
             )
             file.delete()
             if (file.exists()) {

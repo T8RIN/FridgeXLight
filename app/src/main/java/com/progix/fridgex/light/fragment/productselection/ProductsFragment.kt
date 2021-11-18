@@ -17,7 +17,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
-class ProductsFragment : Fragment() {
+class ProductsFragment : Fragment(R.layout.fragment_products) {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,13 +37,8 @@ class ProductsFragment : Fragment() {
 
     private var job: Job? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_products, container, false)
-
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         idd = requireArguments().getInt("prodCat")
         recycler = v.findViewById(R.id.productsRecycler)
         val name = arguments?.getString("category")
@@ -55,12 +50,8 @@ class ProductsFragment : Fragment() {
             pD = ProductsAdapter(requireContext(), prodList, idd)
             recycler.adapter = pD
         }
-
-
-
-
-        return v
     }
+
 
     private suspend fun coroutine(): ArrayList<String> = withContext(Dispatchers.IO) {
         val name = arguments?.getString("category")

@@ -51,8 +51,8 @@ class SecondActivity : AppCompatActivity() {
         val intent = intent
         id = intent.getIntExtra("rec", 0)
         val cursor: Cursor = mDb.rawQuery(
-                "SELECT * FROM recipes WHERE id = ?",
-                listOf(id.toString()).toTypedArray()
+            "SELECT * FROM recipes WHERE id = ?",
+            listOf(id.toString()).toTypedArray()
         )
         cursor.moveToFirst()
 
@@ -61,7 +61,7 @@ class SecondActivity : AppCompatActivity() {
         } else {
             val id: Int = Functions.strToInt(cursor.getString(3))
             Glide.with(this).load(Functions.loadImageFromStorage(this, "recipe_$id.png"))
-                    .into(image)
+                .into(image)
         }
 
         supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_TITLE
@@ -73,13 +73,13 @@ class SecondActivity : AppCompatActivity() {
 
         viewPager.adapter = RecipeViewPagerAdapter(this)
         val titles = arrayOf(
-                getString(R.string.products),
-                getString(R.string.recipe),
-                getString(R.string.infoTab)
+            getString(R.string.products),
+            getString(R.string.recipe),
+            getString(R.string.infoTab)
         )
         val tabLayout = findViewById<TabLayout>(R.id.tabs)
         TabLayoutMediator(
-                tabLayout, viewPager
+            tabLayout, viewPager
         ) { tab: TabLayout.Tab, position: Int ->
             tab.text = titles[position]
         }.attach()
@@ -108,8 +108,8 @@ class SecondActivity : AppCompatActivity() {
             }
             R.id.expand -> {
                 val cursor: Cursor = mDb.rawQuery(
-                        "SELECT * FROM recipes WHERE id = ?",
-                        listOf(id.toString()).toTypedArray()
+                    "SELECT * FROM recipes WHERE id = ?",
+                    listOf(id.toString()).toTypedArray()
                 )
                 cursor.moveToFirst()
                 val starred = cursor.getInt(7) == 1
@@ -124,8 +124,8 @@ class SecondActivity : AppCompatActivity() {
 
     private fun copyOrShare(s: String) {
         val cursor: Cursor = mDb.rawQuery(
-                "SELECT * FROM recipes WHERE id = ?",
-                listOf(id.toString()).toTypedArray()
+            "SELECT * FROM recipes WHERE id = ?",
+            listOf(id.toString()).toTypedArray()
         )
         cursor.moveToFirst()
         val name = cursor.getString(3)
@@ -143,13 +143,13 @@ class SecondActivity : AppCompatActivity() {
         for (t in list!!) ingreds += (t.first.replaceFirstChar(Char::titlecase) + "............." + t.second + "\n")
 
         val sharing: String =
-                name + "\n\n\n" + getString(R.string.timeCook) + "............." + time + getString(R.string.minutes) +
-                        "\n" + getString(R.string.cal) + "............." + calories + getString(R.string.calories) + "\n" +
-                        getString(R.string.category) + "............." + category + "\n" +
-                        getString(R.string.proteins) + "............." + proteins + getString(R.string.gram) + "\n" +
-                        getString(R.string.fats) + "............." + fats + getString(R.string.gram) + "\n" +
-                        getString(R.string.carbohydrates) + "............." + carboh + getString(R.string.gram) + "\n" +
-                        getString(R.string.portions) + " " + portions + "\n\n\n" + ingreds + "\n\n" + recipe
+            name + "\n\n\n" + getString(R.string.timeCook) + "............." + time + getString(R.string.minutes) +
+                    "\n" + getString(R.string.cal) + "............." + calories + getString(R.string.calories) + "\n" +
+                    getString(R.string.category) + "............." + category + "\n" +
+                    getString(R.string.proteins) + "............." + proteins + getString(R.string.gram) + "\n" +
+                    getString(R.string.fats) + "............." + fats + getString(R.string.gram) + "\n" +
+                    getString(R.string.carbohydrates) + "............." + carboh + getString(R.string.gram) + "\n" +
+                    getString(R.string.portions) + " " + portions + "\n\n\n" + ingreds + "\n\n" + recipe
         cursor.close()
         when (s) {
             "copy" -> {
@@ -162,8 +162,8 @@ class SecondActivity : AppCompatActivity() {
                 val sendIntent = Intent()
                 sendIntent.action = Intent.ACTION_SEND
                 sendIntent.putExtra(
-                        Intent.EXTRA_TEXT,
-                        sharing + "\n\n" + getString(R.string.copiedFrom)
+                    Intent.EXTRA_TEXT,
+                    sharing + "\n\n" + getString(R.string.copiedFrom)
                 )
                 sendIntent.type = "text/plain"
                 startActivity(Intent.createChooser(sendIntent, getString(R.string.share)))
@@ -173,12 +173,12 @@ class SecondActivity : AppCompatActivity() {
     }
 
     private fun popupMenus(
-            context: Context,
-            mainRoot: CoordinatorLayout,
-            view: View,
-            id: Int,
-            starred: Boolean,
-            banned: Boolean
+        context: Context,
+        mainRoot: CoordinatorLayout,
+        view: View,
+        id: Int,
+        starred: Boolean,
+        banned: Boolean
     ) {
         val popupMenus = PopupMenu(context, view)
         inflatePopup(popupMenus, starred, banned)
@@ -187,36 +187,36 @@ class SecondActivity : AppCompatActivity() {
                 R.id.star_recipe -> {
                     mDb.execSQL("UPDATE recipes SET is_starred = 1 WHERE id = $id")
                     showSnackBar(
-                            context,
-                            mainRoot,
-                            getString(R.string.addedToStarred),
-                            id,
-                            "is_starred",
-                            0
+                        context,
+                        mainRoot,
+                        getString(R.string.addedToStarred),
+                        id,
+                        "is_starred",
+                        0
                     )
                     true
                 }
                 R.id.ban_recipe -> {
                     mDb.execSQL("UPDATE recipes SET banned = 1 WHERE id = $id")
                     showSnackBar(
-                            context,
-                            mainRoot,
-                            getString(R.string.addedToBanList),
-                            id,
-                            "banned",
-                            0
+                        context,
+                        mainRoot,
+                        getString(R.string.addedToBanList),
+                        id,
+                        "banned",
+                        0
                     )
                     true
                 }
                 R.id.de_star_recipe -> {
                     mDb.execSQL("UPDATE recipes SET is_starred = 0 WHERE id = $id")
                     showSnackBar(
-                            context,
-                            mainRoot,
-                            getString(R.string.delStar),
-                            id,
-                            "is_starred",
-                            1
+                        context,
+                        mainRoot,
+                        getString(R.string.delStar),
+                        id,
+                        "is_starred",
+                        1
                     )
                     true
                 }
@@ -241,7 +241,7 @@ class SecondActivity : AppCompatActivity() {
         popup.isAccessible = true
         val menu = popup.get(popupMenus)
         menu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-                .invoke(menu, true)
+            .invoke(menu, true)
     }
 
     private fun inflatePopup(popupMenus: PopupMenu, starred: Boolean, banned: Boolean) {
@@ -253,19 +253,19 @@ class SecondActivity : AppCompatActivity() {
     }
 
     private fun showSnackBar(
-            context: Context,
-            mainRoot: CoordinatorLayout,
-            text: String,
-            id: Int,
-            modifier: String,
-            value: Int
+        context: Context,
+        mainRoot: CoordinatorLayout,
+        text: String,
+        id: Int,
+        modifier: String,
+        value: Int
     ) {
         CustomSnackbar(this).create(364, mainRoot, text, Snackbar.LENGTH_SHORT)
-                .setAction(context.getString(R.string.undo)) {
-                    mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
-                    adapter?.notifyItemChanged(7)
-                }
-                .show()
+            .setAction(context.getString(R.string.undo)) {
+                mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
+                adapter?.notifyItemChanged(7)
+            }
+            .show()
         adapter?.notifyItemChanged(7)
     }
 

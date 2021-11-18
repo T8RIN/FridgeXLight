@@ -104,7 +104,6 @@ class BannedProductsAdapter(
 
                 else -> true
             }
-
         }
         popupMenus.show()
         val popup = PopupMenu::class.java.getDeclaredField("mPopup")

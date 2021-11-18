@@ -3,11 +3,9 @@ package com.progix.fridgex.light.fragment.starred
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
@@ -27,17 +25,13 @@ import com.progix.fridgex.light.model.RecyclerSortItem
 import kotlinx.coroutines.*
 
 
-class StarRecipesFragment : Fragment(), ActionInterface {
+class StarRecipesFragment : Fragment(R.layout.fragment_star_recipes), ActionInterface {
 
     private var job: Job? = null
     var adapter: StarRecipesAdapter? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_star_recipes, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         val recycler: RecyclerView = v.findViewById(R.id.starRecipeRecycler)
         recRecycler = recycler
         val annotationCard: MaterialCardView = v.findViewById(R.id.annotationCard)
@@ -65,7 +59,6 @@ class StarRecipesFragment : Fragment(), ActionInterface {
 
         }
 
-        return v
     }
 
     private fun tHis(): StarRecipesFragment {

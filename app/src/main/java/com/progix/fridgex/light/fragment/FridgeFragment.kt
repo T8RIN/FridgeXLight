@@ -2,7 +2,10 @@ package com.progix.fridgex.light.fragment
 
 import android.database.Cursor
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.view.View.*
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -34,7 +37,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
-class FridgeFragment : Fragment(), ActionInterface {
+class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
     private val fridgeList: ArrayList<Pair<String, String>> = ArrayList()
 
     private lateinit var loading: CircularProgressIndicator
@@ -55,13 +58,8 @@ class FridgeFragment : Fragment(), ActionInterface {
 
     private var adapter: FridgeAdapter? = null
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_fridge, container, false)
-
+    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(v, savedInstanceState)
         recycler = v.findViewById(R.id.fridgeRecycler)
         annotationCard = v.findViewById(R.id.annotationCard)
         loading = v.findViewById(R.id.loading)
@@ -90,10 +88,7 @@ class FridgeFragment : Fragment(), ActionInterface {
             }, {
 
             })
-
-        return v
     }
-
 
     private fun rxJava(): Observable<ArrayList<Pair<String, String>>> {
         return Observable.create { item ->

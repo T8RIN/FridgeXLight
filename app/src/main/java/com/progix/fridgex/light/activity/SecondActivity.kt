@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.activity.MainActivity.Companion.badgeCnt
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.recipe.InfoAdapter
 import com.progix.fridgex.light.adapter.viewpager.RecipeViewPagerAdapter
@@ -101,18 +102,18 @@ class SecondActivity : AppCompatActivity() {
         if (missList?.isNotEmpty() == true) {
             fab.visibility = VISIBLE
             fab.setOnClickListener {
-                var cnt = 0
+                badgeCnt = 0
                 for (i in missList!!) {
-                    if (i) cnt++
+                    if (i) badgeCnt++
                 }
-                val names = arrayOfNulls<String>(cnt)
-                val bool = BooleanArray(cnt)
-                cnt = 0
+                val names = arrayOfNulls<String>(badgeCnt)
+                val bool = BooleanArray(badgeCnt)
+                var tcnt = 0
                 for (i in missList!!.indices) {
                     if (missList!![i]) {
-                        names[cnt] = prodList!![i].first.replaceFirstChar { it.titlecase() }
-                        bool[cnt] = true
-                        cnt++
+                        names[tcnt] = prodList!![i].first.replaceFirstChar { it.titlecase() }
+                        bool[tcnt] = true
+                        tcnt++
                     }
                 }
                 MaterialAlertDialogBuilder(this@SecondActivity, R.style.modeAlert)

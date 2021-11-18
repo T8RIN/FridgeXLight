@@ -462,6 +462,7 @@ class MainActivity : AppCompatActivity() {
         var isMultiSelectOn = false
         var actionMode: ActionMode? = null
 
+        var badgeCnt = 0
     }
 
     override fun onDestroy() {
@@ -480,6 +481,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         updateNavStatus()
+        if(badgeCnt != 0) bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number += badgeCnt
         super.onResume()
     }
 

@@ -270,7 +270,6 @@ class SecondActivity : AppCompatActivity() {
         adapter?.notifyItemChanged(7)
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.ingred_menu, menu)

@@ -32,6 +32,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
+import com.progix.fridgex.light.adapter.viewpager.BannedViewPagerAdapter
 import com.progix.fridgex.light.custom.CustomTapTarget
 import com.progix.fridgex.light.data.DataArrays.languages
 import com.progix.fridgex.light.data.DataArrays.mainFragmentIds
@@ -406,6 +407,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+        BannedViewPagerAdapter.productsFragment?.recreateList()
     }
 
     override fun onSupportNavigateUp(): Boolean {

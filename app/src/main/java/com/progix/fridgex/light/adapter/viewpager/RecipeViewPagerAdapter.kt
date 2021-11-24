@@ -11,12 +11,11 @@ import com.progix.fridgex.light.fragment.recipe.RecipeFragment
 class RecipeViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
     override fun createFragment(position: Int): Fragment {
-        when (position) {
-            0 -> return IngredsFragment()
-            1 -> return RecipeFragment()
-            2 -> return InfoFragment()
+        return when (position) {
+            0 -> IngredsFragment()
+            1 -> RecipeFragment()
+            else -> InfoFragment()
         }
-        return IngredsFragment()
     }
 
     override fun getItemCount(): Int {

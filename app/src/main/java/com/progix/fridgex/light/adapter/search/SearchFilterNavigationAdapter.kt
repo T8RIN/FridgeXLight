@@ -20,10 +20,9 @@ class SearchFilterNavigationAdapter(
 ) :
     RecyclerView.Adapter<SearchFilterNavigationAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View =
+        return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_navigation, parent, false)
-
-        return ViewHolder(view)
+        )
     }
 
     var mSelectedItem = 0

@@ -10,11 +10,10 @@ import com.progix.fridgex.light.fragment.starred.StarRecipesFragment
 class StarredViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
     override fun createFragment(position: Int): Fragment {
-        when (position) {
-            0 -> return StarRecipesFragment()
-            1 -> return StarProductsFragment()
+        return when (position) {
+            0 -> StarRecipesFragment()
+            else -> StarProductsFragment()
         }
-        return StarRecipesFragment()
     }
 
     override fun getItemCount(): Int {

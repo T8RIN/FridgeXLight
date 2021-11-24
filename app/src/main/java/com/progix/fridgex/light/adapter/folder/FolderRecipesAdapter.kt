@@ -2,6 +2,7 @@ package com.progix.fridgex.light.adapter.folder
 
 import android.content.Context
 import android.database.Cursor
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -22,7 +23,6 @@ import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.Functions
 import com.progix.fridgex.light.model.RecyclerSortItem
 
-
 class FolderRecipesAdapter(
     var context: Context,
     var recipeList: ArrayList<RecyclerSortItem>,
@@ -30,10 +30,9 @@ class FolderRecipesAdapter(
 ) : RecyclerView.Adapter<FolderRecipesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View =
+        return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_recipe, parent, false)
-
-        return ViewHolder(view)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -161,13 +160,26 @@ class FolderRecipesAdapter(
             starred: Boolean,
             banned: Boolean
         ) {
-            itemView.setOnClickListener {
-                onClickListener.onClick(image, id)
-            }
+            recursiveOnClick(onClickListener, itemView, image, id)
             itemView.setOnLongClickListener {
                 popupMenus(it, id, position, starred, banned)
                 true
             }
+        }
+    }
+
+    private fun recursiveOnClick(
+        onClickListener: OnClickListener,
+        itemView: View,
+        image: ImageView,
+        id: Int
+    ) {
+        itemView.setOnClickListener {
+            itemView.setOnClickListener {}
+            android.os.Handler(Looper.getMainLooper()).postDelayed({
+                recursiveOnClick(onClickListener, itemView, image, id)
+            }, 1000)
+            onClickListener.onClick(image, id)
         }
     }
 

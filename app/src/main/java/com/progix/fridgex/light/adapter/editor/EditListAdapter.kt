@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.database.Cursor
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -40,10 +41,9 @@ class EditListAdapter(
 ) : RecyclerView.Adapter<EditListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View =
+        return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_recipe, parent, false)
-
-        return ViewHolder(view)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -193,9 +193,7 @@ class EditListAdapter(
             id: Int,
             position: Int
         ) {
-            itemView.setOnClickListener {
-                onClickListener.onClick(image, id)
-            }
+            recursiveOnClick(onClickListener, itemView, image, id)
             itemView.setOnLongClickListener {
                 if (currentSnackbar == null) {
                     popupMenus(it, id, position)
@@ -205,6 +203,21 @@ class EditListAdapter(
                 }
                 true
             }
+        }
+    }
+
+    private fun recursiveOnClick(
+        onClickListener: OnClickListener,
+        itemView: View,
+        image: ImageView,
+        id: Int
+    ) {
+        itemView.setOnClickListener {
+            itemView.setOnClickListener {}
+            android.os.Handler(Looper.getMainLooper()).postDelayed({
+                recursiveOnClick(onClickListener, itemView, image, id)
+            }, 1000)
+            onClickListener.onClick(image, id)
         }
     }
 

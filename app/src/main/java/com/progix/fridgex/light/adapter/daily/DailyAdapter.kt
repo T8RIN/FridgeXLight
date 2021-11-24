@@ -3,6 +3,7 @@ package com.progix.fridgex.light.adapter.daily
 import android.content.Context
 import android.content.res.Configuration
 import android.database.Cursor
+import android.os.Looper
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -39,9 +40,6 @@ class DailyAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_daily, parent, false)
-
         val displayMetrics = context.resources.displayMetrics
         val dpHeight = (displayMetrics.heightPixels / displayMetrics.density).toInt()
         val k = (dpHeight + 50) / 3 - 271
@@ -54,9 +52,9 @@ class DailyAdapter(
                 ArrayList(listOf(240 + k2, 220 + k2, 240 + k2, 240 + k2, 220 + k2, 220 + k2))
             }
 
-
-
-        return ViewHolder(view)
+        return ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_daily, parent, false)
+        )
     }
 
     private var rand: ArrayList<Int> = ArrayList()
@@ -134,7 +132,6 @@ class DailyAdapter(
                 }
                 else -> true
             }
-
         }
         popupMenus.show()
         val popup = PopupMenu::class.java.getDeclaredField("mPopup")
@@ -149,7 +146,6 @@ class DailyAdapter(
         else if (!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned)
         else if (starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred)
         else popupMenus.inflate(R.menu.popup_menu_both)
-
     }
 
     private fun showSnackBar(text: String, id: Int, position: Int, modifier: String, value: Int) {
@@ -187,9 +183,7 @@ class DailyAdapter(
             starred: Boolean,
             banned: Boolean
         ) {
-            itemView.setOnClickListener {
-                onClickListener.onClick(image, id)
-            }
+            recursiveOnClick(onClickListener, itemView, image, id)
             itemView.setOnLongClickListener {
                 popupMenus(it, id, position, starred, banned)
                 true
@@ -200,6 +194,21 @@ class DailyAdapter(
             itemView.clearAnimation()
         }
 
+    }
+
+    private fun recursiveOnClick(
+        onClickListener: OnClickListener,
+        itemView: View,
+        image: ImageView,
+        id: Int
+    ) {
+        itemView.setOnClickListener {
+            itemView.setOnClickListener {}
+            android.os.Handler(Looper.getMainLooper()).postDelayed({
+                recursiveOnClick(onClickListener, itemView, image, id)
+            }, 1000)
+            onClickListener.onClick(image, id)
+        }
     }
 
     class OnClickListener(val clickListener: (ImageView, Int) -> Unit) {

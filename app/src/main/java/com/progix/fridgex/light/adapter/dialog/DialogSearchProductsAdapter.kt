@@ -18,11 +18,10 @@ import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion
 class DialogSearchProductsAdapter(var context: Context, private var prodList: ArrayList<String>) :
     RecyclerView.Adapter<DialogSearchProductsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View =
+        return ViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_product_checkable, parent, false)
-
-        return ViewHolder(view)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

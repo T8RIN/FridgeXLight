@@ -150,5 +150,4 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-
 }

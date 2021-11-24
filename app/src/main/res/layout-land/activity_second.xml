@@ -117,11 +117,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="6dp"
             android:contentDescription="@string/none"
             android:src="@drawable/ic_baseline_shopping_cart_24"
             app:elevation="0dp"
             app:fabSize="mini"
-            android:layout_margin="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tabs" />
 

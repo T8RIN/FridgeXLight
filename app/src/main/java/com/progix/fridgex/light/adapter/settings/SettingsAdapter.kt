@@ -130,6 +130,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                 holder.onOff.visibility = GONE
                 holder.card.setOnClickListener {
                     guide = true
+                    (context as MainActivity).finishAffinity()
                     context.startActivity(Intent(context, MainActivity::class.java))
                 }
             }
@@ -137,10 +138,11 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
     }
 
     private fun restartActivity() {
+        val ctx = context.applicationContext
         (context as MainActivity).finishAffinity()
         context.startActivity(
             Intent(
-                context,
+                ctx,
                 MainActivity::class.java
             )
         )

@@ -9,15 +9,22 @@ import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment
 
 class BannedViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
+
     override fun createFragment(position: Int): Fragment {
-        when (position) {
-            0 -> return BannedRecipesFragment()
-            1 -> return BannedProductsFragment()
+        return when (position) {
+            0 -> BannedRecipesFragment()
+            else -> {
+                productsFragment = BannedProductsFragment()
+                productsFragment!!
+            }
         }
-        return BannedRecipesFragment()
     }
 
     override fun getItemCount(): Int {
         return 2
+    }
+
+    companion object {
+        var productsFragment: BannedProductsFragment? = null
     }
 }

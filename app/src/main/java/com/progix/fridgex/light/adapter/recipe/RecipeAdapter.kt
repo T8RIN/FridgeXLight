@@ -12,10 +12,9 @@ import com.progix.fridgex.light.R
 class RecipeAdapter(var context: Context, var recipeList: List<String>) :
     RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View =
+        return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_error, parent, false)
-
-        return ViewHolder(view)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

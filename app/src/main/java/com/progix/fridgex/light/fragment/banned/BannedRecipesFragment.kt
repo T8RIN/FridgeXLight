@@ -20,7 +20,7 @@ import com.progix.fridgex.light.helper.interfaces.ActionInterface
 import com.progix.fridgex.light.model.RecyclerSortItem
 import kotlinx.coroutines.*
 
-class BannedRecipesFragment : Fragment(), ActionInterface {
+class BannedRecipesFragment : Fragment(R.layout.fragment_banned_recipes), ActionInterface {
 
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         super.onViewCreated(v, savedInstanceState)

@@ -35,10 +35,9 @@ class BannedRecipesAdapter(
 ) : RecyclerView.Adapter<BannedRecipesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View =
+        return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_recipe, parent, false)
-
-        return ViewHolder(view)
+        )
     }
 
 

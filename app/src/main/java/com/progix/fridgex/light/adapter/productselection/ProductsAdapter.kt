@@ -20,14 +20,17 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.custom.CustomSnackbar
 
 
-class ProductsAdapter(var context: Context, var fridgeList: ArrayList<String>, var id: Int) :
+class ProductsAdapter(
+    var context: Context,
+    private var fridgeList: ArrayList<String>,
+    var id: Int
+) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View =
+        return ViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_product_checkable, parent, false)
-
-        return ViewHolder(view)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

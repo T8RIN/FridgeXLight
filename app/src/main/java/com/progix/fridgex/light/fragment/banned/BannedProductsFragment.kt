@@ -16,7 +16,7 @@ import com.progix.fridgex.light.helper.interfaces.ActionInterface
 import kotlinx.coroutines.*
 
 
-class BannedProductsFragment : Fragment(), ActionInterface {
+class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), ActionInterface {
 
     private var job: Job? = null
     var adapter: BannedProductsAdapter? = null
@@ -24,31 +24,10 @@ class BannedProductsFragment : Fragment(), ActionInterface {
 
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         super.onViewCreated(v, savedInstanceState)
-        val recycler: RecyclerView = v.findViewById(R.id.bannedProductsRecycler)
-        prodRecycler = recycler
-        val annotationCard: MaterialCardView = v.findViewById(R.id.annotationCard)
-        prodAnno = annotationCard
-
+        prodRecycler = v.findViewById(R.id.bannedProductsRecycler)
+        prodAnno = v.findViewById(R.id.annotationCard)
         loading = v.findViewById(R.id.loading)
-        job?.cancel()
-        job = CoroutineScope(Dispatchers.Main).launch {
-            startCoroutine()
-            loading?.visibility = View.GONE
-            if (productsList.isNotEmpty()) {
-                adapter = BannedProductsAdapter(requireContext(), productsList)
-                adapter!!.init(tHis())
-                recycler.adapter = adapter
-            } else {
-                annotationCard.startAnimation(
-                    AnimationUtils.loadAnimation(
-                        requireContext(),
-                        R.anim.item_animation_fall_down
-                    )
-                )
-                annotationCard.visibility = View.VISIBLE
-                recycler.visibility = View.GONE
-            }
-        }
+        recreateList()
     }
 
     private fun tHis(): BannedProductsFragment {
@@ -92,5 +71,27 @@ class BannedProductsFragment : Fragment(), ActionInterface {
         else MainActivity.actionMode?.finish()
     }
 
-
+    fun recreateList() {
+        job?.cancel()
+        job = CoroutineScope(Dispatchers.Main).launch {
+            startCoroutine()
+            loading?.visibility = View.GONE
+            if (productsList.isNotEmpty()) {
+                prodAnno?.visibility = View.GONE
+                prodRecycler?.visibility = View.VISIBLE
+                adapter = BannedProductsAdapter(requireContext(), productsList)
+                adapter!!.init(tHis())
+                prodRecycler?.adapter = adapter
+            } else {
+                prodAnno?.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        requireContext(),
+                        R.anim.item_animation_fall_down
+                    )
+                )
+                prodAnno?.visibility = View.VISIBLE
+                prodRecycler?.visibility = View.GONE
+            }
+        }
+    }
 }

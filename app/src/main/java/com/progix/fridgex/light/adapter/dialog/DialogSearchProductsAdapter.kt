@@ -29,26 +29,26 @@ class DialogSearchProductsAdapter(var context: Context, private var prodList: Ar
         val temValue = prodList[position]
         holder.prodName.text = temValue.replaceFirstChar { it.titlecase() }
 
-        holder.checkBox.isChecked = adapterListNames.contains(prodList[position])
+        holder.checkBox.isChecked = adapterListNames!!.contains(prodList[position])
 
         holder.itemView.setOnClickListener {
             holder.checkBox.isChecked = true
-            if (holder.checkBox.isChecked && !adapterListNames.contains(prodList[position])) {
-                adapterListNames.add(prodList[position])
-                adapterListValues.add(Pair(prodList[position], "0"))
+            if (holder.checkBox.isChecked && !adapterListNames!!.contains(prodList[position])) {
+                adapterListNames!!.add(prodList[position])
+                adapterListValues!!.add(Pair(prodList[position], "0"))
                 var tempString = ""
-                for (i in adapterListValues) tempString += "${i.first} ... ${i.second}\n"
+                for (i in adapterListValues!!) tempString += "${i.first} ... ${i.second}\n"
                 DialogProductsFragment.dialogAdapterInterface?.onTextChange(tempString)
                 DialogProductsFragment.dialogAdapterInterface?.onNeedToNotifyDataSet()
             }
         }
         holder.checkBox.setOnClickListener {
             holder.checkBox.isChecked = true
-            if (holder.checkBox.isChecked && !adapterListNames.contains(prodList[position])) {
-                adapterListNames.add(prodList[position])
-                adapterListValues.add(Pair(prodList[position], "0"))
+            if (holder.checkBox.isChecked && !adapterListNames!!.contains(prodList[position])) {
+                adapterListNames!!.add(prodList[position])
+                adapterListValues!!.add(Pair(prodList[position], "0"))
                 var tempString = ""
-                for (i in adapterListValues) tempString += "${i.first} ... ${i.second}\n"
+                for (i in adapterListValues!!) tempString += "${i.first} ... ${i.second}\n"
                 DialogProductsFragment.dialogAdapterInterface?.onTextChange(tempString)
                 DialogProductsFragment.dialogAdapterInterface?.onNeedToNotifyDataSet()
             }

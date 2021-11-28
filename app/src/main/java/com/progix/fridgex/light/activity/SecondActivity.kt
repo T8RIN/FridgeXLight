@@ -288,6 +288,7 @@ class SecondActivity : AppCompatActivity() {
         list = null
         prodList = null
         missList = null
+        id = 1
         super.onDestroy()
     }
 }

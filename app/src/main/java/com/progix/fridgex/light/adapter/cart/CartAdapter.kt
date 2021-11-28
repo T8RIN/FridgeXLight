@@ -297,8 +297,8 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
                     indexes.add(tempPos)
                     cartList.remove(delList[i])
                     if (cartList.isEmpty()) {
-                        CartFragment.recycler.visibility = GONE
-                        CartFragment.annotationCard.visibility = VISIBLE
+                        CartFragment.recycler?.visibility = GONE
+                        CartFragment.annotationCard?.visibility = VISIBLE
                     } else notifyItemRemoved(tempPos)
                 }
                 Handler(Looper.getMainLooper()).postDelayed({
@@ -312,8 +312,8 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
                     )
                     .setAction(context.getString(R.string.undo)) {
                         behavior.slideUp(bottomNav)
-                        CartFragment.recycler.visibility = VISIBLE
-                        CartFragment.annotationCard.visibility = GONE
+                        CartFragment.recycler?.visibility = VISIBLE
+                        CartFragment.annotationCard?.visibility = GONE
                         for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
                             mDb.execSQL(

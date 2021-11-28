@@ -32,8 +32,8 @@ class StarProductsFragment : Fragment(R.layout.fragment_star_products), ActionIn
         job = CoroutineScope(Dispatchers.Main).launch {
             startCoroutine()
             loading.visibility = View.GONE
-            if (productsList.isNotEmpty()) {
-                adapter = StarProductsAdapter(requireContext(), productsList)
+            if (productsList!!.isNotEmpty()) {
+                adapter = StarProductsAdapter(requireContext(), productsList!!)
                 adapter!!.init(tHis())
                 recycler.adapter = adapter
             } else {
@@ -71,14 +71,18 @@ class StarProductsFragment : Fragment(R.layout.fragment_star_products), ActionIn
 
             productsList = pairList
 
-            @Suppress("BlockingMethodInNonBlockingContext")
-            Thread.sleep(200)
+            delay(200)
         }
 
     companion object {
         var prodRecycler: RecyclerView? = null
         var prodAnno: MaterialCardView? = null
-        var productsList: ArrayList<Pair<String, String>> = ArrayList()
+        var productsList: ArrayList<Pair<String, String>>? = null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        productsList = null
     }
 
     override fun onSelectedItemsCountChanged(count: Int) {

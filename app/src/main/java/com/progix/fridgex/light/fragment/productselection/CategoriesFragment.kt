@@ -71,7 +71,7 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
         if (s!!.isNotEmpty()) {
             val pairArrayList = ArrayList<Pair<Int, String>>()
             val list = ArrayList<String>()
-            for (item in allProducts) {
+            for (item in allProducts!!) {
                 val temp: Int =
                     searchString(s.lowercase(), item)
                 if (temp != 101) {

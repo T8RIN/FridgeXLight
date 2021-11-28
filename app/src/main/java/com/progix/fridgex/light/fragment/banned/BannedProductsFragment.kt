@@ -52,14 +52,18 @@ class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), Acti
 
             productsList = pairList
 
-            @Suppress("BlockingMethodInNonBlockingContext")
-            Thread.sleep(200)
+            delay(300)
         }
 
     companion object {
         var prodRecycler: RecyclerView? = null
         var prodAnno: MaterialCardView? = null
-        var productsList: ArrayList<Pair<String, String>> = ArrayList()
+        var productsList: ArrayList<Pair<String, String>>? = null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        productsList = null
     }
 
     override fun onSelectedItemsCountChanged(count: Int) {
@@ -76,10 +80,10 @@ class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), Acti
         job = CoroutineScope(Dispatchers.Main).launch {
             startCoroutine()
             loading?.visibility = View.GONE
-            if (productsList.isNotEmpty()) {
+            if (productsList!!.isNotEmpty()) {
                 prodAnno?.visibility = View.GONE
                 prodRecycler?.visibility = View.VISIBLE
-                adapter = BannedProductsAdapter(requireContext(), productsList)
+                adapter = BannedProductsAdapter(requireContext(), productsList!!)
                 adapter!!.init(tHis())
                 prodRecycler?.adapter = adapter
             } else {

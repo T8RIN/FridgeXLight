@@ -71,8 +71,7 @@ class EditListAdapter(
     }
 
     private suspend fun waitFor5Sec() = withContext(Dispatchers.IO) {
-        @Suppress("BlockingMethodInNonBlockingContext")
-        Thread.sleep(5000)
+        delay(5000)
     }
 
     private fun popupMenus(view: View, id: Int, position: Int) {

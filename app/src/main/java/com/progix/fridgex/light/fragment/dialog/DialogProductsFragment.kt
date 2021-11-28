@@ -34,6 +34,8 @@ class DialogProductsFragment : DialogFragment(R.layout.fragment_dialog_products)
         exitTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.anim_duration).toLong()
         }
+        adapterListNames = ArrayList()
+        adapterListValues = ArrayList()
     }
 
     private var adapterSearch: DialogSearchProductsAdapter? = null
@@ -71,7 +73,7 @@ class DialogProductsFragment : DialogFragment(R.layout.fragment_dialog_products)
     private fun search(s: String): DialogSearchProductsAdapter {
         val pairArrayList = ArrayList<Pair<Int, String>>()
         val list = ArrayList<String>()
-        for (item in allProducts) {
+        for (item in allProducts!!) {
             val temp: Int =
                 searchString(s.lowercase(), item)
             if (temp != 101) {
@@ -128,9 +130,8 @@ class DialogProductsFragment : DialogFragment(R.layout.fragment_dialog_products)
     }
 
     companion object {
-
-        val adapterListValues: ArrayList<Pair<String, String>> = ArrayList()
-        val adapterListNames: ArrayList<String> = ArrayList()
+        var adapterListValues: ArrayList<Pair<String, String>>? = null
+        var adapterListNames: ArrayList<String>? = null
 
         var dialogAdapterInterface: DialogAdapterInterface? = null
         fun initAdapterInterface(dialogAdapterInterface: DialogAdapterInterface) {
@@ -150,12 +151,12 @@ class DialogProductsFragment : DialogFragment(R.layout.fragment_dialog_products)
 
     private fun onAdapterNeedsToBeInit() {
         val hintList = ArrayList<String>()
-        for (item in adapterListNames) {
-            hintList.add(allHints[allProducts.indexOf(item.lowercase())])
+        for (item in adapterListNames!!) {
+            hintList.add(allHints!![allProducts!!.indexOf(item.lowercase())])
         }
-        adapterList = DialogListProductsAdapter(thirdContext!!, adapterListNames, hintList)
+        adapterList = DialogListProductsAdapter(thirdContext!!, adapterListNames!!, hintList)
 
-        if (adapterListNames.isEmpty()) {
+        if (adapterListNames!!.isEmpty()) {
             recycler?.visibility = GONE
             annotationCard?.visibility = VISIBLE
         } else {

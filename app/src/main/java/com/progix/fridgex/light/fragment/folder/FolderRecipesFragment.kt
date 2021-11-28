@@ -153,8 +153,7 @@ class FolderRecipesFragment : Fragment(R.layout.fragment_folder_recipes) {
 
             recipeList = pairList
 
-            @Suppress("BlockingMethodInNonBlockingContext")
-            Thread.sleep(200)
+            delay(200)
         }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

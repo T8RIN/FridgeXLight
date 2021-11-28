@@ -163,17 +163,17 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
                 )
                 cursor.moveToFirst()
                 val prodName = cursor.getString(2).replaceFirstChar { it.titlecase() }
-                adapterListNames.add(prodName)
-                adapterListValues.add(Pair(prodName, valArr[i]))
+                adapterListNames!!.add(prodName)
+                adapterListValues!!.add(Pair(prodName, valArr[i]))
                 cursor.close()
             }
             val hintList = ArrayList<String>()
-            for (item in adapterListNames) {
-                hintList.add(MainActivity.allHints[MainActivity.allProducts.indexOf(item.lowercase())])
+            for (item in adapterListNames!!) {
+                hintList.add(MainActivity.allHints!![MainActivity.allProducts!!.indexOf(item.lowercase())])
             }
             var tempString = ""
-            for (i in adapterListValues) tempString += "${i.first} ... ${i.second} ${
-                hintList[adapterListValues.indexOf(
+            for (i in adapterListValues!!) tempString += "${i.first} ... ${i.second} ${
+                hintList[adapterListValues!!.indexOf(
                     i
                 )]
             }\n"
@@ -633,8 +633,8 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
 
     override fun onDestroy() {
         super.onDestroy()
-        adapterListValues.clear()
-        adapterListNames.clear()
+        adapterListValues = null
+        adapterListNames = null
         dialogAdapterInterface = null
         thirdContext = null
         editorInterface = null
@@ -653,9 +653,9 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
 
     override fun onNeedToNotifyDataSet() {
         val hintList = ArrayList<String>()
-        for (item in adapterListNames) {
-            hintList.add(MainActivity.allHints[MainActivity.allProducts.indexOf(item.lowercase())])
+        for (item in adapterListNames!!) {
+            hintList.add(MainActivity.allHints!![MainActivity.allProducts!!.indexOf(item.lowercase())])
         }
-        fragment.adapterList = DialogListProductsAdapter(this, adapterListNames, hintList)
+        fragment.adapterList = DialogListProductsAdapter(this, adapterListNames!!, hintList)
     }
 }

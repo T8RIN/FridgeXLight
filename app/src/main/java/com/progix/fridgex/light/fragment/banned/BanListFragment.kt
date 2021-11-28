@@ -85,7 +85,7 @@ class BannedFragment : Fragment(R.layout.fragment_ban_list) {
             R.id.clear -> {
                 when (position) {
                     0 -> {
-                        if (recipeList.isNotEmpty()) {
+                        if (recipeList!!.isNotEmpty()) {
                             val multiArray = arrayOf(
                                 getString(R.string.recipes)
                             )
@@ -98,7 +98,7 @@ class BannedFragment : Fragment(R.layout.fragment_ban_list) {
                                     if (multiArrayBoolean[0]) {
                                         recRecycler?.visibility = View.GONE
                                         recAnno?.visibility = View.VISIBLE
-                                        for (i in recipeList) {
+                                        for (i in recipeList!!) {
                                             val t = i.recipeItem.recipeName
                                             MainActivity.mDb.execSQL(
                                                 "UPDATE recipes SET banned = 0 WHERE recipe_name = ?",
@@ -111,14 +111,14 @@ class BannedFragment : Fragment(R.layout.fragment_ban_list) {
                                             getString(R.string.clearSuccessBanned)
                                         )
                                             .setAction(getString(R.string.undo)) {
-                                                for (i in recipeList) {
+                                                for (i in recipeList!!) {
                                                     val t = i.recipeItem.recipeName
                                                     MainActivity.mDb.execSQL(
                                                         "UPDATE recipes SET banned = 1 WHERE recipe_name = ?",
                                                         listOf(t).toTypedArray()
                                                     )
                                                 }
-                                                if (recipeList.isNotEmpty()) {
+                                                if (recipeList!!.isNotEmpty()) {
                                                     recRecycler?.visibility =
                                                         View.VISIBLE
                                                     recAnno?.visibility = View.GONE
@@ -144,7 +144,7 @@ class BannedFragment : Fragment(R.layout.fragment_ban_list) {
                         }
                     }
                     1 -> {
-                        if (productsList.isNotEmpty()) {
+                        if (productsList!!.isNotEmpty()) {
                             val multiArray = arrayOf(
                                 getString(R.string.products)
                             )
@@ -157,7 +157,7 @@ class BannedFragment : Fragment(R.layout.fragment_ban_list) {
                                     if (multiArrayBoolean[0]) {
                                         prodRecycler?.visibility = View.GONE
                                         prodAnno?.visibility = View.VISIBLE
-                                        for (i in productsList) {
+                                        for (i in productsList!!) {
                                             val t = i.first
                                             MainActivity.mDb.execSQL(
                                                 "UPDATE products SET banned = 0 WHERE product = ?",
@@ -170,14 +170,14 @@ class BannedFragment : Fragment(R.layout.fragment_ban_list) {
                                             getString(R.string.clearSuccessBannedProd)
                                         )
                                             .setAction(getString(R.string.undo)) {
-                                                for (i in productsList) {
+                                                for (i in productsList!!) {
                                                     val t = i.first
                                                     MainActivity.mDb.execSQL(
                                                         "UPDATE products SET banned = 1 WHERE product = ?",
                                                         listOf(t).toTypedArray()
                                                     )
                                                 }
-                                                if (productsList.isNotEmpty()) {
+                                                if (productsList!!.isNotEmpty()) {
                                                     prodRecycler?.visibility =
                                                         View.VISIBLE
                                                     prodAnno?.visibility = View.GONE

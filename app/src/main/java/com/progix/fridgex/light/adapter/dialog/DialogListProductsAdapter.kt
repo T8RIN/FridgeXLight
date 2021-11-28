@@ -45,19 +45,19 @@ class DialogListProductsAdapter(
                 holder.textField.error = context.getString(R.string.theFieldCantBeEmpty)
             } else {
                 holder.textField.error = null
-                val index = adapterListNames.indexOf(holder.prodName.text.toString())
-                adapterListValues[index] = Pair(holder.prodName.text.toString(), it.toString())
+                val index = adapterListNames!!.indexOf(holder.prodName.text.toString())
+                adapterListValues!![index] = Pair(holder.prodName.text.toString(), it.toString())
             }
             var tempString = ""
-            for (i in adapterListValues) tempString += "${i.first} ... ${i.second} ${
-                hintList[adapterListValues.indexOf(
+            for (i in adapterListValues!!) tempString += "${i.first} ... ${i.second} ${
+                hintList[adapterListValues!!.indexOf(
                     i
                 )]
             }\n"
             dialogAdapterInterface?.onTextChange(tempString)
         }
 
-        val tempVal = adapterListValues[adapterListNames.indexOf(prodList[position])].second
+        val tempVal = adapterListValues!![adapterListNames!!.indexOf(prodList[position])].second
         if (tempVal != "0") {
             holder.textField.editText?.setText(tempVal)
             holder.textField.error = null
@@ -87,12 +87,12 @@ class DialogListProductsAdapter(
             when (it.itemId) {
                 R.id.clear -> {
                     val item = view.findViewById<TextView>(R.id.name).text
-                    adapterListValues.removeAt(adapterListNames.indexOf(item))
-                    adapterListNames.remove(item)
+                    adapterListValues!!.removeAt(adapterListNames!!.indexOf(item))
+                    adapterListNames!!.remove(item)
                     notifyDataSetChanged()
                     var tempString = ""
-                    for (i in adapterListValues) tempString += "${i.first} ... ${i.second} ${
-                        hintList[adapterListValues.indexOf(
+                    for (i in adapterListValues!!) tempString += "${i.first} ... ${i.second} ${
+                        hintList[adapterListValues!!.indexOf(
                             i
                         )]
                     }\n"

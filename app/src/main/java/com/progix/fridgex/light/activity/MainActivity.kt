@@ -49,6 +49,7 @@ import com.skydoves.transformationlayout.onTransformationStartContainer
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -244,14 +245,16 @@ class MainActivity : AppCompatActivity() {
     private suspend fun suspend() = withContext(Dispatchers.IO) {
         val cursor: Cursor = mDb.rawQuery("SELECT * FROM products", null)
         cursor.moveToFirst()
+        allProducts = ArrayList()
+        allHints = ArrayList()
         while (!cursor.isAfterLast) {
-            allProducts.add(cursor.getString(2))
+            allProducts!!.add(cursor.getString(2))
             val tCurs = mDb.rawQuery(
                 "SELECT * FROM categories WHERE category = ?",
                 listOf(cursor.getString(1)).toTypedArray()
             )
             tCurs.moveToFirst()
-            allHints.add(tCurs.getString(2))
+            allHints!!.add(tCurs.getString(2))
             tCurs.close()
             cursor.moveToNext()
         }
@@ -387,10 +390,11 @@ class MainActivity : AppCompatActivity() {
         val currentId = navController.currentDestination?.id
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
+            navController.popBackStack(currentId!!, false)
         } else if (mainFragmentIds.contains(currentId)) {
             if (doubleBackToExitPressedOnce) {
                 finishAffinity()
-                return
+                exitProcess(0)
             }
             this.doubleBackToExitPressedOnce = true
             Toast.makeText(this, getString(R.string.exitConfirm), Toast.LENGTH_SHORT).show()
@@ -398,8 +402,10 @@ class MainActivity : AppCompatActivity() {
                 { doubleBackToExitPressedOnce = false },
                 2000
             )
+            navController.popBackStack(currentId!!, false)
         } else if (!notNeedToOpenDrawerFragmentIds.contains(currentId)) {
             drawerLayout.openDrawer(GravityCompat.START)
+            navController.popBackStack(currentId!!, false)
         } else {
             super.onBackPressed()
         }
@@ -454,8 +460,8 @@ class MainActivity : AppCompatActivity() {
 
         lateinit var mDb: SQLiteDatabase
 
-        val allProducts: ArrayList<String> = ArrayList()
-        val allHints: ArrayList<String> = ArrayList()
+        var allProducts: ArrayList<String>? = null
+        var allHints: ArrayList<String>? = null
 
         var isMultiSelectOn = false
         var actionMode: ActionMode? = null
@@ -467,12 +473,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         saveBadgeState()
-        allProducts.clear()
-        allHints.clear()
+        allProducts = null
+        allHints = null
         actionMode = null
         isMultiSelectOn = false
         badgeNames = null
         badgeBool = null
+        badgeCnt = 0
         super.onDestroy()
     }
 
@@ -482,17 +489,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        super.onResume()
         updateNavStatus()
         if (badgeCnt != 0) bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number += badgeCnt
-        super.onResume()
     }
 
     override fun onStart() {
+        super.onStart()
         actionMode?.finish()
         actionMode = null
         isMultiSelectOn = false
         updateNavStatus()
-        super.onStart()
     }
 
     private fun updateNavStatus() {

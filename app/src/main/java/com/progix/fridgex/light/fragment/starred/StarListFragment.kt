@@ -81,7 +81,7 @@ class StarListFragment : Fragment(R.layout.fragment_star_list) {
             R.id.clear -> {
                 when (position) {
                     0 -> {
-                        if (recipeList.isNotEmpty()) {
+                        if (recipeList!!.isNotEmpty()) {
                             val multiArray = arrayOf(
                                 getString(R.string.recipes)
                             )
@@ -94,7 +94,7 @@ class StarListFragment : Fragment(R.layout.fragment_star_list) {
                                     if (multiArrayBoolean[0]) {
                                         recRecycler?.visibility = GONE
                                         recAnno?.visibility = VISIBLE
-                                        for (i in recipeList) {
+                                        for (i in recipeList!!) {
                                             val t = i.recipeItem.recipeName
                                             mDb.execSQL(
                                                 "UPDATE recipes SET is_starred = 0 WHERE recipe_name = ?",
@@ -107,14 +107,14 @@ class StarListFragment : Fragment(R.layout.fragment_star_list) {
                                             getString(R.string.clearSuccessStarred)
                                         )
                                             .setAction(getString(R.string.undo)) {
-                                                for (i in recipeList) {
+                                                for (i in recipeList!!) {
                                                     val t = i.recipeItem.recipeName
                                                     mDb.execSQL(
                                                         "UPDATE recipes SET is_starred = 1 WHERE recipe_name = ?",
                                                         listOf(t).toTypedArray()
                                                     )
                                                 }
-                                                if (recipeList.isNotEmpty()) {
+                                                if (recipeList!!.isNotEmpty()) {
                                                     recRecycler?.visibility = VISIBLE
                                                     recAnno?.visibility = GONE
                                                 }
@@ -139,7 +139,7 @@ class StarListFragment : Fragment(R.layout.fragment_star_list) {
                         }
                     }
                     1 -> {
-                        if (productsList.isNotEmpty()) {
+                        if (productsList!!.isNotEmpty()) {
                             val multiArray = arrayOf(
                                 getString(R.string.products)
                             )
@@ -152,7 +152,7 @@ class StarListFragment : Fragment(R.layout.fragment_star_list) {
                                     if (multiArrayBoolean[0]) {
                                         prodRecycler?.visibility = GONE
                                         prodAnno?.visibility = VISIBLE
-                                        for (i in productsList) {
+                                        for (i in productsList!!) {
                                             val t = i.first
                                             mDb.execSQL(
                                                 "UPDATE products SET is_starred = 0 WHERE product = ?",
@@ -165,14 +165,14 @@ class StarListFragment : Fragment(R.layout.fragment_star_list) {
                                             getString(R.string.clearSuccessStarredProd)
                                         )
                                             .setAction(getString(R.string.undo)) {
-                                                for (i in productsList) {
+                                                for (i in productsList!!) {
                                                     val t = i.first
                                                     mDb.execSQL(
                                                         "UPDATE products SET is_starred = 1 WHERE product = ?",
                                                         listOf(t).toTypedArray()
                                                     )
                                                 }
-                                                if (productsList.isNotEmpty()) {
+                                                if (productsList!!.isNotEmpty()) {
                                                     prodRecycler?.visibility = VISIBLE
                                                     prodAnno?.visibility = GONE
                                                 }

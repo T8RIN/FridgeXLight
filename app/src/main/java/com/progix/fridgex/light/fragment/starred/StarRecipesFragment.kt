@@ -42,8 +42,8 @@ class StarRecipesFragment : Fragment(R.layout.fragment_star_recipes), ActionInte
         job = CoroutineScope(Dispatchers.Main).launch {
             startCoroutine()
             loading.visibility = GONE
-            if (recipeList.isNotEmpty()) {
-                adapter = StarRecipesAdapter(requireContext(), recipeList, recipeClicker)
+            if (recipeList!!.isNotEmpty()) {
+                adapter = StarRecipesAdapter(requireContext(), recipeList!!, recipeClicker)
                 adapter!!.init(tHis())
                 recycler.adapter = adapter
             } else {
@@ -133,14 +133,13 @@ class StarRecipesFragment : Fragment(R.layout.fragment_star_recipes), ActionInte
 
             recipeList = pairList
 
-            @Suppress("BlockingMethodInNonBlockingContext")
-            Thread.sleep(200)
+            delay(200)
         }
 
     companion object {
         var recRecycler: RecyclerView? = null
         var recAnno: MaterialCardView? = null
-        var recipeList: ArrayList<RecyclerSortItem> = ArrayList()
+        var recipeList: ArrayList<RecyclerSortItem>? = null
     }
 
     override fun onSelectedItemsCountChanged(count: Int) {

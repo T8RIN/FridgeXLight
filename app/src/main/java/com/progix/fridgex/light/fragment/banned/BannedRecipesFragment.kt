@@ -34,10 +34,10 @@ class BannedRecipesFragment : Fragment(R.layout.fragment_banned_recipes), Action
         job = CoroutineScope(Dispatchers.Main).launch {
             startCoroutine()
             loading.visibility = View.GONE
-            if (recipeList.isNotEmpty()) {
+            if (recipeList!!.isNotEmpty()) {
                 adapter = BannedRecipesAdapter(
                     requireContext(),
-                    recipeList, recipeClicker
+                    recipeList!!, recipeClicker
                 )
                 adapter!!.init(tHis())
                 recycler.adapter = adapter
@@ -126,18 +126,21 @@ class BannedRecipesFragment : Fragment(R.layout.fragment_banned_recipes), Action
 
             recipeList = pairList
 
-            @Suppress("BlockingMethodInNonBlockingContext")
-            Thread.sleep(200)
+            delay(300)
         }
 
     private var job: Job? = null
     var adapter: BannedRecipesAdapter? = null
 
     companion object {
-
         var recRecycler: RecyclerView? = null
         var recAnno: MaterialCardView? = null
-        var recipeList: ArrayList<RecyclerSortItem> = ArrayList()
+        var recipeList: ArrayList<RecyclerSortItem>? = null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        recipeList = null
     }
 
     override fun onSelectedItemsCountChanged(count: Int) {

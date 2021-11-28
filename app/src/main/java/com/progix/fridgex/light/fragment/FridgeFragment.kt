@@ -73,16 +73,16 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
                 if (it.isNotEmpty()) {
                     adapter = FridgeAdapter(requireContext(), it)
                     adapter!!.init(this)
-                    recycler.adapter = adapter
+                    recycler!!.adapter = adapter
                 } else {
-                    annotationCard.startAnimation(
+                    annotationCard!!.startAnimation(
                         AnimationUtils.loadAnimation(
                             requireContext(),
                             R.anim.item_animation_fall_down
                         )
                     )
-                    annotationCard.visibility = VISIBLE
-                    recycler.visibility = INVISIBLE
+                    annotationCard!!.visibility = VISIBLE
+                    recycler!!.visibility = INVISIBLE
                 }
                 loading.visibility = INVISIBLE
             }, {
@@ -108,8 +108,8 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
 
 
     companion object {
-        lateinit var recycler: RecyclerView
-        lateinit var annotationCard: MaterialCardView
+        var recycler: RecyclerView? = null
+        var annotationCard: MaterialCardView? = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -120,7 +120,7 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.clear -> {
-                if (recycler.adapter != null) {
+                if (recycler!!.adapter != null) {
                     MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
                         .setTitle(getString(R.string.clearFridge))
                         .setPositiveButton(
@@ -134,15 +134,15 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
                             behavior.slideUp(bottomNavigationView)
 
                             CoroutineScope(Dispatchers.Main).launch {
-                                annotationCard.startAnimation(
+                                annotationCard!!.startAnimation(
                                     AnimationUtils.loadAnimation(
                                         requireContext(),
                                         R.anim.item_animation_fall_down
                                     )
                                 )
-                                annotationCard.visibility = VISIBLE
-                                recycler.visibility = INVISIBLE
-                                recycler.adapter = null
+                                annotationCard!!.visibility = VISIBLE
+                                recycler!!.visibility = INVISIBLE
+                                recycler!!.adapter = null
                                 undoOrDoActionCoroutine("do")
                             }
 
@@ -155,12 +155,12 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
                                 .setAction(getString(R.string.undo)) {
                                     CoroutineScope(Dispatchers.Main).launch {
                                         loading.visibility = VISIBLE
-                                        annotationCard.visibility = INVISIBLE
+                                        annotationCard!!.visibility = INVISIBLE
                                         undoOrDoActionCoroutine("undo")
-                                        recycler.visibility = VISIBLE
+                                        recycler!!.visibility = VISIBLE
                                         adapter = FridgeAdapter(requireContext(), fridgeList)
                                         adapter!!.init(tHis())
-                                        recycler.adapter = adapter
+                                        recycler!!.adapter = adapter
 
                                         behavior.slideUp(bottomNavigationView)
 

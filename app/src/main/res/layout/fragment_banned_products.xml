@@ -8,7 +8,6 @@
 
     <include layout="@layout/circular_loading" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bannedProductsRecycler"
         android:layout_width="match_parent"
@@ -16,7 +15,6 @@
         android:nestedScrollingEnabled="false"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:spanCount="1" />
-
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/annotationCard"
@@ -54,6 +52,5 @@
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
 
 </FrameLayout>

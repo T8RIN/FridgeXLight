@@ -164,8 +164,8 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
                             }
                         }
                         CustomSnackbar(requireContext()).create(
-                            355,
-                            requireView(),
+                            365,
+                            (context as SecondActivity).findViewById(R.id.main_root),
                             getString(R.string.addedToCart),
                             Snackbar.LENGTH_LONG
                         )

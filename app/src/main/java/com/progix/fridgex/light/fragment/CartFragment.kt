@@ -82,16 +82,16 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
                     if (it.isNotEmpty()) {
                         adapter = CartAdapter(requireContext(), it)
                         adapter!!.init(forThis())
-                        recycler.adapter = adapter
+                        recycler!!.adapter = adapter
                     } else {
-                        annotationCard.startAnimation(
+                        annotationCard!!.startAnimation(
                             loadAnimation(
                                 requireContext(),
                                 R.anim.item_animation_fall_down
                             )
                         )
-                        annotationCard.visibility = View.VISIBLE
-                        recycler.visibility = View.INVISIBLE
+                        annotationCard!!.visibility = View.VISIBLE
+                        recycler!!.visibility = View.INVISIBLE
                     }
                     loading.visibility = View.GONE
                 }
@@ -108,16 +108,16 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
                 if (it.isNotEmpty()) {
                     adapter = CartAdapter(requireContext(), it)
                     adapter!!.init(forThis())
-                    recycler.adapter = adapter
+                    recycler!!.adapter = adapter
                 } else {
-                    annotationCard.startAnimation(
+                    annotationCard!!.startAnimation(
                         loadAnimation(
                             requireContext(),
                             R.anim.item_animation_fall_down
                         )
                     )
-                    annotationCard.visibility = View.VISIBLE
-                    recycler.visibility = View.INVISIBLE
+                    annotationCard!!.visibility = View.VISIBLE
+                    recycler!!.visibility = View.GONE
                 }
                 loading.visibility = View.GONE
             }
@@ -141,8 +141,14 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
     }
 
     companion object {
-        lateinit var recycler: RecyclerView
-        lateinit var annotationCard: MaterialCardView
+        var recycler: RecyclerView? = null
+        var annotationCard: MaterialCardView? = null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        recycler = null
+        annotationCard = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -153,7 +159,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.clear -> {
-                if (recycler.adapter != null) {
+                if (recycler!!.adapter != null) {
                     MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
                         .setTitle(getString(R.string.clearCart))
                         .setPositiveButton(
@@ -166,15 +172,15 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
                             val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
                             behavior.slideUp(bottomNavigationView)
                             CoroutineScope(Dispatchers.Main).launch {
-                                annotationCard.startAnimation(
+                                annotationCard!!.startAnimation(
                                     loadAnimation(
                                         requireContext(),
                                         R.anim.item_animation_fall_down
                                     )
                                 )
-                                annotationCard.visibility = View.VISIBLE
-                                recycler.visibility = View.INVISIBLE
-                                recycler.adapter = null
+                                annotationCard!!.visibility = View.VISIBLE
+                                recycler!!.visibility = View.GONE
+                                recycler!!.adapter = null
                                 undoOrDoActionCoroutine("do")
                             }
 
@@ -187,12 +193,12 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
                                 .setAction(getString(R.string.undo)) {
                                     CoroutineScope(Dispatchers.Main).launch {
                                         loading.visibility = View.VISIBLE
-                                        annotationCard.visibility = View.GONE
+                                        annotationCard!!.visibility = View.GONE
                                         undoOrDoActionCoroutine("undo")
-                                        recycler.visibility = View.VISIBLE
+                                        recycler!!.visibility = View.VISIBLE
                                         adapter = CartAdapter(requireContext(), cartList)
                                         adapter!!.init(forThis())
-                                        recycler.adapter = adapter
+                                        recycler!!.adapter = adapter
                                         behavior.slideUp(bottomNavigationView)
                                         loading.visibility = View.GONE
                                     }

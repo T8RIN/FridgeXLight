@@ -107,8 +107,7 @@ class EditListFragment : Fragment(R.layout.fragment_edit_list), EditListChangesI
 
             recipeList = pairList
 
-            @Suppress("BlockingMethodInNonBlockingContext")
-            Thread.sleep(400)
+            delay(400)
         }
 
     private val recipeClicker = EditListAdapter.OnClickListener { image, id ->

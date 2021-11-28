@@ -214,8 +214,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             if (checked) {
                 pairList.reverse()
             }
-            @Suppress("BlockingMethodInNonBlockingContext")
-            Thread.sleep(200)
+            delay(300)
         }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

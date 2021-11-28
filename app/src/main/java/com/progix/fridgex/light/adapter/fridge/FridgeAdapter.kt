@@ -31,7 +31,7 @@ import com.progix.fridgex.light.fragment.FridgeFragment
 import com.progix.fridgex.light.helper.interfaces.ActionInterface
 
 
-class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String, String>>) :
+class FridgeAdapter(var context: Context, private var fridgeList: ArrayList<Pair<String, String>>) :
     RecyclerView.Adapter<FridgeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -148,8 +148,8 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                     )
                     fridgeList.remove(tempValue)
                     if (fridgeList.isEmpty()) {
-                        FridgeFragment.recycler.visibility = GONE
-                        FridgeFragment.annotationCard.visibility = VISIBLE
+                        FridgeFragment.recycler!!.visibility = GONE
+                        FridgeFragment.annotationCard!!.visibility = VISIBLE
                     } else notifyItemRemoved(position)
                     CustomSnackbar(context)
                         .create(
@@ -162,8 +162,8 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                                 "UPDATE products SET is_in_fridge = 1 WHERE product = ?",
                                 listOf(tempValue.first).toTypedArray()
                             )
-                            FridgeFragment.recycler.visibility = VISIBLE
-                            FridgeFragment.annotationCard.visibility = GONE
+                            FridgeFragment.recycler!!.visibility = VISIBLE
+                            FridgeFragment.annotationCard!!.visibility = GONE
                             if (fridgeList.isNotEmpty()) notifyItemInserted(position)
                             fridgeList.add(position, tempValue)
                         }
@@ -397,8 +397,8 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                     indexes.add(tempPos)
                     fridgeList.remove(delList[i])
                     if (fridgeList.isEmpty()) {
-                        FridgeFragment.recycler.visibility = GONE
-                        FridgeFragment.annotationCard.visibility = VISIBLE
+                        FridgeFragment.recycler!!.visibility = GONE
+                        FridgeFragment.annotationCard!!.visibility = VISIBLE
                     } else notifyItemRemoved(tempPos)
                 }
                 Handler(getMainLooper()).postDelayed({
@@ -412,8 +412,8 @@ class FridgeAdapter(var context: Context, var fridgeList: ArrayList<Pair<String,
                     )
                     .setAction(context.getString(R.string.undo)) {
                         behavior.slideUp(bottomNav)
-                        FridgeFragment.recycler.visibility = VISIBLE
-                        FridgeFragment.annotationCard.visibility = GONE
+                        FridgeFragment.recycler!!.visibility = VISIBLE
+                        FridgeFragment.annotationCard!!.visibility = GONE
                         for (i in 0 until tempList!!.size) {
                             val temp = tempList!![i]
                             mDb.execSQL(

@@ -2,9 +2,6 @@ package com.progix.fridgex.light
 
 import android.app.Application
 import android.content.Context
-import android.app.Activity
-
-
 
 
 class FridgeXLightApplication : Application() {

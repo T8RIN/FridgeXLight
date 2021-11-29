@@ -26,6 +26,7 @@
     <string name="auto">System default</string>
     <string name="ok" translatable="false">OK</string>
     <string name="version">version 1.0 (1)</string>
+    <string name="codeLines" translatable="false">10k pure code lines</string>
 
     <string name="updatedRecently">The app has been updated</string>
     <string name="update">Update</string>

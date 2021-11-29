@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
@@ -35,6 +37,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 )
             )
         val recyclerView: RecyclerView = v.findViewById(R.id.settingsRecycler)
+
+        val imageView: ImageView = v.findViewById(R.id.imageView2)
+        imageView.setOnLongClickListener{
+            Toast.makeText(requireContext(), getString(R.string.codeLines), Toast.LENGTH_SHORT).show()
+            true
+        }
 
         recyclerView.adapter = SettingsAdapter(requireContext(), settingsList)
     }

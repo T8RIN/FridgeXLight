@@ -30,7 +30,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
-import com.progix.fridgex.light.adapter.viewpager.BannedViewPagerAdapter
 import com.progix.fridgex.light.custom.CustomTapTarget
 import com.progix.fridgex.light.data.DataArrays.languages
 import com.progix.fridgex.light.data.DataArrays.mainFragmentIds
@@ -43,6 +42,7 @@ import com.progix.fridgex.light.data.SharedPreferencesAccess.loadString
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveFirstStart
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveString
+import com.progix.fridgex.light.fragment.banned.BannedProductsFragment
 import com.progix.fridgex.light.fragment.dialog.DialogLoadingFragment
 import com.progix.fridgex.light.helper.DatabaseHelper
 import com.skydoves.transformationlayout.onTransformationStartContainer
@@ -410,7 +410,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
-        BannedViewPagerAdapter.productsFragment?.recreateList()
+        productsFragment?.recreateList()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -471,6 +471,8 @@ class MainActivity : AppCompatActivity() {
         var badgeCnt = 0
         var badgeNames: Array<String?>? = null
         var badgeBool: BooleanArray? = null
+
+        var productsFragment: BannedProductsFragment? = null
     }
 
     override fun onDestroy() {
@@ -482,6 +484,7 @@ class MainActivity : AppCompatActivity() {
         badgeNames = null
         badgeBool = null
         badgeCnt = 0
+        productsFragment = null
         super.onDestroy()
     }
 

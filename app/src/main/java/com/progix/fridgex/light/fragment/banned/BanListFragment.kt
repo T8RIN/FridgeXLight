@@ -16,7 +16,6 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
 import com.progix.fridgex.light.adapter.viewpager.BannedViewPagerAdapter
-import com.progix.fridgex.light.adapter.viewpager.BannedViewPagerAdapter.Companion.productsFragment
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.fragment.banned.BannedProductsFragment.Companion.prodAnno
 import com.progix.fridgex.light.fragment.banned.BannedProductsFragment.Companion.prodRecycler
@@ -209,7 +208,6 @@ class BanListFragment : Fragment(R.layout.fragment_ban_list) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        productsFragment = null
         prodAnno = null
         prodRecycler = null
         productsList = null

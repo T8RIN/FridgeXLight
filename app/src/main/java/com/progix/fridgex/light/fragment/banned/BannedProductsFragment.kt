@@ -30,10 +30,6 @@ class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), Acti
         recreateList()
     }
 
-    private fun tHis(): BannedProductsFragment {
-        return this
-    }
-
     private suspend fun startCoroutine() =
         withContext(Dispatchers.IO) {
             val pairList: ArrayList<Pair<String, String>> = ArrayList()
@@ -80,11 +76,13 @@ class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), Acti
         job = CoroutineScope(Dispatchers.Main).launch {
             startCoroutine()
             loading?.visibility = View.GONE
+            prodAnno = requireView().findViewById(R.id.annotationCard)
+            prodRecycler = requireView().findViewById(R.id.bannedProductsRecycler)
             if (productsList!!.isNotEmpty()) {
                 prodAnno?.visibility = View.GONE
                 prodRecycler?.visibility = View.VISIBLE
                 adapter = BannedProductsAdapter(requireContext(), productsList!!)
-                adapter!!.init(tHis())
+                adapter!!.init(this@BannedProductsFragment)
                 prodRecycler?.adapter = adapter
             } else {
                 prodAnno?.startAnimation(

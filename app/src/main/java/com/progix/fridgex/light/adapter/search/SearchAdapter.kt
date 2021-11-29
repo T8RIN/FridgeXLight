@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.progix.fridgex.light.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
@@ -31,6 +32,8 @@ class SearchAdapter(
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        if (context is FridgeXLightApplication) context =
+            (context as FridgeXLightApplication).getCurrentContext()!!
         return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_recipe, parent, false)
         )
@@ -90,6 +93,10 @@ class SearchAdapter(
                     )
                     recipeList.removeAt(position)
                     notifyItemRemoved(position)
+                    if (recipeList.isEmpty()) {
+                        (context as MainActivity).findNavController(R.id.nav_host_fragment)
+                            .navigate(R.id.nav_search)
+                    }
                     true
                 }
                 R.id.de_star_recipe -> {

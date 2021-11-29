@@ -28,6 +28,7 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
+import com.progix.fridgex.light.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
 import com.progix.fridgex.light.custom.CustomTapTarget
@@ -72,6 +73,8 @@ class MainActivity : AppCompatActivity() {
         onTransformationStartContainer()
 
         super.onCreate(savedInstanceState)
+
+        (applicationContext as FridgeXLightApplication).setCurrentContext(this)
 
         initDataBase()
 
@@ -490,17 +493,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         saveBadgeState()
+        (applicationContext as FridgeXLightApplication).setCurrentContext(this)
         super.onPause()
     }
 
     override fun onResume() {
         super.onResume()
+        (applicationContext as FridgeXLightApplication).setCurrentContext(this)
         updateNavStatus()
         if (badgeCnt != 0) bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number += badgeCnt
     }
 
     override fun onStart() {
         super.onStart()
+        (applicationContext as FridgeXLightApplication).setCurrentContext(this)
         actionMode?.finish()
         actionMode = null
         isMultiSelectOn = false

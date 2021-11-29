@@ -19,6 +19,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.transition.MaterialFadeThrough
+import com.progix.fridgex.light.FridgeXLightApplication.Companion.appContext
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
@@ -52,28 +53,28 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
 
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         super.onViewCreated(v, savedInstanceState)
-        recycler = v.findViewById(R.id.fridgeRecycler)
-        annotationCard = v.findViewById(R.id.annotationCard)
+        val privateRecycler: RecyclerView = v.findViewById(R.id.fridgeRecycler)
+        recycler = privateRecycler
+        val privateAnno: MaterialCardView = v.findViewById(R.id.annotationCard)
+        annotationCard = privateAnno
         loading = v.findViewById(R.id.loading)
 
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
             getList()
-            recycler = requireView().findViewById(R.id.fridgeRecycler)
-            annotationCard = requireView().findViewById(R.id.annotationCard)
             if (fridgeList.isNotEmpty()) {
-                adapter = FridgeAdapter(requireContext(), fridgeList)
+                adapter = FridgeAdapter(appContext, fridgeList)
                 adapter!!.init(this@FridgeFragment)
-                recycler!!.adapter = adapter
+                privateRecycler.adapter = adapter
             } else {
-                annotationCard!!.startAnimation(
+                privateAnno.startAnimation(
                     AnimationUtils.loadAnimation(
-                        requireContext(),
+                        appContext,
                         R.anim.item_animation_fall_down
                     )
                 )
-                annotationCard!!.visibility = VISIBLE
-                recycler!!.visibility = GONE
+                privateAnno.visibility = VISIBLE
+                privateRecycler.visibility = GONE
             }
             loading.visibility = GONE
         }
@@ -107,7 +108,7 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.clear -> {
-                if (recycler!!.adapter != null) {
+                if (recycler?.adapter != null) {
                     MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
                         .setTitle(getString(R.string.clearFridge))
                         .setPositiveButton(

@@ -21,6 +21,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.transition.MaterialFadeThrough
+import com.progix.fridgex.light.FridgeXLightApplication.Companion.appContext
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
@@ -51,14 +52,16 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
 
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         super.onViewCreated(v, savedInstanceState)
-        recycler = v.findViewById(R.id.cartRecycler)
-        annotationCard = v.findViewById(R.id.annotationCard)
+        val privateRecycler: RecyclerView = v.findViewById(R.id.cartRecycler)
+        recycler = privateRecycler
+        val privateAnno: MaterialCardView = v.findViewById(R.id.annotationCard)
+        annotationCard = privateAnno
         loading = v.findViewById(R.id.loading)
         val swipeRefresh: SwipeRefreshLayout = v.findViewById(R.id.swipeRefresh)
 
         swipeRefresh.setProgressBackgroundColorSchemeColor(
             ContextCompat.getColor(
-                requireContext(),
+                appContext,
                 R.color.manualBackground
             )
         )
@@ -68,21 +71,19 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
             job?.cancel()
             job = CoroutineScope(Dispatchers.Main).launch {
                 getList()
-                recycler = requireView().findViewById(R.id.cartRecycler)
-                annotationCard = requireView().findViewById(R.id.annotationCard)
                 if (cartList.isNotEmpty()) {
                     adapter = CartAdapter(requireContext(), cartList)
                     adapter!!.init(this@CartFragment)
-                    recycler!!.adapter = adapter
+                    privateRecycler.adapter = adapter
                 } else {
-                    annotationCard!!.startAnimation(
+                    privateAnno.startAnimation(
                         loadAnimation(
                             requireContext(),
                             R.anim.item_animation_fall_down
                         )
                     )
-                    annotationCard!!.visibility = View.VISIBLE
-                    recycler!!.visibility = View.GONE
+                    privateAnno.visibility = View.VISIBLE
+                    privateRecycler.visibility = View.GONE
                 }
                 loading.visibility = View.GONE
             }
@@ -92,21 +93,19 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
             getList()
-            recycler = requireView().findViewById(R.id.cartRecycler)
-            annotationCard = requireView().findViewById(R.id.annotationCard)
             if (cartList.isNotEmpty()) {
-                adapter = CartAdapter(requireContext(), cartList)
+                adapter = CartAdapter(appContext, cartList)
                 adapter!!.init(this@CartFragment)
-                recycler!!.adapter = adapter
+                privateRecycler.adapter = adapter
             } else {
-                annotationCard!!.startAnimation(
+                privateAnno.startAnimation(
                     loadAnimation(
-                        requireContext(),
+                        appContext,
                         R.anim.item_animation_fall_down
                     )
                 )
-                annotationCard!!.visibility = View.VISIBLE
-                recycler!!.visibility = View.GONE
+                privateAnno.visibility = View.VISIBLE
+                privateRecycler.visibility = View.GONE
             }
             loading.visibility = View.GONE
         }
@@ -147,7 +146,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.clear -> {
-                if (recycler!!.adapter != null) {
+                if (recycler?.adapter != null) {
                     MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
                         .setTitle(getString(R.string.clearCart))
                         .setPositiveButton(

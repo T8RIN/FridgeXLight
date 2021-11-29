@@ -24,7 +24,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.FridgeXLightApplication
+import com.progix.fridgex.light.FridgeXLightApplication.Companion.appContext
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.integer
 import com.progix.fridgex.light.activity.MainActivity
@@ -80,14 +80,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             NavItem(getString(R.string.byCbh), R.drawable.ic_carbohydrates_24),
         )
 
-        navRecycler.adapter = SearchFilterNavigationAdapter(requireContext(), list, navClicker)
+        navRecycler.adapter = SearchFilterNavigationAdapter(appContext, list, navClicker)
 
         val checkBox: CheckBox = v.findViewById(R.id.checkbox)
         checkBox.setOnClickListener {
             checked = checkBox.isChecked
             recipeList!!.reverse()
             searchRecycler.adapter =
-                SearchAdapter(requireContext(), recipeList!!, recipeClicker)
+                SearchAdapter(appContext, recipeList!!, recipeClicker)
         }
 
         initSort(annotationCard, searchRecycler, loading)
@@ -107,14 +107,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             if (recipeList!!.isNotEmpty()) {
                 searchRecycler.adapter =
                     SearchAdapter(
-                        FridgeXLightApplication.appContext,
+                        appContext,
                         recipeList!!,
                         recipeClicker
                     )
             } else {
                 annotationCard.startAnimation(
                     loadAnimation(
-                        requireContext(),
+                        appContext,
                         R.anim.item_animation_fall_down
                     )
                 )
@@ -260,7 +260,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun slideDown() {
         val bNav =
-            (requireContext() as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            (requireActivity() as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
         val layoutParams = bNav.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
         behavior.slideDown(bNav)
@@ -268,7 +268,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun slideUp() {
         val bNav =
-            (requireContext() as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            (requireActivity() as MainActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation)
         val layoutParams = bNav.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
         behavior.slideUp(bNav)
@@ -292,14 +292,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             if (recipeList!!.isNotEmpty()) {
                 searchRecycler.adapter =
                     SearchAdapter(
-                        requireContext(),
+                        appContext,
                         recipeList!!,
                         recipeClicker
                     )
             } else {
                 annotationCard.startAnimation(
                     loadAnimation(
-                        requireContext(),
+                        appContext,
                         R.anim.item_animation_fall_down
                     )
                 )
@@ -313,6 +313,5 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         }
     }
-
 
 }

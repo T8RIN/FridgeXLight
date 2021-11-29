@@ -22,6 +22,7 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
+import com.progix.fridgex.light.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.isMultiSelectOn
@@ -36,6 +37,8 @@ import com.progix.fridgex.light.helper.interfaces.ActionInterface
 class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, String>>) :
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        if (context is FridgeXLightApplication) context =
+            (context as FridgeXLightApplication).getCurrentContext()!!
         return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false)
         )

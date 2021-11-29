@@ -36,9 +36,9 @@ import com.progix.fridgex.light.data.DataArrays.languages
 import com.progix.fridgex.light.data.DataArrays.mainFragmentIds
 import com.progix.fridgex.light.data.DataArrays.notNeedToOpenDrawerFragmentIds
 import com.progix.fridgex.light.data.Extensions.dipToPixels
+import com.progix.fridgex.light.data.SharedPreferencesAccess
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFirstStart
-import com.progix.fridgex.light.data.SharedPreferencesAccess.loadNightMode
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadString
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveFirstStart
@@ -63,28 +63,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        when (loadNightMode(this)) {
-            0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        }
         setTheme(R.style.FridgeXLight)
-
         onTransformationStartContainer()
 
         super.onCreate(savedInstanceState)
+
+        overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
 
         (applicationContext as FridgeXLightApplication).setCurrentContext(this)
 
         initDataBase()
 
-        overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
         setContentView(R.layout.activity_main)
 
         navigationView = findViewById(R.id.nav_view)
         drawerLayout = findViewById(R.id.drawer_layout)
         toolbar = findViewById(R.id.toolbar)
         bottomNavigationView = findViewById(R.id.bottom_navigation)
+
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(ic_baseline_menu_24)
@@ -101,8 +97,12 @@ class MainActivity : AppCompatActivity() {
         }
         if (restart) {
             navigateTo(R.id.nav_settings, null)
-            bottomNavigationView.visibility = GONE
             restart = false
+            when (SharedPreferencesAccess.loadNightMode(this)) {
+                0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            }
         } else {
             if (resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
                 bottomNavigationView.visibility = VISIBLE
@@ -252,15 +252,18 @@ class MainActivity : AppCompatActivity() {
         allProducts = ArrayList()
         allHints = ArrayList()
         while (!cursor.isAfterLast) {
-            allProducts!!.add(cursor.getString(2))
+            allProducts?.add(cursor.getString(2))
             val tCurs = mDb.rawQuery(
                 "SELECT * FROM categories WHERE category = ?",
                 listOf(cursor.getString(1)).toTypedArray()
             )
             tCurs.moveToFirst()
-            allHints!!.add(tCurs.getString(2))
+            allHints?.add(tCurs.getString(2))
             tCurs.close()
             cursor.moveToNext()
+        }
+        if (allProducts?.size != cursor.count || allHints == null) {
+            listAssign()
         }
         cursor.close()
     }

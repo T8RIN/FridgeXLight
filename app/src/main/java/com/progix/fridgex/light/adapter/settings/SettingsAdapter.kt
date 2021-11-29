@@ -138,15 +138,9 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
     }
 
     private fun restartActivity() {
-        val ctx = context.applicationContext
-        (context as MainActivity).finishAffinity()
-        context.startActivity(
-            Intent(
-                ctx,
-                MainActivity::class.java
-            )
-        )
         restart = true
+        (context as MainActivity).finishAffinity()
+        context.startActivity(Intent(context, MainActivity::class.java))
     }
 
     override fun getItemCount(): Int {

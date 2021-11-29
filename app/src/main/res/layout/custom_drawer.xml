@@ -13,7 +13,7 @@
 
         <include
             android:id="@+id/include"
-            layout="@layout/modal_bottom_sheet_content" />
+            layout="@layout/search_header_layout" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/navRecycler"

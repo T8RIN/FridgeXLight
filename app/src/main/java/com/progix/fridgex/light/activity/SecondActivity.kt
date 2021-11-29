@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -94,12 +95,16 @@ class SecondActivity : AppCompatActivity() {
 
         val appBarLayout: AppBarLayout = findViewById(R.id.appbar)
         val fab: FloatingActionButton = findViewById(R.id.fab)
-        appBarLayout.addOnOffsetChangedListener(OnOffsetChangedListener { v, verticalOffset ->
-            when (abs(verticalOffset) - v.totalScrollRange) {
-                0 -> fab.hide()
-                else -> fab.show()
-            }
-        })
+        Handler(mainLooper).postDelayed({
+            appBarLayout.addOnOffsetChangedListener(OnOffsetChangedListener { v, verticalOffset ->
+                if (needToControlFab) {
+                    when (abs(verticalOffset) - v.totalScrollRange) {
+                        0 -> fab.hide()
+                        else -> fab.show()
+                    }
+                }
+            })
+        }, 500)
     }
 
     override fun onBackPressed() {
@@ -294,6 +299,8 @@ class SecondActivity : AppCompatActivity() {
 
         @SuppressLint("StaticFieldLeak")
         var adapter: InfoAdapter? = null
+
+        var needToControlFab = false
     }
 
     override fun onDestroy() {
@@ -301,6 +308,7 @@ class SecondActivity : AppCompatActivity() {
         list = null
         prodList = null
         missList = null
+        needToControlFab = false
         id = 1
         super.onDestroy()
     }

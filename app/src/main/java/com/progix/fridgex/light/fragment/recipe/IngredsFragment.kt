@@ -17,6 +17,7 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.badgeCnt
 import com.progix.fridgex.light.activity.MainActivity.Companion.badgeNames
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
+import com.progix.fridgex.light.activity.SecondActivity.Companion.needToControlFab
 import com.progix.fridgex.light.adapter.recipe.IngredientsAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import java.text.DecimalFormat
@@ -125,6 +126,7 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
 
         badgeCnt = 0
         if (delList.isNotEmpty()) {
+            needToControlFab = true
             var tempCnt = 0
             for (i in tempMissList) {
                 if (i) tempCnt++

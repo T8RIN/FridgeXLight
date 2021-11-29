@@ -8,14 +8,15 @@
     tools:showIn="@layout/fragment_search">
 
     <TextView
+        android:background="@drawable/ic_wavey_fingerprint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
         android:gravity="center"
         android:paddingTop="30dp"
         android:paddingBottom="30dp"
         android:text="@string/chooseSort"
-        android:textColor="@color/manualText2" />
+        android:textColor="@color/manualText" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

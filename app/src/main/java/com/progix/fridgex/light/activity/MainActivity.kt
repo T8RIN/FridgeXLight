@@ -238,18 +238,22 @@ class MainActivity : AppCompatActivity() {
         saveString(this, "R.id.nav_cart", cartBadge)
     }
 
+    private var job2: Job? = null
+
     private fun listAssign() {
-        CoroutineScope(Dispatchers.Main).launch {
+        job2?.cancel()
+        job2 = CoroutineScope(Dispatchers.Main).launch {
             suspend()
         }
     }
 
     private suspend fun suspend() = withContext(Dispatchers.IO) {
-        delay(1000)
+        delay(500)
         val cursor: Cursor = mDb.rawQuery("SELECT * FROM products", null)
         cursor.moveToFirst()
         allProducts = ArrayList()
         allHints = ArrayList()
+        delay(500)
         while (!cursor.isAfterLast) {
             allProducts?.add(cursor.getString(2))
             val tCurs = mDb.rawQuery(
@@ -260,9 +264,6 @@ class MainActivity : AppCompatActivity() {
             allHints?.add(tCurs.getString(2))
             tCurs.close()
             cursor.moveToNext()
-        }
-        if (allProducts?.size != cursor.count || allHints == null) {
-            listAssign()
         }
         cursor.close()
     }

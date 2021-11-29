@@ -59,7 +59,6 @@ class TipListAdapter(
 
     }
 
-
     private var lastPosition = -1
     private fun setAnimation(viewToAnimate: View, position: Int) {
         val animation: Animation =

@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.FridgeXLightApplication
@@ -66,17 +67,26 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
         swipeRefresh.setColorSchemeResources(R.color.checked, R.color.red, R.color.yellow)
         swipeRefresh.setOnRefreshListener {
-
-            job = CoroutineScope(Dispatchers.Main).launch {
-
-                saveDate(requireActivity(), 0)
-                val recipeList: ArrayList<RecipeItem> = startCoroutine()
-                dailyRecycler.adapter = DailyAdapter(requireActivity(), recipeList, recipeClicker)
-                swipeRefresh.isRefreshing = false
-
-            }
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.updateDailyRecipes))
+                .setMessage(getString(R.string.thisWillUpdateDailyRecipes))
+                .setNegativeButton(getString(R.string.cancel)) { _, _ ->
+                    swipeRefresh.isRefreshing = false
+                }
+                .setPositiveButton(getString(R.string.update)) { _, _ ->
+                    job = CoroutineScope(Dispatchers.Main).launch {
+                        saveDate(requireActivity(), 0)
+                        val recipeList: ArrayList<RecipeItem> = startCoroutine()
+                        dailyRecycler.adapter =
+                            DailyAdapter(requireActivity(), recipeList, recipeClicker)
+                        swipeRefresh.isRefreshing = false
+                    }
+                }
+                .setOnDismissListener {
+                    swipeRefresh.isRefreshing = false
+                }
+                .show()
         }
-
     }
 
     private suspend fun startCoroutine(): ArrayList<RecipeItem> = withContext(Dispatchers.IO) {

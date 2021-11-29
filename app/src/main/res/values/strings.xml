@@ -172,5 +172,7 @@
     <string name="_25" translatable="false">25</string>
     <string name="waitItIsNecessary">Wait…\n it is necessary</string>
     <string name="recipeIsAlmostReadyMessageEditingFab">Do you want to save it, or want to make some changes?</string>
+    <string name="updateDailyRecipes">Update daily?</string>
+    <string name="thisWillUpdateDailyRecipes">Do you want to update daily recipes? You will instantly see new six fresh recipes without waiting for the next day</string>
 
 </resources>

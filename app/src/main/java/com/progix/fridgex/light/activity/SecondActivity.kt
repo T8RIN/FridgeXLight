@@ -20,6 +20,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -34,6 +37,7 @@ import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.list
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.missList
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.portions
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.prodList
+import kotlin.math.abs
 
 
 class SecondActivity : AppCompatActivity() {
@@ -87,6 +91,15 @@ class SecondActivity : AppCompatActivity() {
         }.attach()
 
         cursor.close()
+
+        val appBarLayout: AppBarLayout = findViewById(R.id.appbar)
+        val fab: FloatingActionButton = findViewById(R.id.fab)
+        appBarLayout.addOnOffsetChangedListener(OnOffsetChangedListener { v, verticalOffset ->
+            when (abs(verticalOffset) - v.totalScrollRange) {
+                0 -> fab.hide()
+                else -> fab.show()
+            }
+        })
     }
 
     override fun onBackPressed() {

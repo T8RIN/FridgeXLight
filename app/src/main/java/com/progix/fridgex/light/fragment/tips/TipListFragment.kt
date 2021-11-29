@@ -37,14 +37,7 @@ class TipListFragment : Fragment(R.layout.fragment_tip_list) {
         }
         cursor.close()
         val adapter = TipListAdapter(requireContext(), tipList, findNavController())
-        recyclerView.apply {
-            this.adapter = adapter
-            postponeEnterTransition()
-            viewTreeObserver.addOnPreDrawListener {
-                startPostponedEnterTransition()
-                true
-            }
-        }
+        recyclerView.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -120,7 +120,6 @@
             android:layout_margin="6dp"
             android:contentDescription="@string/none"
             android:src="@drawable/ic_baseline_shopping_cart_24"
-            app:elevation="0dp"
             app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tabs" />

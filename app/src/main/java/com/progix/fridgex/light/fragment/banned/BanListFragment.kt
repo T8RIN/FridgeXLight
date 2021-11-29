@@ -16,6 +16,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
 import com.progix.fridgex.light.adapter.viewpager.BannedViewPagerAdapter
+import com.progix.fridgex.light.adapter.viewpager.BannedViewPagerAdapter.Companion.productsFragment
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.fragment.banned.BannedProductsFragment.Companion.prodAnno
 import com.progix.fridgex.light.fragment.banned.BannedProductsFragment.Companion.prodRecycler
@@ -24,9 +25,7 @@ import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment.Companion.
 import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment.Companion.recRecycler
 import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment.Companion.recipeList
 
-class BannedFragment : Fragment(R.layout.fragment_ban_list) {
-
-    var adapter: BannedViewPagerAdapter? = null
+class BanListFragment : Fragment(R.layout.fragment_ban_list) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +47,7 @@ class BannedFragment : Fragment(R.layout.fragment_ban_list) {
 
     private fun setUpViewPager(v: View) {
         val viewPager: ViewPager2 = v.findViewById(R.id.ban_view_pager)
-        adapter = BannedViewPagerAdapter(requireActivity())
-        viewPager.adapter = adapter
+        viewPager.adapter = BannedViewPagerAdapter(requireActivity())
         val titles = arrayOf(
             getString(R.string.recipes),
             getString(R.string.products)
@@ -209,9 +207,15 @@ class BannedFragment : Fragment(R.layout.fragment_ban_list) {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        BannedViewPagerAdapter.productsFragment = null
+    override fun onDestroyView() {
+        super.onDestroyView()
+        productsFragment = null
+        prodAnno = null
+        prodRecycler = null
+        productsList = null
+        recAnno = null
+        recRecycler = null
+        recipeList = null
     }
 
 }

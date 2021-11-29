@@ -11,7 +11,7 @@ import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
-import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -27,8 +27,7 @@ import com.progix.fridgex.light.model.RecyclerSortItem
 class SearchAdapter(
     var context: Context,
     var recipeList: ArrayList<RecyclerSortItem>,
-    var onClickListener: OnClickListener,
-    private var navController: NavController
+    var onClickListener: OnClickListener
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -134,7 +133,8 @@ class SearchAdapter(
         } else {
             snackBar.setAction(context.getString(R.string.undo)) {
                 mDb.execSQL("UPDATE recipes SET $modifier = $value WHERE id = $id")
-                navController.navigate(R.id.nav_search)
+                (context as MainActivity).findNavController(R.id.nav_host_fragment)
+                    .navigate(R.id.nav_search)
             }
         }
         snackBar.show()

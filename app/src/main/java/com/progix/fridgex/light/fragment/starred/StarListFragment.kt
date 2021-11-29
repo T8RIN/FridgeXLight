@@ -202,4 +202,15 @@ class StarListFragment : Fragment(R.layout.fragment_star_list) {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        prodRecycler = null
+        productsList = null
+        prodAnno = null
+        recAnno = null
+        recRecycler = null
+        recipeList = null
+    }
+
 }

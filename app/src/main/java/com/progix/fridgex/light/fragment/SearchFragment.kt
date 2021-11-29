@@ -17,7 +17,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -25,6 +24,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
+import com.progix.fridgex.light.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.integer
 import com.progix.fridgex.light.activity.MainActivity
@@ -87,7 +87,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             checked = checkBox.isChecked
             recipeList!!.reverse()
             searchRecycler.adapter =
-                SearchAdapter(requireContext(), recipeList!!, recipeClicker, findNavController())
+                SearchAdapter(requireContext(), recipeList!!, recipeClicker)
         }
 
         initSort(annotationCard, searchRecycler, loading)
@@ -107,10 +107,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             if (recipeList!!.isNotEmpty()) {
                 searchRecycler.adapter =
                     SearchAdapter(
-                        requireContext(),
+                        FridgeXLightApplication.appContext,
                         recipeList!!,
-                        recipeClicker,
-                        findNavController()
+                        recipeClicker
                     )
             } else {
                 annotationCard.startAnimation(
@@ -295,8 +294,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     SearchAdapter(
                         requireContext(),
                         recipeList!!,
-                        recipeClicker,
-                        findNavController()
+                        recipeClicker
                     )
             } else {
                 annotationCard.startAnimation(

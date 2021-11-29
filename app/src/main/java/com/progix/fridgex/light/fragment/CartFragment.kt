@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
@@ -21,6 +22,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.transition.MaterialFadeThrough
+import com.progix.fridgex.light.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
@@ -81,7 +83,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
                 .subscribe {
                     if (it.isNotEmpty()) {
                         adapter = CartAdapter(requireContext(), it)
-                        adapter!!.init(forThis())
+                        adapter!!.init(this@CartFragment)
                         recycler!!.adapter = adapter
                     } else {
                         annotationCard!!.startAnimation(
@@ -106,9 +108,12 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 if (it.isNotEmpty()) {
-                    adapter = CartAdapter(requireContext(), it)
-                    adapter!!.init(forThis())
-                    recycler!!.adapter = adapter
+                    adapter = CartAdapter(FridgeXLightApplication.appContext, it)
+                    adapter!!.init(this@CartFragment)
+                    if (recycler == null && isAdded) {
+                        findNavController().navigate(R.id.nav_cart)
+                    }
+                    recycler?.adapter = adapter
                 } else {
                     annotationCard!!.startAnimation(
                         loadAnimation(
@@ -197,7 +202,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
                                         undoOrDoActionCoroutine("undo")
                                         recycler!!.visibility = View.VISIBLE
                                         adapter = CartAdapter(requireContext(), cartList)
-                                        adapter!!.init(forThis())
+                                        adapter!!.init(this@CartFragment)
                                         recycler!!.adapter = adapter
                                         behavior.slideUp(bottomNavigationView)
                                         loading.visibility = View.GONE
@@ -281,10 +286,6 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
             (requireContext() as MainActivity).startSupportActionMode(callback)
         if (count > 0) actionMode?.title = "$count"
         else actionMode?.finish()
-    }
-
-    private fun forThis(): CartFragment {
-        return this
     }
 
     private var adapter: CartAdapter? = null

@@ -243,6 +243,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun suspend() = withContext(Dispatchers.IO) {
+        delay(1000)
         val cursor: Cursor = mDb.rawQuery("SELECT * FROM products", null)
         cursor.moveToFirst()
         allProducts = ArrayList()
@@ -417,6 +418,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateTo(resId: Int, args: Bundle?) {
+        if (!notNeedToOpenDrawerFragmentIds.contains(resId)) navController.popBackStack()
         navController.navigate(resId, args)
         bottomNavigationView.removeBadge(resId)
         saveString(this, resId.toString(), "0")

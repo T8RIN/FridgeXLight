@@ -159,7 +159,7 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
                                         undoOrDoActionCoroutine("undo")
                                         recycler!!.visibility = VISIBLE
                                         adapter = FridgeAdapter(requireContext(), fridgeList)
-                                        adapter!!.init(tHis())
+                                        adapter!!.init(this@FridgeFragment)
                                         recycler!!.adapter = adapter
 
                                         behavior.slideUp(bottomNavigationView)
@@ -182,10 +182,6 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun tHis(): FridgeFragment {
-        return this
     }
 
     private suspend fun undoOrDoActionCoroutine(param: String) = withContext(Dispatchers.IO) {
@@ -218,6 +214,12 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
             (requireContext() as MainActivity).startSupportActionMode(callback)
         if (count > 0) actionMode?.title = "$count"
         else actionMode?.finish()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        recycler = null
+        annotationCard = null
     }
 
 }

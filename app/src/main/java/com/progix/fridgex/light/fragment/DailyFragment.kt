@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
+import com.progix.fridgex.light.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
@@ -53,10 +54,11 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         job = CoroutineScope(Dispatchers.Main).launch {
             val recipeList: ArrayList<RecipeItem> = startCoroutine()
             loading.visibility = View.GONE
-            dailyRecycler.adapter = DailyAdapter(requireActivity(), recipeList, recipeClicker)
+            dailyRecycler.adapter =
+                DailyAdapter(FridgeXLightApplication.appContext, recipeList, recipeClicker)
             swipeRefresh.setProgressBackgroundColorSchemeColor(
                 ContextCompat.getColor(
-                    requireActivity(),
+                    FridgeXLightApplication.appContext,
                     R.color.manualBackground
                 )
             )
@@ -81,7 +83,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
         val recipeList: ArrayList<RecipeItem> = ArrayList()
 
-        val dateOld = loadDate(requireActivity())
+        val dateOld = loadDate(FridgeXLightApplication.appContext)
         val currentDate = Date()
         val data: ArrayList<Int> = ArrayList()
         while (true) {
@@ -95,7 +97,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         val dateParts = dateText.split(":").toTypedArray()
         val dateNew = dateParts[0].toInt()
         if (dateNew != dateOld) {
-            saveDate(requireActivity(), dateNew)
+            saveDate(FridgeXLightApplication.appContext, dateNew)
             val products: Cursor = mDb.rawQuery(
                 "SELECT * FROM products WHERE is_in_fridge = 1",
                 null
@@ -135,7 +137,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
                     )
                 )
                 products.close()
-                saveDailyRecipe(requireActivity(), "rc$i", (data[i]).toString())
+                saveDailyRecipe(FridgeXLightApplication.appContext, "rc$i", (data[i]).toString())
                 cursor.close()
             }
 
@@ -151,7 +153,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
                 products.moveToNext()
             }
             for (i in 0..5) {
-                val id = loadDailyRecipe(requireActivity(), "rc$i")
+                val id = loadDailyRecipe(FridgeXLightApplication.appContext, "rc$i")
                 var having = 0
                 val cursor: Cursor = mDb.rawQuery(
                     "SELECT * FROM recipes WHERE id = ?",

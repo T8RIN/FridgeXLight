@@ -40,11 +40,12 @@ class StarRecipesFragment : Fragment(R.layout.fragment_star_recipes), ActionInte
         val loading: CircularProgressIndicator = v.findViewById(R.id.loading)
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
-            startCoroutine()
+            while(recipeList == null) startCoroutine()
+
             loading.visibility = GONE
             if (recipeList!!.isNotEmpty()) {
                 adapter = StarRecipesAdapter(requireContext(), recipeList!!, recipeClicker)
-                adapter!!.init(tHis())
+                adapter!!.init(this@StarRecipesFragment)
                 recycler.adapter = adapter
             } else {
                 annotationCard.startAnimation(
@@ -59,10 +60,6 @@ class StarRecipesFragment : Fragment(R.layout.fragment_star_recipes), ActionInte
 
         }
 
-    }
-
-    private fun tHis(): StarRecipesFragment {
-        return this
     }
 
     private val recipeClicker = StarRecipesAdapter.OnClickListener { image, id ->

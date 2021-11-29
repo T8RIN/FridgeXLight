@@ -79,121 +79,123 @@ class StarListFragment : Fragment(R.layout.fragment_star_list) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.clear -> {
-                when (position) {
-                    0 -> {
-                        if (recipeList!!.isNotEmpty()) {
-                            val multiArray = arrayOf(
-                                getString(R.string.recipes)
-                            )
-                            val multiArrayBoolean = booleanArrayOf(
-                                true
-                            )
-                            MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
-                                .setTitle(getString(R.string.clear))
-                                .setPositiveButton(getString(R.string.ok)) { _, _ ->
-                                    if (multiArrayBoolean[0]) {
-                                        recRecycler?.visibility = GONE
-                                        recAnno?.visibility = VISIBLE
-                                        for (i in recipeList!!) {
-                                            val t = i.recipeItem.recipeName
-                                            mDb.execSQL(
-                                                "UPDATE recipes SET is_starred = 0 WHERE recipe_name = ?",
-                                                listOf(t).toTypedArray()
-                                            )
-                                        }
-                                        CustomSnackbar(requireContext()).create(
-                                            55,
-                                            (requireContext() as MainActivity).findViewById(R.id.main_root),
-                                            getString(R.string.clearSuccessStarred)
-                                        )
-                                            .setAction(getString(R.string.undo)) {
-                                                for (i in recipeList!!) {
-                                                    val t = i.recipeItem.recipeName
-                                                    mDb.execSQL(
-                                                        "UPDATE recipes SET is_starred = 1 WHERE recipe_name = ?",
-                                                        listOf(t).toTypedArray()
-                                                    )
-                                                }
-                                                if (recipeList!!.isNotEmpty()) {
-                                                    recRecycler?.visibility = VISIBLE
-                                                    recAnno?.visibility = GONE
-                                                }
+                if (productsList != null || recipeList != null) {
+                    when (position) {
+                        0 -> {
+                            if (recipeList?.isNotEmpty() == true) {
+                                val multiArray = arrayOf(
+                                    getString(R.string.recipes)
+                                )
+                                val multiArrayBoolean = booleanArrayOf(
+                                    true
+                                )
+                                MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
+                                    .setTitle(getString(R.string.clear))
+                                    .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                                        if (multiArrayBoolean[0]) {
+                                            recRecycler?.visibility = GONE
+                                            recAnno?.visibility = VISIBLE
+                                            for (i in recipeList!!) {
+                                                val t = i.recipeItem.recipeName
+                                                mDb.execSQL(
+                                                    "UPDATE recipes SET is_starred = 0 WHERE recipe_name = ?",
+                                                    listOf(t).toTypedArray()
+                                                )
                                             }
-                                            .show()
+                                            CustomSnackbar(requireContext()).create(
+                                                55,
+                                                (requireContext() as MainActivity).findViewById(R.id.main_root),
+                                                getString(R.string.clearSuccessStarred)
+                                            )
+                                                .setAction(getString(R.string.undo)) {
+                                                    for (i in recipeList!!) {
+                                                        val t = i.recipeItem.recipeName
+                                                        mDb.execSQL(
+                                                            "UPDATE recipes SET is_starred = 1 WHERE recipe_name = ?",
+                                                            listOf(t).toTypedArray()
+                                                        )
+                                                    }
+                                                    if (recipeList!!.isNotEmpty()) {
+                                                        recRecycler?.visibility = VISIBLE
+                                                        recAnno?.visibility = GONE
+                                                    }
+                                                }
+                                                .show()
+                                        }
                                     }
-                                }
-                                .setNegativeButton(getString(R.string.cancel), null)
-                                .setMultiChoiceItems(
-                                    multiArray,
-                                    multiArrayBoolean
-                                ) { _, which, isChecked ->
-                                    multiArrayBoolean[which] = isChecked
-                                }
-                                .show()
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                getString(R.string.starClearError),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                    .setNegativeButton(getString(R.string.cancel), null)
+                                    .setMultiChoiceItems(
+                                        multiArray,
+                                        multiArrayBoolean
+                                    ) { _, which, isChecked ->
+                                        multiArrayBoolean[which] = isChecked
+                                    }
+                                    .show()
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    getString(R.string.starClearError),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
-                    }
-                    1 -> {
-                        if (productsList!!.isNotEmpty()) {
-                            val multiArray = arrayOf(
-                                getString(R.string.products)
-                            )
-                            val multiArrayBoolean = booleanArrayOf(
-                                true
-                            )
-                            MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
-                                .setTitle(getString(R.string.clear))
-                                .setPositiveButton(getString(R.string.ok)) { _, _ ->
-                                    if (multiArrayBoolean[0]) {
-                                        prodRecycler?.visibility = GONE
-                                        prodAnno?.visibility = VISIBLE
-                                        for (i in productsList!!) {
-                                            val t = i.first
-                                            mDb.execSQL(
-                                                "UPDATE products SET is_starred = 0 WHERE product = ?",
-                                                listOf(t).toTypedArray()
-                                            )
-                                        }
-                                        CustomSnackbar(requireContext()).create(
-                                            55,
-                                            (requireContext() as MainActivity).findViewById(R.id.main_root),
-                                            getString(R.string.clearSuccessStarredProd)
-                                        )
-                                            .setAction(getString(R.string.undo)) {
-                                                for (i in productsList!!) {
-                                                    val t = i.first
-                                                    mDb.execSQL(
-                                                        "UPDATE products SET is_starred = 1 WHERE product = ?",
-                                                        listOf(t).toTypedArray()
-                                                    )
-                                                }
-                                                if (productsList!!.isNotEmpty()) {
-                                                    prodRecycler?.visibility = VISIBLE
-                                                    prodAnno?.visibility = GONE
-                                                }
+                        1 -> {
+                            if (productsList!!.isNotEmpty()) {
+                                val multiArray = arrayOf(
+                                    getString(R.string.products)
+                                )
+                                val multiArrayBoolean = booleanArrayOf(
+                                    true
+                                )
+                                MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
+                                    .setTitle(getString(R.string.clear))
+                                    .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                                        if (multiArrayBoolean[0]) {
+                                            prodRecycler?.visibility = GONE
+                                            prodAnno?.visibility = VISIBLE
+                                            for (i in productsList!!) {
+                                                val t = i.first
+                                                mDb.execSQL(
+                                                    "UPDATE products SET is_starred = 0 WHERE product = ?",
+                                                    listOf(t).toTypedArray()
+                                                )
                                             }
-                                            .show()
+                                            CustomSnackbar(requireContext()).create(
+                                                55,
+                                                (requireContext() as MainActivity).findViewById(R.id.main_root),
+                                                getString(R.string.clearSuccessStarredProd)
+                                            )
+                                                .setAction(getString(R.string.undo)) {
+                                                    for (i in productsList!!) {
+                                                        val t = i.first
+                                                        mDb.execSQL(
+                                                            "UPDATE products SET is_starred = 1 WHERE product = ?",
+                                                            listOf(t).toTypedArray()
+                                                        )
+                                                    }
+                                                    if (productsList!!.isNotEmpty()) {
+                                                        prodRecycler?.visibility = VISIBLE
+                                                        prodAnno?.visibility = GONE
+                                                    }
+                                                }
+                                                .show()
+                                        }
                                     }
-                                }
-                                .setNegativeButton(getString(R.string.cancel), null)
-                                .setMultiChoiceItems(
-                                    multiArray,
-                                    multiArrayBoolean
-                                ) { _, which, isChecked ->
-                                    multiArrayBoolean[which] = isChecked
-                                }
-                                .show()
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                getString(R.string.starClearError),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                    .setNegativeButton(getString(R.string.cancel), null)
+                                    .setMultiChoiceItems(
+                                        multiArray,
+                                        multiArrayBoolean
+                                    ) { _, which, isChecked ->
+                                        multiArrayBoolean[which] = isChecked
+                                    }
+                                    .show()
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    getString(R.string.starClearError),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                 }

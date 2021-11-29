@@ -30,11 +30,12 @@ class StarProductsFragment : Fragment(R.layout.fragment_star_products), ActionIn
         val loading: CircularProgressIndicator = v.findViewById(R.id.loading)
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
-            startCoroutine()
+            while(productsList == null) startCoroutine()
+
             loading.visibility = View.GONE
             if (productsList!!.isNotEmpty()) {
                 adapter = StarProductsAdapter(requireContext(), productsList!!)
-                adapter!!.init(tHis())
+                adapter!!.init(this@StarProductsFragment)
                 recycler.adapter = adapter
             } else {
                 annotationCard.startAnimation(
@@ -47,10 +48,6 @@ class StarProductsFragment : Fragment(R.layout.fragment_star_products), ActionIn
                 recycler.visibility = View.GONE
             }
         }
-    }
-
-    private fun tHis(): StarProductsFragment {
-        return this
     }
 
     private suspend fun startCoroutine() =
@@ -78,11 +75,6 @@ class StarProductsFragment : Fragment(R.layout.fragment_star_products), ActionIn
         var prodRecycler: RecyclerView? = null
         var prodAnno: MaterialCardView? = null
         var productsList: ArrayList<Pair<String, String>>? = null
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        productsList = null
     }
 
     override fun onSelectedItemsCountChanged(count: Int) {

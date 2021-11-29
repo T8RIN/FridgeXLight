@@ -57,11 +57,6 @@ class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), Acti
         var productsList: ArrayList<Pair<String, String>>? = null
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        productsList = null
-    }
-
     override fun onSelectedItemsCountChanged(count: Int) {
         val callback = ActionModeCallback()
         callback.init(adapter!!, 7)
@@ -74,7 +69,8 @@ class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), Acti
     fun recreateList() {
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
-            startCoroutine()
+            while(productsList == null) startCoroutine()
+
             loading?.visibility = View.GONE
             prodAnno = requireView().findViewById(R.id.annotationCard)
             prodRecycler = requireView().findViewById(R.id.bannedProductsRecycler)

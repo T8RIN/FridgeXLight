@@ -32,14 +32,15 @@ class BannedRecipesFragment : Fragment(R.layout.fragment_banned_recipes), Action
         val loading: CircularProgressIndicator = v.findViewById(R.id.loading)
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
-            startCoroutine()
+            while(recipeList == null) startCoroutine()
+
             loading.visibility = View.GONE
             if (recipeList!!.isNotEmpty()) {
                 adapter = BannedRecipesAdapter(
                     requireContext(),
                     recipeList!!, recipeClicker
                 )
-                adapter!!.init(tHis())
+                adapter!!.init(this@BannedRecipesFragment)
                 recycler.adapter = adapter
             } else {
                 annotationCard.startAnimation(
@@ -52,10 +53,6 @@ class BannedRecipesFragment : Fragment(R.layout.fragment_banned_recipes), Action
                 recycler.visibility = View.GONE
             }
         }
-    }
-
-    private fun tHis(): BannedRecipesFragment {
-        return this
     }
 
     private val recipeClicker = BannedRecipesAdapter.OnClickListener { image, id ->
@@ -136,11 +133,6 @@ class BannedRecipesFragment : Fragment(R.layout.fragment_banned_recipes), Action
         var recRecycler: RecyclerView? = null
         var recAnno: MaterialCardView? = null
         var recipeList: ArrayList<RecyclerSortItem>? = null
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        recipeList = null
     }
 
     override fun onSelectedItemsCountChanged(count: Int) {

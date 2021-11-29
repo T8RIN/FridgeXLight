@@ -64,7 +64,6 @@ class BanListFragment : Fragment(R.layout.fragment_ban_list) {
                 actionMode?.finish()
                 position = tab.position
             }
-
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
@@ -80,123 +79,125 @@ class BanListFragment : Fragment(R.layout.fragment_ban_list) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.clear -> {
-                when (position) {
-                    0 -> {
-                        if (recipeList!!.isNotEmpty()) {
-                            val multiArray = arrayOf(
-                                getString(R.string.recipes)
-                            )
-                            val multiArrayBoolean = booleanArrayOf(
-                                true
-                            )
-                            MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
-                                .setTitle(getString(R.string.clear))
-                                .setPositiveButton(getString(R.string.ok)) { _, _ ->
-                                    if (multiArrayBoolean[0]) {
-                                        recRecycler?.visibility = View.GONE
-                                        recAnno?.visibility = View.VISIBLE
-                                        for (i in recipeList!!) {
-                                            val t = i.recipeItem.recipeName
-                                            MainActivity.mDb.execSQL(
-                                                "UPDATE recipes SET banned = 0 WHERE recipe_name = ?",
-                                                listOf(t).toTypedArray()
-                                            )
-                                        }
-                                        CustomSnackbar(requireContext()).create(
-                                            55,
-                                            (requireContext() as MainActivity).findViewById(R.id.main_root),
-                                            getString(R.string.clearSuccessBanned)
-                                        )
-                                            .setAction(getString(R.string.undo)) {
-                                                for (i in recipeList!!) {
-                                                    val t = i.recipeItem.recipeName
-                                                    MainActivity.mDb.execSQL(
-                                                        "UPDATE recipes SET banned = 1 WHERE recipe_name = ?",
-                                                        listOf(t).toTypedArray()
-                                                    )
-                                                }
-                                                if (recipeList!!.isNotEmpty()) {
-                                                    recRecycler?.visibility =
-                                                        View.VISIBLE
-                                                    recAnno?.visibility = View.GONE
-                                                }
+                if (productsList != null || recipeList != null) {
+                    when (position) {
+                        0 -> {
+                            if (recipeList?.isNotEmpty() == true) {
+                                val multiArray = arrayOf(
+                                    getString(R.string.recipes)
+                                )
+                                val multiArrayBoolean = booleanArrayOf(
+                                    true
+                                )
+                                MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
+                                    .setTitle(getString(R.string.clear))
+                                    .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                                        if (multiArrayBoolean[0]) {
+                                            recRecycler?.visibility = View.GONE
+                                            recAnno?.visibility = View.VISIBLE
+                                            for (i in recipeList!!) {
+                                                val t = i.recipeItem.recipeName
+                                                MainActivity.mDb.execSQL(
+                                                    "UPDATE recipes SET banned = 0 WHERE recipe_name = ?",
+                                                    listOf(t).toTypedArray()
+                                                )
                                             }
-                                            .show()
+                                            CustomSnackbar(requireContext()).create(
+                                                55,
+                                                (requireContext() as MainActivity).findViewById(R.id.main_root),
+                                                getString(R.string.clearSuccessBanned)
+                                            )
+                                                .setAction(getString(R.string.undo)) {
+                                                    for (i in recipeList!!) {
+                                                        val t = i.recipeItem.recipeName
+                                                        MainActivity.mDb.execSQL(
+                                                            "UPDATE recipes SET banned = 1 WHERE recipe_name = ?",
+                                                            listOf(t).toTypedArray()
+                                                        )
+                                                    }
+                                                    if (recipeList!!.isNotEmpty()) {
+                                                        recRecycler?.visibility =
+                                                            View.VISIBLE
+                                                        recAnno?.visibility = View.GONE
+                                                    }
+                                                }
+                                                .show()
+                                        }
                                     }
-                                }
-                                .setNegativeButton(getString(R.string.cancel), null)
-                                .setMultiChoiceItems(
-                                    multiArray,
-                                    multiArrayBoolean
-                                ) { _, which, isChecked ->
-                                    multiArrayBoolean[which] = isChecked
-                                }
-                                .show()
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                getString(R.string.banClearError),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                    .setNegativeButton(getString(R.string.cancel), null)
+                                    .setMultiChoiceItems(
+                                        multiArray,
+                                        multiArrayBoolean
+                                    ) { _, which, isChecked ->
+                                        multiArrayBoolean[which] = isChecked
+                                    }
+                                    .show()
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    getString(R.string.banClearError),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
-                    }
-                    1 -> {
-                        if (productsList!!.isNotEmpty()) {
-                            val multiArray = arrayOf(
-                                getString(R.string.products)
-                            )
-                            val multiArrayBoolean = booleanArrayOf(
-                                true
-                            )
-                            MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
-                                .setTitle(getString(R.string.clear))
-                                .setPositiveButton(getString(R.string.ok)) { _, _ ->
-                                    if (multiArrayBoolean[0]) {
-                                        prodRecycler?.visibility = View.GONE
-                                        prodAnno?.visibility = View.VISIBLE
-                                        for (i in productsList!!) {
-                                            val t = i.first
-                                            MainActivity.mDb.execSQL(
-                                                "UPDATE products SET banned = 0 WHERE product = ?",
-                                                listOf(t).toTypedArray()
-                                            )
-                                        }
-                                        CustomSnackbar(requireContext()).create(
-                                            55,
-                                            (requireContext() as MainActivity).findViewById(R.id.main_root),
-                                            getString(R.string.clearSuccessBannedProd)
-                                        )
-                                            .setAction(getString(R.string.undo)) {
-                                                for (i in productsList!!) {
-                                                    val t = i.first
-                                                    MainActivity.mDb.execSQL(
-                                                        "UPDATE products SET banned = 1 WHERE product = ?",
-                                                        listOf(t).toTypedArray()
-                                                    )
-                                                }
-                                                if (productsList!!.isNotEmpty()) {
-                                                    prodRecycler?.visibility =
-                                                        View.VISIBLE
-                                                    prodAnno?.visibility = View.GONE
-                                                }
+                        1 -> {
+                            if (productsList!!.isNotEmpty()) {
+                                val multiArray = arrayOf(
+                                    getString(R.string.products)
+                                )
+                                val multiArrayBoolean = booleanArrayOf(
+                                    true
+                                )
+                                MaterialAlertDialogBuilder(requireContext(), R.style.modeAlert)
+                                    .setTitle(getString(R.string.clear))
+                                    .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                                        if (multiArrayBoolean[0]) {
+                                            prodRecycler?.visibility = View.GONE
+                                            prodAnno?.visibility = View.VISIBLE
+                                            for (i in productsList!!) {
+                                                val t = i.first
+                                                MainActivity.mDb.execSQL(
+                                                    "UPDATE products SET banned = 0 WHERE product = ?",
+                                                    listOf(t).toTypedArray()
+                                                )
                                             }
-                                            .show()
+                                            CustomSnackbar(requireContext()).create(
+                                                55,
+                                                (requireContext() as MainActivity).findViewById(R.id.main_root),
+                                                getString(R.string.clearSuccessBannedProd)
+                                            )
+                                                .setAction(getString(R.string.undo)) {
+                                                    for (i in productsList!!) {
+                                                        val t = i.first
+                                                        MainActivity.mDb.execSQL(
+                                                            "UPDATE products SET banned = 1 WHERE product = ?",
+                                                            listOf(t).toTypedArray()
+                                                        )
+                                                    }
+                                                    if (productsList!!.isNotEmpty()) {
+                                                        prodRecycler?.visibility =
+                                                            View.VISIBLE
+                                                        prodAnno?.visibility = View.GONE
+                                                    }
+                                                }
+                                                .show()
+                                        }
                                     }
-                                }
-                                .setNegativeButton(getString(R.string.cancel), null)
-                                .setMultiChoiceItems(
-                                    multiArray,
-                                    multiArrayBoolean
-                                ) { _, which, isChecked ->
-                                    multiArrayBoolean[which] = isChecked
-                                }
-                                .show()
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                getString(R.string.banClearError),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                    .setNegativeButton(getString(R.string.cancel), null)
+                                    .setMultiChoiceItems(
+                                        multiArray,
+                                        multiArrayBoolean
+                                    ) { _, which, isChecked ->
+                                        multiArrayBoolean[which] = isChecked
+                                    }
+                                    .show()
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    getString(R.string.banClearError),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                 }

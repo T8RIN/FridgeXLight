@@ -176,6 +176,7 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
                                             "UPDATE products SET is_in_cart = 0 WHERE product = ?",
                                             listOf(badgeNames!![i]!!.lowercase()).toTypedArray()
                                         )
+                                        badgeCnt--
                                     }
                                 }
                             }

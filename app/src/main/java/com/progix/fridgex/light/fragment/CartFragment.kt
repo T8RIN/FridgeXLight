@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
@@ -22,7 +21,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
@@ -31,15 +29,7 @@ import com.progix.fridgex.light.adapter.cart.CartAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
 import com.progix.fridgex.light.helper.interfaces.ActionInterface
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.*
 
 class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
     private val cartList: ArrayList<Pair<String, String>> = ArrayList()
@@ -55,13 +45,13 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
         }
     }
 
-    private var dispose: Disposable? = null
+    private var job: Job? = null
 
     private lateinit var loading: CircularProgressIndicator
 
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         super.onViewCreated(v, savedInstanceState)
-        recycler = v.findViewById(R.id.fridgeRecycler)
+        recycler = v.findViewById(R.id.cartRecycler)
         annotationCard = v.findViewById(R.id.annotationCard)
         loading = v.findViewById(R.id.loading)
         val swipeRefresh: SwipeRefreshLayout = v.findViewById(R.id.swipeRefresh)
@@ -75,45 +65,15 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
         swipeRefresh.setColorSchemeResources(R.color.checked, R.color.red, R.color.yellow)
         swipeRefresh.setOnRefreshListener {
             actionMode?.finish()
-            dispose?.dispose()
-            dispose = rxJava()
-                .debounce(200, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    if (it.isNotEmpty()) {
-                        adapter = CartAdapter(requireContext(), it)
-                        adapter!!.init(this@CartFragment)
-                        recycler!!.adapter = adapter
-                    } else {
-                        annotationCard!!.startAnimation(
-                            loadAnimation(
-                                requireContext(),
-                                R.anim.item_animation_fall_down
-                            )
-                        )
-                        annotationCard!!.visibility = View.VISIBLE
-                        recycler!!.visibility = View.INVISIBLE
-                    }
-                    loading.visibility = View.GONE
-                }
-            swipeRefresh.isRefreshing = false
-
-        }
-
-        dispose?.dispose()
-        dispose = rxJava()
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .subscribeOn(Schedulers.computation())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                if (it.isNotEmpty()) {
-                    adapter = CartAdapter(FridgeXLightApplication.appContext, it)
+            job?.cancel()
+            job = CoroutineScope(Dispatchers.Main).launch {
+                getList()
+                recycler = requireView().findViewById(R.id.cartRecycler)
+                annotationCard = requireView().findViewById(R.id.annotationCard)
+                if (cartList.isNotEmpty()) {
+                    adapter = CartAdapter(requireContext(), cartList)
                     adapter!!.init(this@CartFragment)
-                    if (recycler == null && isAdded) {
-                        findNavController().navigate(R.id.nav_cart)
-                    }
-                    recycler?.adapter = adapter
+                    recycler!!.adapter = adapter
                 } else {
                     annotationCard!!.startAnimation(
                         loadAnimation(
@@ -126,23 +86,46 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
                 }
                 loading.visibility = View.GONE
             }
+            swipeRefresh.isRefreshing = false
+        }
+
+        job?.cancel()
+        job = CoroutineScope(Dispatchers.Main).launch {
+            getList()
+            recycler = requireView().findViewById(R.id.cartRecycler)
+            annotationCard = requireView().findViewById(R.id.annotationCard)
+            if (cartList.isNotEmpty()) {
+                adapter = CartAdapter(requireContext(), cartList)
+                adapter!!.init(this@CartFragment)
+                recycler!!.adapter = adapter
+            } else {
+                annotationCard!!.startAnimation(
+                    loadAnimation(
+                        requireContext(),
+                        R.anim.item_animation_fall_down
+                    )
+                )
+                annotationCard!!.visibility = View.VISIBLE
+                recycler!!.visibility = View.GONE
+            }
+            loading.visibility = View.GONE
+        }
+
     }
 
-    private fun rxJava(): Observable<ArrayList<Pair<String, String>>> {
-        return Observable.create { item ->
-            cartList.clear()
-            val cursor: Cursor =
-                mDb.rawQuery("SELECT * FROM products WHERE is_in_cart = 1", null)
-            cursor.moveToFirst()
+    private suspend fun getList() = withContext(Dispatchers.IO) {
+        cartList.clear()
+        val cursor: Cursor =
+            mDb.rawQuery("SELECT * FROM products WHERE is_in_cart = 1", null)
+        cursor.moveToFirst()
 
-            while (!cursor.isAfterLast) {
-                cartList.add(Pair(cursor.getString(2), cursor.getString(1)))
-                cursor.moveToNext()
-            }
-            cartList.sortBy { it.first }
-            item.onNext(cartList)
-            cursor.close()
+        while (!cursor.isAfterLast) {
+            cartList.add(Pair(cursor.getString(2), cursor.getString(1)))
+            cursor.moveToNext()
         }
+        cartList.sortBy { it.first }
+        cursor.close()
+        delay(400)
     }
 
     companion object {

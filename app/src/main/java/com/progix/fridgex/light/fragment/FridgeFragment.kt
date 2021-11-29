@@ -27,15 +27,7 @@ import com.progix.fridgex.light.adapter.fridge.FridgeAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
 import com.progix.fridgex.light.helper.interfaces.ActionInterface
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.*
 
 class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
     private val fridgeList: ArrayList<Pair<String, String>> = ArrayList()
@@ -54,7 +46,7 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
         }
     }
 
-    private var dispose: Disposable? = null
+    private var job: Job? = null
 
     private var adapter: FridgeAdapter? = null
 
@@ -64,46 +56,41 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
         annotationCard = v.findViewById(R.id.annotationCard)
         loading = v.findViewById(R.id.loading)
 
-        dispose?.dispose()
-        dispose = rxJava()
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .subscribeOn(Schedulers.computation())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                if (it.isNotEmpty()) {
-                    adapter = FridgeAdapter(requireContext(), it)
-                    adapter!!.init(this)
-                    recycler!!.adapter = adapter
-                } else {
-                    annotationCard!!.startAnimation(
-                        AnimationUtils.loadAnimation(
-                            requireContext(),
-                            R.anim.item_animation_fall_down
-                        )
+        job?.cancel()
+        job = CoroutineScope(Dispatchers.Main).launch {
+            getList()
+            recycler = requireView().findViewById(R.id.fridgeRecycler)
+            annotationCard = requireView().findViewById(R.id.annotationCard)
+            if (fridgeList.isNotEmpty()) {
+                adapter = FridgeAdapter(requireContext(), fridgeList)
+                adapter!!.init(this@FridgeFragment)
+                recycler!!.adapter = adapter
+            } else {
+                annotationCard!!.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        requireContext(),
+                        R.anim.item_animation_fall_down
                     )
-                    annotationCard!!.visibility = VISIBLE
-                    recycler!!.visibility = INVISIBLE
-                }
-                loading.visibility = INVISIBLE
-            }, {
-
-            })
+                )
+                annotationCard!!.visibility = VISIBLE
+                recycler!!.visibility = GONE
+            }
+            loading.visibility = GONE
+        }
     }
 
-    private fun rxJava(): Observable<ArrayList<Pair<String, String>>> {
-        return Observable.create { item ->
-            fridgeList.clear()
-            val cursor: Cursor = mDb.rawQuery("SELECT * FROM products WHERE is_in_fridge = 1", null)
-            cursor.moveToFirst()
+    private suspend fun getList() = withContext(Dispatchers.IO) {
+        fridgeList.clear()
+        val cursor: Cursor = mDb.rawQuery("SELECT * FROM products WHERE is_in_fridge = 1", null)
+        cursor.moveToFirst()
 
-            while (!cursor.isAfterLast) {
-                fridgeList.add(Pair(cursor.getString(2), cursor.getString(1)))
-                cursor.moveToNext()
-            }
-            fridgeList.sortBy { it.first }
-            item.onNext(fridgeList)
-            cursor.close()
+        while (!cursor.isAfterLast) {
+            fridgeList.add(Pair(cursor.getString(2), cursor.getString(1)))
+            cursor.moveToNext()
         }
+        fridgeList.sortBy { it.first }
+        cursor.close()
+        delay(400)
     }
 
 

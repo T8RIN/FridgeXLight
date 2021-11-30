@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:indeterminate="true"
         android:indeterminateBehavior="cycle"
-        app:indicatorColor="@color/checked"
+        app:indicatorColor="?attr/checked"
         app:trackThickness="3dp" />
 
 </FrameLayout>

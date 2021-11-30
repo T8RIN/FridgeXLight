@@ -17,7 +17,7 @@
     <color name="dorange">#CA6F00</color>
 
     <color name="lyellow">#FFF163</color>
-    <color name="yellow">#FFE700</color>
+    <color name="yellow">#FFFF00</color>
     <color name="dyellow">#C5B41D</color>
 
     <color name="llgreen">#B7EC9A</color>
@@ -63,5 +63,9 @@
     <color name="manualText3">#9E9E9E</color>
 
     <color name="manualTarget">#FFFFFF</color>
+
+    <color name="lmint">#82FFD3</color>
+    <color name="mint">#00FFA6</color>
+    <color name="dmint">#00905E</color>
 
 </resources>

@@ -9,7 +9,9 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.progix.fridgex.light.FridgeXLightApplication
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.data.Extensions.getAttrColor
 import com.progix.fridgex.light.model.NavItem
 
 
@@ -20,6 +22,8 @@ class SearchFilterNavigationAdapter(
 ) :
     RecyclerView.Adapter<SearchFilterNavigationAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        if (context is FridgeXLightApplication) context =
+            (context as FridgeXLightApplication).getCurrentContext()!!
         return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_navigation, parent, false)
         )
@@ -30,8 +34,8 @@ class SearchFilterNavigationAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.radioButton.isChecked = position == mSelectedItem
         if (holder.radioButton.isChecked) {
-            holder.name.setTextColor(ContextCompat.getColor(context, R.color.checked))
-            holder.image.setColorFilter(ContextCompat.getColor(context, R.color.checked))
+            holder.name.setTextColor(context.getAttrColor(R.attr.checked))
+            holder.image.setColorFilter(context.getAttrColor(R.attr.checked))
         } else {
             holder.name.setTextColor(ContextCompat.getColor(context, R.color.unchecked))
             holder.image.setColorFilter(ContextCompat.getColor(context, R.color.unchecked))

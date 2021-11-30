@@ -34,6 +34,7 @@ import com.progix.fridgex.light.adapter.dialog.DialogListProductsAdapter
 import com.progix.fridgex.light.data.Functions.loadImageFromStorage
 import com.progix.fridgex.light.data.Functions.saveToInternalStorage
 import com.progix.fridgex.light.data.Functions.strToInt
+import com.progix.fridgex.light.data.SharedPreferencesAccess
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListNames
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListValues
@@ -83,6 +84,18 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        when (SharedPreferencesAccess.loadTheme(this)) {
+            "def" -> setTheme(R.style.FridgeXLight)
+            "red" -> setTheme(R.style.FridgeXLight_Red)
+            "pnk" -> setTheme(R.style.FridgeXLight_Pink)
+            "grn" -> setTheme(R.style.FridgeXLight_Green)
+            "vlt" -> setTheme(R.style.FridgeXLight_Violet)
+            "yel" -> setTheme(R.style.FridgeXLight_Yellow)
+            "mnt" -> setTheme(R.style.FridgeXLight_Mint)
+            "ble" -> setTheme(R.style.FridgeXLight_Blue)
+        }
+
         overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_third)

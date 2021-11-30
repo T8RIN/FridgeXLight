@@ -87,4 +87,16 @@ object SharedPreferencesAccess {
         val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
         return sharedPreferences.getBoolean("firstStart", true)
     }
+
+    fun saveTheme(context: Context, value: String) {
+        val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("theme", value)
+        editor.apply()
+    }
+
+    fun loadTheme(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("theme", "def")
+    }
 }

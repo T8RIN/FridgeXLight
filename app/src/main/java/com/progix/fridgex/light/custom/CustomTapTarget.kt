@@ -1,14 +1,11 @@
 package com.progix.fridgex.light.custom
 
-import android.app.Activity
 import android.graphics.Typeface
 import android.view.View
 import com.getkeepsafe.taptargetview.TapTarget
 import com.progix.fridgex.light.R
 
-class CustomTapTarget(
-    val activity: Activity,
-) {
+class CustomTapTarget {
 
     fun create(
         view: View, title: String,

@@ -272,4 +272,22 @@ object DataArrays {
         )
     )
 
+    val colorList: ArrayList<Pair<Int, Int>> = ArrayList(
+        listOf(
+            Pair(R.color.dred2, R.color.red2),
+            Pair(R.color.dred, R.color.red),
+            Pair(R.color.dviolet, R.color.violet),
+            Pair(R.color.dblue, R.color.blue),
+            Pair(R.color.dmint, R.color.mint),
+            Pair(R.color.dgreen, R.color.green),
+            Pair(R.color.dyellow, R.color.yellow),
+            Pair(R.color.dchecked, R.color.checked)
+        )
+    )
+
+    val colorNames: ArrayList<String> = ArrayList(
+        listOf(
+            "Apple", "Blossom", "UV", "Sky", "Mint", "Salad", "Lemon", "Classic"
+        )
+    )
 }

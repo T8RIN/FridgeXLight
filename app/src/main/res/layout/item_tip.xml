@@ -9,7 +9,7 @@
     android:focusable="true"
     app:cardBackgroundColor="@color/manualBackground"
     app:cardElevation="5dp"
-    app:rippleColor="@color/checkedTrans"
+    app:rippleColor="?attr/checkedTrans"
     app:shapeAppearanceOverlay="@style/shape12dp">
 
 

@@ -67,11 +67,11 @@
         android:animateLayoutChanges="true"
         app:tabGravity="fill"
         app:tabIndicatorAnimationMode="elastic"
-        app:tabIndicatorColor="@color/checked"
+        app:tabIndicatorColor="?attr/checked"
         app:tabIndicatorGravity="top"
         app:tabMaxWidth="0dp"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/checked"
+        app:tabSelectedTextColor="?attr/checked"
         app:tabTextColor="@color/unchecked">
 
         <com.google.android.material.tabs.TabItem

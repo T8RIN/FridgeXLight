@@ -25,10 +25,238 @@
         <item name="colorControlActivated">@color/checked</item>
         <item name="rippleColor">@color/checkedTrans</item>
 
+        <item name="checked">@color/checked</item>
+        <item name="checkedl">@color/checkedl</item>
+        <item name="dchecked">#FF862B</item>
+        <item name="checkedTrans">@color/checkedTrans</item>
+
     </style>
 
     <style name="FridgeXLight.Launcher">
         <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+    <style name="FridgeXLight.Green" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimaryVariant">#1A1A1A</item>
+        <item name="colorPrimary">#171717</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="android:windowContentTransitions">true</item>
+
+        <item name="windowActionModeOverlay">true</item>
+
+        <item name="materialAlertDialogTheme">@style/modeAlert</item>
+        <item name="colorSecondary">@color/green</item>
+        <item name="colorSecondaryVariant">@color/ddgreen</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="fontFamily">@font/comfortaa_medium</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <item name="android:colorEdgeEffect">@color/green</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_color</item>
+
+        <item name="colorError">@color/red</item>
+        <item name="colorControlActivated">@color/green</item>
+        <item name="rippleColor">?attr/checkedTrans</item>
+
+        <item name="checked">@color/green</item>
+        <item name="checkedl">@color/lgreen</item>
+        <item name="checkedTrans">#4F00FF00</item>
+        <item name="dchecked">#1D8600</item>
+
+    </style>
+
+    <style name="FridgeXLight.Pink" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimaryVariant">#1A1A1A</item>
+        <item name="colorPrimary">#171717</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="android:windowContentTransitions">true</item>
+
+        <item name="windowActionModeOverlay">true</item>
+
+        <item name="materialAlertDialogTheme">@style/modeAlert</item>
+        <item name="colorSecondary">@color/red</item>
+        <item name="colorSecondaryVariant">@color/dred</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="fontFamily">@font/comfortaa_medium</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <item name="android:colorEdgeEffect">@color/red</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_color</item>
+
+        <item name="colorError">@color/red2</item>
+        <item name="colorControlActivated">@color/red</item>
+        <item name="rippleColor">?attr/checkedTrans</item>
+
+        <item name="checked">@color/red</item>
+        <item name="checkedl">@color/lred</item>
+        <item name="checkedTrans">#41FF0048</item>
+        <item name="dchecked">#4C0027</item>
+
+    </style>
+
+    <style name="FridgeXLight.Blue" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimaryVariant">#1A1A1A</item>
+        <item name="colorPrimary">#171717</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="android:windowContentTransitions">true</item>
+
+        <item name="windowActionModeOverlay">true</item>
+
+        <item name="materialAlertDialogTheme">@style/modeAlert</item>
+        <item name="colorSecondary">@color/blue</item>
+        <item name="colorSecondaryVariant">@color/dblue</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="fontFamily">@font/comfortaa_medium</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <item name="android:colorEdgeEffect">@color/blue</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_color</item>
+
+        <item name="colorError">@color/red</item>
+        <item name="colorControlActivated">@color/blue</item>
+        <item name="rippleColor">?attr/checkedTrans</item>
+
+        <item name="checked">@color/blue</item>
+        <item name="checkedl">@color/lblue</item>
+        <item name="checkedTrans">#410055FF</item>
+        <item name="dchecked">#00134C</item>
+    </style>
+
+    <style name="FridgeXLight.Yellow" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimaryVariant">#1A1A1A</item>
+        <item name="colorPrimary">#171717</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="android:windowContentTransitions">true</item>
+
+        <item name="windowActionModeOverlay">true</item>
+
+        <item name="colorSecondary">@color/yellow</item>
+        <item name="colorSecondaryVariant">@color/dyellow</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="materialAlertDialogTheme">@style/modeAlert</item>
+        <item name="fontFamily">@font/comfortaa_medium</item>
+        <item name="android:textColor">@color/manualText</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <item name="android:colorEdgeEffect">@color/yellow</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_color</item>
+
+        <item name="colorError">@color/red</item>
+        <item name="colorControlActivated">@color/yellow</item>
+        <item name="rippleColor">?attr/checkedTrans</item>
+
+        <item name="checked">@color/yellow</item>
+        <item name="checkedl">@color/lyellow</item>
+        <item name="checkedTrans">#41FFE600</item>
+        <item name="dchecked">#4C4200</item>
+    </style>
+
+    <style name="FridgeXLight.Violet" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimaryVariant">#1A1A1A</item>
+        <item name="colorPrimary">#171717</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="android:windowContentTransitions">true</item>
+
+        <item name="windowActionModeOverlay">true</item>
+
+        <item name="colorSecondary">@color/violet</item>
+        <item name="colorSecondaryVariant">@color/dviolet</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="materialAlertDialogTheme">@style/modeAlert</item>
+        <item name="fontFamily">@font/comfortaa_medium</item>
+        <item name="android:textColor">@color/manualText</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <item name="android:colorEdgeEffect">@color/violet</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_color</item>
+
+        <item name="colorError">@color/red</item>
+        <item name="colorControlActivated">@color/violet</item>
+        <item name="rippleColor">?attr/checkedTrans</item>
+
+        <item name="checked">@color/violet</item>
+        <item name="checkedl">@color/lviolet</item>
+        <item name="checkedTrans">#41BB00FF</item>
+        <item name="dchecked">#2C004C</item>
+    </style>
+
+    <style name="FridgeXLight.Mint" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimaryVariant">#1A1A1A</item>
+        <item name="colorPrimary">#171717</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="android:windowContentTransitions">true</item>
+
+        <item name="windowActionModeOverlay">true</item>
+
+        <item name="colorSecondary">@color/mint</item>
+        <item name="colorSecondaryVariant">@color/dmint</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="materialAlertDialogTheme">@style/modeAlert</item>
+        <item name="fontFamily">@font/comfortaa_medium</item>
+        <item name="android:textColor">@color/manualText</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <item name="android:colorEdgeEffect">@color/mint</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_color</item>
+
+        <item name="colorError">@color/red</item>
+        <item name="colorControlActivated">@color/mint</item>
+        <item name="rippleColor">?attr/checkedTrans</item>
+
+        <item name="checked">@color/mint</item>
+        <item name="checkedl">@color/lmint</item>
+        <item name="checkedTrans">#4100FF73</item>
+        <item name="dchecked">#004C2B</item>
+    </style>
+
+    <style name="FridgeXLight.Red" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimaryVariant">#1A1A1A</item>
+        <item name="colorPrimary">#171717</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="android:windowContentTransitions">true</item>
+
+        <item name="windowActionModeOverlay">true</item>
+
+        <item name="colorSecondary">@color/red2</item>
+        <item name="colorSecondaryVariant">@color/dred2</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="materialAlertDialogTheme">@style/modeAlert</item>
+        <item name="fontFamily">@font/comfortaa_medium</item>
+        <item name="android:textColor">@color/manualText</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <item name="android:colorEdgeEffect">@color/red2</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_color</item>
+
+        <item name="colorError">@color/red</item>
+        <item name="colorControlActivated">@color/dred2</item>
+        <item name="rippleColor">?attr/checkedTrans</item>
+
+        <item name="checked">@color/red2</item>
+        <item name="checkedl">@color/lred2</item>
+        <item name="checkedTrans">#41FF0000</item>
+        <item name="dchecked">#4C0000</item>
     </style>
 
 </resources>

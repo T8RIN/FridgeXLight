@@ -65,7 +65,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
                 R.color.manualBackground
             )
         )
-        swipeRefresh.setColorSchemeResources(R.color.checked, R.color.red, R.color.yellow)
+        swipeRefresh.setColorSchemeResources(R.color.yellow, R.color.red, R.color.green)
         swipeRefresh.setOnRefreshListener {
             actionMode?.finish()
             job?.cancel()

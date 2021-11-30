@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="checked" format="color" />
+    <attr name="checkedl" format="color" />
+    <attr name="checkedTrans" format="color" />
+    <attr name="dchecked" format="color"/>
+</resources>

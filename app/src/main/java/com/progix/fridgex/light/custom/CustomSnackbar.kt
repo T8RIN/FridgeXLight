@@ -8,9 +8,9 @@ import android.view.Gravity
 import android.view.Gravity.TOP
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.data.Extensions.getAttrColor
 
 class CustomSnackbar(val context: Context) {
     fun create(
@@ -19,7 +19,7 @@ class CustomSnackbar(val context: Context) {
         duration: Int
     ): Snackbar {
         val snackBar = Snackbar.make(view!!, text!!, duration)
-            .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
+            .setActionTextColor(context.getAttrColor(R.attr.checked))
         val params = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
         params.anchorId = R.id.bottom_navigation
         params.anchorGravity = TOP
@@ -42,7 +42,7 @@ class CustomSnackbar(val context: Context) {
             length = Snackbar.LENGTH_INDEFINITE
         }
         val snackBar = Snackbar.make(view!!, text!!, length)
-            .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
+            .setActionTextColor(context.getAttrColor(R.attr.checked))
         val params = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
         params.anchorId = R.id.bottom_navigation
         params.anchorGravity = TOP
@@ -62,7 +62,7 @@ class CustomSnackbar(val context: Context) {
         duration: Int
     ): Snackbar {
         val snackBar = Snackbar.make(view!!, text!!, duration)
-            .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
+            .setActionTextColor(context.getAttrColor(R.attr.checked))
         val params = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
         params.anchorId = R.id.tabs
         params.anchorGravity = TOP
@@ -95,7 +95,7 @@ class CustomSnackbar(val context: Context) {
         text: String?
     ): Snackbar {
         val snackBar = Snackbar.make(view!!, text!!, Snackbar.LENGTH_SHORT)
-            .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
+            .setActionTextColor(context.getAttrColor(R.attr.checked))
         val params = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
         params.anchorId = R.id.bottom_navigation
         params.anchorGravity = TOP
@@ -118,7 +118,7 @@ class CustomSnackbar(val context: Context) {
         translationY: Int
     ): Snackbar {
         val snackBar = Snackbar.make(view!!, text!!, duration)
-            .setActionTextColor(ContextCompat.getColor(context, R.color.checked))
+            .setActionTextColor(context.getAttrColor(R.attr.checked))
         val params = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
         params.anchorId = anchorId
         params.anchorGravity = anchorGravity

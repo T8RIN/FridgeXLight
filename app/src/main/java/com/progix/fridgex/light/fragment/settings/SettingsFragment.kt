@@ -11,9 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.settings.SettingsAdapter
+import com.progix.fridgex.light.helper.interfaces.ColorPickerInterface
 
 
-class SettingsFragment : Fragment(R.layout.fragment_settings) {
+class SettingsFragment : Fragment(R.layout.fragment_settings), ColorPickerInterface{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             ArrayList(
                 listOf(
                     getString(R.string.nightMode),
+                    getString(R.string.themeChooser),
                     getString(R.string.cartSettings),
                     getString(R.string.guide)
                 )
@@ -44,12 +46,19 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             true
         }
 
-        recyclerView.adapter = SettingsAdapter(requireContext(), settingsList)
+        adapter = SettingsAdapter(requireContext(), settingsList)
+
+        recyclerView.adapter = adapter
     }
+
+    private var adapter: SettingsAdapter? = null
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.settings_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onPick() {
+        adapter?.notifyItemChanged(1)
+    }
 }

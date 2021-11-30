@@ -13,15 +13,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.guide
 import com.progix.fridgex.light.activity.MainActivity.Companion.restart
+import com.progix.fridgex.light.data.DataArrays.colorList
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadCartMode
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadNightMode
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadTheme
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveCartMode
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveNightMode
+import com.progix.fridgex.light.fragment.dialog.DialogColor
 
 
 class SettingsAdapter(var context: Context, private var settingsList: List<String>) :
@@ -39,6 +43,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
         setAnimation(holder.itemView, position)
         holder.switcher.visibility = GONE
         holder.subText.visibility = GONE
+        holder.shapeImage.visibility = GONE
         when (position) {
             0 -> {
                 holder.text.text = settingsList[position]
@@ -90,6 +95,34 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                 }
             }
             1 -> {
+                holder.text.text = settingsList[position]
+                holder.icon.setImageResource(R.drawable.ic_baseline_color_lens_24)
+                holder.onOff.visibility = GONE
+                holder.shapeImage.visibility = VISIBLE
+
+                val pos = when (loadTheme(context)) {
+                    "red" -> 0
+                    "pnk" -> 1
+                    "vlt" -> 2
+                    "ble" -> 3
+                    "mnt" -> 4
+                    "grn" -> 5
+                    "yel" -> 6
+                    else -> 7
+                }
+
+                holder.shapeImage.setStrokeColorResource(colorList[pos].first)
+                holder.shapeImage.setImageResource(colorList[pos].second)
+
+                holder.itemView.setOnClickListener {
+                    val fragment = DialogColor()
+                    if (!fragment.isAdded) fragment.show(
+                        (context as MainActivity).supportFragmentManager,
+                        "custom"
+                    )
+                }
+            }
+            2 -> {
                 holder.switcher.visibility = VISIBLE
                 holder.subText.visibility = VISIBLE
                 holder.onOff.visibility = GONE
@@ -124,7 +157,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                     }
                 }
             }
-            2 -> {
+            3 -> {
                 holder.icon.setImageResource(R.drawable.ic_baseline_info_24)
                 holder.text.text = settingsList[position]
                 holder.onOff.visibility = GONE
@@ -149,12 +182,13 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
 
     class SettingsHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        var text: TextView = itemView.findViewById(R.id.text)
-        var icon: ImageView = itemView.findViewById(R.id.icon)
-        var onOff: TextView = itemView.findViewById(R.id.switcher)
-        var card: View = itemView
-        var subText: TextView = itemView.findViewById(R.id.subtext)
-        var switcher: SwitchMaterial = itemView.findViewById(R.id.switcher_switch)
+        val text: TextView = itemView.findViewById(R.id.text)
+        val icon: ImageView = itemView.findViewById(R.id.icon)
+        val onOff: TextView = itemView.findViewById(R.id.switcher)
+        val card: View = itemView
+        val subText: TextView = itemView.findViewById(R.id.subtext)
+        val switcher: SwitchMaterial = itemView.findViewById(R.id.switcher_switch)
+        val shapeImage: ShapeableImageView = itemView.findViewById(R.id.shapeImage)
 
         fun clearAnimation() {
             itemView.clearAnimation()

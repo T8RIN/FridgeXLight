@@ -40,10 +40,12 @@ import com.progix.fridgex.light.data.SharedPreferencesAccess
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFirstStart
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadString
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadTheme
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveFirstStart
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveString
 import com.progix.fridgex.light.fragment.banned.BannedProductsFragment
+import com.progix.fridgex.light.fragment.dialog.DialogColor
 import com.progix.fridgex.light.fragment.dialog.DialogLoadingFragment
 import com.progix.fridgex.light.helper.DatabaseHelper
 import com.skydoves.transformationlayout.onTransformationStartContainer
@@ -62,7 +64,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.FridgeXLight)
+
+        when (loadTheme(this)) {
+            "def" -> setTheme(R.style.FridgeXLight)
+            "red" -> setTheme(R.style.FridgeXLight_Red)
+            "pnk" -> setTheme(R.style.FridgeXLight_Pink)
+            "grn" -> setTheme(R.style.FridgeXLight_Green)
+            "vlt" -> setTheme(R.style.FridgeXLight_Violet)
+            "yel" -> setTheme(R.style.FridgeXLight_Yellow)
+            "mnt" -> setTheme(R.style.FridgeXLight_Mint)
+            "ble" -> setTheme(R.style.FridgeXLight_Blue)
+        }
+
         onTransformationStartContainer()
 
         super.onCreate(savedInstanceState)
@@ -90,8 +103,13 @@ class MainActivity : AppCompatActivity() {
 
         visibilityNavElements(navController)
 
+        if (loadFirstStart(this)) {
+            showGuideDialog()
+        }
+
         if (guide) {
-            beginGuide()
+            saveFirstStart(this, true)
+            showGuideDialog()
             guide = false
         }
         if (restart) {
@@ -110,10 +128,6 @@ class MainActivity : AppCompatActivity() {
         setUpBadges()
 
         listAssign()
-
-        if (loadFirstStart(this)) {
-            showGuideDialog()
-        }
     }
 
     private fun showGuideDialog() {
@@ -137,7 +151,7 @@ class MainActivity : AppCompatActivity() {
         val params = bottomNavigationView.layoutParams
         params.height = dipToPixels(56f).toInt()
         bottomNavigationView.layoutParams = params
-        val targetCreator = CustomTapTarget(this)
+        val targetCreator = CustomTapTarget()
         TapTargetSequence(this)
             .targets(
                 targetCreator.create(
@@ -206,6 +220,10 @@ class MainActivity : AppCompatActivity() {
                 }
             })
             .start()
+        if (navController.currentDestination?.id != R.id.nav_home) {
+            navigateTo(R.id.nav_home, null)
+            bottomNavigationView.selectedItemId = R.id.nav_home
+        }
     }
 
     private fun setUpBadges() {

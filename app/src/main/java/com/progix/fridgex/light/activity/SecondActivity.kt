@@ -34,6 +34,7 @@ import com.progix.fridgex.light.adapter.viewpager.RecipeViewPagerAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.data.Functions
+import com.progix.fridgex.light.data.SharedPreferencesAccess
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.list
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.missList
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.portions
@@ -46,8 +47,19 @@ class SecondActivity : AppCompatActivity() {
     private var mainRoot: CoordinatorLayout? = null
     private var expandButton: FrameLayout? = null
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        when (SharedPreferencesAccess.loadTheme(this)) {
+            "def" -> setTheme(R.style.FridgeXLight)
+            "red" -> setTheme(R.style.FridgeXLight_Red)
+            "pnk" -> setTheme(R.style.FridgeXLight_Pink)
+            "grn" -> setTheme(R.style.FridgeXLight_Green)
+            "vlt" -> setTheme(R.style.FridgeXLight_Violet)
+            "yel" -> setTheme(R.style.FridgeXLight_Yellow)
+            "mnt" -> setTheme(R.style.FridgeXLight_Mint)
+            "ble" -> setTheme(R.style.FridgeXLight_Blue)
+        }
+
         super.onCreate(savedInstanceState)
-        setTheme(R.style.FridgeXLight)
         overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
         setContentView(R.layout.activity_second)
 

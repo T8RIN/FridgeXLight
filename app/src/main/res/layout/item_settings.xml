@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
     android:clickable="true"
     android:elevation="0dp"
     android:focusable="true"
     android:outlineProvider="none"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardCornerRadius="0dp"
-    app:rippleColor="@color/checkedTrans">
+    app:rippleColor="?attr/checkedTrans">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.Guideline
@@ -77,11 +77,23 @@
             android:id="@+id/switcher_switch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/right_guideline"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/shapeImage"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="15dp"
+            android:padding="1dp"
+            android:src="@color/red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/shape12dp"
+            app:strokeColor="@color/dred"
+            app:strokeWidth="2dp" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/bottom_barrier"

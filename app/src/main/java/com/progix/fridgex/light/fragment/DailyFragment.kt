@@ -65,7 +65,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             )
         }
 
-        swipeRefresh.setColorSchemeResources(R.color.checked, R.color.red, R.color.yellow)
+        swipeRefresh.setColorSchemeResources(R.color.yellow, R.color.red, R.color.green)
         swipeRefresh.setOnRefreshListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.updateDailyRecipes))

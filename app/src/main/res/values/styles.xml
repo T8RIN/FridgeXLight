@@ -2,7 +2,7 @@
 <resources>
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorControlNormal">@color/checked</item>
+        <item name="colorControlNormal">?attr/checked</item>
     </style>
 
     <style name="modeAlert" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
@@ -15,7 +15,7 @@
     </style>
 
     <style name="buttonSecOverlay1" parent="">
-        <item name="colorPrimary">@color/checked</item>
+        <item name="colorPrimary">?attr/checked</item>
     </style>
 
     <style name="buttonSecAlert2" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
@@ -60,8 +60,9 @@
     </style>
 
     <style name="abchihba">
-        <item name="colorOnSurface">#BA3702</item>
-        <item name="colorPrimary">@color/checked</item>
+        <item name="colorOnSurface">?attr/dchecked</item>
+        <item name="colorPrimary">?attr/checked</item>
         <item name="colorError">@color/red</item>
     </style>
+
 </resources>

@@ -30,7 +30,7 @@ class StarProductsFragment : Fragment(R.layout.fragment_star_products), ActionIn
         val loading: CircularProgressIndicator = v.findViewById(R.id.loading)
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
-            while(productsList == null) startCoroutine()
+            while (productsList == null) startCoroutine()
 
             loading.visibility = View.GONE
             if (productsList!!.isNotEmpty()) {

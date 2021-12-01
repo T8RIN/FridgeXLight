@@ -6,9 +6,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/colorRecycler"
-        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         android:padding="10dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintTop_toTopOf="parent"

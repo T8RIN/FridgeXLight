@@ -175,5 +175,11 @@
     <string name="updateDailyRecipes">Update daily?</string>
     <string name="thisWillUpdateDailyRecipes">Do you want to update daily recipes? You will instantly see new six fresh recipes without waiting for the next day</string>
     <string name="themeChooser">Color scheme</string>
+    <string name="fontSize">Font size</string>
+    <string name="smaller">Smaller</string>
+    <string name="small">Small</string>
+    <string name="normal">Normal</string>
+    <string name="big">Big</string>
+    <string name="bigger">Bigger</string>
 
 </resources>

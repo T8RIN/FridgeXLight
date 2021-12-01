@@ -6,11 +6,11 @@
     android:checkable="true"
     android:clickable="true"
     android:focusable="true"
-    app:checkedIconMargin="12dp"
-    app:checkedIconTint="@color/unchecked"
     android:outlineProvider="none"
     app:cardBackgroundColor="@android:color/transparent"
-    app:checkedIcon="@drawable/ic_baseline_color_lens_24">
+    app:checkedIcon="@drawable/ic_baseline_color_lens_24"
+    app:checkedIconMargin="12dp"
+    app:checkedIconTint="@color/unchecked">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

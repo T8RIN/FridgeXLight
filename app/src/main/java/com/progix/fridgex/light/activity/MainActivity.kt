@@ -1,5 +1,6 @@
 package com.progix.fridgex.light.activity
 
+import android.content.Context
 import android.content.res.Configuration
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -35,17 +36,18 @@ import com.progix.fridgex.light.custom.CustomTapTarget
 import com.progix.fridgex.light.data.DataArrays.languages
 import com.progix.fridgex.light.data.DataArrays.mainFragmentIds
 import com.progix.fridgex.light.data.DataArrays.notNeedToOpenDrawerFragmentIds
+import com.progix.fridgex.light.data.Extensions.adjustFontSize
 import com.progix.fridgex.light.data.Extensions.dipToPixels
 import com.progix.fridgex.light.data.SharedPreferencesAccess
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFirstStart
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFont
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadString
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadTheme
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveFirstStart
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveString
 import com.progix.fridgex.light.fragment.banned.BannedProductsFragment
-import com.progix.fridgex.light.fragment.dialog.DialogColor
 import com.progix.fridgex.light.fragment.dialog.DialogLoadingFragment
 import com.progix.fridgex.light.helper.DatabaseHelper
 import com.skydoves.transformationlayout.onTransformationStartContainer
@@ -63,6 +65,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navController: NavController
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase?.adjustFontSize(loadFont(newBase)))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         when (loadTheme(this)) {
@@ -77,6 +83,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         onTransformationStartContainer()
+
+        this.adjustFontSize(loadFont(this))
 
         super.onCreate(savedInstanceState)
 
@@ -515,6 +523,7 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         saveBadgeState()
         (applicationContext as FridgeXLightApplication).setCurrentContext(this)
+        hideBothNavigation(false)
         super.onPause()
     }
 

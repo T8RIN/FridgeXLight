@@ -69,7 +69,7 @@ class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), Acti
     fun recreateList() {
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
-            while(productsList == null) startCoroutine()
+            while (productsList == null) startCoroutine()
 
             loading?.visibility = View.GONE
             prodAnno = requireView().findViewById(R.id.annotationCard)

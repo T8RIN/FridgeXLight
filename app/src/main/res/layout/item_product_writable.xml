@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_weight="1.8"
-            android:theme="@style/abchihba">
+            android:theme="@style/EditTextStyle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"

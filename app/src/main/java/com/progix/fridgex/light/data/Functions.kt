@@ -8,6 +8,7 @@ import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import java.io.*
 
+
 object Functions {
 
     private const val d = 256

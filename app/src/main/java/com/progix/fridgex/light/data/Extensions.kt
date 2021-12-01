@@ -21,4 +21,9 @@ object Extensions {
         return typedValue.data
     }
 
+    fun Context.adjustFontSize(fontScale: Float = 1.0f): Context {
+        val configuration = resources.configuration
+        configuration.fontScale = fontScale
+        return createConfigurationContext(configuration)
+    }
 }

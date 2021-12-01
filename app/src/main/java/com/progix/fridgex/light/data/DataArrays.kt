@@ -285,9 +285,22 @@ object DataArrays {
         )
     )
 
+    val colorListNames: ArrayList<String> = ArrayList(
+        listOf(
+            "red",
+            "pnk",
+            "vlt",
+            "ble",
+            "mnt",
+            "grn",
+            "yel",
+            "def"
+        )
+    )
+
     val colorNames: ArrayList<String> = ArrayList(
         listOf(
-            "Apple", "Blossom", "UV", "Sky", "Mint", "Salad", "Lemon", "Classic"
+            "Apple", "Berry", "UV", "Sky", "Mint", "Salad", "Lemon", "Classic"
         )
     )
 }

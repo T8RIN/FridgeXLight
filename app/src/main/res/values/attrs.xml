@@ -3,5 +3,7 @@
     <attr name="checked" format="color" />
     <attr name="checkedl" format="color" />
     <attr name="checkedTrans" format="color" />
-    <attr name="dchecked" format="color"/>
+    <attr name="dchecked" format="color" />
+    <attr name="textFieldColor" format="color" />
+    <attr name="textErrorColor" format="color" />
 </resources>

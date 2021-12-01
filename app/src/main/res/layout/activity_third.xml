@@ -50,7 +50,7 @@
                     android:id="@+id/recipeNameTextField"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:theme="@style/abchihba"
+                    android:theme="@style/EditTextStyle"
                     app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText

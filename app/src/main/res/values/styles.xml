@@ -59,10 +59,16 @@
         <item name="cornerSize">14dp</item>
     </style>
 
-    <style name="abchihba">
-        <item name="colorOnSurface">?attr/dchecked</item>
+    <style name="EditTextStyle">
+        <item name="colorOnSurface">?attr/textFieldColor</item>
         <item name="colorPrimary">?attr/checked</item>
-        <item name="colorError">@color/red</item>
+        <item name="colorError">?attr/textErrorColor</item>
+    </style>
+
+    <style name="DialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:windowMinWidthMajor">@dimen/abc_dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/abc_dialog_min_width_minor</item>
+        <item name="android:windowNoTitle">false</item>
     </style>
 
 </resources>

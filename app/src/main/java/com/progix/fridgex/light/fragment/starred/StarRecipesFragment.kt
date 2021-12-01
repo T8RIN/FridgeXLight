@@ -40,7 +40,7 @@ class StarRecipesFragment : Fragment(R.layout.fragment_star_recipes), ActionInte
         val loading: CircularProgressIndicator = v.findViewById(R.id.loading)
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
-            while(recipeList == null) startCoroutine()
+            while (recipeList == null) startCoroutine()
 
             loading.visibility = GONE
             if (recipeList!!.isNotEmpty()) {

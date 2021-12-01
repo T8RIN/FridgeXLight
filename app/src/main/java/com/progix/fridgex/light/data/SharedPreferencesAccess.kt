@@ -99,4 +99,16 @@ object SharedPreferencesAccess {
         val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
         return sharedPreferences.getString("theme", "def")
     }
+
+    fun saveFont(context: Context, value: Float) {
+        val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putFloat("font", value)
+        editor.apply()
+    }
+
+    fun loadFont(context: Context): Float {
+        val sharedPreferences = context.getSharedPreferences("fridgex", Context.MODE_PRIVATE)
+        return sharedPreferences.getFloat("font", 1.0f)
+    }
 }

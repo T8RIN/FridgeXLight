@@ -13,7 +13,7 @@ class RecipeAdapter(var context: Context, var recipeList: List<String>) :
     RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_error, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_recipe_actions, parent, false)
         )
     }
 

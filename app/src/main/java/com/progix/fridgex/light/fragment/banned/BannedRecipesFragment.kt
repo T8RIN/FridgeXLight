@@ -32,7 +32,7 @@ class BannedRecipesFragment : Fragment(R.layout.fragment_banned_recipes), Action
         val loading: CircularProgressIndicator = v.findViewById(R.id.loading)
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
-            while(recipeList == null) startCoroutine()
+            while (recipeList == null) startCoroutine()
 
             loading.visibility = View.GONE
             if (recipeList!!.isNotEmpty()) {

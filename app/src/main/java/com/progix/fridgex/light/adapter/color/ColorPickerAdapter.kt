@@ -10,18 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.activity.MainActivity
+import com.progix.fridgex.light.data.DataArrays.colorListNames
 import com.progix.fridgex.light.data.DataArrays.colorNames
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadTheme
-import com.progix.fridgex.light.data.SharedPreferencesAccess.saveTheme
-import com.progix.fridgex.light.helper.interfaces.ColorPickerInterface
-
+import com.progix.fridgex.light.helper.interfaces.SettingsInterface
 
 class ColorPickerAdapter(
     var context: Context,
     val fragment: DialogFragment,
     private var colorList: List<Pair<Int, Int>>,
-    private val colorInterface: ColorPickerInterface?
+    private val colorInterface: SettingsInterface?
 ) :
     RecyclerView.Adapter<ColorPickerAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,7 +28,16 @@ class ColorPickerAdapter(
         )
     }
 
+    private var selectedItemPos = -1
+    private var lastItemSelectedPos = -1
+
+    init {
+        selectedItemPos = colorListNames.indexOf(loadTheme(context))
+        lastItemSelectedPos = selectedItemPos
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.image.setStrokeColorResource(colorList[position].first)
         holder.image.setImageResource(colorList[position].second)
         holder.text.text = colorNames[position]
@@ -44,14 +51,21 @@ class ColorPickerAdapter(
             6 -> "yel"
             else -> "def"
         }
-        (holder.itemView as MaterialCardView).isChecked = amplifier == loadTheme(context)
-        holder.image.setOnClickListener {
-            if (amplifier != loadTheme(context)) {
-                (context as MainActivity).recreate()
-                saveTheme(context, amplifier)
-                colorInterface?.onPick()
+
+        val card: MaterialCardView = holder.itemView as MaterialCardView
+
+        card.isChecked = position == selectedItemPos
+
+        holder.itemView.setOnClickListener {
+            colorInterface?.onPickColor(amplifier)
+            selectedItemPos = holder.absoluteAdapterPosition
+            lastItemSelectedPos = if (lastItemSelectedPos == -1)
+                selectedItemPos
+            else {
+                notifyItemChanged(lastItemSelectedPos)
+                selectedItemPos
             }
-            fragment.dismiss()
+            notifyItemChanged(selectedItemPos)
         }
     }
 

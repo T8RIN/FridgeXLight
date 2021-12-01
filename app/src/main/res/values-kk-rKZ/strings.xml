@@ -155,5 +155,11 @@
     <string name="updateDailyRecipes">Обновить рецепты дня?</string>
     <string name="thisWillUpdateDailyRecipes">Вы хотите обновить ежедневные рецепты? Вы сразу увидите шесть новых свежих рецептов, не дожидаясь следующего дня</string>
     <string name="themeChooser">Цветовая схема</string>
+    <string name="fontSize">Размер шрифта</string>
+    <string name="smaller">Очень маленький</string>
+    <string name="small">Маленький</string>
+    <string name="normal">Средний</string>
+    <string name="big">Большой</string>
+    <string name="bigger">Очень большой</string>
 
 </resources>

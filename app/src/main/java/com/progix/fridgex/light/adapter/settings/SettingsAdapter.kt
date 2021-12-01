@@ -21,14 +21,18 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.guide
 import com.progix.fridgex.light.activity.MainActivity.Companion.restart
 import com.progix.fridgex.light.data.DataArrays.colorList
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadCartMode
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFont
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadNightMode
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadTheme
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveCartMode
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveNightMode
 import com.progix.fridgex.light.fragment.dialog.DialogColor
+import com.progix.fridgex.light.fragment.dialog.FontDialogFragment
 
-
-class SettingsAdapter(var context: Context, private var settingsList: List<String>) :
+class SettingsAdapter(
+    var context: Context,
+    private var settingsList: List<String>,
+) :
     RecyclerView.Adapter<SettingsAdapter.SettingsHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsHolder {
         val itemView: View = LayoutInflater.from(context)
@@ -123,6 +127,26 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                 }
             }
             2 -> {
+                holder.text.text = settingsList[position]
+                holder.icon.setImageResource(R.drawable.ic_baseline_text_fields_24)
+                val charSequence = when (loadFont(context)) {
+                    0.5f -> context.getString(R.string.smaller)
+                    0.75f -> context.getString(R.string.small)
+                    1.25f -> context.getString(R.string.big)
+                    1.5f -> context.getString(R.string.bigger)
+                    else -> context.getString(R.string.normal)
+                }
+                holder.onOff.text = charSequence
+
+                holder.itemView.setOnClickListener {
+                    val dialog = FontDialogFragment()
+                    if (!dialog.isAdded) dialog.show(
+                        (context as MainActivity).supportFragmentManager,
+                        "custom"
+                    )
+                }
+            }
+            3 -> {
                 holder.switcher.visibility = VISIBLE
                 holder.subText.visibility = VISIBLE
                 holder.onOff.visibility = GONE
@@ -144,8 +168,8 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                     else -> context.getString(R.string.ignoreMessage)
                 }
 
-                holder.switcher.setOnClickListener {
-                    when (holder.switcher.isChecked) {
+                holder.switcher.setOnCheckedChangeListener { _, isChecked ->
+                    when (isChecked) {
                         true -> {
                             saveCartMode(context, 1)
                             holder.subText.text = context.getString(R.string.addingModeMessage)
@@ -157,7 +181,7 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
                     }
                 }
             }
-            3 -> {
+            4 -> {
                 holder.icon.setImageResource(R.drawable.ic_baseline_info_24)
                 holder.text.text = settingsList[position]
                 holder.onOff.visibility = GONE
@@ -210,6 +234,5 @@ class SettingsAdapter(var context: Context, private var settingsList: List<Strin
     override fun onViewDetachedFromWindow(holder: SettingsHolder) {
         holder.clearAnimation()
     }
-
 
 }

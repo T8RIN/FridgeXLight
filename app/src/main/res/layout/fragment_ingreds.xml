@@ -37,11 +37,11 @@
             android:valueFrom="1"
             android:valueTo="10"
             app:layout_constraintTop_toBottomOf="@id/ingredsRecycler"
-            app:thumbColor="@color/active"
+            app:thumbColor="?attr/checked"
             app:thumbRadius="8dp"
-            app:tickColor="@color/dactive"
-            app:trackColorActive="@color/active"
-            app:trackColorInactive="@color/lactive" />
+            app:tickColor="?attr/dchecked"
+            app:trackColorActive="?attr/checked"
+            app:trackColorInactive="?attr/checkedl" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

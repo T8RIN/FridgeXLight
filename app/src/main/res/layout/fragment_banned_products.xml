@@ -23,8 +23,7 @@
         android:background="@android:color/transparent"
         android:outlineProvider="none"
         android:visibility="gone"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:cardCornerRadius="12dp">
+        app:cardBackgroundColor="@android:color/transparent">
 
         <LinearLayout
             android:layout_width="match_parent"

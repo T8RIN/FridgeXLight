@@ -64,6 +64,7 @@ class BanListFragment : Fragment(R.layout.fragment_ban_list) {
                 actionMode?.finish()
                 position = tab.position
             }
+
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })

@@ -74,12 +74,12 @@ class StarRecipesAdapter(
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var image: ImageView = view.findViewById(R.id.image)
-        var recipeName: TextView = view.findViewById(R.id.recipeName)
-        var indicator: ImageView = view.findViewById(R.id.indicator)
-        var xOfY: TextView = view.findViewById(R.id.x_y)
-        var time: TextView = view.findViewById(R.id.time)
-        var star: ImageView = view.findViewById(R.id.star)
+        val image: ImageView = view.findViewById(R.id.image)
+        val recipeName: TextView = view.findViewById(R.id.recipeName)
+        val indicator: ImageView = view.findViewById(R.id.indicator)
+        val xOfY: TextView = view.findViewById(R.id.x_y)
+        val time: TextView = view.findViewById(R.id.time)
+        val star: ImageView = view.findViewById(R.id.star)
 
         fun clearAnimation() {
             itemView.clearAnimation()

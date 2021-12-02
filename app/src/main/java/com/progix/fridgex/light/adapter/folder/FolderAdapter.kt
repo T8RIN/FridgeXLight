@@ -38,7 +38,7 @@ class FolderAdapter(
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var image: ImageView = view.findViewById(R.id.image)
+        val image: ImageView = view.findViewById(R.id.image)
         val category: TextView = view.findViewById(R.id.category)
 
         fun clearAnimation() {

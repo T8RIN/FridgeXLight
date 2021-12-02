@@ -26,7 +26,7 @@ class RecipeAdapter(var context: Context, var recipeList: List<String>) :
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var prodName: TextView = view.findViewById(R.id.name)
+        val prodName: TextView = view.findViewById(R.id.name)
     }
 
 }

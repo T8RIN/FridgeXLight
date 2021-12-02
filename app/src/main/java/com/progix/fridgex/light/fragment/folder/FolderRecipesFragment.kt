@@ -4,12 +4,11 @@ import android.content.Intent
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +17,6 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.folder.FolderRecipesAdapter
@@ -56,10 +54,8 @@ class FolderRecipesFragment : Fragment(R.layout.fragment_folder_recipes) {
         )
         cursor2.moveToFirst()
         val name = cursor2.getString(2)
+        requireActivity().findViewById<Toolbar>(R.id.toolbar).title = name
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).toolbar.title = name
-        }, 1)
         recycler = v.findViewById(R.id.podPodFolderRecycler)
         val loading: CircularProgressIndicator = v.findViewById(R.id.loading)
         job?.cancel()

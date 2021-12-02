@@ -62,8 +62,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navigationView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
-    lateinit var toolbar: Toolbar
-    lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var toolbar: Toolbar
+    private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navController: NavController
 
     override fun attachBaseContext(newBase: Context?) {

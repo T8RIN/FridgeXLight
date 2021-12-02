@@ -4,12 +4,11 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.folder.FolderCategoriesAdapter
@@ -75,9 +73,7 @@ class FolderCategoriesFragment : Fragment(R.layout.fragment_folder_categories) {
         }
         cursor2.close()
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            (requireActivity() as MainActivity).toolbar.title = name
-        }, 1)
+        requireActivity().findViewById<Toolbar>(R.id.toolbar).title = name
 
         recycler = v.findViewById(R.id.podFolderRecycler)
         adapter = FolderCategoriesAdapter(requireContext(), listFolder, folderClicker, list)

@@ -73,7 +73,7 @@ class ColorPickerAdapter(
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var image: ShapeableImageView = view.findViewById(R.id.shapeImage)
-        var text: TextView = view.findViewById(R.id.text)
+        val image: ShapeableImageView = view.findViewById(R.id.shapeImage)
+        val text: TextView = view.findViewById(R.id.text)
     }
 }

@@ -64,9 +64,9 @@ class DialogSearchProductsAdapter(var context: Context, private var prodList: Ar
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var prodName: TextView = view.findViewById(R.id.name)
-        var checkBox: CheckBox = view.findViewById(R.id.checkbox)
-        var star: ImageView = view.findViewById(R.id.star)
+        val prodName: TextView = view.findViewById(R.id.name)
+        val checkBox: CheckBox = view.findViewById(R.id.checkbox)
+        val star: ImageView = view.findViewById(R.id.star)
         fun clearAnimation() {
             itemView.clearAnimation()
         }

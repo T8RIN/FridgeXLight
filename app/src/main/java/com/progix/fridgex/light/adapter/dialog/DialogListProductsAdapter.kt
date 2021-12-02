@@ -76,8 +76,8 @@ class DialogListProductsAdapter(
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var prodName: TextView = view.findViewById(R.id.name)
-        var textField: TextInputLayout = view.findViewById(R.id.textField)
+        val prodName: TextView = view.findViewById(R.id.name)
+        val textField: TextInputLayout = view.findViewById(R.id.textField)
         fun clearAnimation() {
             itemView.clearAnimation()
         }

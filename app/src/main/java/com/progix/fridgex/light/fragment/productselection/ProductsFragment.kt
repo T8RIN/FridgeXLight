@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Pair
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
@@ -42,7 +43,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         idd = requireArguments().getInt("prodCat")
         recycler = v.findViewById(R.id.productsRecycler)
         val name = arguments?.getString("category")
-        (requireActivity() as MainActivity).toolbar.title = name
+        requireActivity().findViewById<Toolbar>(R.id.toolbar).title = name
 
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {

@@ -1,6 +1,7 @@
 package com.progix.fridgex.light.fragment.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,11 @@ import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.color.ColorPickerAdapter
 import com.progix.fridgex.light.data.DataArrays.colorList
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadTheme
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveTheme
 import com.progix.fridgex.light.helper.interfaces.SettingsInterface
 
-class DialogColor : DialogFragment(), SettingsInterface {
+class DialogColorFragment : DialogFragment(), SettingsInterface {
 
     override fun onStart() {
         super.onStart()
@@ -24,6 +26,11 @@ class DialogColor : DialogFragment(), SettingsInterface {
             val height = ViewGroup.LayoutParams.WRAP_CONTENT
             dialog.window?.setLayout(width, height)
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        currentColor = loadTheme(context)!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,11 +45,13 @@ class DialogColor : DialogFragment(), SettingsInterface {
                 .setTitle(R.string.themeChooser)
                 .setPositiveButton(R.string.ok) { dialog, _ ->
                     dialog.dismiss()
-                    requireActivity().recreate()
-                    saveTheme(requireContext(), currentColor)
+                    if (currentColor != loadTheme(requireContext())) {
+                        requireActivity().recreate()
+                        saveTheme(requireContext(), currentColor)
+                    }
                 }
 
-        val view = requireActivity().layoutInflater.inflate(R.layout.theme_picker, null)
+        val view = requireActivity().layoutInflater.inflate(R.layout.theme_picker_dialog, null)
         onViewCreated(view, null)
         dialogBuilder.setView(view)
         return dialogBuilder.create()

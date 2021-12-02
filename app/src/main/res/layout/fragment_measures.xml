@@ -1,43 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
     tools:context=".fragment.measures.MeasuresFragment">
 
-    <HorizontalScrollView
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        tools:ignore="UselessParent">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/below"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:elevation="0dp"
+            app:cardBackgroundColor="@color/header2"
+            app:shapeAppearanceOverlay="@style/shape0dp">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/below"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:elevation="0dp"
-                app:cardBackgroundColor="@color/header2"
-                app:shapeAppearanceOverlay="@style/shape0dp">
+                android:layout_height="match_parent">
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/product"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/products"
+                    android:textColor="@color/manualText2" />
 
-                    <TextView
-                        android:id="@+id/product"
-                        android:layout_width="150dp"
-                        android:layout_height="70dp"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:text="@string/products"
-                        android:textColor="@color/manualText2" />
-
-                    <TextView
+                <TextView
                         android:id="@+id/cup250"
                         android:layout_width="150dp"
                         android:layout_height="70dp"
@@ -117,29 +111,25 @@
                         android:layout_alignEnd="@id/tbsp"
                         android:background="@drawable/divider" />
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="70dp"
-                        android:layout_alignEnd="@id/tsp"
-                        android:background="@drawable/divider" />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="70dp"
+                    android:layout_alignEnd="@id/tsp"
+                    android:background="@drawable/divider" />
 
-                </RelativeLayout>
+            </RelativeLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/measuresRecycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/below"
-                android:nestedScrollingEnabled="false"
-                android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/measuresRecycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/below"
+            android:nestedScrollingEnabled="false"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-        </RelativeLayout>
+    </RelativeLayout>
 
-    </HorizontalScrollView>
-
-    <include layout="@layout/circular_loading" />
-
-</FrameLayout>
+</HorizontalScrollView>

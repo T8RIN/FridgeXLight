@@ -5,6 +5,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.widget.addTextChangedListener
@@ -30,6 +32,7 @@ class DialogListProductsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        setAnimation(holder.itemView, position)
         holder.itemView.setOnClickListener {
             holder.textField.requestFocus()
         }
@@ -75,6 +78,25 @@ class DialogListProductsAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var prodName: TextView = view.findViewById(R.id.name)
         var textField: TextInputLayout = view.findViewById(R.id.textField)
+        fun clearAnimation() {
+            itemView.clearAnimation()
+        }
+    }
+
+    private var lastPosition = -1
+    private fun setAnimation(viewToAnimate: View, position: Int) {
+        val animation: Animation =
+            AnimationUtils.loadAnimation(context, R.anim.item_animation_fall_down)
+        viewToAnimate.startAnimation(animation)
+        lastPosition = position
+    }
+
+    override fun onFailedToRecycleView(holder: ViewHolder): Boolean {
+        return true
+    }
+
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+        holder.clearAnimation()
     }
 
     @SuppressLint("NotifyDataSetChanged")

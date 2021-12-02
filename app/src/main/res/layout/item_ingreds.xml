@@ -1,51 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:background="@android:color/transparent"
-    android:focusable="true"
-    android:outlineProvider="none"
-    app:cardBackgroundColor="@android:color/transparent"
-    app:cardCornerRadius="18dp"
-    app:cardForegroundColor="@android:color/transparent"
-    app:cardPreventCornerOverlap="false">
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:gravity="start"
+        android:text="" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
-            android:gravity="start"
-            android:text="" />
+    <TextView
+        android:id="@+id/dots"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="end"
+        android:singleLine="true"
+        android:text="@string/tochki" />
 
-        <TextView
-            android:id="@+id/dots"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:clickable="false"
-            android:focusable="false"
-            android:gravity="end"
-            android:singleLine="true"
-            android:text="@string/tochki" />
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="8dp"
+        android:gravity="end"
+        android:text="" />
 
-        <TextView
-            android:id="@+id/amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="8dp"
-            android:gravity="end"
-            android:text="" />
-
-    </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+</LinearLayout>

@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
@@ -25,6 +27,7 @@ class DialogSearchProductsAdapter(var context: Context, private var prodList: Ar
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        setAnimation(holder.itemView, position)
         holder.star.visibility = GONE
         val temValue = prodList[position]
         holder.prodName.text = temValue.replaceFirstChar { it.titlecase() }
@@ -64,6 +67,25 @@ class DialogSearchProductsAdapter(var context: Context, private var prodList: Ar
         var prodName: TextView = view.findViewById(R.id.name)
         var checkBox: CheckBox = view.findViewById(R.id.checkbox)
         var star: ImageView = view.findViewById(R.id.star)
+        fun clearAnimation() {
+            itemView.clearAnimation()
+        }
+    }
+
+    private var lastPosition = -1
+    private fun setAnimation(viewToAnimate: View, position: Int) {
+        val animation: Animation =
+            loadAnimation(context, R.anim.item_animation_fall_down)
+        viewToAnimate.startAnimation(animation)
+        lastPosition = position
+    }
+
+    override fun onFailedToRecycleView(holder: ViewHolder): Boolean {
+        return true
+    }
+
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+        holder.clearAnimation()
     }
 
 }

@@ -14,7 +14,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFont
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveFont
 
-class FontDialogFragment : DialogFragment() {
+class DialogFontFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
@@ -34,8 +34,10 @@ class FontDialogFragment : DialogFragment() {
                 .setTitle(R.string.fontSize)
                 .setPositiveButton(R.string.ok) { dialog, _ ->
                     dialog.dismiss()
-                    slider?.value?.let { saveFont(requireContext(), it) }
-                    requireActivity().recreate()
+                    if (slider?.value != loadFont(requireContext())) {
+                        slider?.value?.let { saveFont(requireContext(), it) }
+                        requireActivity().recreate()
+                    }
                 }
 
         val view = requireActivity().layoutInflater.inflate(R.layout.font_dialog, null)

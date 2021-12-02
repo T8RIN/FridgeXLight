@@ -18,7 +18,7 @@ import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
 
 class CategoryAdapter(
     var context: Context,
-    var fridgeList: ArrayList<String>,
+    private var fridgeList: ArrayList<String>,
     var onClickListener: OnClickListener
 ) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
@@ -64,16 +64,7 @@ class CategoryAdapter(
         fun clearAnimation() {
             itemView.clearAnimation()
         }
-
     }
-
-    class OnClickListener(val clickListener: (TextView, String) -> Unit) {
-        fun onClick(
-            name: TextView,
-            text: String
-        ) = clickListener(name, text)
-    }
-
 
     private var lastPosition = -1
     private fun setAnimation(viewToAnimate: View, position: Int) {
@@ -89,5 +80,12 @@ class CategoryAdapter(
 
     override fun onViewDetachedFromWindow(holder: ViewHolder) {
         holder.clearAnimation()
+    }
+
+    class OnClickListener(val clickListener: (TextView, String) -> Unit) {
+        fun onClick(
+            name: TextView,
+            text: String
+        ) = clickListener(name, text)
     }
 }

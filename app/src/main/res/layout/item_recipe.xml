@@ -126,5 +126,4 @@
         android:src="@drawable/ic_round_star_24"
         app:tint="@color/yellow" />
 
-
 </com.google.android.material.card.MaterialCardView>

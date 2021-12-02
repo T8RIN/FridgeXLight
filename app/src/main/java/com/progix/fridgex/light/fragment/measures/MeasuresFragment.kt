@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
@@ -32,31 +30,22 @@ class MeasuresFragment : Fragment(R.layout.fragment_measures) {
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         super.onViewCreated(v, savedInstanceState)
         val recycler: RecyclerView = v.findViewById(R.id.measuresRecycler)
-        val loading: CircularProgressIndicator = v.findViewById(R.id.loading)
 
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
-
             val measuresList: ArrayList<MeasureItem> = ArrayList()
-
             v.startAnimation(
                 AnimationUtils.loadAnimation(
                     requireContext(),
                     R.anim.item_animation_fall_down
                 )
             )
-
-            suspendFun(measuresList)
-
-            loading.visibility = GONE
-
+            loadMeasuresListTo(measuresList)
             recycler.adapter = MeasureAdapter(requireContext(), measuresList)
-
         }
     }
 
-
-    private suspend fun suspendFun(measuresList: ArrayList<MeasureItem>) =
+    private suspend fun loadMeasuresListTo(measuresList: ArrayList<MeasureItem>) =
         withContext(Dispatchers.IO) {
             val table: Cursor = mDb.rawQuery("SELECT * FROM measures", null)
             table.moveToFirst()

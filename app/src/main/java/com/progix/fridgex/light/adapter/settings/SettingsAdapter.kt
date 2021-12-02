@@ -26,8 +26,8 @@ import com.progix.fridgex.light.data.SharedPreferencesAccess.loadNightMode
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadTheme
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveCartMode
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveNightMode
-import com.progix.fridgex.light.fragment.dialog.DialogColor
-import com.progix.fridgex.light.fragment.dialog.FontDialogFragment
+import com.progix.fridgex.light.fragment.dialog.DialogColorFragment
+import com.progix.fridgex.light.fragment.dialog.DialogFontFragment
 
 class SettingsAdapter(
     var context: Context,
@@ -75,20 +75,8 @@ class SettingsAdapter(
                         .setTitle(context.getString(R.string.nightMode))
                         .setPositiveButton(context.getString(R.string.ok)) { _, _ ->
                             if (checkedItem != loadNightMode(context)) {
-                                when (checkedItem) {
-                                    0 -> {
-                                        saveNightMode(context, 0)
-                                        restartActivity()
-                                    }
-                                    1 -> {
-                                        saveNightMode(context, 1)
-                                        restartActivity()
-                                    }
-                                    2 -> {
-                                        saveNightMode(context, 2)
-                                        restartActivity()
-                                    }
-                                }
+                                saveNightMode(context, checkedItem)
+                                restartActivity()
                             }
                         }
                         .setSingleChoiceItems(listItems, checkedItem) { _, which ->
@@ -119,7 +107,7 @@ class SettingsAdapter(
                 holder.shapeImage.setImageResource(colorList[pos].second)
 
                 holder.itemView.setOnClickListener {
-                    val fragment = DialogColor()
+                    val fragment = DialogColorFragment()
                     if (!fragment.isAdded) fragment.show(
                         (context as MainActivity).supportFragmentManager,
                         "custom"
@@ -139,7 +127,7 @@ class SettingsAdapter(
                 holder.onOff.text = charSequence
 
                 holder.itemView.setOnClickListener {
-                    val dialog = FontDialogFragment()
+                    val dialog = DialogFontFragment()
                     if (!dialog.isAdded) dialog.show(
                         (context as MainActivity).supportFragmentManager,
                         "custom"

@@ -246,7 +246,6 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number =
                 Integer.valueOf(cartBadge)
         }
-
     }
 
     private fun saveBadgeState() {
@@ -364,8 +363,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavigation() {
-        bottomNavigationView.setOnItemSelectedListener { item ->
-            navigateTo(item.itemId, null)
+        bottomNavigationView.setOnItemSelectedListener {
+            navigateTo(it.itemId, null)
             true
         }
         bottomNavigationView.setOnItemReselectedListener { }

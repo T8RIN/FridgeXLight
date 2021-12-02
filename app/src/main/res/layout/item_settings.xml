@@ -42,7 +42,7 @@
             android:padding="10dp"
             android:text="@string/guide"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+            app:layout_constraintEnd_toStartOf="@+id/switcher_guideline"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/left_guideline"
             app:layout_constraintTop_toTopOf="parent" />
@@ -61,16 +61,18 @@
 
         <TextView
             android:id="@+id/switcher"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="10dp"
+            android:layout_marginStart="5dp"
             android:padding="10dp"
             android:text="@string/on"
             android:textColor="@color/ddinactive"
             android:textSize="16sp"
+            android:gravity="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/right_guideline"
+            app:layout_constraintStart_toStartOf="@+id/switcher_guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -87,10 +89,13 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="15dp"
+            android:layout_marginBottom="8dp"
             android:padding="1dp"
             android:src="@color/red"
+            app:layout_constraintBottom_toBottomOf="@id/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:shapeAppearanceOverlay="@style/shape12dp"
             app:strokeColor="@color/dred"
             app:strokeWidth="2dp" />
@@ -101,7 +106,7 @@
             android:layout_height="0dp"
             android:orientation="horizontal"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="text, subtext, shapeImage" />
+            app:constraint_referenced_ids="text, subtext, shapeImage, switcher" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/right_guideline"
@@ -111,6 +116,7 @@
             app:layout_constraintGuide_percent="0.82" />
 
         <ImageView
+            android:id="@+id/divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="@drawable/cursor_color"
@@ -118,6 +124,13 @@
             app:layout_constraintBottom_toBottomOf="@id/bottom_barrier"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/left_guideline" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/switcher_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.62" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

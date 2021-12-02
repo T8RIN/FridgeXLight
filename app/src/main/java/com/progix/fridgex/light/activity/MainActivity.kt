@@ -33,6 +33,7 @@ import com.progix.fridgex.light.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
 import com.progix.fridgex.light.custom.CustomTapTarget
+import com.progix.fridgex.light.data.DataArrays.fragmentSet
 import com.progix.fridgex.light.data.DataArrays.languages
 import com.progix.fridgex.light.data.DataArrays.mainFragmentIds
 import com.progix.fridgex.light.data.DataArrays.notNeedToOpenDrawerFragmentIds
@@ -70,6 +71,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
 
         when (loadTheme(this)) {
             "def" -> setTheme(R.style.FridgeXLight)
@@ -266,11 +269,11 @@ class MainActivity : AppCompatActivity() {
     private fun listAssign() {
         job2?.cancel()
         job2 = CoroutineScope(Dispatchers.Main).launch {
-            suspend()
+            initListsAsync()
         }
     }
 
-    private suspend fun suspend() = withContext(Dispatchers.IO) {
+    private suspend fun initListsAsync() = withContext(Dispatchers.IO) {
         delay(500)
         val cursor: Cursor = mDb.rawQuery("SELECT * FROM products", null)
         cursor.moveToFirst()
@@ -370,11 +373,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupDrawerNavigation() {
         appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_search, R.id.nav_fridge, R.id.nav_cart,
-                R.id.nav_star, R.id.nav_banned, R.id.nav_folder, R.id.nav_edit,
-                R.id.nav_measures, R.id.nav_tip, R.id.nav_settings
-            ),
+            fragmentSet,
             drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -476,6 +475,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun hideBothNavigation(lock: Boolean) {
+        showBothNavigation()
         if (lock) {
             bottomNavigationView.visibility = INVISIBLE
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
@@ -520,14 +520,12 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         saveBadgeState()
         (applicationContext as FridgeXLightApplication).setCurrentContext(this)
-        hideBothNavigation(false)
         super.onPause()
     }
 
     override fun onResume() {
         super.onResume()
         (applicationContext as FridgeXLightApplication).setCurrentContext(this)
-        updateNavStatus()
         if (badgeCnt != 0) bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number += badgeCnt
         overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
     }
@@ -542,15 +540,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateNavStatus() {
-        des = navController.currentDestination?.displayName!!.split("id/")[1]
-        when (des) {
-            "nav_home" -> showBothNavigation()
-            "nav_search" -> showBothNavigation()
-            "nav_fridge" -> showBothNavigation()
-            "nav_cart" -> showBothNavigation()
-            "nav_cat" -> hideBothNavigation(true)
-            "nav_products" -> hideBothNavigation(true)
-            else -> hideBothNavigation(false)
-        }
+        Handler(mainLooper).postDelayed({
+            des = navController.currentDestination?.displayName!!.split("id/")[1]
+            when (des) {
+                "nav_home" -> bottomSlideUp()
+                "nav_search" -> bottomSlideUp()
+                "nav_fridge" -> bottomSlideUp()
+                "nav_cart" -> bottomSlideUp()
+                else -> {
+                    bottomSlideUp()
+                    bottomSlideDown()
+                }
+            }
+        }, 100)
     }
 }

@@ -48,6 +48,8 @@ class SecondActivity : AppCompatActivity() {
     private var expandButton: FrameLayout? = null
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
+
         when (SharedPreferencesAccess.loadTheme(this)) {
             "def" -> setTheme(R.style.FridgeXLight)
             "red" -> setTheme(R.style.FridgeXLight_Red)

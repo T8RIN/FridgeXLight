@@ -303,4 +303,10 @@ object DataArrays {
             "Apple", "Berry", "UV", "Sky", "Mint", "Salad", "Lemon", "Classic"
         )
     )
+
+    val fragmentSet = setOf(
+        R.id.nav_home, R.id.nav_search, R.id.nav_fridge, R.id.nav_cart,
+        R.id.nav_star, R.id.nav_banned, R.id.nav_folder, R.id.nav_edit,
+        R.id.nav_measures, R.id.nav_tip, R.id.nav_settings
+    )
 }

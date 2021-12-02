@@ -4,8 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
@@ -39,7 +37,6 @@ class ColorPickerAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        setAnimation(holder.itemView, position)
         holder.image.setStrokeColorResource(colorList[position].first)
         holder.image.setImageResource(colorList[position].second)
         holder.text.text = colorNames[position]
@@ -78,26 +75,5 @@ class ColorPickerAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var image: ShapeableImageView = view.findViewById(R.id.shapeImage)
         var text: TextView = view.findViewById(R.id.text)
-
-        fun clearAnimation() {
-            itemView.clearAnimation()
-        }
     }
-
-    private var lastPosition = -1
-    private fun setAnimation(viewToAnimate: View, position: Int) {
-        val animation: Animation =
-            AnimationUtils.loadAnimation(context, R.anim.item_animation_fall_down)
-        viewToAnimate.startAnimation(animation)
-        lastPosition = position
-    }
-
-    override fun onFailedToRecycleView(holder: ViewHolder): Boolean {
-        return true
-    }
-
-    override fun onViewDetachedFromWindow(holder: ViewHolder) {
-        holder.clearAnimation()
-    }
-
 }

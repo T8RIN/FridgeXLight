@@ -50,7 +50,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="0"
                 android:contentDescription="@string/none"
-                android:src="@drawable/ic_round_add_circle_outline_24" />
+                android:src="@drawable/ic_baseline_menu_24" />
 
         </LinearLayout>
 

@@ -46,8 +46,9 @@
                 android:layout_height="38dp"
                 android:layout_gravity="center"
                 android:layout_weight="0"
+                android:rotation="270"
                 android:contentDescription="@string/none"
-                android:src="@drawable/ic_round_add_circle_outline_24" />
+                android:src="@drawable/ic_baseline_subdirectory_arrow_right_24" />
 
         </LinearLayout>
 

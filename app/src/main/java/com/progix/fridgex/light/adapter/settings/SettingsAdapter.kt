@@ -184,8 +184,7 @@ class SettingsAdapter(
 
     private fun restartActivity() {
         restart = true
-        (context as MainActivity).finishAffinity()
-        context.startActivity(Intent(context, MainActivity::class.java))
+        (context as MainActivity).recreate()
     }
 
     override fun getItemCount(): Int {

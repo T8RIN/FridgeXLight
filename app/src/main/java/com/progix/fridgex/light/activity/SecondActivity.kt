@@ -60,7 +60,6 @@ class SecondActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-        overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
         setContentView(R.layout.activity_second)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -323,5 +322,10 @@ class SecondActivity : AppCompatActivity() {
         needToControlFab = false
         id = 1
         super.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
     }
 }

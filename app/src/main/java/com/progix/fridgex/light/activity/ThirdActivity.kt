@@ -96,7 +96,6 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             "ble" -> setTheme(R.style.FridgeXLight_Blue)
         }
 
-        overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_third)
 
@@ -670,5 +669,10 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             hintList.add(MainActivity.allHints!![MainActivity.allProducts!!.indexOf(item.lowercase())])
         }
         fragment.adapterList = DialogListProductsAdapter(this, adapterListNames!!, hintList)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
     }
 }

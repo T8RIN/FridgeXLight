@@ -22,12 +22,10 @@
         android:theme="@style/FridgeXLight">
         <activity
             android:name=".activity.ThirdActivity"
-            android:exported="false"
-            android:noHistory="true" />
+            android:exported="false" />
         <activity
             android:name=".activity.SecondActivity"
-            android:exported="true"
-            android:noHistory="true" />
+            android:exported="true" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"

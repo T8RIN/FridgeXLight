@@ -88,8 +88,6 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
-
         (applicationContext as FridgeXLightApplication).setCurrentContext(this)
 
         initDataBase()
@@ -531,6 +529,7 @@ class MainActivity : AppCompatActivity() {
         (applicationContext as FridgeXLightApplication).setCurrentContext(this)
         updateNavStatus()
         if (badgeCnt != 0) bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number += badgeCnt
+        overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
     }
 
     override fun onStart() {

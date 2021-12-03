@@ -12,11 +12,11 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.adapter.banned.BannedProductsAdapter
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
+import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 import kotlinx.coroutines.*
 
 
-class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), ActionInterface {
+class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), ActionModeInterface {
 
     private var job: Job? = null
     var adapter: BannedProductsAdapter? = null
@@ -59,7 +59,7 @@ class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), Acti
 
     override fun onSelectedItemsCountChanged(count: Int) {
         val callback = ActionModeCallback()
-        callback.init(adapter!!, 7)
+        callback.attachAdapter(adapter!!, 7)
         if (MainActivity.actionMode == null) MainActivity.actionMode =
             (requireContext() as MainActivity).startSupportActionMode(callback)
         if (count > 0) MainActivity.actionMode?.title = "$count"
@@ -78,7 +78,7 @@ class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), Acti
                 prodAnno?.visibility = View.GONE
                 prodRecycler?.visibility = View.VISIBLE
                 adapter = BannedProductsAdapter(requireContext(), productsList!!)
-                adapter!!.init(this@BannedProductsFragment)
+                adapter!!.attachInterface(this@BannedProductsFragment)
                 prodRecycler?.adapter = adapter
             } else {
                 prodAnno?.startAnimation(

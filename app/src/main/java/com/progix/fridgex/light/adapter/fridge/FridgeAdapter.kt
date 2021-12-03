@@ -29,7 +29,7 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
 import com.progix.fridgex.light.fragment.FridgeFragment
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
+import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 
 
 class FridgeAdapter(var context: Context, private var fridgeList: ArrayList<Pair<String, String>>) :
@@ -260,10 +260,10 @@ class FridgeAdapter(var context: Context, private var fridgeList: ArrayList<Pair
 
     }
 
-    private var actionInterface: ActionInterface? = null
+    private var actionModeInterface: ActionModeInterface? = null
 
-    fun init(actionInterface: ActionInterface) {
-        this.actionInterface = actionInterface
+    fun attachInterface(actionModeInterface: ActionModeInterface) {
+        this.actionModeInterface = actionModeInterface
     }
 
     fun addIDIntoSelectedIds(position: Int) {
@@ -277,7 +277,7 @@ class FridgeAdapter(var context: Context, private var fridgeList: ArrayList<Pair
         }
         notifyItemChanged(position)
         if (selectedIds.size < 1) isMultiSelectOn = false
-        actionInterface?.onSelectedItemsCountChanged(selectedIds.size)
+        actionModeInterface?.onSelectedItemsCountChanged(selectedIds.size)
     }
 
     val selectedIds: ArrayList<String> = ArrayList()

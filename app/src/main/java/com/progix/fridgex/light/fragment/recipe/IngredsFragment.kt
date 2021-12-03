@@ -113,7 +113,7 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
 
         recycler.adapter = IngredientsAdapter(requireContext(), prodList!!, missList!!)
 
-        init(prodList!!)
+        attachList(prodList!!)
 
         fabOnClick((requireActivity() as SecondActivity).findViewById(R.id.fab))
     }
@@ -198,7 +198,7 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
         var prodList: ArrayList<Pair<String, String>>? = null
     }
 
-    private fun init(products: ArrayList<Pair<String, String>>) {
+    private fun attachList(products: ArrayList<Pair<String, String>>) {
         list = products
     }
 }

@@ -23,7 +23,7 @@
     </style>
 
     <style name="buttonSecOverlay2" parent="">
-        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimary">?attr/textErrorColor</item>
     </style>
 
     <style name="shape11dp" parent="ShapeAppearance.MaterialComponents.SmallComponent">

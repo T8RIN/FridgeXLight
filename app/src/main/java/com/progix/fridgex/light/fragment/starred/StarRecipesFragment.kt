@@ -20,12 +20,12 @@ import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.starred.StarRecipesAdapter
 import com.progix.fridgex.light.data.Functions
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
+import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 import com.progix.fridgex.light.model.RecyclerSortItem
 import kotlinx.coroutines.*
 
 
-class StarRecipesFragment : Fragment(R.layout.fragment_star_recipes), ActionInterface {
+class StarRecipesFragment : Fragment(R.layout.fragment_star_recipes), ActionModeInterface {
 
     private var job: Job? = null
     var adapter: StarRecipesAdapter? = null
@@ -45,7 +45,7 @@ class StarRecipesFragment : Fragment(R.layout.fragment_star_recipes), ActionInte
             loading.visibility = GONE
             if (recipeList!!.isNotEmpty()) {
                 adapter = StarRecipesAdapter(requireContext(), recipeList!!, recipeClicker)
-                adapter!!.init(this@StarRecipesFragment)
+                adapter!!.attachInterface(this@StarRecipesFragment)
                 recycler.adapter = adapter
             } else {
                 annotationCard.startAnimation(
@@ -141,7 +141,7 @@ class StarRecipesFragment : Fragment(R.layout.fragment_star_recipes), ActionInte
 
     override fun onSelectedItemsCountChanged(count: Int) {
         val callback = ActionModeCallback()
-        callback.init(adapter!!, 5)
+        callback.attachAdapter(adapter!!, 5)
         if (actionMode == null) actionMode =
             (requireContext() as MainActivity).startSupportActionMode(callback)
         if (count > 0) actionMode?.title = "$count"

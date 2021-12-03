@@ -31,7 +31,7 @@ import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadCartMode
 import com.progix.fridgex.light.fragment.CartFragment
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
+import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 
 
 class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, String>>) :
@@ -106,12 +106,12 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
             itemView.setOnClickListener {
                 if (isMultiSelectOn) addIDIntoSelectedIds(position)
                 else {
-                    val cc: Cursor = mDb.rawQuery(
+                    val products: Cursor = mDb.rawQuery(
                         "SELECT * FROM products WHERE product = ?",
                         listOf(cartList[position].first).toTypedArray()
                     )
-                    cc.moveToFirst()
-                    val crossed = cc.getString(5) == "1"
+                    products.moveToFirst()
+                    val crossed = products.getString(5) == "1"
                     mDb.execSQL(
                         "UPDATE products SET amount = ? WHERE product = ?",
                         listOf(!crossed, cartList[position].first).toTypedArray()
@@ -150,16 +150,16 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
                         itemView.alpha = 0.5f
                         name.paintFlags = name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                     }
-                    cc.close()
+                    products.close()
                 }
             }
         }
     }
 
-    var actionInterface: ActionInterface? = null
+    var actionModeInterface: ActionModeInterface? = null
 
-    fun init(actionInterface: ActionInterface) {
-        this.actionInterface = actionInterface
+    fun attachInterface(actionModeInterface: ActionModeInterface) {
+        this.actionModeInterface = actionModeInterface
     }
 
     fun addIDIntoSelectedIds(position: Int) {
@@ -173,7 +173,7 @@ class CartAdapter(var context: Context, var cartList: ArrayList<Pair<String, Str
         }
         notifyItemChanged(position)
         if (selectedIds.size < 1) isMultiSelectOn = false
-        actionInterface?.onSelectedItemsCountChanged(selectedIds.size)
+        actionModeInterface?.onSelectedItemsCountChanged(selectedIds.size)
     }
 
     val selectedIds: ArrayList<String> = ArrayList()

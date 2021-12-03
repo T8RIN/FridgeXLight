@@ -12,10 +12,10 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.adapter.starred.StarProductsAdapter
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
+import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 import kotlinx.coroutines.*
 
-class StarProductsFragment : Fragment(R.layout.fragment_star_products), ActionInterface {
+class StarProductsFragment : Fragment(R.layout.fragment_star_products), ActionModeInterface {
 
     private var job: Job? = null
     var adapter: StarProductsAdapter? = null
@@ -35,7 +35,7 @@ class StarProductsFragment : Fragment(R.layout.fragment_star_products), ActionIn
             loading.visibility = View.GONE
             if (productsList!!.isNotEmpty()) {
                 adapter = StarProductsAdapter(requireContext(), productsList!!)
-                adapter!!.init(this@StarProductsFragment)
+                adapter!!.attachInterface(this@StarProductsFragment)
                 recycler.adapter = adapter
             } else {
                 annotationCard.startAnimation(
@@ -79,7 +79,7 @@ class StarProductsFragment : Fragment(R.layout.fragment_star_products), ActionIn
 
     override fun onSelectedItemsCountChanged(count: Int) {
         val callback = ActionModeCallback()
-        callback.init(adapter!!, 4)
+        callback.attachAdapter(adapter!!, 4)
         if (MainActivity.actionMode == null) MainActivity.actionMode =
             (requireContext() as MainActivity).startSupportActionMode(callback)
         if (count > 0) MainActivity.actionMode?.title = "$count"

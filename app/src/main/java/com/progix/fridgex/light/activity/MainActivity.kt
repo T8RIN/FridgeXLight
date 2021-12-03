@@ -49,6 +49,7 @@ import com.progix.fridgex.light.data.SharedPreferencesAccess.saveBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveFirstStart
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveString
 import com.progix.fridgex.light.fragment.banned.BannedProductsFragment
+import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment
 import com.progix.fridgex.light.fragment.dialog.DialogLoadingFragment
 import com.progix.fridgex.light.helper.DatabaseHelper
 import com.skydoves.transformationlayout.onTransformationStartContainer
@@ -439,6 +440,7 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
         }
         productsFragment?.recreateList()
+        recipesFragment?.recreateList()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -502,6 +504,7 @@ class MainActivity : AppCompatActivity() {
         var badgeBool: BooleanArray? = null
 
         var productsFragment: BannedProductsFragment? = null
+        var recipesFragment: BannedRecipesFragment? = null
     }
 
     override fun onDestroy() {
@@ -514,6 +517,7 @@ class MainActivity : AppCompatActivity() {
         badgeBool = null
         badgeCnt = 0
         productsFragment = null
+        recipesFragment = null
         super.onDestroy()
     }
 

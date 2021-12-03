@@ -23,7 +23,7 @@
     </style>
 
     <style name="buttonSecOverlay2" parent="">
-        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimary">?attr/textErrorColor</item>
     </style>
 
     <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">

@@ -26,7 +26,7 @@ class ActionModeCallback : ActionMode.Callback {
 
     private var fragmentId: Int? = null
 
-    fun init(myAdapter: Any, fragmentId: Int) {
+    fun attachAdapter(myAdapter: Any, fragmentId: Int) {
         this.fragmentId = fragmentId
         when (fragmentId) {
             R.id.nav_fridge -> {

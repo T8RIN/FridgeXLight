@@ -10,26 +10,35 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.progix.fridgex.light.FridgeXLightApplication.Companion.appContext
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.banned.BannedRecipesAdapter
 import com.progix.fridgex.light.data.Functions.addItemToList
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
+import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 import com.progix.fridgex.light.model.RecyclerSortItem
 import kotlinx.coroutines.*
 
-class BannedRecipesFragment : Fragment(R.layout.fragment_banned_recipes), ActionInterface {
+class BannedRecipesFragment : Fragment(R.layout.fragment_banned_recipes), ActionModeInterface {
+
+    lateinit var loading: CircularProgressIndicator
+    lateinit var recycler: RecyclerView
+    lateinit var annotationCard: MaterialCardView
 
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         super.onViewCreated(v, savedInstanceState)
-        val recycler: RecyclerView = v.findViewById(R.id.bannedRecipesRecycler)
+        recycler = v.findViewById(R.id.bannedRecipesRecycler)
         recRecycler = recycler
-        val annotationCard: MaterialCardView = v.findViewById(R.id.annotationCard)
+        annotationCard = v.findViewById(R.id.annotationCard)
         recAnno = annotationCard
 
-        val loading: CircularProgressIndicator = v.findViewById(R.id.loading)
+        loading = v.findViewById(R.id.loading)
+        recreateList()
+    }
+
+    fun recreateList() {
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
             while (recipeList == null) startCoroutine()
@@ -37,15 +46,15 @@ class BannedRecipesFragment : Fragment(R.layout.fragment_banned_recipes), Action
             loading.visibility = View.GONE
             if (recipeList!!.isNotEmpty()) {
                 adapter = BannedRecipesAdapter(
-                    requireContext(),
+                    appContext,
                     recipeList!!, recipeClicker
                 )
-                adapter!!.init(this@BannedRecipesFragment)
+                adapter!!.attachInterface(this@BannedRecipesFragment)
                 recycler.adapter = adapter
             } else {
                 annotationCard.startAnimation(
                     AnimationUtils.loadAnimation(
-                        requireContext(),
+                        appContext,
                         R.anim.item_animation_fall_down
                     )
                 )
@@ -137,7 +146,7 @@ class BannedRecipesFragment : Fragment(R.layout.fragment_banned_recipes), Action
 
     override fun onSelectedItemsCountChanged(count: Int) {
         val callback = ActionModeCallback()
-        callback.init(adapter!!, 6)
+        callback.attachAdapter(adapter!!, 6)
         if (MainActivity.actionMode == null) MainActivity.actionMode =
             (requireContext() as MainActivity).startSupportActionMode(callback)
         if (count > 0) MainActivity.actionMode?.title = "$count"

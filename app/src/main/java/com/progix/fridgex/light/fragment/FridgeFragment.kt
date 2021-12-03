@@ -27,10 +27,10 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.fridge.FridgeAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
+import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 import kotlinx.coroutines.*
 
-class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
+class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionModeInterface {
     private val fridgeList: ArrayList<Pair<String, String>> = ArrayList()
 
     private lateinit var loading: CircularProgressIndicator
@@ -64,7 +64,7 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
             getList()
             if (fridgeList.isNotEmpty()) {
                 adapter = FridgeAdapter(appContext, fridgeList)
-                adapter!!.init(this@FridgeFragment)
+                adapter!!.attachInterface(this@FridgeFragment)
                 privateRecycler.adapter = adapter
             } else {
                 privateAnno.startAnimation(
@@ -147,7 +147,7 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
                                         undoOrDoActionCoroutine("undo")
                                         recycler!!.visibility = VISIBLE
                                         adapter = FridgeAdapter(requireContext(), fridgeList)
-                                        adapter!!.init(this@FridgeFragment)
+                                        adapter!!.attachInterface(this@FridgeFragment)
                                         recycler!!.adapter = adapter
 
                                         behavior.slideUp(bottomNavigationView)
@@ -197,7 +197,7 @@ class FridgeFragment : Fragment(R.layout.fragment_fridge), ActionInterface {
 
     override fun onSelectedItemsCountChanged(count: Int) {
         val callback = ActionModeCallback()
-        callback.init(adapter!!, R.id.nav_fridge)
+        callback.attachAdapter(adapter!!, R.id.nav_fridge)
         if (actionMode == null) actionMode =
             (requireContext() as MainActivity).startSupportActionMode(callback)
         if (count > 0) actionMode?.title = "$count"

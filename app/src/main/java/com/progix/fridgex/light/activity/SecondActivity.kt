@@ -39,6 +39,7 @@ import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.list
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.missList
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.portions
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.prodList
+import com.progix.fridgex.light.helper.DatabaseHelper
 import kotlin.math.abs
 
 
@@ -329,5 +330,11 @@ class SecondActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
+    }
+
+    override fun onStart() {
+        if (mDb != DatabaseHelper(this).writableDatabase) mDb =
+            DatabaseHelper(this).writableDatabase
+        super.onStart()
     }
 }

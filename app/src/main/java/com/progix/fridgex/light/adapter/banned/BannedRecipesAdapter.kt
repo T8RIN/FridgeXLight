@@ -24,7 +24,7 @@ import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.Functions
 import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment.Companion.recAnno
 import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment.Companion.recRecycler
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
+import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 import com.progix.fridgex.light.model.RecyclerSortItem
 
 
@@ -103,10 +103,10 @@ class BannedRecipesAdapter(
         }
     }
 
-    private var actionInterface: ActionInterface? = null
+    private var actionModeInterface: ActionModeInterface? = null
 
-    fun init(actionInterface: ActionInterface) {
-        this.actionInterface = actionInterface
+    fun attachInterface(actionModeInterface: ActionModeInterface) {
+        this.actionModeInterface = actionModeInterface
     }
 
     fun addIDIntoSelectedIds(position: Int) {
@@ -120,7 +120,7 @@ class BannedRecipesAdapter(
         }
         notifyItemChanged(position)
         if (selectedIds.size < 1) isMultiSelectOn = false
-        actionInterface?.onSelectedItemsCountChanged(selectedIds.size)
+        actionModeInterface?.onSelectedItemsCountChanged(selectedIds.size)
     }
 
     val selectedIds: ArrayList<String> = ArrayList()

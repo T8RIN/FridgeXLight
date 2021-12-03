@@ -134,7 +134,7 @@ class DialogProductsFragment : DialogFragment(R.layout.fragment_dialog_products)
         var adapterListNames: ArrayList<String>? = null
 
         var dialogAdapterInterface: DialogAdapterInterface? = null
-        fun initAdapterInterface(dialogAdapterInterface: DialogAdapterInterface) {
+        fun attachInterface(dialogAdapterInterface: DialogAdapterInterface) {
             this.dialogAdapterInterface = dialogAdapterInterface
         }
     }

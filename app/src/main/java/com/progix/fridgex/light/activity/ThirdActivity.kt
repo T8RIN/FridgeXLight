@@ -38,8 +38,9 @@ import com.progix.fridgex.light.data.SharedPreferencesAccess
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListNames
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListValues
+import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.attachInterface
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.dialogAdapterInterface
-import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.initAdapterInterface
+import com.progix.fridgex.light.helper.DatabaseHelper
 import com.progix.fridgex.light.helper.interfaces.DialogAdapterInterface
 import com.progix.fridgex.light.helper.interfaces.EditListChangesInterface
 import com.skydoves.transformationlayout.TransformationAppCompatActivity
@@ -126,7 +127,7 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             setupErrors()
             addWatchersToTextFields()
             initProductPicker()
-            initAdapterInterface(this@ThirdActivity)
+            attachInterface(this@ThirdActivity)
             initFabOnClick()
             initImageOnClick()
             initEditMode(idEditingNow)
@@ -676,5 +677,11 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
     override fun onResume() {
         super.onResume()
         overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
+    }
+
+    override fun onStart() {
+        if (mDb != DatabaseHelper(this).writableDatabase) mDb =
+            DatabaseHelper(this).writableDatabase
+        super.onStart()
     }
 }

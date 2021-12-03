@@ -24,12 +24,12 @@ import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
 import com.progix.fridgex.light.fragment.starred.StarProductsFragment.Companion.prodAnno
 import com.progix.fridgex.light.fragment.starred.StarProductsFragment.Companion.prodRecycler
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
+import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 
 
 class StarProductsAdapter(
     var context: Context,
-    var starProductsList: ArrayList<Pair<String, String>>
+    private var starProductsList: ArrayList<Pair<String, String>>
 ) :
     RecyclerView.Adapter<StarProductsAdapter.ViewHolder>() {
 
@@ -300,10 +300,10 @@ class StarProductsAdapter(
 
     }
 
-    private var actionInterface: ActionInterface? = null
+    private var actionModeInterface: ActionModeInterface? = null
 
-    fun init(actionInterface: ActionInterface) {
-        this.actionInterface = actionInterface
+    fun attachInterface(actionModeInterface: ActionModeInterface) {
+        this.actionModeInterface = actionModeInterface
     }
 
     fun addIDIntoSelectedIds(position: Int) {
@@ -317,7 +317,7 @@ class StarProductsAdapter(
         }
         notifyItemChanged(position)
         if (selectedIds.size < 1) isMultiSelectOn = false
-        actionInterface?.onSelectedItemsCountChanged(selectedIds.size)
+        actionModeInterface?.onSelectedItemsCountChanged(selectedIds.size)
     }
 
     val selectedIds: ArrayList<String> = ArrayList()

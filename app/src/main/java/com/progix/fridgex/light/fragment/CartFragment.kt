@@ -29,10 +29,10 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.cart.CartAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
-import com.progix.fridgex.light.helper.interfaces.ActionInterface
+import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 import kotlinx.coroutines.*
 
-class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
+class CartFragment : Fragment(R.layout.fragment_cart), ActionModeInterface {
     private val cartList: ArrayList<Pair<String, String>> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +73,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
                 getList()
                 if (cartList.isNotEmpty()) {
                     adapter = CartAdapter(requireContext(), cartList)
-                    adapter!!.init(this@CartFragment)
+                    adapter!!.attachInterface(this@CartFragment)
                     privateRecycler.adapter = adapter
                 } else {
                     privateAnno.startAnimation(
@@ -95,7 +95,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
             getList()
             if (cartList.isNotEmpty()) {
                 adapter = CartAdapter(appContext, cartList)
-                adapter!!.init(this@CartFragment)
+                adapter!!.attachInterface(this@CartFragment)
                 privateRecycler.adapter = adapter
             } else {
                 privateAnno.startAnimation(
@@ -184,7 +184,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
                                         undoOrDoActionCoroutine("undo")
                                         recycler!!.visibility = View.VISIBLE
                                         adapter = CartAdapter(requireContext(), cartList)
-                                        adapter!!.init(this@CartFragment)
+                                        adapter!!.attachInterface(this@CartFragment)
                                         recycler!!.adapter = adapter
                                         behavior.slideUp(bottomNavigationView)
                                         loading.visibility = View.GONE
@@ -263,7 +263,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionInterface {
 
     override fun onSelectedItemsCountChanged(count: Int) {
         val callback = ActionModeCallback()
-        callback.init(adapter!!, R.id.nav_cart)
+        callback.attachAdapter(adapter!!, R.id.nav_cart)
         if (actionMode == null) actionMode =
             (requireContext() as MainActivity).startSupportActionMode(callback)
         if (count > 0) actionMode?.title = "$count"

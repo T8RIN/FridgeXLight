@@ -1,5 +1,5 @@
 package com.progix.fridgex.light.helper.interfaces
 
-interface ActionInterface {
+interface ActionModeInterface {
     fun onSelectedItemsCountChanged(count: Int)
 }

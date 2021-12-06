@@ -1,6 +1,7 @@
 package com.progix.fridgex.light.fragment.recipe
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.database.Cursor
 import android.os.Bundle
 import android.view.View
@@ -189,6 +190,7 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
                     .show()
             }
         }
+        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) fab.hide()
     }
 
     companion object {

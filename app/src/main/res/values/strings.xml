@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">FridgeXLight</string>
     <string name="daily" translatable="false">Daily</string>
     <string name="search" translatable="false">Search</string>
@@ -24,7 +24,7 @@
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="auto">System default</string>
-    <string name="ok" translatable="false">OK</string>
+    <string name="ok" translatable="false" tools:override="true">OK</string>
     <string name="version">version 1.0 (1)</string>
     <string name="codeLines" translatable="false">10k pure code lines</string>
 

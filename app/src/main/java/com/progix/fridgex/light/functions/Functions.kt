@@ -40,7 +40,7 @@ object Functions {
         var fos: FileOutputStream? = null
         try {
             fos = FileOutputStream(path)
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos)
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 85, fos)
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {

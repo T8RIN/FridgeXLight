@@ -23,8 +23,8 @@ import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.ThirdActivity
 import com.progix.fridgex.light.custom.CustomSnackbar
-import com.progix.fridgex.light.data.Functions
-import com.progix.fridgex.light.data.Functions.strToInt
+import com.progix.fridgex.light.functions.Functions
+import com.progix.fridgex.light.functions.Functions.strToInt
 import com.progix.fridgex.light.helper.interfaces.EditListChangesInterface
 import com.progix.fridgex.light.model.RecyclerSortItem
 import com.skydoves.transformationlayout.TransformationCompat

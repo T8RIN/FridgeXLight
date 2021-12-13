@@ -132,11 +132,13 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/ic_baseline_image_400.xml" value="0.2153846153846154" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/ic_baseline_source_24.xml" value="0.21265822784810126" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/ic_baseline_text_snippet_24.xml" value="0.2153846153846154" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/ic_fridge_144.xml" value="0.2153846153846154" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/ic_light_mode_24dp.xml" value="0.2153846153846154" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/indicator_0.xml" value="0.2153846153846154" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/manual_gradient.xml" value="0.2123931623931624" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/navigation_badge.xml" value="0.2153846153846154" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/radial_gradient.xml" value="0.2153846153846154" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/drawable/splash.xml" value="0.2153846153846154" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/activity_second.xml" value="0.2" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/layout-land/activity_third.xml" value="0.176" />
@@ -244,6 +246,7 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/popup_menu_starred.xml" value="0.20213675213675214" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/search_menu.xml" value="0.20213675213675214" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/menu/starred_menu.xml" value="0.1" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/FridgeXLight/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2153846153846154" />
       </map>
     </option>
   </component>

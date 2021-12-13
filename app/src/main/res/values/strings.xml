@@ -181,5 +181,6 @@
     <string name="normal">Normal</string>
     <string name="big">Big</string>
     <string name="bigger">Bigger</string>
+    <string name="tooLargeImage">Too large image</string>
 
 </resources>

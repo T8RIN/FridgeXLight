@@ -1,4 +1,4 @@
-package com.progix.fridgex.light.data
+package com.progix.fridgex.light.extensions
 
 import android.content.Context
 import android.util.TypedValue

@@ -19,7 +19,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
@@ -28,25 +31,30 @@ import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
+import com.progix.fridgex.light.FridgeXLightApplication.Companion.heightPixels
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.dialog.DialogListProductsAdapter
-import com.progix.fridgex.light.data.Functions.loadImageFromStorage
-import com.progix.fridgex.light.data.Functions.saveToInternalStorage
-import com.progix.fridgex.light.data.Functions.strToInt
 import com.progix.fridgex.light.data.SharedPreferencesAccess
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListNames
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.adapterListValues
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.attachInterface
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment.Companion.dialogAdapterInterface
+import com.progix.fridgex.light.functions.Functions.loadImageFromStorage
+import com.progix.fridgex.light.functions.Functions.saveToInternalStorage
+import com.progix.fridgex.light.functions.Functions.strToInt
 import com.progix.fridgex.light.helper.DatabaseHelper
 import com.progix.fridgex.light.helper.interfaces.DialogAdapterInterface
 import com.progix.fridgex.light.helper.interfaces.EditListChangesInterface
 import com.skydoves.transformationlayout.TransformationAppCompatActivity
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
+import java.lang.Integer.max
 
 class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface {
 
@@ -228,7 +236,13 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
                 val imageStream = contentResolver.openInputStream(imageUri!!)
                 val selectedImage = BitmapFactory.decodeStream(imageStream)
                 bitmapImage = selectedImage
-                imageRecipe.setImageBitmap(selectedImage)
+                val ampl = max(selectedImage.height, selectedImage.width)
+                if (ampl < heightPixels * 1.5) {
+                    imageRecipe.setImageBitmap(selectedImage)
+                } else {
+                    Toast.makeText(this, getString(R.string.tooLargeImage), Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
 

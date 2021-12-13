@@ -18,7 +18,7 @@ import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.activity.ThirdActivity
 import com.progix.fridgex.light.activity.ThirdActivity.Companion.editorInterface
 import com.progix.fridgex.light.adapter.editor.EditListAdapter
-import com.progix.fridgex.light.data.Functions
+import com.progix.fridgex.light.functions.Functions
 import com.progix.fridgex.light.helper.interfaces.EditListChangesInterface
 import com.progix.fridgex.light.model.RecyclerSortItem
 import com.skydoves.transformationlayout.TransformationCompat

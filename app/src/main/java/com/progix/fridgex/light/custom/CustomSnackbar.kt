@@ -10,7 +10,7 @@ import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.data.Extensions.getAttrColor
+import com.progix.fridgex.light.extensions.Extensions.getAttrColor
 
 class CustomSnackbar(val context: Context) {
     fun create(

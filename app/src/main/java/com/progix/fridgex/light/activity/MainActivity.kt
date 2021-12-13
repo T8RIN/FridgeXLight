@@ -37,8 +37,8 @@ import com.progix.fridgex.light.data.DataArrays.fragmentSet
 import com.progix.fridgex.light.data.DataArrays.languages
 import com.progix.fridgex.light.data.DataArrays.mainFragmentIds
 import com.progix.fridgex.light.data.DataArrays.notNeedToOpenDrawerFragmentIds
-import com.progix.fridgex.light.data.Extensions.adjustFontSize
-import com.progix.fridgex.light.data.Extensions.dipToPixels
+import com.progix.fridgex.light.extensions.Extensions.adjustFontSize
+import com.progix.fridgex.light.extensions.Extensions.dipToPixels
 import com.progix.fridgex.light.data.SharedPreferencesAccess
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFirstStart

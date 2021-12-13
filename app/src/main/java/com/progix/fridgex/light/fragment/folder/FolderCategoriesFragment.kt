@@ -22,7 +22,7 @@ import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.folder.FolderCategoriesAdapter
 import com.progix.fridgex.light.adapter.folder.FolderRecipesAdapter
 import com.progix.fridgex.light.data.DataArrays.secondaryFolderCategoriesImages
-import com.progix.fridgex.light.data.Functions
+import com.progix.fridgex.light.functions.Functions
 import com.progix.fridgex.light.model.RecyclerSortItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit

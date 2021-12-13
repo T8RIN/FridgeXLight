@@ -161,4 +161,5 @@
     <string name="normal">Средний</string>
     <string name="big">Большой</string>
     <string name="bigger">Очень большой</string>
+    <string name="tooLargeImage">Слишком большое изображение</string>
 </resources>

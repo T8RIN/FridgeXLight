@@ -20,7 +20,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.custom.CustomSnackbar
-import com.progix.fridgex.light.data.Functions
+import com.progix.fridgex.light.functions.Functions
 import com.progix.fridgex.light.model.RecyclerSortItem
 
 class FolderRecipesAdapter(

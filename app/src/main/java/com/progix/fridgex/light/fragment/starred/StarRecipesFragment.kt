@@ -18,7 +18,7 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.starred.StarRecipesAdapter
-import com.progix.fridgex.light.data.Functions
+import com.progix.fridgex.light.functions.Functions
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
 import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 import com.progix.fridgex.light.model.RecyclerSortItem

@@ -16,10 +16,14 @@ class FridgeXLightApplication : Application() {
             1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
+        heightPixels = resources.displayMetrics.heightPixels
+        widthPixels = resources.displayMetrics.widthPixels
     }
 
     companion object {
         lateinit var appContext: Context
+        var heightPixels: Int = 0
+        var widthPixels: Int = 0
     }
 
     private var mCurrentContext: Context? = null

@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.progix.fridgex.light.FridgeXLightApplication
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.data.Extensions.getAttrColor
+import com.progix.fridgex.light.extensions.Extensions.getAttrColor
 import com.progix.fridgex.light.model.NavItem
 
 

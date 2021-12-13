@@ -15,7 +15,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.banned.BannedRecipesAdapter
-import com.progix.fridgex.light.data.Functions.addItemToList
+import com.progix.fridgex.light.functions.Functions.addItemToList
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
 import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 import com.progix.fridgex.light.model.RecyclerSortItem

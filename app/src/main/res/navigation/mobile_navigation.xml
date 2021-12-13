@@ -120,5 +120,4 @@
         android:label=""
         tools:layout="@layout/fragment_tip_display" />
 
-
 </navigation>

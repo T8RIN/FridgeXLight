@@ -32,7 +32,7 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.search.SearchAdapter
 import com.progix.fridgex.light.adapter.search.SearchFilterNavigationAdapter
-import com.progix.fridgex.light.data.Functions.addItemToList
+import com.progix.fridgex.light.functions.Functions.addItemToList
 import com.progix.fridgex.light.model.NavItem
 import com.progix.fridgex.light.model.RecyclerSortItem
 import kotlinx.coroutines.*

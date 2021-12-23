@@ -3,7 +3,9 @@ package com.progix.fridgex.light.fragment.editor
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment

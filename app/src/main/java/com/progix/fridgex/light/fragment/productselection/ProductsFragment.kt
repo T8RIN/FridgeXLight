@@ -3,7 +3,9 @@ package com.progix.fridgex.light.fragment.productselection
 import android.database.Cursor
 import android.os.Bundle
 import android.util.Pair
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment

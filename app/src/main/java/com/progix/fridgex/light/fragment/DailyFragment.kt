@@ -3,7 +3,9 @@ package com.progix.fridgex.light.fragment
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -27,7 +29,6 @@ import kotlinx.coroutines.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class DailyFragment : Fragment(R.layout.fragment_daily) {
     private var job: Job? = null

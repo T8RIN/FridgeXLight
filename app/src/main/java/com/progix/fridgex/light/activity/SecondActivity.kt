@@ -33,12 +33,12 @@ import com.progix.fridgex.light.adapter.recipe.InfoAdapter
 import com.progix.fridgex.light.adapter.viewpager.RecipeViewPagerAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.recipeImages
-import com.progix.fridgex.light.functions.Functions
 import com.progix.fridgex.light.data.SharedPreferencesAccess
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.list
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.missList
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.portions
 import com.progix.fridgex.light.fragment.recipe.IngredsFragment.Companion.prodList
+import com.progix.fridgex.light.functions.Functions
 import com.progix.fridgex.light.helper.DatabaseHelper
 import kotlin.math.abs
 

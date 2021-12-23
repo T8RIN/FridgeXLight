@@ -190,7 +190,7 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
                     .show()
             }
         }
-        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) fab.hide()
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) fab.hide()
     }
 
     companion object {

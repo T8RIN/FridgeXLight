@@ -22,9 +22,9 @@ import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.custom.CustomSnackbar
-import com.progix.fridgex.light.functions.Functions
 import com.progix.fridgex.light.fragment.starred.StarRecipesFragment.Companion.recAnno
 import com.progix.fridgex.light.fragment.starred.StarRecipesFragment.Companion.recRecycler
+import com.progix.fridgex.light.functions.Functions
 import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 import com.progix.fridgex.light.model.RecyclerSortItem
 

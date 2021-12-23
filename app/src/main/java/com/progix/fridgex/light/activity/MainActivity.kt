@@ -8,7 +8,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.MenuItem
-import android.view.View.*
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -37,8 +38,6 @@ import com.progix.fridgex.light.data.DataArrays.fragmentSet
 import com.progix.fridgex.light.data.DataArrays.languages
 import com.progix.fridgex.light.data.DataArrays.mainFragmentIds
 import com.progix.fridgex.light.data.DataArrays.notNeedToOpenDrawerFragmentIds
-import com.progix.fridgex.light.extensions.Extensions.adjustFontSize
-import com.progix.fridgex.light.extensions.Extensions.dipToPixels
 import com.progix.fridgex.light.data.SharedPreferencesAccess
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFirstStart
@@ -48,6 +47,8 @@ import com.progix.fridgex.light.data.SharedPreferencesAccess.loadTheme
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveFirstStart
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveString
+import com.progix.fridgex.light.extensions.Extensions.adjustFontSize
+import com.progix.fridgex.light.extensions.Extensions.dipToPixels
 import com.progix.fridgex.light.fragment.banned.BannedProductsFragment
 import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment
 import com.progix.fridgex.light.fragment.dialog.DialogLoadingFragment
@@ -55,7 +56,6 @@ import com.progix.fridgex.light.helper.DatabaseHelper
 import com.skydoves.transformationlayout.onTransformationStartContainer
 import kotlinx.coroutines.*
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {

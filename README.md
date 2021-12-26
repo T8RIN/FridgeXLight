@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">  
-FridgeXLight is a simple and handy application that allows you not to think about recipes.<br>Just add products products that you have in a fridge to get specially selected recipes based on them.<br>This project is for focusing especially on the showing mostly all material components and google guidelines
+FridgeXLight is a simple and handy application that allows you not to think about recipes.<br>Just add products that you have in a fridge to get specially selected recipes based on them.<br>This project is for focusing especially on the showing mostly all material components and google guidelines
 </p>
 </br>
 

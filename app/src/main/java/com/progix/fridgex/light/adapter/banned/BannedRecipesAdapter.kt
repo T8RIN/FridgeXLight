@@ -40,7 +40,6 @@ class BannedRecipesAdapter(
         )
     }
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.star.visibility = GONE
         if (recipeList[position].recipeItem.image != -1) {

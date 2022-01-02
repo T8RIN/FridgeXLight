@@ -26,6 +26,7 @@ android {
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -66,6 +67,7 @@ dependencies {
     implementation "com.github.skydoves:transformationlayout:1.1.0"
 
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
 //    implementation platform('com.google.firebase:firebase-bom:29.0.0')
 //    implementation 'com.google.firebase:firebase-database-ktx'

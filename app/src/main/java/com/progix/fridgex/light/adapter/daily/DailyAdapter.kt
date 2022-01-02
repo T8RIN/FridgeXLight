@@ -137,12 +137,8 @@ class DailyAdapter(
                 else -> true
             }
         }
+        popupMenus.setForceShowIcon(true)
         popupMenus.show()
-        val popup = PopupMenu::class.java.getDeclaredField("mPopup")
-        popup.isAccessible = true
-        val menu = popup.get(popupMenus)
-        menu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-            .invoke(menu, true)
     }
 
     private fun inflatePopup(popupMenus: PopupMenu, starred: Boolean, banned: Boolean) {

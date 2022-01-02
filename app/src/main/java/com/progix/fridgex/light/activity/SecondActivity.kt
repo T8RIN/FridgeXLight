@@ -269,12 +269,8 @@ class SecondActivity : AppCompatActivity() {
                 else -> true
             }
         }
+        popupMenus.setForceShowIcon(true)
         popupMenus.show()
-        val popup = PopupMenu::class.java.getDeclaredField("mPopup")
-        popup.isAccessible = true
-        val menu = popup.get(popupMenus)
-        menu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-            .invoke(menu, true)
     }
 
     private fun inflatePopup(popupMenus: PopupMenu, starred: Boolean, banned: Boolean) {
@@ -282,7 +278,6 @@ class SecondActivity : AppCompatActivity() {
         else if (!starred && banned) popupMenus.inflate(R.menu.popup_menu_banned_second)
         else if (starred && !banned) popupMenus.inflate(R.menu.popup_menu_starred_second)
         else popupMenus.inflate(R.menu.popup_menu_both_second)
-
     }
 
     private fun showSnackBar(

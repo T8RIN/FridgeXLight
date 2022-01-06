@@ -122,7 +122,8 @@
             android:src="@drawable/ic_baseline_shopping_cart_24"
             app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tabs" />
+            app:layout_constraintEnd_toStartOf="@+id/tabs"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -101,6 +101,7 @@
         android:visibility="gone"
         app:fabSize="mini"
         app:layout_anchor="@id/collapsingToolbar"
-        app:layout_anchorGravity="end|bottom" />
+        app:layout_anchorGravity="end|bottom"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

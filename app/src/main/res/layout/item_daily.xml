@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="280dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="4dp"
     android:layout_weight="1"
     android:checkable="true"
@@ -49,7 +50,7 @@
                 android:layout_weight="1"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:text="@string/probka_test" />
+                tools:text="@tools:sample/lorem" />
 
             <ImageView
                 android:id="@+id/star"

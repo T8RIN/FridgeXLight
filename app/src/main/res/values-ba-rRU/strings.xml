@@ -52,7 +52,7 @@
     <string name="redirect">Переход в браузер</string>
     <string name="redirectMessage">Вы будете перенаправлены на внешний ресурс, продолжить?</string>
     <string name="cont">Продолжить</string>
-    <string name="copiedFrom">скопировано из приложения FridgeX https://play.google.com/store/apps/details?id=com.progix.fridgex</string>
+    <string name="copiedFrom">скопировано из приложения FridgeXLite github.com/t8rin/fridgexlite</string>
     <string name="products">Продукты</string>
     <string name="category">Категория</string>
     <string name="timeCook">Время приготовления</string>

@@ -72,7 +72,7 @@
     <string name="redirect">Redirecting to the browser</string>
     <string name="redirectMessage">You will be redirected to an external resource, continue?</string>
     <string name="cont">Continue</string>
-    <string name="copiedFrom">copied from the FridgeX application https://play.google.com/store/apps/details?id=com.progix.fridgex</string>
+    <string name="copiedFrom">copied from the FridgeXLite application github.com/t8rin/fridgexlite</string>
     <string name="products">Products</string>
     <string name="category">Category</string>
     <string name="timeCook">Cooking time</string>
@@ -108,11 +108,10 @@
     <string name="byFats">By fats</string>
     <string name="byCbh">By carb-s</string>
     <string name="chooseSort">Choose how to sort recipes</string>
-    <string name="tochki" translatable="false">....................................................................................................................................................................................................................................................................</string>
+    <string name="dots" translatable="false">....................................................................................................................................................................................................................................................................</string>
     <string name="infoTab">Info</string>
     <string name="reversed">Use reverse sort method</string>
 
-    <string name="probka_test" translatable="false">Бездрожжевая пицца на тонком тесте с кальмарами и bynthtcyjcnzvb</string>
     <string name="toStar">Add to starred</string>
     <string name="toCart">Add to cart</string>
     <string name="ban">Ban</string>

@@ -24,6 +24,7 @@ import com.progix.fridgex.light.data.SharedPreferencesAccess.loadDailyRecipe
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadDate
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveDailyRecipe
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveDate
+import com.progix.fridgex.light.extensions.Extensions.getAttrColor
 import com.progix.fridgex.light.model.RecipeItem
 import kotlinx.coroutines.*
 import java.text.DateFormat
@@ -66,7 +67,10 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             )
         }
 
-        swipeRefresh.setColorSchemeResources(R.color.yellow, R.color.red, R.color.green)
+        swipeRefresh.setColorSchemeColors(
+            requireContext().getAttrColor(R.attr.checked),
+            requireContext().getAttrColor(R.attr.checkedl)
+        )
         swipeRefresh.setOnRefreshListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.updateDailyRecipes))

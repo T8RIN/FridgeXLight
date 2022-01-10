@@ -24,7 +24,7 @@
         android:focusable="false"
         android:gravity="end"
         android:singleLine="true"
-        android:text="@string/tochki" />
+        android:text="@string/dots" />
 
     <TextView
         android:id="@+id/amount"

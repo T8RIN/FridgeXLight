@@ -28,6 +28,7 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.cart.CartAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
+import com.progix.fridgex.light.extensions.Extensions.getAttrColor
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
 import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 import kotlinx.coroutines.*
@@ -65,7 +66,10 @@ class CartFragment : Fragment(R.layout.fragment_cart), ActionModeInterface {
                 R.color.manualBackground
             )
         )
-        swipeRefresh.setColorSchemeResources(R.color.yellow, R.color.red, R.color.green)
+        swipeRefresh.setColorSchemeColors(
+            requireContext().getAttrColor(R.attr.checked),
+            requireContext().getAttrColor(R.attr.checkedl)
+        )
         swipeRefresh.setOnRefreshListener {
             actionMode?.finish()
             job?.cancel()

@@ -5,9 +5,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.color.ColorPickerAdapter
@@ -40,8 +40,8 @@ class DialogColorFragment : DialogFragment(), SettingsInterface {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialogBuilder: AlertDialog.Builder =
-            AlertDialog.Builder(requireActivity(), R.style.modeAlert)
+        val dialogBuilder =
+            MaterialAlertDialogBuilder(requireActivity(), R.style.modeAlert)
                 .setTitle(R.string.themeChooser)
                 .setPositiveButton(R.string.ok) { dialog, _ ->
                     dialog.dismiss()

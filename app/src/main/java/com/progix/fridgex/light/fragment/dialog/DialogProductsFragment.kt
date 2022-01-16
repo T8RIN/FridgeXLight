@@ -69,7 +69,6 @@ class DialogProductsFragment : DialogFragment(R.layout.fragment_dialog_products)
             }
     }
 
-
     private fun search(s: String): DialogSearchProductsAdapter {
         val pairArrayList = ArrayList<Pair<Int, String>>()
         val list = ArrayList<String>()

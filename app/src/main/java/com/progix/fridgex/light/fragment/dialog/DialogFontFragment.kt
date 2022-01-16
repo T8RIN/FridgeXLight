@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.progix.fridgex.light.R
@@ -29,8 +29,8 @@ class DialogFontFragment : DialogFragment() {
     private var slider: Slider? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialogBuilder: AlertDialog.Builder =
-            AlertDialog.Builder(requireActivity(), R.style.modeAlert)
+        val dialogBuilder =
+            MaterialAlertDialogBuilder(requireActivity(), R.style.modeAlert)
                 .setTitle(R.string.fontSize)
                 .setPositiveButton(R.string.ok) { dialog, _ ->
                     dialog.dismiss()

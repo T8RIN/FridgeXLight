@@ -30,7 +30,7 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
-import com.progix.fridgex.light.FridgeXLightApplication
+import com.progix.fridgex.light.application.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
 import com.progix.fridgex.light.custom.CustomTapTarget

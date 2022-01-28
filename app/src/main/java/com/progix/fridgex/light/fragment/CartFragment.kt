@@ -21,7 +21,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.FridgeXLightApplication.Companion.appContext
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.appContext
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.actionMode

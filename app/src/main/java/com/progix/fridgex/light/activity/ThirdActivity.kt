@@ -31,7 +31,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
-import com.progix.fridgex.light.FridgeXLightApplication.Companion.heightPixels
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.heightPixels
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.dialog.DialogListProductsAdapter

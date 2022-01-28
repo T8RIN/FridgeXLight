@@ -18,7 +18,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.progix.fridgex.light.FridgeXLightApplication
+import com.progix.fridgex.light.application.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb

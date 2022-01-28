@@ -14,7 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.FridgeXLightApplication
+import com.progix.fridgex.light.application.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity

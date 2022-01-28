@@ -1,10 +1,9 @@
-package com.progix.fridgex.light
+package com.progix.fridgex.light.application
 
 import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import com.progix.fridgex.light.data.SharedPreferencesAccess
-
 
 class FridgeXLightApplication : Application() {
 

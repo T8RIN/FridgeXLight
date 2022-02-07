@@ -1,4 +1,4 @@
-package com.progix.fridgex.light
+package com.progix.fridgex.light.application
 
 import android.app.Application
 import android.content.Context

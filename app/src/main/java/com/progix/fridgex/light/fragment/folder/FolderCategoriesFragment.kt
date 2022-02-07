@@ -23,6 +23,7 @@ import com.progix.fridgex.light.adapter.folder.FolderCategoriesAdapter
 import com.progix.fridgex.light.adapter.folder.FolderRecipesAdapter
 import com.progix.fridgex.light.data.DataArrays.secondaryFolderCategoriesImages
 import com.progix.fridgex.light.functions.Functions
+import com.progix.fridgex.light.functions.Functions.searchString
 import com.progix.fridgex.light.model.RecyclerSortItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
@@ -206,48 +207,5 @@ class FolderCategoriesFragment : Fragment(R.layout.fragment_folder_categories) {
         }
         startActivity(intent, options!!.toBundle())
     }
-
-    private fun searchString(chtoIshem: String, gdeIshem: String): Int {
-        val d = 256
-        val q = 101
-        var h = 1
-        var i: Int
-        var j: Int
-        var p = 0
-        var t = 0
-        val m = chtoIshem.length
-        val n = gdeIshem.length
-        if (m <= n) {
-            i = 0
-            while (i < m - 1) {
-                h = h * d % q
-                ++i
-            }
-            i = 0
-            while (i < m) {
-                p = (d * p + chtoIshem[i].code) % q
-                t = (d * t + gdeIshem[i].code) % q
-                ++i
-            }
-            i = 0
-            while (i <= n - m) {
-                if (p == t) {
-                    j = 0
-                    while (j < m) {
-                        if (gdeIshem[i + j] != chtoIshem[j]) break
-                        ++j
-                    }
-                    if (j == m) return i
-                }
-                if (i < n - m) {
-                    t = (d * (t - gdeIshem[i].code * h) + gdeIshem[i + m].code) % q
-                    if (t < 0) t += q
-                }
-                ++i
-            }
-        } else return q
-        return q
-    }
-
 
 }

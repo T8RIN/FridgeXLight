@@ -30,29 +30,25 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
-import com.progix.fridgex.light.FridgeXLightApplication
+import com.progix.fridgex.light.application.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
 import com.progix.fridgex.light.custom.CustomTapTarget
 import com.progix.fridgex.light.data.DataArrays.fragmentSet
-import com.progix.fridgex.light.data.DataArrays.languages
 import com.progix.fridgex.light.data.DataArrays.mainFragmentIds
 import com.progix.fridgex.light.data.DataArrays.notNeedToOpenDrawerFragmentIds
 import com.progix.fridgex.light.data.SharedPreferencesAccess
-import com.progix.fridgex.light.data.SharedPreferencesAccess.loadBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFirstStart
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFont
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadString
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadTheme
-import com.progix.fridgex.light.data.SharedPreferencesAccess.saveBoolean
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveFirstStart
 import com.progix.fridgex.light.data.SharedPreferencesAccess.saveString
 import com.progix.fridgex.light.extensions.Extensions.adjustFontSize
 import com.progix.fridgex.light.extensions.Extensions.dipToPixels
+import com.progix.fridgex.light.extensions.Extensions.initDataBase
 import com.progix.fridgex.light.fragment.banned.BannedProductsFragment
 import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment
-import com.progix.fridgex.light.fragment.dialog.DialogLoadingFragment
-import com.progix.fridgex.light.helper.DatabaseHelper
 import com.skydoves.transformationlayout.onTransformationStartContainer
 import kotlinx.coroutines.*
 import java.util.*
@@ -294,59 +290,6 @@ class MainActivity : AppCompatActivity() {
         }
         cursor.close()
     }
-
-    private fun initDataBase() {
-        if (languages.contains(Locale.getDefault().displayLanguage)) {
-            DatabaseHelper.DB_NAME = "FridgeXX.db"
-        } else {
-            DatabaseHelper.DB_NAME = "FridgeXX_en.db"
-        }
-        val mDBHelper = DatabaseHelper(this)
-        mDb = mDBHelper.writableDatabase
-        if (loadBoolean(this, "triedOnce") && !loadBoolean(
-                this,
-                "upgraded"
-            ) || DatabaseHelper.mNeedUpdate
-        ) {
-            saveBoolean(this, "triedOnce", true)
-            saveBoolean(this, "upgraded", false)
-            DatabaseHelper.mNeedUpdate = true
-            MaterialAlertDialogBuilder(this)
-                .setTitle(getString(R.string.updatedRecently))
-                .setMessage(getString(R.string.updateMessage))
-                .setPositiveButton(getString(R.string.update)) { _, _ ->
-                    job?.cancel()
-                    job = CoroutineScope(Dispatchers.Main).launch {
-                        val loadingFragment = DialogLoadingFragment()
-                        loadingFragment.isCancelable = false
-                        if (!loadingFragment.isAdded) loadingFragment.show(
-                            supportFragmentManager,
-                            "custom"
-                        )
-                        asyncUpdatingDatabase(mDBHelper)
-                        loadingFragment.dismiss()
-                        saveBoolean(this@MainActivity, "upgraded", true)
-                        Toast.makeText(
-                            this@MainActivity,
-                            getString(R.string.bdSuccess),
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                        mDb = mDBHelper.writableDatabase
-                    }
-                }
-                .setCancelable(false)
-                .show()
-            saveBoolean(this, "upgraded", false)
-        }
-    }
-
-    private suspend fun asyncUpdatingDatabase(mDBHelper: DatabaseHelper) =
-        withContext(Dispatchers.IO) {
-            mDBHelper.updateDataBase()
-        }
-
-    private var job: Job? = null
 
     private var des = ""
     private fun visibilityNavElements(navController: NavController) {

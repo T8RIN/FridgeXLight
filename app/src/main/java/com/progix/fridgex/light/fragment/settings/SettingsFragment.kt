@@ -1,14 +1,17 @@
 package com.progix.fridgex.light.fragment.settings
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
+import com.progix.fridgex.light.BuildConfig
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.adapter.settings.SettingsAdapter
 
@@ -26,6 +29,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         super.onViewCreated(v, savedInstanceState)
         val settingsList: ArrayList<String> =
@@ -46,6 +50,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 .show()
             true
         }
+
+        view?.findViewById<TextView>(R.id.version)!!.text =
+            "${getString(R.string.version)} ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
 
         adapter = SettingsAdapter(requireContext(), settingsList)
 

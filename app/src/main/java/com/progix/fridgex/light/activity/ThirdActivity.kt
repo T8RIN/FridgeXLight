@@ -558,8 +558,6 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
 
             saveToInternalStorage(applicationContext, bitmapImage!!, "recipe_$imageId.png")
 
-
-
             return@withContext true
         }
     }

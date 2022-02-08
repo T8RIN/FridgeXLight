@@ -35,6 +35,10 @@ class DialogProductsFragment : DialogFragment(R.layout.fragment_dialog_products)
         exitTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.anim_duration).toLong()
         }
+        if (adapterListNames == null) {
+            adapterListNames = ArrayList()
+            adapterListValues = ArrayList()
+        }
     }
 
     private var adapterSearch: DialogSearchProductsAdapter? = null

@@ -110,4 +110,45 @@ object Functions {
         }
     }
 
+    fun searchString(subString: String, string: String): Int {
+        val q = 101
+        var h = 1
+        var i: Int
+        var j: Int
+        var p = 0
+        var t = 0
+        val m = subString.length
+        val n = string.length
+        if (m <= n) {
+            i = 0
+            while (i < m - 1) {
+                h = h * d % q
+                ++i
+            }
+            i = 0
+            while (i < m) {
+                p = (d * p + subString[i].code) % q
+                t = (d * t + string[i].code) % q
+                ++i
+            }
+            i = 0
+            while (i <= n - m) {
+                if (p == t) {
+                    j = 0
+                    while (j < m) {
+                        if (string[i + j] != subString[j]) break
+                        ++j
+                    }
+                    if (j == m) return i
+                }
+                if (i < n - m) {
+                    t = (d * (t - string[i].code * h) + string[i + m].code) % q
+                    if (t < 0) t += q
+                }
+                ++i
+            }
+        } else return q
+        return q
+    }
+
 }

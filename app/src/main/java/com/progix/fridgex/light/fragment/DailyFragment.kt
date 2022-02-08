@@ -80,10 +80,15 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
                 }
                 .setPositiveButton(getString(R.string.update)) { _, _ ->
                     job = CoroutineScope(Dispatchers.Main).launch {
-                        saveDate(requireActivity(), 0)
-                        val recipeList: ArrayList<RecipeItem> = startCoroutine()
-                        dailyRecycler.adapter =
-                            DailyAdapter(requireActivity(), recipeList, recipeClicker)
+                        try {
+                            saveDate(requireActivity(), 0)
+                            val recipeList: ArrayList<RecipeItem> = startCoroutine()
+                            dailyRecycler.adapter =
+                                DailyAdapter(requireActivity(), recipeList, recipeClicker)
+                        } catch (e: IllegalStateException) {
+                            e.printStackTrace()
+                        }
+
                         swipeRefresh.isRefreshing = false
                     }
                 }

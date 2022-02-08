@@ -14,11 +14,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.application.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.daily.DailyAdapter
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.appContext
 import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadDailyRecipe
 import com.progix.fridgex.light.data.SharedPreferencesAccess.loadDate
@@ -58,10 +58,10 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             val recipeList: ArrayList<RecipeItem> = startCoroutine()
             loading.visibility = View.GONE
             dailyRecycler.adapter =
-                DailyAdapter(FridgeXLightApplication.appContext, recipeList, recipeClicker)
+                DailyAdapter(appContext, recipeList, recipeClicker)
             swipeRefresh.setProgressBackgroundColorSchemeColor(
                 ContextCompat.getColor(
-                    FridgeXLightApplication.appContext,
+                    appContext,
                     R.color.manualBackground
                 )
             )
@@ -103,21 +103,67 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
         val recipeList: ArrayList<RecipeItem> = ArrayList()
 
-        val dateOld = loadDate(FridgeXLightApplication.appContext)
+        val dateOld = loadDate(appContext)
         val currentDate = Date()
-        val data: ArrayList<Int> = ArrayList()
-        while (true) {
-            val thumbnail = (Math.random() * recipeImages.size).toInt()
-            if (!data.contains(thumbnail) && thumbnail != 0) data.add(thumbnail)
-            if (data.size == 6) break
-        }
-        data.shuffle()
+
         val dateFormat: DateFormat = SimpleDateFormat("dd:MM:yyyy", Locale.getDefault())
         val dateText: String = dateFormat.format(currentDate)
         val dateParts = dateText.split(":").toTypedArray()
         val dateNew = dateParts[0].toInt()
         if (dateNew != dateOld) {
-            saveDate(FridgeXLightApplication.appContext, dateNew)
+            saveDate(appContext, dateNew)
+
+            val data: ArrayList<Int> = ArrayList()
+
+            val sortList: ArrayList<Int> = ArrayList()
+            val allRecipes: Cursor =
+                mDb.rawQuery("SELECT * FROM recipes WHERE banned NOT LIKE 1", null)
+            allRecipes.moveToFirst()
+
+            while (!allRecipes.isAfterLast) {
+                val tempCursor: Cursor =
+                    mDb.rawQuery("SELECT * FROM products WHERE banned = 1", null)
+                tempCursor.moveToFirst()
+                val products = allRecipes.getString(4).split(" ")
+                var found = false
+                while (!tempCursor.isAfterLast) {
+                    val temp = "" + tempCursor.getString(0)
+                    if (products.contains(temp)) found = true
+                    tempCursor.moveToNext()
+                }
+                tempCursor.close()
+                if (!found) {
+                    var fnd = false
+                    val tempId = allRecipes.getInt(0)
+                    for (i in 0..5) {
+                        if (tempId.toString() == loadDailyRecipe(appContext, "rc$i")) {
+                            fnd = true
+                            break
+                        }
+                    }
+                    if (!fnd && allRecipes.getInt(0) <= recipeImages.size) sortList.add(tempId)
+                }
+                allRecipes.moveToNext()
+            }
+            allRecipes.close()
+
+            if (sortList.size < 6) {
+                while (true) {
+                    val thumbnail = (Math.random() * recipeImages.size).toInt()
+                    if (!data.contains(thumbnail) && thumbnail != 0) data.add(thumbnail)
+                    if (data.size == 6) break
+                }
+            } else {
+                while (true) {
+                    val thumbnail = (Math.random() * sortList.size).toInt()
+                    val item = sortList[thumbnail]
+                    if (!data.contains(item)) data.add(item)
+                    if (data.size == 6) break
+                }
+            }
+
+            data.shuffle()
+
             val products: Cursor = mDb.rawQuery(
                 "SELECT * FROM products WHERE is_in_fridge = 1",
                 null
@@ -157,7 +203,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
                     )
                 )
                 products.close()
-                saveDailyRecipe(FridgeXLightApplication.appContext, "rc$i", (data[i]).toString())
+                saveDailyRecipe(appContext, "rc$i", (data[i]).toString())
                 cursor.close()
             }
 
@@ -173,7 +219,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
                 products.moveToNext()
             }
             for (i in 0..5) {
-                val id = loadDailyRecipe(FridgeXLightApplication.appContext, "rc$i")
+                val id = loadDailyRecipe(appContext, "rc$i")
                 var having = 0
                 val cursor: Cursor = mDb.rawQuery(
                     "SELECT * FROM recipes WHERE id = ?",
@@ -205,6 +251,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
                 cursor.close()
             }
         }
+
         return@withContext recipeList
     }
 

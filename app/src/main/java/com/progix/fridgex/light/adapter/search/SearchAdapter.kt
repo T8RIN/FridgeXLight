@@ -1,5 +1,6 @@
 package com.progix.fridgex.light.adapter.search
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.os.Looper
@@ -15,11 +16,12 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.progix.fridgex.light.application.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
+import com.progix.fridgex.light.application.FridgeXLightApplication
 import com.progix.fridgex.light.custom.CustomSnackbar
+import com.progix.fridgex.light.functions.Functions.delayedAction
 import com.progix.fridgex.light.functions.Functions.loadImageFromStorage
 import com.progix.fridgex.light.functions.Functions.strToInt
 import com.progix.fridgex.light.model.RecyclerSortItem
@@ -39,7 +41,8 @@ class SearchAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, no: Int) {
+        val position = holder.layoutPosition
         if (recipeList[position].recipeItem.image != -1) {
             Glide.with(context).load(recipeList[position].recipeItem.image).into(holder.image)
         } else {
@@ -65,6 +68,7 @@ class SearchAdapter(
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun popupMenus(view: View, id: Int, position: Int, starred: Boolean, banned: Boolean) {
         val popupMenus = PopupMenu(context, view)
         inflatePopup(popupMenus, starred, banned)
@@ -93,6 +97,7 @@ class SearchAdapter(
                     )
                     recipeList.removeAt(position)
                     notifyItemRemoved(position)
+                    delayedAction(500) { notifyDataSetChanged() }
                     if (recipeList.isEmpty()) {
                         (context as MainActivity).findNavController(R.id.nav_host_fragment)
                             .navigate(R.id.nav_search)
@@ -107,7 +112,6 @@ class SearchAdapter(
                 }
                 else -> true
             }
-
         }
         popupMenus.setForceShowIcon(true)
         popupMenus.show()

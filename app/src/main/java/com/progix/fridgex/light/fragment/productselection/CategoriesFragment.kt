@@ -43,6 +43,7 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
         recycler = v.findViewById(R.id.categoriesRecycler)
         val cursor: Cursor = mDb.rawQuery("SELECT * FROM categories", null)
         cursor.moveToFirst()
+        catList.clear()
         while (!cursor.isAfterLast) {
             catList.add(cursor.getString(1))
             cursor.moveToNext()

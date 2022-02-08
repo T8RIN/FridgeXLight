@@ -16,18 +16,8 @@ abstract class ApplicationBindedActivity : AppCompatActivity() {
         (applicationContext as FridgeXLightApplication).setCurrentContext(this)
     }
 
-    override fun onStop() {
-        super.onStop()
-        (applicationContext as FridgeXLightApplication).setCurrentContext(this)
-    }
-
     override fun onResume() {
         super.onResume()
-        (applicationContext as FridgeXLightApplication).setCurrentContext(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
         (applicationContext as FridgeXLightApplication).setCurrentContext(this)
     }
 

@@ -1,4 +1,4 @@
-package com.progix.fridgex.light.fragment
+package com.progix.fridgex.light.fragment.search
 
 import android.content.Intent
 import android.database.Cursor
@@ -24,7 +24,6 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.transition.MaterialFadeThrough
-import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.appContext
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.integer
 import com.progix.fridgex.light.activity.MainActivity
@@ -32,6 +31,7 @@ import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.search.SearchAdapter
 import com.progix.fridgex.light.adapter.search.SearchFilterNavigationAdapter
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.appContext
 import com.progix.fridgex.light.functions.Functions.addItemToList
 import com.progix.fridgex.light.model.NavItem
 import com.progix.fridgex.light.model.RecyclerSortItem

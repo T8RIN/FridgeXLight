@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import com.progix.fridgex.light.data.SharedPreferencesAccess
-import java.util.ArrayList
 
 class FridgeXLightApplication : Application() {
 

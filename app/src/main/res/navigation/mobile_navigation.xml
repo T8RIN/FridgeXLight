@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.progix.fridgex.light.fragment.DailyFragment"
+        android:name="com.progix.fridgex.light.fragment.daily.DailyFragment"
         android:label="@string/daily"
         tools:layout="@layout/fragment_daily" />
 
@@ -62,13 +62,13 @@
 
     <fragment
         android:id="@+id/nav_search"
-        android:name="com.progix.fridgex.light.fragment.SearchFragment"
+        android:name="com.progix.fridgex.light.fragment.search.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/nav_fridge"
-        android:name="com.progix.fridgex.light.fragment.FridgeFragment"
+        android:name="com.progix.fridgex.light.fragment.fridge.FridgeFragment"
         android:label="@string/fridge"
         tools:layout="@layout/fragment_fridge">
         <action
@@ -78,7 +78,7 @@
 
     <fragment
         android:id="@+id/nav_cart"
-        android:name="com.progix.fridgex.light.fragment.CartFragment"
+        android:name="com.progix.fridgex.light.fragment.cart.CartFragment"
         android:label="@string/cart"
         tools:layout="@layout/fragment_cart" />
 

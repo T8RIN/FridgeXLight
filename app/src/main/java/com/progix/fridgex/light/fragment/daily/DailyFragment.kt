@@ -1,4 +1,4 @@
-package com.progix.fridgex.light.fragment
+package com.progix.fridgex.light.fragment.daily
 
 import android.content.Intent
 import android.database.Cursor

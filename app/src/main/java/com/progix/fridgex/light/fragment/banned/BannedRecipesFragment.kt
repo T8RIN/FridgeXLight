@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.progressindicator.CircularProgressIndicator
-import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.appContext
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.banned.BannedRecipesAdapter
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.appContext
 import com.progix.fridgex.light.functions.Functions.addItemToList
 import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
 import com.progix.fridgex.light.helper.interfaces.ActionModeInterface

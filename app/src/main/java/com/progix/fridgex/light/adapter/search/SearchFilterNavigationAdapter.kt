@@ -9,8 +9,8 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.progix.fridgex.light.application.FridgeXLightApplication
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.application.FridgeXLightApplication
 import com.progix.fridgex.light.extensions.Extensions.getAttrColor
 import com.progix.fridgex.light.model.NavItem
 

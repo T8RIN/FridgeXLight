@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import com.progix.fridgex.light.data.SharedPreferencesAccess
+import java.util.ArrayList
 
 class FridgeXLightApplication : Application() {
 
@@ -21,6 +22,8 @@ class FridgeXLightApplication : Application() {
 
     companion object {
         lateinit var appContext: Context
+        var allProducts: ArrayList<String>? = null
+        var allHints: ArrayList<String>? = null
         var heightPixels: Int = 0
         var widthPixels: Int = 0
     }

@@ -43,6 +43,7 @@ class BannedRecipesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.star.visibility = GONE
         if (recipeList[position].recipeItem.image != -1) {
+
             Glide.with(context).load(recipeList[position].recipeItem.image).into(holder.image)
         } else {
             val id: Int = Functions.strToInt(recipeList[position].recipeItem.recipeName)

@@ -22,6 +22,7 @@ import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.folder.FolderRecipesAdapter
 import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.functions.Functions
+import com.progix.fridgex.light.functions.Functions.delayedAction
 import com.progix.fridgex.light.functions.Functions.searchString
 import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
@@ -55,7 +56,8 @@ class FolderRecipesFragment : Fragment(R.layout.fragment_folder_recipes) {
         )
         cursor2.moveToFirst()
         val name = cursor2.getString(2)
-        requireActivity().findViewById<Toolbar>(R.id.toolbar).title = name
+
+        delayedAction(10) { requireActivity().findViewById<Toolbar>(R.id.toolbar).title = name }
 
         recycler = v.findViewById(R.id.podPodFolderRecycler)
         val loading: CircularProgressIndicator = v.findViewById(R.id.loading)

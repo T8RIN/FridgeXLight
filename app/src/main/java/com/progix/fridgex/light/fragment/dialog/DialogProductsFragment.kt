@@ -14,11 +14,11 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.activity.MainActivity.Companion.allHints
-import com.progix.fridgex.light.activity.MainActivity.Companion.allProducts
 import com.progix.fridgex.light.activity.ThirdActivity.Companion.thirdContext
 import com.progix.fridgex.light.adapter.dialog.DialogListProductsAdapter
 import com.progix.fridgex.light.adapter.dialog.DialogSearchProductsAdapter
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.allHints
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.allProducts
 import com.progix.fridgex.light.functions.Functions.searchString
 import com.progix.fridgex.light.helper.interfaces.DialogAdapterInterface
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -35,8 +35,6 @@ class DialogProductsFragment : DialogFragment(R.layout.fragment_dialog_products)
         exitTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.anim_duration).toLong()
         }
-        adapterListNames = ArrayList()
-        adapterListValues = ArrayList()
     }
 
     private var adapterSearch: DialogSearchProductsAdapter? = null

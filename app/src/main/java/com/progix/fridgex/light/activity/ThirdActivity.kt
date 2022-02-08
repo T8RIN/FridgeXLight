@@ -31,10 +31,12 @@ import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
-import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.heightPixels
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.dialog.DialogListProductsAdapter
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.allHints
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.allProducts
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.heightPixels
 import com.progix.fridgex.light.data.SharedPreferencesAccess
 import com.progix.fridgex.light.extensions.Extensions.initDataBase
 import com.progix.fridgex.light.fragment.dialog.DialogProductsFragment
@@ -182,6 +184,12 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
 
             val prodArr: ArrayList<String> = ArrayList(products.split(" "))
             val valArr: ArrayList<String> = ArrayList(values.split(" "))
+
+            if (adapterListNames == null) {
+                adapterListNames = ArrayList()
+                adapterListValues = ArrayList()
+            }
+
             for (i in 0 until prodArr.size) {
                 val cursor = mDb.rawQuery(
                     "SELECT * FROM products WHERE id = ?",
@@ -189,15 +197,13 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
                 )
                 cursor.moveToFirst()
                 val prodName = cursor.getString(2).replaceFirstChar { it.titlecase() }
-                if (adapterListNames == null) adapterListNames = ArrayList()
                 adapterListNames!!.add(prodName)
-                if (adapterListValues == null) adapterListValues = ArrayList()
                 adapterListValues!!.add(Pair(prodName, valArr[i]))
                 cursor.close()
             }
             val hintList = ArrayList<String>()
             for (item in adapterListNames!!) {
-                hintList.add(MainActivity.allHints!![MainActivity.allProducts!!.indexOf(item.lowercase())])
+                hintList.add(allHints!![allProducts!!.indexOf(item.lowercase())])
             }
             var tempString = ""
             for (i in adapterListValues!!) tempString += "${i.first} ... ${i.second} ${
@@ -688,7 +694,7 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
     override fun onNeedToNotifyDataSet() {
         val hintList = ArrayList<String>()
         for (item in adapterListNames!!) {
-            hintList.add(MainActivity.allHints!![MainActivity.allProducts!!.indexOf(item.lowercase())])
+            hintList.add(allHints!![allProducts!!.indexOf(item.lowercase())])
         }
         fragment.adapterList = DialogListProductsAdapter(this, adapterListNames!!, hintList)
     }

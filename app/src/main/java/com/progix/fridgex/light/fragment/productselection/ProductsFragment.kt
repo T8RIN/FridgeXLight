@@ -13,9 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.productselection.ProductsAdapter
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.allProducts
+import com.progix.fridgex.light.functions.Functions.delayedAction
 import com.progix.fridgex.light.functions.Functions.searchString
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.*
@@ -37,22 +38,25 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
 
     lateinit var recycler: RecyclerView
     private var prodList: ArrayList<String> = ArrayList()
-    private var idd: Int = 0
+    private var prodCategory: Int = 0
 
     private var job: Job? = null
 
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         super.onViewCreated(v, savedInstanceState)
-        idd = requireArguments().getInt("prodCat")
+        prodCategory = requireArguments().getInt("prodCat")
         recycler = v.findViewById(R.id.productsRecycler)
         val name = arguments?.getString("category")
-        requireActivity().findViewById<Toolbar>(R.id.toolbar).title = name
+
+        delayedAction(10) {
+            requireActivity().findViewById<Toolbar>(R.id.toolbar).title = name
+        }
 
         job?.cancel()
         job = CoroutineScope(Dispatchers.Main).launch {
             prodList = coroutine()
-            pD = ProductsAdapter(requireContext(), prodList, idd)
-            recycler.adapter = pD
+            productsAdapter = ProductsAdapter(requireContext(), prodList, prodCategory)
+            recycler.adapter = productsAdapter
         }
     }
 
@@ -72,14 +76,14 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         return@withContext array
     }
 
-    private var pD: ProductsAdapter? = null
+    private var productsAdapter: ProductsAdapter? = null
 
 
     private fun search(s: String?, int: Int?) {
         if (s!!.isNotEmpty()) {
             val pairArrayList = ArrayList<Pair<Int, String>>()
             val list = ArrayList<String>()
-            for (item in MainActivity.allProducts!!) {
+            for (item in allProducts!!) {
                 val temp: Int =
                     searchString(s.lowercase(), item)
                 if (temp != 101) {
@@ -92,8 +96,8 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             }
             recycler.adapter = ProductsAdapter(requireContext(), list, int!!)
         } else {
-            if (recycler.adapter != pD) {
-                recycler.adapter = ProductsAdapter(requireContext(), prodList, idd)
+            if (recycler.adapter != productsAdapter) {
+                recycler.adapter = ProductsAdapter(requireContext(), prodList, prodCategory)
             }
         }
     }

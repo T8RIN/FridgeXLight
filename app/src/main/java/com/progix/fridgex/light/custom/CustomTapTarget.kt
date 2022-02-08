@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.view.View
 import com.getkeepsafe.taptargetview.TapTarget
 import com.progix.fridgex.light.R
+import com.progix.fridgex.light.data.SharedPreferencesAccess
 
 class CustomTapTarget {
 
@@ -11,12 +12,23 @@ class CustomTapTarget {
         view: View, title: String,
         description: String, nextId: Int, radius: Int
     ): TapTarget? {
+        val color = when (SharedPreferencesAccess.loadTheme(view.context)) {
+            "red" -> R.color.dred2
+            "pnk" -> R.color.dred
+            "grn" -> R.color.dgreen
+            "vlt" -> R.color.dviolet
+            "yel" -> R.color.dyellow
+            "mnt" -> R.color.dmint
+            "ble" -> R.color.dblue
+            else -> R.color.checked
+        }
+
         return TapTarget.forView(
             view,
             title,
             description
         )
-            .outerCircleColor(R.color.checked)
+            .outerCircleColor(color)
             .outerCircleAlpha(0.8f)
             .targetCircleColor(R.color.manualTarget)
             .titleTextSize(30)

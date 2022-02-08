@@ -11,7 +11,6 @@ import android.view.MenuItem
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.Toolbar
@@ -30,9 +29,11 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
-import com.progix.fridgex.light.application.FridgeXLightApplication
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.allHints
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.allProducts
+import com.progix.fridgex.light.custom.ApplicationBindedActivity
 import com.progix.fridgex.light.custom.CustomTapTarget
 import com.progix.fridgex.light.data.DataArrays.fragmentSet
 import com.progix.fridgex.light.data.DataArrays.mainFragmentIds
@@ -51,10 +52,9 @@ import com.progix.fridgex.light.fragment.banned.BannedProductsFragment
 import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment
 import com.skydoves.transformationlayout.onTransformationStartContainer
 import kotlinx.coroutines.*
-import java.util.*
 import kotlin.system.exitProcess
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ApplicationBindedActivity() {
 
     private lateinit var navigationView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
@@ -87,8 +87,6 @@ class MainActivity : AppCompatActivity() {
         this.adjustFontSize(loadFont(this))
 
         super.onCreate(savedInstanceState)
-
-        (applicationContext as FridgeXLightApplication).setCurrentContext(this)
 
         initDataBase()
 
@@ -436,9 +434,6 @@ class MainActivity : AppCompatActivity() {
 
         lateinit var mDb: SQLiteDatabase
 
-        var allProducts: ArrayList<String>? = null
-        var allHints: ArrayList<String>? = null
-
         var isMultiSelectOn = false
         var actionMode: ActionMode? = null
 
@@ -452,8 +447,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         saveBadgeState()
-        allProducts = null
-        allHints = null
         actionMode = null
         isMultiSelectOn = false
         badgeNames = null
@@ -466,20 +459,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         saveBadgeState()
-        (applicationContext as FridgeXLightApplication).setCurrentContext(this)
         super.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-        (applicationContext as FridgeXLightApplication).setCurrentContext(this)
         if (badgeCnt != 0) bottomNavigationView.getOrCreateBadge(R.id.nav_cart).number += badgeCnt
         overridePendingTransition(R.anim.enter_fade_through, R.anim.exit_fade_through)
     }
 
     override fun onStart() {
         super.onStart()
-        (applicationContext as FridgeXLightApplication).setCurrentContext(this)
         actionMode?.finish()
         actionMode = null
         isMultiSelectOn = false

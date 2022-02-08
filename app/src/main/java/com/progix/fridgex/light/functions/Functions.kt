@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Handler
+import android.os.Looper
 import com.progix.fridgex.light.data.DataArrays
 import com.progix.fridgex.light.model.RecipeItem
 import com.progix.fridgex.light.model.RecyclerSortItem
@@ -149,6 +151,12 @@ object Functions {
             }
         } else return q
         return q
+    }
+
+    fun delayedAction(time: Long, func: () -> Unit) {
+        Handler(Looper.getMainLooper()).postDelayed({
+            func()
+        }, time)
     }
 
 }

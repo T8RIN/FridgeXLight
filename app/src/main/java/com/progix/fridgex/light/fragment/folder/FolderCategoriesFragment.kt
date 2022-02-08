@@ -23,6 +23,7 @@ import com.progix.fridgex.light.adapter.folder.FolderCategoriesAdapter
 import com.progix.fridgex.light.adapter.folder.FolderRecipesAdapter
 import com.progix.fridgex.light.data.DataArrays.secondaryFolderCategoriesImages
 import com.progix.fridgex.light.functions.Functions
+import com.progix.fridgex.light.functions.Functions.delayedAction
 import com.progix.fridgex.light.functions.Functions.searchString
 import com.progix.fridgex.light.model.RecyclerSortItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -74,7 +75,9 @@ class FolderCategoriesFragment : Fragment(R.layout.fragment_folder_categories) {
         }
         cursor2.close()
 
-        requireActivity().findViewById<Toolbar>(R.id.toolbar).title = name
+        delayedAction(10) {
+            requireActivity().findViewById<Toolbar>(R.id.toolbar).title = name
+        }
 
         recycler = v.findViewById(R.id.podFolderRecycler)
         adapter = FolderCategoriesAdapter(requireContext(), listFolder, folderClicker, list)

@@ -15,7 +15,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -31,6 +30,7 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.recipe.InfoAdapter
 import com.progix.fridgex.light.adapter.viewpager.RecipeViewPagerAdapter
+import com.progix.fridgex.light.custom.ApplicationBindedActivity
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.recipeImages
 import com.progix.fridgex.light.data.SharedPreferencesAccess
@@ -44,7 +44,7 @@ import com.progix.fridgex.light.helper.DatabaseHelper
 import kotlin.math.abs
 
 
-class SecondActivity : AppCompatActivity() {
+class SecondActivity : ApplicationBindedActivity() {
 
     private var mainRoot: CoordinatorLayout? = null
     private var expandButton: FrameLayout? = null
@@ -300,9 +300,8 @@ class SecondActivity : AppCompatActivity() {
         adapter?.notifyItemChanged(7)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.ingred_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.ingred_menu, menu)
         return true
     }
 

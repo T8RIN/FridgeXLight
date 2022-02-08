@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Pair
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -15,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.jakewharton.rxbinding4.appcompat.queryTextChangeEvents
 import com.progix.fridgex.light.R
-import com.progix.fridgex.light.activity.MainActivity.Companion.allProducts
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.adapter.productselection.CategoryAdapter
 import com.progix.fridgex.light.adapter.productselection.ProductsAdapter
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.allProducts
 import com.progix.fridgex.light.functions.Functions.searchString
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
@@ -102,12 +101,6 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
         arguments?.getInt("prodCat")?.let { bundle.putInt("prodCat", it) }
         findNavController().navigate(R.id.nav_products, bundle, null, extras)
 
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
 }

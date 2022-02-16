@@ -20,6 +20,7 @@ import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.activity.SecondActivity.Companion.needToControlFab
 import com.progix.fridgex.light.adapter.recipe.IngredientsAdapter
 import com.progix.fridgex.light.custom.CustomSnackbar
+import com.progix.fridgex.light.extensions.Extensions.isNumeric
 import java.text.DecimalFormat
 
 class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
@@ -81,7 +82,8 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
                 )
                 cursor2.moveToFirst()
                 missList?.add(cursor2.getInt(3) == 0)
-                if (amount[i] != "-1") {
+
+                if (amount[i] != "-1" && amount[i].isNumeric()) {
                     val new = amount[i].split(",")
                     val modifier: Double = if (new.size > 1) {
                         (new[0] + "." + new[1]).toDouble()

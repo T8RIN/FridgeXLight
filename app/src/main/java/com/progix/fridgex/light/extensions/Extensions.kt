@@ -15,6 +15,7 @@ import com.progix.fridgex.light.fragment.dialog.DialogLoadingFragment
 import com.progix.fridgex.light.helper.DatabaseHelper
 import kotlinx.coroutines.*
 import java.util.*
+import java.util.regex.Pattern
 
 
 object Extensions {
@@ -93,4 +94,10 @@ object Extensions {
         }
 
     private var job: Job? = null
+
+    fun String?.isNumeric(): Boolean {
+        return if (this == null) {
+            false
+        } else Pattern.compile("-?\\d+(\\.\\d+)?").matcher(this).matches()
+    }
 }

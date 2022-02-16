@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="FridgeXLight" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
@@ -18,7 +18,7 @@
         <item name="colorOnSecondary">@color/black</item>
 
         <item name="fontFamily">@font/comfortaa_medium</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
         <item name="android:colorEdgeEffect">@color/checked</item>
         <item name="android:textCursorDrawable">@drawable/cursor_color</item>
@@ -58,7 +58,7 @@
         <item name="colorOnSecondary">@color/black</item>
 
         <item name="fontFamily">@font/comfortaa_medium</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
         <item name="android:colorEdgeEffect">@color/green</item>
         <item name="android:textCursorDrawable">@drawable/cursor_color</item>
@@ -94,7 +94,7 @@
         <item name="colorOnSecondary">@color/black</item>
 
         <item name="fontFamily">@font/comfortaa_medium</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
         <item name="android:colorEdgeEffect">@color/red</item>
         <item name="android:textCursorDrawable">@drawable/cursor_color</item>
@@ -131,7 +131,7 @@
         <item name="colorOnSecondary">@color/black</item>
 
         <item name="fontFamily">@font/comfortaa_medium</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
         <item name="android:colorEdgeEffect">@color/blue</item>
         <item name="android:textCursorDrawable">@drawable/cursor_color</item>
@@ -168,7 +168,7 @@
         <item name="materialAlertDialogTheme">@style/modeAlert</item>
         <item name="fontFamily">@font/comfortaa_medium</item>
         <item name="android:textColor">@color/manualText</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
         <item name="android:colorEdgeEffect">@color/yellow</item>
         <item name="android:textCursorDrawable">@drawable/cursor_color</item>
@@ -205,7 +205,7 @@
         <item name="materialAlertDialogTheme">@style/modeAlert</item>
         <item name="fontFamily">@font/comfortaa_medium</item>
         <item name="android:textColor">@color/manualText</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
         <item name="android:colorEdgeEffect">@color/violet</item>
         <item name="android:textCursorDrawable">@drawable/cursor_color</item>
@@ -242,7 +242,7 @@
         <item name="materialAlertDialogTheme">@style/modeAlert</item>
         <item name="fontFamily">@font/comfortaa_medium</item>
         <item name="android:textColor">@color/manualText</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
         <item name="android:colorEdgeEffect">@color/mint</item>
         <item name="android:textCursorDrawable">@drawable/cursor_color</item>
@@ -279,7 +279,7 @@
         <item name="materialAlertDialogTheme">@style/modeAlert</item>
         <item name="fontFamily">@font/comfortaa_medium</item>
         <item name="android:textColor">@color/manualText</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
         <item name="android:colorEdgeEffect">@color/red2</item>
         <item name="android:textCursorDrawable">@drawable/cursor_color</item>

@@ -162,5 +162,10 @@
     <string name="big">Большой</string>
     <string name="bigger">Очень большой</string>
     <string name="tooLargeImage">Слишком большое изображение</string>
+    <string name="nextStep">Следующий шаг</string>
+    <string name="bonAppetit">Блюдо готово, Приятного аппеттита!</string>
+    <string name="repeat">Повторить</string>
+    <string name="timer">Таймер</string>
+    <string name="setTimer">"Установить таймер для рецепта "</string>
 
 </resources>

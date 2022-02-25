@@ -12,10 +12,12 @@ import com.progix.fridgex.light.adapter.recipe.RecipeAdapter
 
 class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
+    lateinit var recycler: RecyclerView
+
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         super.onViewCreated(v, savedInstanceState)
         val id = SecondActivity.id
-        val recycler = v.findViewById<RecyclerView>(R.id.recipeRecycler)
+        recycler = v.findViewById(R.id.recipeRecycler)
 
         val cursor: Cursor = MainActivity.mDb.rawQuery(
             "SELECT * FROM recipes WHERE id = ?",
@@ -25,7 +27,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
         val list = cursor.getString(8).split("\n")
         cursor.close()
-        recycler.adapter = RecipeAdapter(requireContext(), list)
+        recycler.adapter = RecipeAdapter(this, list)
 
     }
 

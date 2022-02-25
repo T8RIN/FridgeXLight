@@ -181,5 +181,10 @@
     <string name="big">Big</string>
     <string name="bigger">Bigger</string>
     <string name="tooLargeImage">Too large image</string>
+    <string name="nextStep">Next step</string>
+    <string name="bonAppetit">The dish is ready, Bon appetit!</string>
+    <string name="repeat">Repeat</string>
+    <string name="timer">Timer</string>
+    <string name="setTimer">"Set timer for this recipe "</string>
 
 </resources>

@@ -46,7 +46,7 @@ import kotlin.math.abs
 
 class SecondActivity : ApplicationBindedActivity() {
 
-    private var mainRoot: CoordinatorLayout? = null
+    var mainRoot: CoordinatorLayout? = null
     private var expandButton: FrameLayout? = null
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -79,6 +79,7 @@ class SecondActivity : ApplicationBindedActivity() {
             listOf(id.toString()).toTypedArray()
         )
         cursor.moveToFirst()
+        name = cursor.getString(3)
 
         if (id - 1 < recipeImages.size) {
             Glide.with(this).load(recipeImages[id - 1]).into(image)
@@ -308,6 +309,8 @@ class SecondActivity : ApplicationBindedActivity() {
     companion object {
         var id = 1
 
+        var name = ""
+
         @SuppressLint("StaticFieldLeak")
         var adapter: InfoAdapter? = null
 
@@ -321,6 +324,7 @@ class SecondActivity : ApplicationBindedActivity() {
         missList = null
         needToControlFab = false
         id = 1
+        name = ""
         super.onDestroy()
     }
 

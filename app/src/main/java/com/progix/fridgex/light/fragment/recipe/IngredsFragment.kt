@@ -28,6 +28,9 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         super.onViewCreated(v, savedInstanceState)
+
+        if (savedInstanceState == null) currentStep = 0
+
         val slider: Slider = v.findViewById(R.id.slider)
         val id = SecondActivity.id
         val recycler = v.findViewById<RecyclerView>(R.id.ingredsRecycler)
@@ -198,6 +201,7 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
         var list: ArrayList<Pair<String, String>>? = null
         var missList: ArrayList<Boolean>? = null
         var prodList: ArrayList<Pair<String, String>>? = null
+        var currentStep = 0
     }
 
     private fun attachList(products: ArrayList<Pair<String, String>>) {

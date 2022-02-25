@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
+import android.provider.AlarmClock.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
+import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.model.InfoItem
 
 
@@ -40,12 +42,8 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
 
     override fun getItemViewType(position: Int): Int {
         return when (position) {
-            7 -> {
-                2
-            }
-            else -> {
-                1
-            }
+            7 -> 2
+            else -> 1
         }
     }
 
@@ -53,6 +51,30 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
         when (holderMain.itemViewType) {
             1 -> {
                 val holder = holderMain as ViewHolder
+                holder.itemView.isClickable = false
+
+                if (position == 0) {
+                    holder.itemView.setOnClickListener {
+                        MaterialAlertDialogBuilder(context, R.style.modeAlert)
+                            .setTitle(context.getString(R.string.timer))
+                            .setMessage(context.getString(R.string.setTimer) + SecondActivity.name)
+                            .setPositiveButton(
+                                context.getString(R.string.cont)
+                            ) { _, _ ->
+                                val intent = Intent(ACTION_SET_TIMER)
+                                intent.putExtra(
+                                    EXTRA_LENGTH,
+                                    infoList[position].value.split(" ")[0].toInt() * 60
+                                )
+                                intent.putExtra(EXTRA_SKIP_UI, false)
+                                intent.putExtra(EXTRA_MESSAGE, SecondActivity.name)
+                                context.startActivity(intent)
+                            }
+                            .setNegativeButton(context.getString(R.string.cancel), null)
+                            .show()
+                    }
+                }
+
                 if (infoList[position].value == "0") holder.itemView.visibility = GONE
                 holder.name.text = infoList[position].name
                 holder.value.text = infoList[position].value
@@ -74,12 +96,35 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
                     }
                 } else if (infoList[position].value == "Авторский") {
                     holder.image.setImageResource(R.drawable.ic_round_edit_24)
-                    holder.itemView.setOnClickListener {
-                    }
                 }
             }
             2 -> {
                 val holder = holderMain as ViewHolder2
+
+                holder.itemView.isClickable = false
+
+                if (position == 0) {
+                    holder.itemView.setOnClickListener {
+                        MaterialAlertDialogBuilder(context, R.style.modeAlert)
+                            .setTitle(context.getString(R.string.timer))
+                            .setMessage(context.getString(R.string.setTimer) + SecondActivity.name)
+                            .setPositiveButton(
+                                context.getString(R.string.cont)
+                            ) { _, _ ->
+                                val intent = Intent(ACTION_SET_TIMER)
+                                intent.putExtra(
+                                    EXTRA_LENGTH,
+                                    infoList[position].value.split(" ")[0].toInt() * 60
+                                )
+                                intent.putExtra(EXTRA_SKIP_UI, false)
+                                intent.putExtra(EXTRA_MESSAGE, SecondActivity.name)
+                                context.startActivity(intent)
+                            }
+                            .setNegativeButton(context.getString(R.string.cancel), null)
+                            .show()
+                    }
+                }
+
                 holder.name.text = infoList[position].name
                 holder.value.text = infoList[position].value
                 holder.image.setImageResource(infoList[position].image)
@@ -100,8 +145,6 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
                     }
                 } else if (infoList[position].value == "Авторский") {
                     holder.image.setImageResource(R.drawable.ic_round_edit_24)
-                    holder.itemView.setOnClickListener {
-                    }
                 }
                 if (position == 7) {
                     val cursor: Cursor = mDb.rawQuery(
@@ -151,6 +194,11 @@ class InfoAdapter(var context: Context, private var infoList: ArrayList<InfoItem
         val value2: TextView = view.findViewById(R.id.value2)
         val starLayout: LinearLayout = view.findViewById(R.id.star_layout)
         val banLayout: LinearLayout = view.findViewById(R.id.ban_layout)
+    }
+
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(holder)
+        holder.itemView.setOnClickListener {}
     }
 
 }

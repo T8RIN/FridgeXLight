@@ -1,0 +1,77 @@
+apply plugin: 'com.android.library'
+
+android {
+	compileSdkVersion 32
+	// TODO: This is commented due to bug on JitPack.
+	//  Uncomment this when you want to build this library locally with OpenMP support
+	//ndkVersion "22.1.7171670"
+	defaultConfig {
+		minSdkVersion 16
+		targetSdkVersion 32
+		versionCode 9
+		versionName "4.1.1"
+		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+		externalNativeBuild {
+			cmake {
+				// Specifies which native libraries or executables to build and package.
+				// TODO: Include eyes-two in some build flavor of the library?
+				//targets "jpeg", "png", "leptonica", "tesseract"
+			}
+		}
+		ndk {
+			// Specify the ABI configurations that Gradle should build and package.
+			// By default it compiles all available ABIs.
+			//abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
+		}
+	}
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+		}
+	}
+	flavorDimensions "parallelization"
+	productFlavors {
+		standard {
+		}
+		// TODO: This is commented due to bug on JitPack.
+		//  Uncomment this when you want to build this library locally with OpenMP support
+		/*openmp {
+			// Since NDK r21 is OpenMP compiled as a shared library, but due to bug it is never
+			// included in resulting APK/AAR. It will be fixed probably in NDK r23, but until then
+			// we need to use r20 which compiles OpenMP as a static library.
+			// TODO: Remove this when https://issuetracker.google.com/issues/152897016 is fixed.
+			ndkVersion "20.1.5948944"
+
+			versionNameSuffix "-openmp"
+			externalNativeBuild {
+				cmake {
+					// TODO: Remove this line when we use new NDK version that enables it by default
+					arguments "-DANDROID_ARM_NEON=ON"
+
+					cFlags "-fopenmp"
+					cppFlags "-fopenmp"
+				}
+			}
+		}*/
+	}
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+	externalNativeBuild {
+		cmake {
+			path "src/main/cpp/CMakeLists.txt"
+		}
+	}
+}
+
+dependencies {
+	implementation fileTree(include: ['*.jar'], dir: 'libs')
+	implementation 'androidx.annotation:annotation:1.3.0'
+	testImplementation 'junit:junit:4.13.2'
+	androidTestImplementation 'androidx.test:runner:1.4.0'
+	androidTestImplementation 'androidx.test:rules:1.4.0'
+	androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+	androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}

@@ -14,16 +14,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
-import com.progix.fridgex.light.activity.MainActivity.Companion.isMultiSelectOn
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.data.DataArrays.productCategoriesImages
 import com.progix.fridgex.light.fragment.banned.BannedProductsFragment.Companion.prodAnno
 import com.progix.fridgex.light.fragment.banned.BannedProductsFragment.Companion.prodRecycler
-import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 
 
 class BannedProductsAdapter(
@@ -54,7 +51,6 @@ class BannedProductsAdapter(
         cursor2.close()
         setAnimation(holder.itemView, position)
 
-        (holder.itemView as MaterialCardView).isChecked = selectedIds.contains(name)
     }
 
 
@@ -131,103 +127,11 @@ class BannedProductsAdapter(
         fun bind(
             position: Int
         ) {
-            itemView.setOnLongClickListener {
-                if (!isMultiSelectOn) {
-                    isMultiSelectOn = true
-                    addIDIntoSelectedIds(position)
-                }
-                true
-            }
             itemView.setOnClickListener {
-                if (isMultiSelectOn) addIDIntoSelectedIds(position)
-                else popupMenus(it, position)
+                popupMenus(it, position)
             }
         }
 
-    }
-
-    private var actionModeInterface: ActionModeInterface? = null
-
-    fun attachInterface(actionModeInterface: ActionModeInterface) {
-        this.actionModeInterface = actionModeInterface
-    }
-
-    fun addIDIntoSelectedIds(position: Int) {
-        val id = bannedProductsList[position].first
-        if (selectedIds.contains(id)) {
-            selectedIds.remove(id)
-            selectedPositions.remove(position)
-        } else {
-            selectedIds.add(id)
-            selectedPositions.add(position)
-        }
-        notifyItemChanged(position)
-        if (selectedIds.size < 1) isMultiSelectOn = false
-        actionModeInterface?.onSelectedItemsCountChanged(selectedIds.size)
-    }
-
-    val selectedIds: ArrayList<String> = ArrayList()
-
-    var tempList: ArrayList<String>? = null
-
-    var tempPositions: ArrayList<Int>? = null
-
-    val selectedPositions: ArrayList<Int> = ArrayList()
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun doSomeAction(modifier: String) {
-        if (selectedIds.size < 1) return
-        when (modifier) {
-            "delete" -> {
-                val delList: ArrayList<Pair<String, String>> = ArrayList()
-                val indexes: ArrayList<Int> = ArrayList()
-                for (i in tempPositions!!) {
-                    delList.add(bannedProductsList[i])
-                }
-                for (i in 0 until tempList!!.size) {
-                    val temp = tempList!![i]
-                    mDb.execSQL(
-                        "UPDATE products SET banned = 0 WHERE product = ?",
-                        listOf(temp).toTypedArray()
-                    )
-                    val tempPos = bannedProductsList.indexOf(delList[i])
-                    indexes.add(tempPos)
-                    bannedProductsList.remove(delList[i])
-                    if (bannedProductsList.isEmpty()) {
-                        prodRecycler?.visibility = View.GONE
-                        prodAnno?.visibility = View.VISIBLE
-                    } else notifyItemRemoved(tempPos)
-                }
-                Handler(Looper.getMainLooper()).postDelayed({
-                    notifyDataSetChanged()
-                }, 500)
-                CustomSnackbar(context)
-                    .create(
-                        55,
-                        (context as MainActivity).findViewById(R.id.main_root),
-                        context.getString(R.string.deletedFromBanned)
-                    )
-                    .setAction(context.getString(R.string.undo)) {
-                        prodRecycler?.visibility = View.VISIBLE
-                        prodAnno?.visibility = View.GONE
-                        for (i in 0 until tempList!!.size) {
-                            val temp = tempList!![i]
-                            mDb.execSQL(
-                                "UPDATE products SET banned = 1 WHERE product = ?",
-                                listOf(temp).toTypedArray()
-                            )
-                            if (indexes[i] < bannedProductsList.size) bannedProductsList.add(
-                                indexes[i],
-                                delList[i]
-                            )
-                            else bannedProductsList.add(delList[i])
-                        }
-                        notifyDataSetChanged()
-                    }
-                    .show()
-            }
-        }
-        isMultiSelectOn = false
     }
 
     private var lastPosition = -1

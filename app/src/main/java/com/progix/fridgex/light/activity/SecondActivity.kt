@@ -63,7 +63,7 @@ class SecondActivity : ApplicationBindedActivity() {
             "ble" -> setTheme(R.style.FridgeXLight_Blue)
         }
 
-        initDataBase()
+        initDataBase(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)

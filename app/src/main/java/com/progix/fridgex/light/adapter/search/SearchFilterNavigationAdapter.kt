@@ -14,7 +14,6 @@ import com.progix.fridgex.light.application.FridgeXLightApplication
 import com.progix.fridgex.light.extensions.Extensions.getAttrColor
 import com.progix.fridgex.light.model.NavItem
 
-
 class SearchFilterNavigationAdapter(
     var context: Context,
     var navList: ArrayList<NavItem>,
@@ -34,8 +33,8 @@ class SearchFilterNavigationAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.radioButton.isChecked = position == mSelectedItem
         if (holder.radioButton.isChecked) {
-            holder.name.setTextColor(context.getAttrColor(R.attr.checked))
-            holder.image.setColorFilter(context.getAttrColor(R.attr.checked))
+            holder.name.setTextColor(getAttrColor(R.attr.checked, context))
+            holder.image.setColorFilter(getAttrColor(R.attr.checked, context))
         } else {
             holder.name.setTextColor(ContextCompat.getColor(context, R.color.unchecked))
             holder.image.setColorFilter(ContextCompat.getColor(context, R.color.unchecked))

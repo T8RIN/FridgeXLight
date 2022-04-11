@@ -12,7 +12,6 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
@@ -31,23 +30,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.R.drawable.ic_baseline_menu_24
-import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.allHints
-import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.allProducts
+import com.progix.fridgex.light.application.FridgeXLightApplication.allHints
+import com.progix.fridgex.light.application.FridgeXLightApplication.allProducts
 import com.progix.fridgex.light.custom.ApplicationBindedActivity
 import com.progix.fridgex.light.custom.CustomTapTarget
-import com.progix.fridgex.light.data.DataArrays.fragmentSet
-import com.progix.fridgex.light.data.DataArrays.mainFragmentIds
-import com.progix.fridgex.light.data.DataArrays.notNeedToOpenDrawerFragmentIds
+import com.progix.fridgex.light.data.DataArrays.*
 import com.progix.fridgex.light.data.SharedPreferencesAccess
-import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFirstStart
-import com.progix.fridgex.light.data.SharedPreferencesAccess.loadFont
-import com.progix.fridgex.light.data.SharedPreferencesAccess.loadString
-import com.progix.fridgex.light.data.SharedPreferencesAccess.loadTheme
-import com.progix.fridgex.light.data.SharedPreferencesAccess.saveFirstStart
-import com.progix.fridgex.light.data.SharedPreferencesAccess.saveString
-import com.progix.fridgex.light.extensions.Extensions.adjustFontSize
-import com.progix.fridgex.light.extensions.Extensions.dipToPixels
-import com.progix.fridgex.light.extensions.Extensions.initDataBase
+import com.progix.fridgex.light.data.SharedPreferencesAccess.*
+import com.progix.fridgex.light.extensions.Extensions.*
 import com.progix.fridgex.light.fragment.banned.BannedProductsFragment
 import com.progix.fridgex.light.fragment.banned.BannedRecipesFragment
 import com.skydoves.transformationlayout.onTransformationStartContainer
@@ -64,7 +54,7 @@ class MainActivity : ApplicationBindedActivity() {
     private lateinit var navController: NavController
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.adjustFontSize(loadFont(newBase)))
+        super.attachBaseContext(adjustFontSize(loadFont(newBase), newBase))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,11 +74,11 @@ class MainActivity : ApplicationBindedActivity() {
 
         onTransformationStartContainer()
 
-        this.adjustFontSize(loadFont(this))
+        adjustFontSize(loadFont(this), this)
 
         super.onCreate(savedInstanceState)
 
-        initDataBase()
+        initDataBase(this)
 
         setContentView(R.layout.activity_main)
 
@@ -153,7 +143,7 @@ class MainActivity : ApplicationBindedActivity() {
     private fun beginGuide() {
         bottomNavigationView.visibility = VISIBLE
         val params = bottomNavigationView.layoutParams
-        params.height = dipToPixels(56f).toInt()
+        params.height = dipToPixels(56f, this).toInt()
         bottomNavigationView.layoutParams = params
         val targetCreator = CustomTapTarget()
         TapTargetSequence(this)
@@ -205,7 +195,7 @@ class MainActivity : ApplicationBindedActivity() {
                     if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         bottomNavigationView.visibility = INVISIBLE
                         val params2 = bottomNavigationView.layoutParams
-                        params2.height = dipToPixels(2f).toInt()
+                        params2.height = dipToPixels(2f, this@MainActivity).toInt()
                         bottomNavigationView.layoutParams = params2
                     }
                 }
@@ -393,7 +383,6 @@ class MainActivity : ApplicationBindedActivity() {
         navController.navigate(resId, args)
         bottomNavigationView.removeBadge(resId)
         saveString(this, resId.toString(), "0")
-        actionMode?.finish()
     }
 
     private fun showBothNavigation() {
@@ -434,9 +423,6 @@ class MainActivity : ApplicationBindedActivity() {
 
         lateinit var mDb: SQLiteDatabase
 
-        var isMultiSelectOn = false
-        var actionMode: ActionMode? = null
-
         var badgeCnt = 0
         var badgeNames: Array<String?>? = null
         var badgeBool: BooleanArray? = null
@@ -447,8 +433,6 @@ class MainActivity : ApplicationBindedActivity() {
 
     override fun onDestroy() {
         saveBadgeState()
-        actionMode = null
-        isMultiSelectOn = false
         badgeNames = null
         badgeBool = null
         badgeCnt = 0
@@ -470,9 +454,6 @@ class MainActivity : ApplicationBindedActivity() {
 
     override fun onStart() {
         super.onStart()
-        actionMode?.finish()
-        actionMode = null
-        isMultiSelectOn = false
         updateNavStatus()
     }
 

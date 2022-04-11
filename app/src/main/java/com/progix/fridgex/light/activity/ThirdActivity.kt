@@ -110,7 +110,7 @@ class ThirdActivity : TransformationAppCompatActivity(), DialogAdapterInterface 
             "ble" -> setTheme(R.style.FridgeXLight_Blue)
         }
 
-        initDataBase(this)
+        initDataBase()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_third)

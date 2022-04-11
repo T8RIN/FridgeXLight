@@ -11,10 +11,12 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.adapter.banned.BannedProductsAdapter
+import com.progix.fridgex.light.helper.callbacks.ActionModeCallback
+import com.progix.fridgex.light.helper.interfaces.ActionModeInterface
 import kotlinx.coroutines.*
 
 
-class BannedProductsFragment : Fragment(R.layout.fragment_banned_products) {
+class BannedProductsFragment : Fragment(R.layout.fragment_banned_products), ActionModeInterface {
 
     private var job: Job? = null
     var adapter: BannedProductsAdapter? = null
@@ -53,6 +55,15 @@ class BannedProductsFragment : Fragment(R.layout.fragment_banned_products) {
         var prodRecycler: RecyclerView? = null
         var prodAnno: MaterialCardView? = null
         var productsList: ArrayList<Pair<String, String>>? = null
+    }
+
+    override fun onSelectedItemsCountChanged(count: Int) {
+        val callback = ActionModeCallback()
+        callback.attachAdapter(adapter!!, 7)
+        if (MainActivity.actionMode == null) MainActivity.actionMode =
+            (requireContext() as MainActivity).startSupportActionMode(callback)
+        if (count > 0) MainActivity.actionMode?.title = "$count"
+        else MainActivity.actionMode?.finish()
     }
 
     fun recreateList() {

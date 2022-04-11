@@ -18,9 +18,12 @@ import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
 import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.adapter.daily.DailyAdapter
-import com.progix.fridgex.light.application.FridgeXLightApplication.appContext
+import com.progix.fridgex.light.application.FridgeXLightApplication.Companion.appContext
 import com.progix.fridgex.light.data.DataArrays.recipeImages
-import com.progix.fridgex.light.data.SharedPreferencesAccess.*
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadDailyRecipe
+import com.progix.fridgex.light.data.SharedPreferencesAccess.loadDate
+import com.progix.fridgex.light.data.SharedPreferencesAccess.saveDailyRecipe
+import com.progix.fridgex.light.data.SharedPreferencesAccess.saveDate
 import com.progix.fridgex.light.extensions.Extensions.getAttrColor
 import com.progix.fridgex.light.model.RecipeItem
 import kotlinx.coroutines.*
@@ -55,7 +58,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             val recipeList: ArrayList<RecipeItem> = startCoroutine()
             loading.visibility = View.GONE
             dailyRecycler.adapter =
-                DailyAdapter(appContext, recipeList)
+                DailyAdapter(appContext, recipeList, recipeClicker)
             swipeRefresh.setProgressBackgroundColorSchemeColor(
                 ContextCompat.getColor(
                     appContext,
@@ -65,8 +68,8 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         }
 
         swipeRefresh.setColorSchemeColors(
-            getAttrColor(R.attr.checked,requireContext()),
-            getAttrColor(R.attr.checkedl,requireContext())
+            requireContext().getAttrColor(R.attr.checked),
+            requireContext().getAttrColor(R.attr.checkedl)
         )
         swipeRefresh.setOnRefreshListener {
             MaterialAlertDialogBuilder(requireContext())
@@ -81,7 +84,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
                             saveDate(requireActivity(), 0)
                             val recipeList: ArrayList<RecipeItem> = startCoroutine()
                             dailyRecycler.adapter =
-                                DailyAdapter(requireActivity(), recipeList)
+                                DailyAdapter(requireActivity(), recipeList, recipeClicker)
                         } catch (e: IllegalStateException) {
                             e.printStackTrace()
                         }
@@ -255,5 +258,18 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.daily_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private val recipeClicker = DailyAdapter.OnClickListener { image, id ->
+        val intent = Intent(context, SecondActivity::class.java)
+        intent.putExtra("rec", id)
+        val options = activity?.let {
+            ActivityOptionsCompat.makeSceneTransitionAnimation(
+                it,
+                image,
+                "recipe"
+            )
+        }
+        startActivity(intent, options!!.toBundle())
     }
 }

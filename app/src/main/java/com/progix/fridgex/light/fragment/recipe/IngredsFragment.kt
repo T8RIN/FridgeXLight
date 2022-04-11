@@ -86,7 +86,7 @@ class IngredsFragment : Fragment(R.layout.fragment_ingreds) {
                 cursor2.moveToFirst()
                 missList?.add(cursor2.getInt(3) == 0)
 
-                if (amount[i] != "-1" && amount[i].isNumeric()) {
+                if (amount[i] != "-1" && isNumeric(amount[i])) {
                     val new = amount[i].split(",")
                     val modifier: Double = if (new.size > 1) {
                         (new[0] + "." + new[1]).toDouble()

@@ -1,6 +1,7 @@
 package com.progix.fridgex.light.adapter.daily
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.database.Cursor
 import android.os.Looper
@@ -15,12 +16,15 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.progix.fridgex.light.R
 import com.progix.fridgex.light.activity.MainActivity
 import com.progix.fridgex.light.activity.MainActivity.Companion.mDb
+import com.progix.fridgex.light.activity.SecondActivity
 import com.progix.fridgex.light.application.FridgeXLightApplication
 import com.progix.fridgex.light.custom.CustomSnackbar
 import com.progix.fridgex.light.model.RecipeItem
@@ -29,7 +33,6 @@ import com.progix.fridgex.light.model.RecipeItem
 class DailyAdapter(
     var context: Context,
     var recipeList: ArrayList<RecipeItem>,
-    var onClickListener: OnClickListener
 ) : RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
 
     override fun onFailedToRecycleView(holder: ViewHolder): Boolean {
@@ -89,7 +92,7 @@ class DailyAdapter(
 
         if (starred) holder.star.visibility = VISIBLE
         else holder.star.visibility = GONE
-        holder.bind(onClickListener, cursor.getInt(0), position, starred, banned)
+        holder.bind(cursor.getInt(0), position, starred, banned)
         cursor.close()
     }
 
@@ -177,13 +180,12 @@ class DailyAdapter(
         val star: ImageView = view.findViewById(R.id.star)
 
         fun bind(
-            onClickListener: OnClickListener,
             id: Int,
             position: Int,
             starred: Boolean,
             banned: Boolean
         ) {
-            recursiveOnClick(onClickListener, itemView, image, id)
+            recursiveOnClick(itemView, image, id)
             itemView.setOnLongClickListener {
                 popupMenus(it, id, position, starred, banned)
                 true
@@ -197,7 +199,6 @@ class DailyAdapter(
     }
 
     private fun recursiveOnClick(
-        onClickListener: OnClickListener,
         itemView: View,
         image: ImageView,
         id: Int
@@ -205,17 +206,13 @@ class DailyAdapter(
         itemView.setOnClickListener {
             itemView.setOnClickListener {}
             android.os.Handler(Looper.getMainLooper()).postDelayed({
-                recursiveOnClick(onClickListener, itemView, image, id)
+                recursiveOnClick(itemView, image, id)
             }, 1000)
-            onClickListener.onClick(image, id)
-        }
-    }
+            val intent = Intent(context, SecondActivity::class.java)
+            intent.putExtra("rec", id)
 
-    class OnClickListener(val clickListener: (ImageView, Int) -> Unit) {
-        fun onClick(
-            image: ImageView,
-            id: Int
-        ) = clickListener(image, id)
+            context.startActivity(intent)
+        }
     }
 
     private var lastPosition = -1
